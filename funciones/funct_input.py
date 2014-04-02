@@ -216,12 +216,11 @@ def write_input(pot,cou,fname,x,N,rho,Ti):
 
     minimize="minimize\t0 1.0 1000 100000\n\n" if (fname=="None") else ""
     str="# Nuclear model\n\n"+\
-        "package\tgpu force/neigh 0 1 -1\n\n"+\
         "units\t\tlj\n"+\
         "atom_style\tatomic\n\n"+\
 	"timestep\t0.10\n"+\
         data_i+\
-        "pair_style\ttable/gpu linear 5000\n\n"+\
+        "pair_style\ttable linear 5000\n\n"+\
         potential+\
         "kspace_style\tnone\n\n"+\
         "neighbor\t0.3 bin\n"+\
