@@ -1,0 +1,10 @@
+potential 1        #Tipo de potencial: 1:Med, 2:Stiff, 3:Horo
+coulomb 20          #Rango de Coulomb (lambda enteros entre 0 y 20)
+data Lattice       #Archivo de data (None para random)
+x 0.5              #x
+N 4000               #Numero de particulas
+dens 0.015            #Densidad [1/fm^3]
+temp 1.600,0.1,60  #Temperatura inicial, final, nro pasos
+tempstyle gauss    #Estilo de temperatura
+Nsteps 50000       #Cantidad de pasos por temperatura 
+Ndump 1000         #Cantidad de pasos entre dumps
