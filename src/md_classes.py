@@ -1,7 +1,7 @@
 import random as R
 from numpy import linspace, exp
 
-class mdsys(object):
+class MDSys(object):
   def __init__(self, T, l, N, x, d, V):
     """
     Constructor: so far we need to pass all the variables. Eventually
