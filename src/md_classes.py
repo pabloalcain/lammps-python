@@ -1,4 +1,5 @@
 import random as R
+from numpy import linspace, exp
 
 class mdsys(object):
   def __init__(self, T, l, N, x, d, V):
@@ -17,14 +18,77 @@ class mdsys(object):
     self.V = V
     self.build_table(V, l)
 
-  def build_table(self, V, l, N=5000, fname="table.dat"):
+  def build_table(self, V_tag, l, N=5000, rc_nuc=5.4, rc_cou=20.0,
+		  fname="potential.table"):
     """
     This method builds the actual potential table that will be read
-    in lammps.
+    in lammps. So far, three different potentials are going to be 
+    supported:
+
+    - Pandha medium
+    - Pandha stiff (not yet implemented)
+    - Horowitz (not yet implemented)
+
+    The code here wasn't given much thought so maybe it can be improved
+    by whoever wants to give it a try, and, at least, make it cleaner!
     """
     self.table_fname = fname
-    """ BUNCH OF DIRTY FUNCTIONS """
-    pass
+    pairs = ['NN', 'NP', 'PP']
+    r = {}
+    V = {}
+    F = {}
+    descr = {}
+    r['NN'] = linspace(0,rc_nuc,N+1)[1:]
+    r['NP'] = linspace(0,rc_nuc,N+1)[1:]
+    r['PP'] = linspace(0,rc_cou,N+1)[1:]
+
+    Vc = 1.44
+    uc = 1.0/l
+    if V_tag == "medium" or V_tag == "stiff":
+      if V_tag == "medium":
+	V0=373.118
+	u0=1.5
+
+	Va=2666.647
+	ua=1.6
+
+	Vr=3088.118
+	ur=1.7468
+
+      if V_tag == "stiff":
+	raise ValueError("Stiff potential not yet implemented! Sorry :(")
+      
+      descr['NN'] = "# Pandha {0} potential for same species".format(V_tag)
+      V['NN'] = V0 * exp(-u0 * r['NN']) / r['NN']
+      F['NN'] = V0 * exp(-u0 * r['NN']) / (r['NN'])**2 * (u0 * r['NN'] + 1)
+
+      descr['NP'] = "# Pandha {0} potential for different species".format(V_tag)
+      V['NP'] = Vr * exp(-ur * r['NP']) / r['NP'] -\
+	        Va * exp(-ua * r['NP']) / r['NP']
+      F['NP'] = Vr * exp(-ur * r['NP']) / (r['NP'])**2 * (ur * r['NP'] + 1) -\
+                Va * exp(-ua * r['NP']) / (r['NP'])**2 * (ua * r['NP'] + 1)
+
+      descr['PP'] = "# Pandha {0} potential for same species \
+with Coulomb interaction lambda = {1}".format(V_tag, l)
+      V['PP'] = V0 * exp(-u0 * r['PP']) / r['PP'] -\
+	        Vc * exp(-uc * r['PP']) / r['PP']
+      F['PP'] = V0 * exp(-u0 * r['PP']) / (r['PP'])**2 * (u0 * r['PP'] + 1) -\
+                Va * exp(-uc * r['PP']) / (r['PP'])**2 * (uc * r['PP'] + 1)
+	        
+
+    elif V_tag == "horowitz":
+      raise ValueError("Horowitz potential not yet implemented! Sorry :(")
+
+    else:
+      raise ValueError("Option {0} for potential not found".format(V_tag))
+
+    with open(self.table_fname, 'w') as fp:
+      for p in pairs:
+	print>>fp, descr[p]+"\n"
+	print>>fp, p
+	print>>fp, "N {0}\n".format(N)
+	for i in xrange(N):
+	  print>>fp, i+1, r[p][i], V[p][i], F[p][i]
 
   def build_script(self, fname = "lammps.inp"):
     """
