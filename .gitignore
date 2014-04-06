@@ -3,4 +3,5 @@
 *.o
 *.inp
 *.swp
+src/log.lammps
 docs/build
