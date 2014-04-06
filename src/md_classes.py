@@ -10,6 +10,7 @@ class MDSys(object):
     well, so T is always passed as float, V as string and so on (maybe
     as a lambda function in a future?).
     """
+    
     self.T = T
     self.l = l
     self.N = N
@@ -32,6 +33,7 @@ class MDSys(object):
     The code here wasn't given much thought so maybe it can be improved
     by whoever wants to give it a try, and, at least, make it cleaner!
     """
+    
     self.table_fname = fname
     pairs = ['NN', 'NP', 'PP']
     r = {}
@@ -73,7 +75,7 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
       V['PP'] = V0 * exp(-u0 * r['PP']) / r['PP'] -\
 	        Vc * exp(-uc * r['PP']) / r['PP']
       F['PP'] = V0 * exp(-u0 * r['PP']) / (r['PP'])**2 * (u0 * r['PP'] + 1) -\
-                Va * exp(-uc * r['PP']) / (r['PP'])**2 * (uc * r['PP'] + 1)
+                Vc * exp(-uc * r['PP']) / (r['PP'])**2 * (uc * r['PP'] + 1)
 	        
 
     elif V_tag == "horowitz":
@@ -111,11 +113,12 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     lattice or a given data/restart/dump file, but since this seems
     outdated and hard to extend, it is not implemented yet.
     """
+
     self.input_fname = fname
     inp = """#Nuclear model
 units		lj
 atom_style	atomic
-timestep	0.10
+timestep	0.01
 
 region		box block 0 {size} 0 {size} 0 {size}
 create_box	2 box
@@ -125,7 +128,7 @@ mass		1 938.0
 mass		2 938.0
 velocity	all create {T} {seed3}
 
-pair_style	table linear 
+pair_style	table linear {ninter}
 pair_coeff	1 1 {table_fname} NN 5.4
 pair_coeff	1 2 {table_fname} NP 5.4
 pair_coeff	2 2 {table_fname} NN 5.4
@@ -133,27 +136,39 @@ pair_coeff	2 2 {table_fname} NN 5.4
 neighbor	1.2 bin
 neigh_modify	every 1 delay 0 check yes one 8000 page 80000
 
-thermo_style	custom step temp epair etotal press
-thermo		1000
+thermo_style	custom step temp ke epair etotal press
+thermo		100
 
 min_style	hftn
-minimize	0 1.0 1000 1000000
+minimize	0 1.0 1000 10000
 
+thermo		1
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
 """.format(size=(self.N/self.d)**(1.0/3.0),
-	             nprot=self.x * self.N,
-		     nneut=(1-self.x) * self.N,
-		     T=self.T,
-		     table_fname=self.table_fname,
-		     cutoff=max(5.4,self.l),
-		     tdamp=10.0,
-		     seed1=R.randint(0,10000),
-		     seed2=R.randint(0,10000),
-		     seed3=R.randint(0,10000),
-		     )
+	   nprot=int(self.x * self.N),
+	   nneut=self.N - int(self.x * self.N),
+	   T=self.T,
+	   ninter=5000,
+	   table_fname=self.table_fname,
+	   cutoff=max(5.4,self.l),
+	   tdamp=10.0,
+	   seed1=R.randint(0,10000),
+	   seed2=R.randint(0,10000),
+	   seed3=R.randint(0,10000),
+	   )
     with open(self.input_fname, 'w') as fp:
       print>>fp, inp
+
+  def setup(self, lmp):
+    """
+    This method sets up the run in a specific lmp object according to
+    the inputfile
+    """
+    with open(self.input_fname) as fp:
+      lines = fp.readlines()
+      for line in lines:
+	lmp.command(line)
 
   def set_T(self, T):
     self.T = T
