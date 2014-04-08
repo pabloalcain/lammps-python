@@ -8,7 +8,7 @@ from lammps import lammps
 
 T = 1.0
 l = 20
-N = 4000
+N = 4
 x = 0.5
 d = 0.04
 V = "medium"

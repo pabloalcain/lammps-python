@@ -5,3 +5,4 @@
 *.swp
 src/log.lammps
 docs/build
+data/

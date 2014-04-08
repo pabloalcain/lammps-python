@@ -143,7 +143,7 @@ thermo_style	custom step temp ke epair etotal press
 thermo		100
 
 min_style	hftn
-minimize	0 1.0 1000 10000
+minimize	0 1.0 10 10000
 
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
@@ -181,7 +181,7 @@ fix		1 all nvt temp {T} {T} {tdamp}
     self.path = path
     self.ndump = ndump
     self.nthermo = nthermo
-    this_path = path + "{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+    this_path = path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
                                                              l=self.l,
                                                              x=self.x,
                                                              N=self.N,
@@ -267,7 +267,7 @@ fix		1 all nvt temp {T} {T} {tdamp}
 
   def update_files(self):
     self.lmp.command("undump 1")
-    this_path = self.path + "{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+    this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
                                                                   l=self.l,
                                                                   x=self.x,
                                                                   N=self.N,
