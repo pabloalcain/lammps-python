@@ -1,5 +1,6 @@
 import random as R
 from numpy import linspace, exp
+from lammps import lammps
 
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V):
@@ -8,7 +9,8 @@ class MDSys(object):
     some default values can be discussed, and some of these variables
     could be optional arguments. Some sanity checks could be here as
     well, so T is always passed as float, V as string and so on (maybe
-    as a lambda function in a future?).
+    as a lambda function in a future?). We also instantiate the lammps
+    class here, so the system is always aware of the object it has.
     """
     
     self.T = T
@@ -18,6 +20,7 @@ class MDSys(object):
     self.d = d
     self.V = V
     self.build_table(V, l)
+    self.lmp = lammps("",["-echo", "screen"])
 
   def build_table(self, V_tag, l, N=5000, rc_nuc=5.4, rc_cou=20.0,
 		  fname="potential.table"):
@@ -25,7 +28,7 @@ class MDSys(object):
     This method builds the actual potential table that will be read
     in lammps. So far, three different potentials are going to be 
     supported:
-
+    
     - Pandha medium
     - Pandha stiff (not yet implemented)
     - Horowitz (not yet implemented)
@@ -58,7 +61,7 @@ class MDSys(object):
 	ur=1.7468
 
       if V_tag == "stiff":
-	raise ValueError("Stiff potential not yet implemented! Sorry :(")
+	raise AttributeError("Stiff potential not yet implemented! Sorry :(")
       
       descr['NN'] = "# Pandha {0} potential for same species".format(V_tag)
       V['NN'] = V0 * exp(-u0 * r['NN']) / r['NN']
@@ -79,10 +82,10 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
 	        
 
     elif V_tag == "horowitz":
-      raise ValueError("Horowitz potential not yet implemented! Sorry :(")
+      raise AttributeError("Horowitz potential not yet implemented! Sorry :(")
 
     else:
-      raise ValueError("Option {0} for potential not found".format(V_tag))
+      raise AttributeError("Option {0} for potential not found".format(V_tag))
 
     with open(self.table_fname, 'w') as fp:
       for p in pairs:
@@ -142,7 +145,6 @@ thermo		100
 min_style	hftn
 minimize	0 1.0 1000 10000
 
-thermo		1
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
 """.format(size=(self.N/self.d)**(1.0/3.0),
@@ -160,45 +162,125 @@ fix		1 all nvt temp {T} {T} {tdamp}
     with open(self.input_fname, 'w') as fp:
       print>>fp, inp
 
-  def setup(self, lmp, path='./data', ndump='1000', thermo='1000'):
+  def setup(self, path='./data', ndump=1000, nthermo=1000):
     """
     This method sets up the run in a specific lmp object according to
     the inputfile.
 
     Also sets path for the log and the dump file, according to the
     chosen parameters, with default values for ndump and thermo frequency.
+
+    DRY: We should encapsulate the files creation with a method similar
+    to self.udpate_files().
     """
     with open(self.input_fname) as fp:
       lines = fp.readlines()
       for line in lines:
-	lmp.command(line)
+	self.lmp.command(line)
     
+    self.path = path
+    self.ndump = ndump
+    self.nthermo = nthermo
     this_path = path + "{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
-							l=self.l,
-							x=self.x,
-							N=self.N,
-							d=self.d,
-							T=self.T,
-							)
-						
-    lmp.command("log {d}/thermo.log".format(d=this_path))
-    lmp.command("dump 1 all custom {ndump} {d}/dump.lammpstraj\
-	         type id x y z vx vy vz".format(d=this_path))
+                                                             l=self.l,
+                                                             x=self.x,
+                                                             N=self.N,
+                                                             d=self.d,
+                                                             T=self.T,
+                                                             )
+    
+    dmp = ("dump 1 all custom {ndump} "
+           "{d}/dump.lammpstraj "
+           "type id x y z vx vy vz".format(d=this_path,
+                                           ndump=self.ndump
+                                           )
+           )
 
-  def set_T(self, T):
+    self.lmp.command("thermo {nt}".format(nt=self.nthermo))
+    self.lmp.command("log {d}/thermo.log".format(d=this_path))
+    self.lmp.command(dmp)
+    self.lmp.command("dump_modify 1 sort id")
+
+  def run(self, Nsteps):
+    """
+    Wrapper for the "run" command in lammps
+    """
+    self.lmp.command("run {ns}".format(ns=Nsteps))
+
+  def set_T(self, T, tdamp = 10.0):
+    """
+    Set value of temperature and change all related values
+    in the lammps script.
+    """
     self.T = T
+    self.lmp.command("fix 1 temp {T} {T} {tdamp}".format(T=self.T,
+                                                         tdamp=10.0))
+    
 
   def set_l(self, l):
     self.l = l
-
-  def set_N(self, N):
-    self.N = N
-
-  def set_x(self, x):
-    self.x = x
-
-  def set_d(self, d):
-    self.d = d
+    self.build_table(self.V, self.l, fname = self.table_fname)
+    cmd = "pair_coeff 1 1 {t} PP {co}".format(t=self.table_fname,
+                                              co=max(5.4,self.l),
+                                              )
+    self.lmp.command(cmd)
+    self.update_files()
 
   def set_V(self, V):
     self.V = V
+    self.build_table(self.V, self.l, fname = self.table_fname)
+    cmd = """pair_coeff 1 1 {t} PP {co}
+    pair_coeff	1 2 {t} NP 5.4
+    pair_coeff	2 2 {t} NN 5.4
+    """.format(t=self.table_fname,
+               co=max(5.4,self.l),
+               )
+    self.lmp.command(cmd)
+    self.update_files()
+
+  def set_N(self, N):
+    """
+    This should add particles randomly inside the already given 
+    configuration. Not implemented yet
+    """
+    self.N = N
+    self.update_files()
+    raise AttributeError("This is not implemented yet :(")
+  
+  def set_x(self, x):
+    """
+    This should change randomly particles type to fulfill the x
+    requirement. Not implemented yet
+    """
+    self.x = x
+    self.update_files()
+    raise AttributeError("This is not implemented yet :(")
+
+  def set_d(self, d):
+    
+    self.d = d
+    cmd = ("change_box all "
+           "x final 0 {size} "
+           "y final 0 {size} "
+           "z final 0 {size} "
+           "remap").format(size=(self.N/self.d)**(1.0/3.0))
+
+  def update_files(self):
+    self.lmp.command("undump 1")
+    this_path = self.path + "{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+                                                                  l=self.l,
+                                                                  x=self.x,
+                                                                  N=self.N,
+                                                                  d=self.d,
+                                                                  T=self.T,
+                                                                  )
+    dmp = ("dump 1 all custom {ndump} "
+           "{d}/dump.lammpstraj "
+           "type id x y z vx vy vz".format(d=this_path,
+                                           ndump=self.ndump
+                                           )
+           )
+
+    self.lmp.command("log {d}/thermo.log".format(d=this_path))
+    self.lmp.command(dmp)
+    self.lmp.command("dump_modify 1 sort id")
