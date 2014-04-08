@@ -1,6 +1,7 @@
 import random as R
 from numpy import linspace, exp
 from lammps import lammps
+from os import makedirs
 
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V):
@@ -187,8 +188,14 @@ fix		1 all nvt temp {T} {T} {tdamp}
                                                              N=self.N,
                                                              d=self.d,
                                                              T=self.T,
-                                                             )
+                                                              )
     
+    try:
+      makedirs(this_path)
+    except OSError as err:
+      print "The path already exists: rename base path or delete old files"
+      raise(err)
+
     dmp = ("dump 1 all custom {ndump} "
            "{d}/dump.lammpstraj "
            "type id x y z vx vy vz".format(d=this_path,
@@ -274,6 +281,12 @@ fix		1 all nvt temp {T} {T} {tdamp}
                                                                   d=self.d,
                                                                   T=self.T,
                                                                   )
+    try:
+      makedirs(this_path)
+    except OSError as err:
+      err.message = "The path already exists: rename base path or delete old files"
+      raise
+
     dmp = ("dump 1 all custom {ndump} "
            "{d}/dump.lammpstraj "
            "type id x y z vx vy vz".format(d=this_path,
