@@ -6,7 +6,7 @@ therefore looped from within Python
 from md_classes import MDSys
 from lammps import lammps
 
-T = 1.0
+T = 0.001
 l = 20
 N = 4
 x = 0.5
@@ -15,7 +15,7 @@ V = "medium"
 system = MDSys(T, l, N, x, d, V)
 system.build_script(fname="lammps.inp")
 system.setup()
-system.run(1000)
+system.run(50000)
 
 # RUN Nsteps steps
 # POSTPROCESS

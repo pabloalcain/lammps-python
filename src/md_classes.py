@@ -21,7 +21,7 @@ class MDSys(object):
     self.d = d
     self.V = V
     self.build_table(V, l)
-    self.lmp = lammps("",["-echo", "screen"])
+    self.lmp = lammps("")
 
   def build_table(self, V_tag, l, N=5000, rc_nuc=5.4, rc_cou=20.0,
 		  fname="potential.table"):
@@ -76,9 +76,9 @@ class MDSys(object):
 
       descr['PP'] = "# Pandha {0} potential for same species \
 with Coulomb interaction lambda = {1}".format(V_tag, l)
-      V['PP'] = V0 * exp(-u0 * r['PP']) / r['PP'] -\
+      V['PP'] = V0 * exp(-u0 * r['PP']) / r['PP'] +\
 	        Vc * exp(-uc * r['PP']) / r['PP']
-      F['PP'] = V0 * exp(-u0 * r['PP']) / (r['PP'])**2 * (u0 * r['PP'] + 1) -\
+      F['PP'] = V0 * exp(-u0 * r['PP']) / (r['PP'])**2 * (u0 * r['PP'] + 1) +\
                 Vc * exp(-uc * r['PP']) / (r['PP'])**2 * (uc * r['PP'] + 1)
 	        
 
@@ -110,7 +110,7 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     - set dump style
 
     After this, to make a proper run, the dump frequency should be 
-    manually set *outside* the molecular dynamics system.
+    done in the setup method.
     
     As a file so we can properly debug if needed. We can also
     check if some kwargs should be added to specify when we want a
@@ -144,10 +144,12 @@ thermo_style	custom step temp ke epair etotal press
 thermo		100
 
 min_style	hftn
-minimize	0 1.0 10 10000
+minimize	0 1.0 1000 10000
 
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
+
+reset_timestep  0
 """.format(size=(self.N/self.d)**(1.0/3.0),
 	   nprot=int(self.x * self.N),
 	   nneut=self.N - int(self.x * self.N),
@@ -183,11 +185,11 @@ fix		1 all nvt temp {T} {T} {tdamp}
     self.ndump = ndump
     self.nthermo = nthermo
     this_path = path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
-                                                             l=self.l,
-                                                             x=self.x,
-                                                             N=self.N,
-                                                             d=self.d,
-                                                             T=self.T,
+                                                              l=self.l,
+                                                              x=self.x,
+                                                              N=self.N,
+                                                              d=self.d,
+                                                              T=self.T,
                                                               )
     
     try:
@@ -204,7 +206,7 @@ fix		1 all nvt temp {T} {T} {tdamp}
            )
 
     self.lmp.command("thermo {nt}".format(nt=self.nthermo))
-    self.lmp.command("log {d}/thermo.log".format(d=this_path))
+    self.lmp.command("log {d}/thermo.dat".format(d=this_path))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
 
