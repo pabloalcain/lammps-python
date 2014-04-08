@@ -118,7 +118,7 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     inp = """#Nuclear model
 units		lj
 atom_style	atomic
-timestep	0.01
+timestep	0.10
 
 region		box block 0 {size} 0 {size} 0 {size}
 create_box	2 box
@@ -160,15 +160,30 @@ fix		1 all nvt temp {T} {T} {tdamp}
     with open(self.input_fname, 'w') as fp:
       print>>fp, inp
 
-  def setup(self, lmp):
+  def setup(self, lmp, path='./data', ndump='1000', thermo='1000'):
     """
     This method sets up the run in a specific lmp object according to
-    the inputfile
+    the inputfile.
+
+    Also sets path for the log and the dump file, according to the
+    chosen parameters, with default values for ndump and thermo frequency.
     """
     with open(self.input_fname) as fp:
       lines = fp.readlines()
       for line in lines:
 	lmp.command(line)
+    
+    this_path = path + "{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+							l=self.l,
+							x=self.x,
+							N=self.N,
+							d=self.d,
+							T=self.T,
+							)
+						
+    lmp.command("log {d}/thermo.log".format(d=this_path))
+    lmp.command("dump 1 all custom {ndump} {d}/dump.lammpstraj\
+	         type id x y z vx vy vz".format(d=this_path))
 
   def set_T(self, T):
     self.T = T
