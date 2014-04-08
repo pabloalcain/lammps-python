@@ -222,9 +222,9 @@ reset_timestep  0
     in the lammps script.
     """
     self.T = T
-    self.lmp.command("fix 1 temp {T} {T} {tdamp}".format(T=self.T,
+    self.lmp.command("fix 1 all nvt temp {T} {T} {tdamp}".format(T=self.T,
                                                          tdamp=10.0))
-    
+    self.update_files()
 
   def set_l(self, l):
     self.l = l
