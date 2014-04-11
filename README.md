@@ -30,7 +30,7 @@ Postprocess
 
 It can be discussed how this postprocess should be done. The first idea
 is to mimic the old behaviour: LAMMPS create the dumpfiles, and then it
-is post-processed to get:
+is post-processed, with a different class/routine to get:
 
 - RDF: Radial distribution function, g(r), and its FFT, S(k)
 
