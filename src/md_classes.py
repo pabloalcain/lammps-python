@@ -144,7 +144,7 @@ thermo_style	custom step temp ke epair etotal press
 thermo		100
 
 min_style	hftn
-minimize	0 1.0 1000 10000
+minimize	0 1.0 1000 100000
 
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
@@ -266,6 +266,11 @@ reset_timestep  0
     raise AttributeError("This is not implemented yet :(")
 
   def set_d(self, d):
+    """
+    This method changes the box size in order to get the density
+    requirement. The particles are remapped, so their relative
+    position change.
+    """
     
     self.d = d
     cmd = ("change_box all "
