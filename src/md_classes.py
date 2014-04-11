@@ -2,6 +2,7 @@ import random as R
 from numpy import linspace, exp
 from lammps import lammps
 from os import makedirs
+import analysis as A
 
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V):
@@ -184,29 +185,29 @@ reset_timestep  0
     self.path = path
     self.ndump = ndump
     self.nthermo = nthermo
-    this_path = path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
-                                                              l=self.l,
-                                                              x=self.x,
-                                                              N=self.N,
-                                                              d=self.d,
-                                                              T=self.T,
-                                                              )
+    self.this_path = path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+                                                                   l=self.l,
+                                                                   x=self.x,
+                                                                   N=self.N,
+                                                                   d=self.d,
+                                                                   T=self.T,
+                                                                   )
     
     try:
-      makedirs(this_path)
+      makedirs(self.this_path)
     except OSError as err:
       print "The path already exists: rename base path or delete old files"
       raise(err)
 
     dmp = ("dump 1 all custom {ndump} "
            "{d}/dump.lammpstraj "
-           "type id x y z vx vy vz".format(d=this_path,
+           "type id x y z vx vy vz".format(d=self.this_path,
                                            ndump=self.ndump
                                            )
            )
 
     self.lmp.command("thermo {nt}".format(nt=self.nthermo))
-    self.lmp.command("log {d}/thermo.dat".format(d=this_path))
+    self.lmp.command("log {d}/thermo.dat".format(d=self.this_path))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
 
@@ -281,26 +282,54 @@ reset_timestep  0
 
   def update_files(self):
     self.lmp.command("undump 1")
-    this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
-                                                                  l=self.l,
-                                                                  x=self.x,
-                                                                  N=self.N,
-                                                                  d=self.d,
-                                                                  T=self.T,
-                                                                  )
+    self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+                                                                       l=self.l,
+                                                                       x=self.x,
+                                                                       N=self.N,
+                                                                       d=self.d,
+                                                                       T=self.T,
+                                                                       )
     try:
-      makedirs(this_path)
+      makedirs(self.this_path)
     except OSError as err:
       err.message = "The path already exists: rename base path or delete old files"
       raise
 
     dmp = ("dump 1 all custom {ndump} "
            "{d}/dump.lammpstraj "
-           "type id x y z vx vy vz".format(d=this_path,
+           "type id x y z vx vy vz".format(d=self.this_path,
                                            ndump=self.ndump
                                            )
            )
 
-    self.lmp.command("log {d}/thermo.log".format(d=this_path))
+    self.lmp.command("log {d}/thermo.log".format(d=self.this_path))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
+
+  def results(self, rdf = True, mink = True, mste = True, lind = True, thermo = True):
+    if (rdf): self.rdf()
+    if (mink): self.mink()
+    if (mste): self.mste()
+    if (lind): self.lind()
+    if (thermo): self.thermo()
+    
+  def rdf(self):
+    print "I'm inside rdf and my path is {0}".format(self.this_path)
+    pass
+  
+  def mink(self):
+    print "I'm inside mink and my path is {0}".format(self.this_path)
+    pass
+  
+  def mste(self):
+    print "I'm inside mste and my path is {0}".format(self.this_path)
+    pass
+  
+  def lind(self):
+    print "I'm inside lind and my path is {0}".format(self.this_path)
+    pass
+  
+  def thermo(self):
+    print "I'm inside thermo and my path is {0}".format(self.this_path)
+    pass
+
