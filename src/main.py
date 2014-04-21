@@ -19,7 +19,6 @@ system.setup()
 for i in temp:
   system.run(5000)
   system.set_T(i) 
-  system.results()
-
+#  system.results()
 # RUN Nsteps steps
 # POSTPROCESS
