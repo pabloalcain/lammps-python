@@ -3,14 +3,6 @@ from numpy import linspace, exp
 from lammps import lammps
 from os import makedirs
 
-#### THIS IS JUST TO CHECK!!!!! SHOULDN'T LIVE LONG!!!!!!!
-import sys
-sys.path.append('../old_files/analysis/src')
-import minkowski, lindemann, gofr, mste
-from os import chdir
-
-
-
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V):
     """
@@ -297,6 +289,7 @@ reset_timestep  0
 
 
   def update_files(self):
+    self.lmp.command("reset_timestep  0")
     self.lmp.command("undump 1")
     self.set_files()
 
@@ -318,10 +311,6 @@ reset_timestep  0
   
   def mste(self):
     print "I'm inside mste and my path is {0}".format(self.this_path)
-    fname = "{0}/dump.lammpstrj".format(self.this_path)
-    chdir(self.this_path)
-    print "I'll take a look at {0}".format(fname)
-    mste.mste("dump.lammpstrj")
     pass
   
   def lind(self):
