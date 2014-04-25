@@ -295,6 +295,7 @@ reset_timestep  0
            )
 
     self.lmp.command("log {d}/thermo.log".format(d=self.this_path))
+    self.lmp.command("thermo {nthermo}".format(nthermo=self.nthermo))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
 

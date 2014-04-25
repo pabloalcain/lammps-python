@@ -6,3 +6,5 @@
 src/log.lammps
 docs/build
 data/
+src/log.cite
+src/nohup.out

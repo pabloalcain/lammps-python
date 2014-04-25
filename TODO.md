@@ -1,7 +1,8 @@
 TODO LIST
 =========
 
-- Finish Stiff and Horowitz potential [ ]
+- When setting temperature, add flag for thermalization [ ]
+- Finish Horowitz potential [ ]
 - Set initial position and velocities from file [ ]
 - Devise a method for bookkeeping [ ]
 - PostProcess:
