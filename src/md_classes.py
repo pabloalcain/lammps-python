@@ -4,7 +4,7 @@ from lammps import lammps
 from os import makedirs
 
 class MDSys(object):
-  def __init__(self, T, l, N, x, d, V):
+  def __init__(self, T, l, N, x, d, V, gpu=False):
     """
     Constructor: so far we need to pass all the variables. Eventually
     some default values can be discussed, and some of these variables
@@ -20,6 +20,7 @@ class MDSys(object):
     self.x = x
     self.d = d
     self.V = V
+    self.gpu = gpu
     self.build_table(V, l)
     self.lmp = lammps("")
 
@@ -126,8 +127,16 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     """
 
     self.input_fname = fname
+    if self.gpu:
+      package = "package   gpu force/neigh 0 1 -1"
+      style = "table/gpu"
+    else: 
+      package = ""
+      style = "table"
+      
     inp = """#Nuclear model
 units		lj
+{package}
 atom_style	atomic
 timestep	0.10
 
@@ -139,7 +148,7 @@ mass		1 938.0
 mass		2 938.0
 velocity	all create {T} {seed3}
 
-pair_style	table linear {ninter}
+pair_style	{style} linear {ninter}
 pair_coeff	1 1 {table_fname} NN 5.4
 pair_coeff	1 2 {table_fname} NP 5.4
 pair_coeff	2 2 {table_fname} NN 5.4
@@ -157,7 +166,9 @@ pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
 
 reset_timestep  0
-""".format(size=(self.N/self.d)**(1.0/3.0),
+""".format(package=package,
+           style=style,
+           size=(self.N/self.d)**(1.0/3.0),
 	   nprot=int(self.x * self.N),
 	   nneut=self.N - int(self.x * self.N),
 	   T=self.T,
