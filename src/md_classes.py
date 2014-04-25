@@ -39,7 +39,7 @@ class MDSys(object):
     supported:
     
     - Pandha medium
-    - Pandha stiff (not yet implemented)
+    - Pandha stiff
     - Horowitz (not yet implemented)
 
     The code here wasn't given much thought so maybe it can be improved
@@ -70,7 +70,14 @@ class MDSys(object):
 	ur=1.7468
 
       if V_tag == "stiff":
-	raise AttributeError("Stiff potential not yet implemented! Sorry :(")
+	V0=17630.256
+	u0=3.25
+
+	Va=2834.338
+	ua=2.0
+
+	Vr=3601.482
+	ur=2.2395
       
       descr['NN'] = "# Pandha {0} potential for same species".format(V_tag)
       V['NN'] = V0 * exp(-u0 * r['NN']) / r['NN']
@@ -192,31 +199,7 @@ reset_timestep  0
     self.path = path
     self.ndump = ndump
     self.nthermo = nthermo
-    self.this_path = path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
-                                                                   l=self.l,
-                                                                   x=self.x,
-                                                                   N=self.N,
-                                                                   d=self.d,
-                                                                   T=self.T,
-                                                                   )
-    
-    try:
-      makedirs(self.this_path)
-    except OSError as err:
-      print "The path already exists: rename base path or delete old files"
-      raise(err)
-
-    dmp = ("dump 1 all custom {ndump} "
-           "{d}/dump.lammpstraj "
-           "type id x y z vx vy vz".format(d=self.this_path,
-                                           ndump=self.ndump
-                                           )
-           )
-
-    self.lmp.command("thermo {nt}".format(nt=self.nthermo))
-    self.lmp.command("log {d}/thermo.dat".format(d=self.this_path))
-    self.lmp.command(dmp)
-    self.lmp.command("dump_modify 1 sort id")
+    self.set_files()
 
   def run(self, Nsteps):
     """
@@ -287,23 +270,22 @@ reset_timestep  0
            "z final 0 {size} "
            "remap").format(size=(self.N/self.d)**(1.0/3.0))
 
-  def update_files(self):
-    self.lmp.command("undump 1")
+  def set_files(self):
     self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
-                                                                       l=self.l,
-                                                                       x=self.x,
-                                                                       N=self.N,
-                                                                       d=self.d,
-                                                                       T=self.T,
-                                                                       )
+                                                                        l=self.l,
+                                                                        x=self.x,
+                                                                        N=self.N,
+                                                                        d=self.d,
+                                                                        T=self.T,
+                                                                        )
     try:
       makedirs(self.this_path)
     except OSError as err:
       err.message = "The path already exists: rename base path or delete old files"
-      raise
+      raise(err)
 
     dmp = ("dump 1 all custom {ndump} "
-           "{d}/dump.lammpstraj "
+           "{d}/dump.lammpstrj "
            "type id x y z vx vy vz".format(d=self.this_path,
                                            ndump=self.ndump
                                            )
@@ -312,6 +294,12 @@ reset_timestep  0
     self.lmp.command("log {d}/thermo.log".format(d=self.this_path))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
+
+
+  def update_files(self):
+    self.lmp.command("undump 1")
+    self.set_files()
+
 
   def results(self, rdf = True, mink = True, mste = True, lind = True, thermo = True):
     if (rdf): self.rdf()
