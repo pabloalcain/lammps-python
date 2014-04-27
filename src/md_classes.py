@@ -1,7 +1,7 @@
 import random as R
 from numpy import linspace, exp
 from lammps import lammps
-from os import makedirs
+from os import makedirs, path
 
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V, gpu=False):
@@ -160,6 +160,8 @@ thermo_style	custom step temp ke epair etotal press
 thermo		100
 
 min_style	hftn
+
+dump            1 all custom 1000 minim.lammpstrj id x y z vx vy vz 
 minimize	0 1.0 1000 100000
 
 pair_coeff	1 1 {table_fname} PP {cutoff}
@@ -190,9 +192,6 @@ reset_timestep  0
 
     Also sets path for the log and the dump file, according to the
     chosen parameters, with default values for ndump and thermo frequency.
-
-    DRY: We should encapsulate the files creation with a method similar
-    to self.udpate_files().
     """
     with open(self.input_fname) as fp:
       lines = fp.readlines()
@@ -202,7 +201,7 @@ reset_timestep  0
     self.path = path
     self.ndump = ndump
     self.nthermo = nthermo
-    self.set_files()
+    self.update_files()
 
   def run(self, Nsteps):
     """
@@ -210,12 +209,13 @@ reset_timestep  0
     """
     self.lmp.command("run {ns}".format(ns=Nsteps))
 
-  def set_T(self, T, tdamp = 10.0):
+  def set_T(self, T, tdamp = 10.0, therm = False):
     """
     Set value of temperature and change all related values
     in the lammps script.
     """
     self.T = T
+    if (therm): self.thermalize()
     self.update_files()
     self.lmp.command("unfix 1")
     self.lmp.command("fix 1 all nvt temp {T} {T} {tdamp}".format(T=self.T,
@@ -275,7 +275,9 @@ reset_timestep  0
            "z final 0 {size} "
            "remap").format(size=(self.N/self.d)**(1.0/3.0))
 
-  def set_files(self, therm = False):
+  def update_files(self, therm = False):
+    self.lmp.command("reset_timestep 0")
+    self.lmp.command("undump 1")
     self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
                                                                         l=self.l,
                                                                         x=self.x,
@@ -287,11 +289,13 @@ reset_timestep  0
     if (therm): fname = "thermalization"
     else: fname = "evolution"
     
+    
     try:
       makedirs(self.this_path)
     except OSError as err:
-      err.message = "The path already exists: rename base path or delete old files"
-      raise(err)
+      if (path.isfile(self.this_path+'/'+fname+'.log')):
+        msg = "File {0} already exists: rename base path or delete old files"
+        raise OSError(msg.format(self.this_path+'/'+fname+'.log'))
 
     dmp = ("dump 1 all custom {ndump} "
            "{d}/{fname}.lammpstrj "
@@ -306,12 +310,6 @@ reset_timestep  0
     self.lmp.command("thermo {nthermo}".format(nthermo=self.nthermo))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
-
-
-  def update_files(self, therm = False):
-    self.lmp.command("reset_timestep 0")
-    self.lmp.command("undump 1")
-    self.set_files(therm = therm)
 
   def thermalize(self, tdamp = 100, nsteps = 10000):
     """
