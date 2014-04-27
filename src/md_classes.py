@@ -216,21 +216,23 @@ reset_timestep  0
     in the lammps script.
     """
     self.T = T
+    self.update_files()
+    self.lmp.command("unfix 1")
     self.lmp.command("fix 1 all nvt temp {T} {T} {tdamp}".format(T=self.T,
                                                          tdamp=10.0))
-    self.update_files()
 
   def set_l(self, l):
     self.l = l
+    self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = "pair_coeff 1 1 {t} PP {co}".format(t=self.table_fname,
                                               co=max(5.4,self.l),
                                               )
     self.lmp.command(cmd)
-    self.update_files()
 
   def set_V(self, V):
     self.V = V
+    self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = """pair_coeff 1 1 {t} PP {co}
     pair_coeff	1 2 {t} NP 5.4
@@ -239,15 +241,14 @@ reset_timestep  0
                co=max(5.4,self.l),
                )
     self.lmp.command(cmd)
-    self.update_files()
 
   def set_N(self, N):
     """
     This should add particles randomly inside the already given 
     configuration. Not implemented yet
     """
-    self.N = N
     self.update_files()
+    self.N = N
     raise AttributeError("This is not implemented yet :(")
   
   def set_x(self, x):
@@ -255,8 +256,8 @@ reset_timestep  0
     This should change randomly particles type to fulfill the x
     requirement. Not implemented yet
     """
-    self.x = x
     self.update_files()
+    self.x = x
     raise AttributeError("This is not implemented yet :(")
 
   def set_d(self, d):
@@ -267,13 +268,14 @@ reset_timestep  0
     """
     
     self.d = d
+    self.update_files()
     cmd = ("change_box all "
            "x final 0 {size} "
            "y final 0 {size} "
            "z final 0 {size} "
            "remap").format(size=(self.N/self.d)**(1.0/3.0))
 
-  def set_files(self):
+  def set_files(self, therm = False):
     self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
                                                                         l=self.l,
                                                                         x=self.x,
@@ -281,6 +283,10 @@ reset_timestep  0
                                                                         d=self.d,
                                                                         T=self.T,
                                                                         )
+    
+    if (therm): fname = "thermalization"
+    else: fname = "evolution"
+    
     try:
       makedirs(self.this_path)
     except OSError as err:
@@ -288,24 +294,46 @@ reset_timestep  0
       raise(err)
 
     dmp = ("dump 1 all custom {ndump} "
-           "{d}/dump.lammpstrj "
+           "{d}/{fname}.lammpstrj "
            "type id x y z vx vy vz".format(d=self.this_path,
-                                           ndump=self.ndump
+                                           ndump=self.ndump,
+                                           fname=fname
                                            )
            )
 
-    self.lmp.command("log {d}/thermo.log".format(d=self.this_path))
+    self.lmp.command("log {d}/{fname}.log".format(d=self.this_path,
+                                                  fname=fname))
     self.lmp.command("thermo {nthermo}".format(nthermo=self.nthermo))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
 
 
-  def update_files(self):
-    self.lmp.command("reset_timestep  0")
+  def update_files(self, therm = False):
+    self.lmp.command("reset_timestep 0")
     self.lmp.command("undump 1")
-    self.set_files()
+    self.set_files(therm = therm)
 
+  def thermalize(self, tdamp = 100, nsteps = 10000):
+    """
+    This method takes care of the thermalization, with a berendsen
+    thermostat. It has a quite unstable part, in which it unfixes a
+    previous "fix 1 all nvt" lammps command. This works with no
+    problem, because the script building already sets a temperature,
+    but be VERY careful with respect to this. 
+    """
+    
+    self.update_files(therm = True)
+    self.lmp.command("unfix 1")
+    brd = ("fix 1 all temp/berendsen"
+           " {T} {T} {tdamp}".format(T=self.T,
+                                     tdamp=tdamp
+                                     )
+           )
 
+    self.lmp.command(brd)
+    self.lmp.command("run {nsteps}".format(nsteps = nsteps))
+    
+    
   def results(self, rdf = True, mink = True, mste = True, lind = True, thermo = True):
     if (rdf): self.rdf()
     if (mink): self.mink()
