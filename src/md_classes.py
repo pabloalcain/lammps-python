@@ -127,6 +127,8 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     check if some kwargs should be added to specify when we want a
     lattice, but since this seems outdated and hard to extend, it is
     not implemented yet.
+
+    read_dump does NOT support changing the number of particles!
     """
 
     self.input_fname = fname
