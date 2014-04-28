@@ -14,7 +14,7 @@ N = 5000
 x = 0.5
 d = 0.05
 V = "medium"
-system = MDSys(T, l, N, x, d, V, gpu=True)
+system = MDSys(T, l, N, x, d, V, gpu=False)
 system.build_script(fname="lammps.inp")
 system.setup()
 for i in temp:
