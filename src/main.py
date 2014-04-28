@@ -18,8 +18,8 @@ system = MDSys(T, l, N, x, d, V, gpu=True)
 system.build_script(fname="lammps.inp")
 system.setup()
 for i in temp:
-  system.run(50000)
-  system.set_T(i) 
+    system.set_T(i, therm = True) 
+    system.run(100)
 #  system.results()
 # RUN Nsteps steps
 # POSTPROCESS
