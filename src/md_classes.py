@@ -104,7 +104,7 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
 	for i in xrange(N):
 	  print>>fp, i+1, r[p][i], V[p][i], F[p][i]
 
-  def build_script(self, fname = "lammps.inp"):
+  def build_script(self, fname = "lammps.inp", dump = None):
     """
     We get all the information from this object and build an input
     file. This input file does the following:
@@ -117,23 +117,35 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     - set thermo style and frequency (can be overridden later?)
     - set dump style
 
+    We can set the initial position and velocities from a dump file
+    as well, via the optional argument dump.
+
     After this, to make a proper run, the dump frequency should be 
     done in the setup method.
     
     As a file so we can properly debug if needed. We can also
     check if some kwargs should be added to specify when we want a
-    lattice or a given data/restart/dump file, but since this seems
-    outdated and hard to extend, it is not implemented yet.
+    lattice, but since this seems outdated and hard to extend, it is
+    not implemented yet.
     """
 
     self.input_fname = fname
     if self.gpu:
-      package = "package   gpu force/neigh 0 1 -1"
+      package = "package    gpu force/neigh 0 1 -1"
       style = "table/gpu"
     else: 
       package = ""
       style = "table"
       
+    #The read_dump can override previous configurations, so if we
+    #are meant to read a dump_file, we don't minimize (takes some time)
+
+    if (dump == None):
+        config = "minimize    0 1.0 1000 100000"
+    else:
+        config = "read_dump {0}".format(dump)
+
+
     inp = """#Nuclear model
 units		lj
 {package}
@@ -162,7 +174,7 @@ thermo		100
 min_style	hftn
 
 dump            1 all custom 1000 minim.lammpstrj id x y z vx vy vz 
-minimize	0 1.0 1000 100000
+{config}
 
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
@@ -178,6 +190,7 @@ reset_timestep  0
 	   table_fname=self.table_fname,
 	   cutoff=max(5.4,self.l),
 	   tdamp=10.0,
+           config=config,
 	   seed1=R.randint(0,10000),
 	   seed2=R.randint(0,10000),
 	   seed3=R.randint(0,10000),
@@ -307,7 +320,7 @@ reset_timestep  0
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
 
-  def thermalize(self, tdamp = 1000, nsteps = 40000):
+  def thermalize(self, tdamp = 1000, nsteps = 80000):
     """
     This method takes care of the thermalization, with a berendsen
     thermostat. It has a quite unstable part, in which it unfixes a
