@@ -307,7 +307,7 @@ reset_timestep  0
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
 
-  def thermalize(self, tdamp = 100, nsteps = 10000):
+  def thermalize(self, tdamp = 1000, nsteps = 40000):
     """
     This method takes care of the thermalization, with a berendsen
     thermostat. It has a quite unstable part, in which it unfixes a
