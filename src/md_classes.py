@@ -143,7 +143,7 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     if (dump == None):
         config = "minimize    0 1.0 1000 100000"
     else:
-        config = "read_dump {0} 0 type id x y z vx vy vz".format(dump)
+        config = "read_dump {0} 0 x y z vx vy vz".format(dump)
 
 
     inp = """#Nuclear model
