@@ -189,9 +189,6 @@ reset_timestep  0
     """
     This method sets up the run in a specific lmp object according to
     the inputfile.
-
-    Also sets path for the log and the dump file, according to the
-    chosen parameters, with default values for ndump and thermo frequency.
     """
     with open(self.input_fname) as fp:
       lines = fp.readlines()
@@ -201,7 +198,6 @@ reset_timestep  0
     self.path = path
     self.ndump = ndump
     self.nthermo = nthermo
-    self.update_files()
 
   def run(self, Nsteps):
     """
