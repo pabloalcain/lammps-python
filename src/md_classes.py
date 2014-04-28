@@ -327,9 +327,10 @@ reset_timestep  0
                                      tdamp=tdamp
                                      )
            )
-
     self.lmp.command(brd)
+    self.lmp.command("fix 2 all nve")
     self.lmp.command("run {nsteps}".format(nsteps = nsteps))
+    self.lmp.command("unfix 2")
     
     
   def results(self, rdf = True, mink = True, mste = True, lind = True, thermo = True):
