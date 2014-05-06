@@ -13,7 +13,7 @@ x = 0.5
 d = 0.05
 V = "medium"
 system = MDSys(T, l, N, x, d, V, gpu=True)
-system.build_script(fname="lammps.inp")
+system.build_script(fname="gpu.inp")
 system.setup()
 for i in temp:
     system.set_T(i, therm = True) 

@@ -42,3 +42,11 @@ is post-processed, with a different class/routine to get:
 
 Eventually, we could put the bindings *inside* the run (design should be
 discussed and thought) or, even better, as LAMMPS computes
+
+Install
+-------
+
+Requires numpy and lammps
+
+To install, just add src/ to the environment variable PYTHONPATH
+

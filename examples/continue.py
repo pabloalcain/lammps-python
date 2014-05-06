@@ -12,7 +12,7 @@ x = 0.5
 d = 0.05
 V = "medium"
 system = MDSys(T, l, N, x, d, V, gpu=True)
-system.build_script(fname="lammps.inp", dump="minim.lammpstrj")
+system.build_script(fname="continue.inp", dump="continue.lammpstrj")
 system.setup()
 system.set_T(0.6, therm = True) 
 system.run(50000)
