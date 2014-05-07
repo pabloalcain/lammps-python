@@ -6,20 +6,26 @@ therefore looped from within Python
 from md_classes import MDSys
 from lammps import lammps
 from numpy import linspace
+import ctypes
 
-temp=linspace(1.6,0.1,60)
-T = 1.7
+
+temp=linspace(1.6,0.1,6)
+temp=[5.0]
+T = 10.0
 l = 20
-N = 5000
+N = 6
 x = 0.5
-d = 0.05
+d = 0.02
 V = "medium"
 system = MDSys(T, l, N, x, d, V, gpu=False)
 system.build_script(fname="main.inp")
 system.setup()
+system.lmp.command("compute mste all mste/atom 5.4")
 for i in temp:
-    system.set_T(i, therm = True) 
-    system.run(100)
-#  system.results()
+    system.set_T(i, therm = False) 
+    system.run(10)
+    mste = system.mste()
+    print mste
+    #  system.results()
 # RUN Nsteps steps
 # POSTPROCESS

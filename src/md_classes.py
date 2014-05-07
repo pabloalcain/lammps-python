@@ -1,5 +1,5 @@
 import random as R
-from numpy import linspace, exp
+import numpy as np
 from lammps import lammps
 from os import makedirs, path
 
@@ -45,12 +45,13 @@ class MDSys(object):
     V = {}
     F = {}
     descr = {}
-    r['NN'] = linspace(0,rc_nuc,N+1)[1:]
-    r['NP'] = linspace(0,rc_nuc,N+1)[1:]
-    r['PP'] = linspace(0,rc_cou,N+1)[1:]
+    r['NN'] = np.linspace(0,rc_nuc,N+1)[1:]
+    r['NP'] = np.linspace(0,rc_nuc,N+1)[1:]
+    r['PP'] = np.linspace(0,rc_cou,N+1)[1:]
 
     Vc = 1.44
     uc = 1.0/l
+
     if V_tag == "medium" or V_tag == "stiff":
       if V_tag == "medium":
 	V0=373.118
@@ -73,21 +74,21 @@ class MDSys(object):
 	ur=2.2395
       
       descr['NN'] = "# Pandha {0} potential for same species".format(V_tag)
-      V['NN'] = V0 * exp(-u0 * r['NN']) / r['NN']
-      F['NN'] = V0 * exp(-u0 * r['NN']) / (r['NN'])**2 * (u0 * r['NN'] + 1)
+      V['NN'] = V0 * np.exp(-u0 * r['NN']) / r['NN']
+      F['NN'] = V0 * np.exp(-u0 * r['NN']) / (r['NN'])**2 * (u0 * r['NN'] + 1)
 
       descr['NP'] = "# Pandha {0} potential for different species".format(V_tag)
-      V['NP'] = Vr * exp(-ur * r['NP']) / r['NP'] -\
-	        Va * exp(-ua * r['NP']) / r['NP']
-      F['NP'] = Vr * exp(-ur * r['NP']) / (r['NP'])**2 * (ur * r['NP'] + 1) -\
-                Va * exp(-ua * r['NP']) / (r['NP'])**2 * (ua * r['NP'] + 1)
+      V['NP'] = Vr * np.exp(-ur * r['NP']) / r['NP'] -\
+	        Va * np.exp(-ua * r['NP']) / r['NP']
+      F['NP'] = Vr * np.exp(-ur * r['NP']) / (r['NP'])**2 * (ur * r['NP'] + 1) -\
+                Va * np.exp(-ua * r['NP']) / (r['NP'])**2 * (ua * r['NP'] + 1)
 
       descr['PP'] = "# Pandha {0} potential for same species \
 with Coulomb interaction lambda = {1}".format(V_tag, l)
-      V['PP'] = V0 * exp(-u0 * r['PP']) / r['PP'] +\
-	        Vc * exp(-uc * r['PP']) / r['PP']
-      F['PP'] = V0 * exp(-u0 * r['PP']) / (r['PP'])**2 * (u0 * r['PP'] + 1) +\
-                Vc * exp(-uc * r['PP']) / (r['PP'])**2 * (uc * r['PP'] + 1)
+      V['PP'] = V0 * np.exp(-u0 * r['PP']) / r['PP'] +\
+	        Vc * np.exp(-uc * r['PP']) / r['PP']
+      F['PP'] = V0 * np.exp(-u0 * r['PP']) / (r['PP'])**2 * (u0 * r['PP'] + 1) +\
+                Vc * np.exp(-uc * r['PP']) / (r['PP'])**2 * (uc * r['PP'] + 1)
 	        
 
     elif V_tag == "horowitz":
@@ -360,9 +361,16 @@ reset_timestep  0
     pass
   
   def mste(self):
-    print "I'm inside mste and my path is {0}".format(self.this_path)
-    pass
-  
+    """
+    This is simply a wrapper to create a compute cluster and extract
+    it. Eventually should be changed to a compute mste/atom, which is
+    in development.
+    """
+    tmp=self.lmp.extract_compute("mste", 1, 1)
+    mste = np.fromiter(tmp, dtype = np.float, count = self.N)
+    return mste
+    
+    
   def lind(self):
     print "I'm inside lind and my path is {0}".format(self.this_path)
     pass
