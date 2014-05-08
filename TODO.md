@@ -1,12 +1,13 @@
 TODO LIST
 =========
 
-- Throw error if dump file number of particles doesnt mach with N
-- Add makes/installs/pip/whatever
+- Throw error if dump file number of particles doesnt mach with N [ ]
+- Add makes/installs/pip/whatever [ ]
 - Devise a method for bookkeeping [ ]
 - PostProcess:
   * Clean&Check the old analysis.py routines, c-style them [ ]
   * Insert computes inside the actual run as a library [ ]
+  * Work out clean way to work with computes within LAMMPS (MSTE, for example) [ ]
 
 - When setting temperature, add flag for thermalization [X]
 - Set initial position and velocities from file [X]

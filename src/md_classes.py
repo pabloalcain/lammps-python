@@ -2,7 +2,7 @@ import random as R
 import numpy as np
 from lammps import lammps
 from os import makedirs, path
-from ana import *
+import analysis as A
 
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V, gpu=False):
@@ -346,29 +346,31 @@ reset_timestep  0
     self.lmp.command("unfix 2")
     
     
-  def results(self, rdf = True, mink = True, mste = True, lind = True, thermo = True):
-    if (rdf): self.rdf()
-    if (mink): self.mink()
-    if (mste): self.mste()
-    if (lind): self.lind()
-    if (thermo): self.thermo()
-    
   def rdf(self):
-    a = rdf(self.lmp.lmp, 100, 2.0)
-    print "I'm inside rdf and my path is {0}".format(self.this_path)
-    return a
+    """
+    Should be a wrapper to the analysis rdf method. Doesn't work
+    so far.
+    """
+    print "I'm inside rdf and my path is {0}".format(self.this_path) 
+    return A.rdf(self.lmp.lmp, 100, 2.0)
   
-  def mink(self):
-    a = minkowski(self.lmp.lmp, 1.8, 1.0)
-    print "I'm inside mink and my path is {0}".format(self.this_path)
-    return a
+  def minkowski(self, rpart, rcell):
+    """
+    Wrapper to the analysis minkowski method
+    """
+    return A.minkowski(self.lmp.lmp, rpart, rcell)
   
   def mste(self):
     """
     This is simply a wrapper to create a compute mste and extract
-    it. LAMMPS returns simply an array with the cluster ID of each 
+    it. LAMMPS returns simply an array with the cluster ID of each
     tag, so inside we do some calculations to return the mass
-    distribution. The compute name _is_ and _must be_ mste.
+    distribution. The compute name _is_ and _must be_ mste [although
+    this is meant to be obscured to the user in the setup() method].
+    There is also a problem with setting the cutoff radius. It cannot
+    be set from within the mste method, but it isn't very important: it
+    should always be the cutoff of the pandha potential. Anyway, this is
+    very unstable, so proceed with care when handling.
 
     There is a resize with mste, to make sure we can add different
     arrays afterwards. We add a lot of zeros and lose the sparsity
