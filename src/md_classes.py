@@ -2,6 +2,7 @@ import random as R
 import numpy as np
 from lammps import lammps
 from os import makedirs, path
+from ana import *
 
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V, gpu=False):
@@ -353,23 +354,33 @@ reset_timestep  0
     if (thermo): self.thermo()
     
   def rdf(self):
+    a = rdf(self.lmp.lmp, 100, 2.0)
     print "I'm inside rdf and my path is {0}".format(self.this_path)
-    pass
+    return a
   
   def mink(self):
+    a = minkowski(self.lmp.lmp, 1.8, 1.0)
     print "I'm inside mink and my path is {0}".format(self.this_path)
-    pass
+    return a
   
   def mste(self):
     """
-    This is simply a wrapper to create a compute cluster and extract
-    it. Eventually should be changed to a compute mste/atom, which is
-    in development.
+    This is simply a wrapper to create a compute mste and extract
+    it. LAMMPS returns simply an array with the cluster ID of each 
+    tag, so inside we do some calculations to return the mass
+    distribution. The compute name _is_ and _must be_ mste.
+
+    There is a resize with mste, to make sure we can add different
+    arrays afterwards. We add a lot of zeros and lose the sparsity
+    of the mste, but early optimization...
     """
-    tmp=self.lmp.extract_compute("mste", 1, 1)
-    mste = np.fromiter(tmp, dtype = np.float, count = self.N)
+    ext = self.lmp.extract_compute("mste", 1, 1)
+    tmp = np.fromiter(ext, dtype = np.int, count = self.N)
+    # First bincount to count repeated indices => cluster size
+    # Second to histogram over sizes
+    mste = np.bincount(np.bincount(tmp))
+    mste.resize(self.N + 1) 
     return mste
-    
     
   def lind(self):
     print "I'm inside lind and my path is {0}".format(self.this_path)

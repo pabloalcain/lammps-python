@@ -19,10 +19,9 @@ V = "medium"
 system = MDSys(T, l, N, x, d, V, gpu=False)
 system.build_script(fname="main.inp")
 system.setup()
-system.lmp.command("compute mste all mste/atom 5.4")
 for i in temp:
     system.set_T(i, therm = False) 
     system.run(0)
-    mste = system.mste()
+    y = system.mink()
     #  system.results()
 # RUN Nsteps steps
