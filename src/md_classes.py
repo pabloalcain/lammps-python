@@ -346,13 +346,13 @@ reset_timestep  0
     self.lmp.command("unfix 2")
     
     
-  def rdf(self):
+  def rdf(self, nbin, rmax):
     """
     Should be a wrapper to the analysis rdf method. Doesn't work
     so far.
     """
     print "I'm inside rdf and my path is {0}".format(self.this_path) 
-    return A.rdf(self.lmp.lmp, 100, 2.0)
+    return A.rdf(self.lmp.lmp, nbin, rmax)
   
   def minkowski(self, rpart, rcell):
     """

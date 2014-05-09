@@ -1,15 +1,9 @@
 /* -------------------------------------------------------------------
-   Esta rutina calcula g(r) para TODOS los pares, partiendo de la
-   salida de LAMMPS para x y el type que puede ser 1 o 2. Está
-   paralelizado, pero por ahora muy burdamente. Falta encontrar una
-   forma de mapear un par único (i,j) a un índice k.
+   Esta rutina calcula g(r) para TODOS los pares, partiendo de una
+   instancia de LAMMPS. 
 
-   Por ahora requiere sí o sí una caja cúbica y de dimensión 3 (aunque
-   creo que eso se puede cambiar trivialmente cambiando DIM)
-
-   Otro "inconveniente" a tener en cuenta es la no-portabilidad: asume
-   que hay dos tipos de partículas y las llama protones y neutrones.
-
+   Está  paralelizado, pero por ahora muy burdamente. Falta encontrar 
+   una forma de mapear un par único (i,j) a un índice k.
 
    TODO: 
    

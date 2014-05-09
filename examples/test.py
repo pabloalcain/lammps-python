@@ -22,6 +22,7 @@ system.setup()
 for i in temp:
     system.set_T(i, therm = False) 
     system.run(0)
-    y = system.minkowski(0.5, 0.1)
+    m = system.minkowski(0.5, 0.1)
+    system.rdf(100,5.0)
     #  system.results()
 # RUN Nsteps steps

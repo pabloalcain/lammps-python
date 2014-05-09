@@ -1,6 +1,6 @@
-LDFLAGS=-L/home/pablo/doc/lammps/src
+LDFLAGS=-L/home/pablo/lammps/src
 LDLIBS=-llammps -lfftw3 -lmpi -lpthread
-INFLAGS=-I/home/pablo/doc/lammps/src
+INFLAGS=-I/home/pablo/lammps/src
 CXXFLAGS=-Wno-write-strings -g -O0 -fPIC
 
 all: simple.o gofr.o minkowski.o

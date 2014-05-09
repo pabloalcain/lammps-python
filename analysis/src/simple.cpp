@@ -109,11 +109,11 @@ int main(int narg, char **arg)
   rdf(lmp, 100, 2.5, c_rdf);
   minkowski(lmp, 0.1, 0.01, c_min);
   if (me == 0) {
-    // for (int i = 0; i < 100; i++) {
-    //   for (int j = 0; j < 3; j++) 
-    // 	std::cout<<c_rdf[i*3+j]<<" ";
-    //   std::cout<<std::endl;
-    // }
+    for (int i = 0; i < 100; i++) {
+      for (int j = 0; j < 3; j++) 
+    	std::cout<<c_rdf[i*3+j]<<" ";
+        std::cout<<std::endl;
+    }
     for (int i = 0; i < 4; i++)
       std::cout<<c_min[i]<<" ";
     std::cout<<std::endl;
