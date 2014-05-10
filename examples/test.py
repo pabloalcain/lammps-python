@@ -12,17 +12,17 @@ temp=linspace(1.6,0.1,6)
 temp=[4.2]
 T = 4.2
 l = 20
-N = 8
+N = 5000
 x = 0.5
 d = 0.005
 V = "medium"
 system = MDSys(T, l, N, x, d, V, gpu=False)
-system.build_script(fname="main.inp")
+system.build_script(fname="main.inp", dump="evolution.lammpstrj")
 system.setup()
 for i in temp:
     system.set_T(i, therm = False) 
     system.run(0)
-    m = system.minkowski(0.5, 0.1)
-    system.rdf(100,5.0)
+    m = system.minkowski(5.5, 2.1)
+    r = system.rdf(500,50.0)
     #  system.results()
 # RUN Nsteps steps
