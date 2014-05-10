@@ -348,10 +348,8 @@ reset_timestep  0
     
   def rdf(self, nbin, rmax):
     """
-    Should be a wrapper to the analysis rdf method. Doesn't work
-    so far.
+    Wrapper to the analysis rdf method
     """
-    print "I'm inside rdf and my path is {0}".format(self.this_path) 
     return A.rdf(self.lmp.lmp, nbin, rmax)
   
   def minkowski(self, rpart, rcell):
