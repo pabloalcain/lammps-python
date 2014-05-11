@@ -12,3 +12,5 @@ minim.lammpstrj
 analysis/libanalysis.so
 analysis/src/simple.e
 examples/log.lammps
+examples/gofr*.dat
+examples/gr
