@@ -363,7 +363,7 @@ reset_timestep  0
     This is simply a wrapper to create a compute mste and extract
     it. LAMMPS returns simply an array with the cluster ID of each
     tag, so inside we do some calculations to return the mass
-    distribution. The compute name _is_ and _must be_ mste [although
+    distribution. The compute name *is* and *must be* mste [although
     this is meant to be obscured to the user in the setup() method].
     There is also a problem with setting the cutoff radius. It cannot
     be set from within the mste method, but it isn't very important: it
