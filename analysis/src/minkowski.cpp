@@ -114,6 +114,7 @@ void minkowski(LAMMPS *lmp, double rad, double rcell, double *array)
   MPI_Allreduce(scratch,array,4,MPI_DOUBLE,MPI_SUM,lmp->world);
 
   lmp->memory->destroy(scratch);
+  lmp->memory->destroy(lattice);
   return;
 }
 
