@@ -17,7 +17,7 @@ LAMMPS wrapper
 
 - [ ] Thermo and dump frequency should be none. Files written from 
       Python itself. 
-  * [ ] Extract value of computes and write to file whatever
+  * [X] Extract value of computes and write to file whatever
         we want, to replace thermo
   * [ ] Create a wrapper for the dump LAMMPS command
 - [ ] Thermalization: improve naïve Berendsen implementation, look in
@@ -39,9 +39,9 @@ Analysis wrapper
 ----------------
 
 - [ ] Add warning to minkowski method related to lattice size
-- [ ] Decide what to do with the npair in rdf. Should be taken
+- [X] Decide what to do with the npair in rdf. Should be taken
       outside from analysis.py
-- [ ] Add S(k) to g(r)
+- [X] Add S(k) to g(r)
 - [ ] Check analysis
   * [ ] MSTE
   * [ ] Minkowski

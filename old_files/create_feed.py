@@ -17,7 +17,7 @@ for i in pot:
                 f=open('feed_temp','w')
                 str="potential %i        #Tipo de potencial: 1:Med, 2:Stiff, 3:Horo\n\
 coulomb %i          #Rango de Coulomb (lambda enteros entre 0 y 20)\n\
-data Lattice       #Archivo de data (None para random)\n\
+data None #Archivo de data (None para random)\n\
 x 0.5              #x\n\
 N %i               #Numero de particulas\n\
 dens %g            #Densidad [1/fm^3]\n\

@@ -12,7 +12,7 @@ temp=linspace(1.6,0.1,6)
 temp=[4.2]
 T = 4.2
 l = 20
-N = 8
+N = 5000
 x = 0.5
 d = 0.005
 V = "medium"
@@ -22,7 +22,7 @@ system.setup()
 system.lmp.command("compute mste all mste/atom 5.4")
 for i in temp:
     system.set_T(i, therm = False) 
-    system.run(0)
+    system.run(100)
     mste = system.mste()
     #  system.results()
 # RUN Nsteps steps

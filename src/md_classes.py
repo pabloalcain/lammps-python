@@ -24,6 +24,10 @@ class MDSys(object):
     self.gpu = gpu
     self.build_table(V, l)
     self.lmp = lammps("")
+    #Number of pairs to be considered in the interaction: 
+    #1v1, 1v2, 2v2, *v*
+    self.npairs = 4
+
 
   def build_table(self, V_tag, l, N=5000, rc_nuc=5.4, rc_cou=20.0,
 		  fname="potential.table"):
@@ -147,7 +151,7 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     if (dump == None):
         config = "minimize    0 1.0 1000 100000"
     else:
-        config = "read_dump {0} 0 x y z vx vy vz".format(dump)
+        config = "read_dump {0} 0 x y z vx vy vz purge yes add yes replace no".format(dump)
 
 
     inp = """#Nuclear model
@@ -350,7 +354,7 @@ reset_timestep  0
     """
     Wrapper to the analysis rdf method
     """
-    return A.rdf(self.lmp.lmp, nbin, rmax)
+    return A.rdf(self.lmp.lmp, nbin, rmax, self.npairs)
   
   def minkowski(self, rpart, rcell):
     """
@@ -387,6 +391,43 @@ reset_timestep  0
     pass
   
   def thermo(self):
-    print "I'm inside thermo and my path is {0}".format(self.this_path)
-    pass
+    """
+    Wrapper to LAMMPS internal computes.
+    To avoid adding unnecesary computes to LAMMPS, we just reference
+    to the default computes created for the LAMMPS inner thermo output
+    """
 
+    temp = self.lmp.extract_compute("thermo_temp", 0, 0)
+    epair = self.lmp.extract_compute("thermo_pe", 0, 0)/self.N
+    press = self.lmp.extract_compute("thermo_press", 0, 0)
+    ke = 3.0/2.0 * temp
+    etot = epair + ke 
+    return [temp, ke, epair, etot, press]
+
+  def structure(self, rdf):
+    """
+    Calculate structure factor given the radial distribution function.
+    Returns an array structured like rdf, with only one column per
+    pair.
+    """
+    r = rdf[:,0]
+    # Assume evenly spaced
+    dr = r[1] - r[0]
+    # Wave vectors
+    n = len(r)
+    q = np.linspace(0,2*np.pi/dr,n)
+    S = np.zeros((n,self.npairs+1))
+    ker = np.zeros((n,self.npairs+1))
+    ft = np.zeros((n,self.npairs+1))
+    S[:,0] = q
+    for i in range(self.npairs):
+      #Integrand in the fourier transform
+      ker[:,i+1] = (rdf[:, 2*i + 1] - 1) * r
+      #Imaginary (sin) part of the Fourier transform
+      ft[:,i+1] = np.imag(np.fft.fft(ker[:,i+1])) * dr
+      #Structure factor
+      #We split the q = 0 case, since it is ill-defined
+      S[0,i+1] = 1
+      S[1:,i+1] = 1 - ( ft[1:,i+1] / q[1:] ) * ( 4 * np.pi * self.d )
+    
+    return S
