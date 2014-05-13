@@ -22,13 +22,15 @@ system.lmp.command("compute mste all mste/atom 5.4")
 system.setup()
 for i in temp:
     system.set_T(i, therm = False) 
-    system.run(0)
+    system.run(10)
     mste = system.mste()
     m = system.minkowski(5.5, 2.1)
     r = system.rdf(200, 23.94)
     th = system.thermo()
     s = system.structure(r)
+    system.dump()
     #  system.results()
 # RUN Nsteps steps
-#Step Temp KinEng E_pair TotEng Press
-#0   0.50174298   0.75247734    15.156092    15.908569   0.88371423    
+#real    0m5.490s
+#user    0m4.905s
+#sys     0m0.077s

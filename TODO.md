@@ -19,7 +19,7 @@ LAMMPS wrapper
       Python itself. 
   * [X] Extract value of computes and write to file whatever
         we want, to replace thermo
-  * [ ] Create a wrapper for the dump LAMMPS command
+  * [X] Create a wrapper for the dump LAMMPS command
 - [ ] Thermalization: improve naïve Berendsen implementation, look in
       old_files example
 - [ ] Throw error if dump file number of particles doesnt mach with N

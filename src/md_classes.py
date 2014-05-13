@@ -28,7 +28,6 @@ class MDSys(object):
     #1v1, 1v2, 2v2, *v*
     self.npairs = 4
 
-
   def build_table(self, V_tag, l, N=5000, rc_nuc=5.4, rc_cou=20.0,
 		  fname="potential.table"):
     """
@@ -120,8 +119,10 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     - set the interaction according to the table
     - minimize system to remove the potential energy
     - set the fix nvt at the required temperature
-    - set thermo style and frequency (can be overridden later?)
+    - set thermo style and frequency
     - set dump style
+
+    Thermo style and frequency is just for following up in the screen.
 
     We can set the initial position and velocities from a dump file
     as well, via the optional argument dump.
@@ -177,7 +178,7 @@ neighbor	1.2 bin
 neigh_modify	every 1 delay 0 check yes one 8000 page 80000
 
 thermo_style	custom step temp ke epair etotal press
-thermo		100
+thermo		1000
 
 min_style	hftn
 
@@ -206,7 +207,7 @@ reset_timestep  0
     with open(self.input_fname, 'w') as fp:
       print>>fp, inp
 
-  def setup(self, path='./data', ndump=1000, nthermo=1000):
+  def setup(self, path='./data', ndump=1000):
     """
     This method sets up the run in a specific lmp object according to
     the inputfile.
@@ -218,7 +219,6 @@ reset_timestep  0
     
     self.path = path
     self.ndump = ndump
-    self.nthermo = nthermo
 
   def run(self, Nsteps):
     """
@@ -324,7 +324,6 @@ reset_timestep  0
 
     self.lmp.command("log {d}/{fname}.log".format(d=self.this_path,
                                                   fname=fname))
-    self.lmp.command("thermo {nthermo}".format(nthermo=self.nthermo))
     self.lmp.command(dmp)
     self.lmp.command("dump_modify 1 sort id")
 
@@ -348,7 +347,6 @@ reset_timestep  0
     self.lmp.command("fix 2 all nve")
     self.lmp.command("run {nsteps}".format(nsteps = nsteps))
     self.lmp.command("unfix 2")
-    
     
   def rdf(self, nbin, rmax):
     """
@@ -394,7 +392,10 @@ reset_timestep  0
     """
     Wrapper to LAMMPS internal computes.
     To avoid adding unnecesary computes to LAMMPS, we just reference
-    to the default computes created for the LAMMPS inner thermo output
+    to the default computes created for the LAMMPS inner thermo output.
+
+    We have an advantage here: every time LAMMPS ends a run,
+    calculates again thermo_temp, etc if they are in the thermo_style
     """
 
     temp = self.lmp.extract_compute("thermo_temp", 0, 0)
@@ -417,17 +418,23 @@ reset_timestep  0
     n = len(r)
     q = np.linspace(0,2*np.pi/dr,n)
     S = np.zeros((n,self.npairs+1))
-    ker = np.zeros((n,self.npairs+1))
-    ft = np.zeros((n,self.npairs+1))
     S[:,0] = q
     for i in range(self.npairs):
       #Integrand in the fourier transform
-      ker[:,i+1] = (rdf[:, 2*i + 1] - 1) * r
+      ker = (rdf[:, 2*i + 1] - 1) * r
       #Imaginary (sin) part of the Fourier transform
-      ft[:,i+1] = np.imag(np.fft.fft(ker[:,i+1])) * dr
+      ft = np.imag(np.fft.fft(ker)) * dr
       #Structure factor
       #We split the q = 0 case, since it is ill-defined
       S[0,i+1] = 1
-      S[1:,i+1] = 1 - ( ft[1:,i+1] / q[1:] ) * ( 4 * np.pi * self.d )
-    
+      S[1:,i+1] = 1 - ( ft[1:] / q[1:] ) * ( 4 * np.pi * self.d )
+
     return S
+
+  def dump(self):
+    """
+    Wrapper to dump positions
+    """
+    self.lmp.command("dump 1000 all custom 1 dump.lammpstrj type id x y z vx vy vz")
+    self.lmp.command("run 0")
+    self.lmp.command("undump 1000")
