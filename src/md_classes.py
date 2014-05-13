@@ -399,7 +399,7 @@ reset_timestep  0
     press = self.lmp.extract_compute("thermo_press", 0, 0)
     ke = 3.0/2.0 * temp
     etot = epair + ke 
-    return np.array([temp, ke, epair, etot, press])
+    return temp, ke, epair, etot, press
 
   def structure(self, rdf):
     """
