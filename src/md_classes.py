@@ -184,6 +184,7 @@ min_style	hftn
 
 dump            1 all custom 1000 minim.lammpstrj type id x y z vx vy vz 
 {config}
+undump          1
 
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
@@ -233,6 +234,7 @@ reset_timestep  0
     """
     self.T = T
     if (therm): self.thermalize()
+    self.update_path()
     self.update_files()
     self.lmp.command("unfix 1")
     self.lmp.command("fix 1 all nvt temp {T} {T} {tdamp}".format(T=self.T,
@@ -240,6 +242,7 @@ reset_timestep  0
 
   def set_l(self, l):
     self.l = l
+    self.update_path()
     self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = "pair_coeff 1 1 {t} PP {co}".format(t=self.table_fname,
@@ -249,6 +252,7 @@ reset_timestep  0
 
   def set_V(self, V):
     self.V = V
+    self.update_path()
     self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = """pair_coeff 1 1 {t} PP {co}
@@ -264,6 +268,7 @@ reset_timestep  0
     This should add particles randomly inside the already given 
     configuration. Not implemented yet
     """
+    self.update_path()
     self.update_files()
     self.N = N
     raise AttributeError("This is not implemented yet :(")
@@ -273,6 +278,7 @@ reset_timestep  0
     This should change randomly particles type to fulfill the x
     requirement. Not implemented yet
     """
+    self.update_path()
     self.update_files()
     self.x = x
     raise AttributeError("This is not implemented yet :(")
@@ -283,7 +289,7 @@ reset_timestep  0
     requirement. The particles are remapped, so their relative
     position change.
     """
-    
+    self.update_path()
     self.d = d
     self.update_files()
     cmd = ("change_box all "
@@ -292,17 +298,20 @@ reset_timestep  0
            "z final 0 {size} "
            "remap").format(size=(self.N/self.d)**(1.0/3.0))
 
-  def update_files(self, therm = False):
-    self.lmp.command("reset_timestep 0")
-    self.lmp.command("undump 1")
-    self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+  def update_path(self):
+    """
+    Update this_path according to value of parameters
+    """
+    self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}/".format(V=self.V,
                                                                         l=self.l,
                                                                         x=self.x,
                                                                         N=self.N,
                                                                         d=self.d,
                                                                         T=self.T,
                                                                         )
-    
+
+  def update_files(self, therm = False):
+    self.lmp.command("reset_timestep 0")
     if (therm): fname = "thermalization"
     else: fname = "evolution"
     
@@ -310,22 +319,12 @@ reset_timestep  0
     try:
       makedirs(self.this_path)
     except OSError as err:
-      if (path.isfile(self.this_path+'/'+fname+'.log')):
+      if (path.isfile(self.this_path+fname+'.log')):
         msg = "File {0} already exists: rename base path or delete old files"
-        raise OSError(msg.format(self.this_path+'/'+fname+'.log'))
-
-    dmp = ("dump 1 all custom {ndump} "
-           "{d}/{fname}.lammpstrj "
-           "type id x y z vx vy vz".format(d=self.this_path,
-                                           ndump=self.ndump,
-                                           fname=fname
-                                           )
-           )
+        raise OSError(msg.format(self.this_path+fname+'.log'))
 
     self.lmp.command("log {d}/{fname}.log".format(d=self.this_path,
                                                   fname=fname))
-    self.lmp.command(dmp)
-    self.lmp.command("dump_modify 1 sort id")
 
   def thermalize(self, tdamp = 1000, nsteps = 80000):
     """
@@ -403,7 +402,7 @@ reset_timestep  0
     press = self.lmp.extract_compute("thermo_press", 0, 0)
     ke = 3.0/2.0 * temp
     etot = epair + ke 
-    return [temp, ke, epair, etot, press]
+    return np.array([temp, ke, epair, etot, press])
 
   def structure(self, rdf):
     """
@@ -431,10 +430,13 @@ reset_timestep  0
 
     return S
 
-  def dump(self):
+  def dump(self, fname=None):
     """
     Wrapper to dump positions
     """
-    self.lmp.command("dump 1000 all custom 1 dump.lammpstrj type id x y z vx vy vz")
+    if fname == None: fname = self.this_path + "dump.lammpstrj"
+    tmp = "dump myDUMP all custom 1 {dumpfile} id x y z vx vy vz"
+    self.lmp.command(tmp.format(dumpfile = fname))
+    self.lmp.command("dump_modify myDUMP sort id")
     self.lmp.command("run 0")
-    self.lmp.command("undump 1000")
+    self.lmp.command("undump myDUMP")
