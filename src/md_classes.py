@@ -308,21 +308,18 @@ reset_timestep  0
                                                                         N=self.N,
                                                                         d=self.d,
                                                                         T=self.T,
-                                                                        )
+                                                                         )
+    try:
+      makedirs(self.this_path)
+    except OSError as err:
+      msg = "Directory {0} already exists: rename base path or delete old files"
+      raise OSError(msg.format(self.this_path))
+
 
   def update_files(self, therm = False):
     self.lmp.command("reset_timestep 0")
     if (therm): fname = "thermalization"
     else: fname = "evolution"
-    
-    
-    try:
-      makedirs(self.this_path)
-    except OSError as err:
-      if (path.isfile(self.this_path+fname+'.log')):
-        msg = "File {0} already exists: rename base path or delete old files"
-        raise OSError(msg.format(self.this_path+fname+'.log'))
-
     self.lmp.command("log {d}/{fname}.log".format(d=self.this_path,
                                                   fname=fname))
 
@@ -357,7 +354,7 @@ reset_timestep  0
     """
     Wrapper to the analysis minkowski method
     """
-    return A.minkowski(self.lmp.lmp, rpart, rcell)
+    return A.minkowski(self.lmp.lmp, rpart, rcell)[:]
   
   def mste(self):
     """
@@ -438,5 +435,11 @@ reset_timestep  0
     tmp = "dump myDUMP all custom 1 {dumpfile} id x y z vx vy vz"
     self.lmp.command(tmp.format(dumpfile = fname))
     self.lmp.command("dump_modify myDUMP sort id")
-    self.lmp.command("run 0")
+    self.lmp.command("run 0 post no")
     self.lmp.command("undump myDUMP")
+
+  def log(self, variables, fname=None):
+    """
+    Wrapper to write in the log file 
+    """
+    
