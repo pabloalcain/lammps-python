@@ -500,11 +500,11 @@ reset_timestep  0
     self.lmp.command("run 0 post no")
     self.lmp.command("undump myDUMP")
 
-  def flush(self):
+  def flush(self, prefix = ''):
     """
     Wrapper to write in the data file.
     """
-    path = self.this_path + ''
+    path = self.this_path + prefix
     if self.is_mste:
       # To add cluster size to file
       temp = np.vstack((range(len(self.c_mste)),self.c_mste))
