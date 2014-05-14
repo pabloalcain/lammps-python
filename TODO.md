@@ -17,9 +17,9 @@ LAMMPS wrapper
 
 - [ ] Thermo and dump frequency should be none. Files written from 
       Python itself. 
-  * [ ] Extract value of computes and write to file whatever
+  * [X] Extract value of computes and write to file whatever
         we want, to replace thermo
-  * [ ] Create a wrapper for the dump LAMMPS command
+  * [X] Create a wrapper for the dump LAMMPS command
 - [ ] Thermalization: improve naïve Berendsen implementation, look in
       old_files example
 - [ ] Throw error if dump file number of particles doesnt mach with N
@@ -38,10 +38,8 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
+- [ ] Return value of peak of S(k) for low momenta
 - [ ] Add warning to minkowski method related to lattice size
-- [ ] Decide what to do with the npair in rdf. Should be taken
-      outside from analysis.py
-- [ ] Add S(k) to g(r)
 - [ ] Check analysis
   * [ ] MSTE
   * [ ] Minkowski
@@ -50,8 +48,11 @@ Analysis wrapper
 
 - [X] Clean&Check the old analysis.py routines, c-style them
 - [X] Insert computes inside the actual run as a library
+- [X] Decide what to do with the npair in rdf. Should be taken
+      outside from analysis.py
+- [X] Add S(k) to g(r)
 
 
 
 
-- Finish Horowitz potential [O]
+- [O] Finish Horowitz potential

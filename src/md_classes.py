@@ -24,6 +24,9 @@ class MDSys(object):
     self.gpu = gpu
     self.build_table(V, l)
     self.lmp = lammps("")
+    #Number of pairs to be considered in the interaction: 
+    #1v1, 1v2, 2v2, *v*
+    self.npairs = 4
 
   def build_table(self, V_tag, l, N=5000, rc_nuc=5.4, rc_cou=20.0,
 		  fname="potential.table"):
@@ -116,8 +119,10 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     - set the interaction according to the table
     - minimize system to remove the potential energy
     - set the fix nvt at the required temperature
-    - set thermo style and frequency (can be overridden later?)
+    - set thermo style and frequency
     - set dump style
+
+    Thermo style and frequency is just for following up in the screen.
 
     We can set the initial position and velocities from a dump file
     as well, via the optional argument dump.
@@ -147,7 +152,7 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     if (dump == None):
         config = "minimize    0 1.0 1000 100000"
     else:
-        config = "read_dump {0} 0 x y z vx vy vz".format(dump)
+        config = "read_dump {0} 0 x y z vx vy vz purge yes add yes replace no".format(dump)
 
 
     inp = """#Nuclear model
@@ -173,12 +178,13 @@ neighbor	1.2 bin
 neigh_modify	every 1 delay 0 check yes one 8000 page 80000
 
 thermo_style	custom step temp ke epair etotal press
-thermo		100
+thermo		1000
 
 min_style	hftn
 
 dump            1 all custom 1000 minim.lammpstrj type id x y z vx vy vz 
 {config}
+undump          1
 
 pair_coeff	1 1 {table_fname} PP {cutoff}
 fix		1 all nvt temp {T} {T} {tdamp}
@@ -202,7 +208,7 @@ reset_timestep  0
     with open(self.input_fname, 'w') as fp:
       print>>fp, inp
 
-  def setup(self, path='./data', ndump=1000, nthermo=1000):
+  def setup(self, path='./data', ndump=1000):
     """
     This method sets up the run in a specific lmp object according to
     the inputfile.
@@ -214,7 +220,6 @@ reset_timestep  0
     
     self.path = path
     self.ndump = ndump
-    self.nthermo = nthermo
 
   def run(self, Nsteps):
     """
@@ -229,6 +234,7 @@ reset_timestep  0
     """
     self.T = T
     if (therm): self.thermalize()
+    self.update_path()
     self.update_files()
     self.lmp.command("unfix 1")
     self.lmp.command("fix 1 all nvt temp {T} {T} {tdamp}".format(T=self.T,
@@ -236,6 +242,7 @@ reset_timestep  0
 
   def set_l(self, l):
     self.l = l
+    self.update_path()
     self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = "pair_coeff 1 1 {t} PP {co}".format(t=self.table_fname,
@@ -245,6 +252,7 @@ reset_timestep  0
 
   def set_V(self, V):
     self.V = V
+    self.update_path()
     self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = """pair_coeff 1 1 {t} PP {co}
@@ -260,6 +268,7 @@ reset_timestep  0
     This should add particles randomly inside the already given 
     configuration. Not implemented yet
     """
+    self.update_path()
     self.update_files()
     self.N = N
     raise AttributeError("This is not implemented yet :(")
@@ -269,6 +278,7 @@ reset_timestep  0
     This should change randomly particles type to fulfill the x
     requirement. Not implemented yet
     """
+    self.update_path()
     self.update_files()
     self.x = x
     raise AttributeError("This is not implemented yet :(")
@@ -279,7 +289,7 @@ reset_timestep  0
     requirement. The particles are remapped, so their relative
     position change.
     """
-    
+    self.update_path()
     self.d = d
     self.update_files()
     cmd = ("change_box all "
@@ -288,41 +298,30 @@ reset_timestep  0
            "z final 0 {size} "
            "remap").format(size=(self.N/self.d)**(1.0/3.0))
 
-  def update_files(self, therm = False):
-    self.lmp.command("reset_timestep 0")
-    self.lmp.command("undump 1")
-    self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}".format(V=self.V,
+  def update_path(self):
+    """
+    Update this_path according to value of parameters
+    """
+    self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}/".format(V=self.V,
                                                                         l=self.l,
                                                                         x=self.x,
                                                                         N=self.N,
                                                                         d=self.d,
                                                                         T=self.T,
-                                                                        )
-    
-    if (therm): fname = "thermalization"
-    else: fname = "evolution"
-    
-    
+                                                                         )
     try:
       makedirs(self.this_path)
     except OSError as err:
-      if (path.isfile(self.this_path+'/'+fname+'.log')):
-        msg = "File {0} already exists: rename base path or delete old files"
-        raise OSError(msg.format(self.this_path+'/'+fname+'.log'))
+      msg = "Directory {0} already exists: rename base path or delete old files"
+      raise OSError(msg.format(self.this_path))
 
-    dmp = ("dump 1 all custom {ndump} "
-           "{d}/{fname}.lammpstrj "
-           "type id x y z vx vy vz".format(d=self.this_path,
-                                           ndump=self.ndump,
-                                           fname=fname
-                                           )
-           )
 
+  def update_files(self, therm = False):
+    self.lmp.command("reset_timestep 0")
+    if (therm): fname = "thermalization"
+    else: fname = "evolution"
     self.lmp.command("log {d}/{fname}.log".format(d=self.this_path,
                                                   fname=fname))
-    self.lmp.command("thermo {nthermo}".format(nthermo=self.nthermo))
-    self.lmp.command(dmp)
-    self.lmp.command("dump_modify 1 sort id")
 
   def thermalize(self, tdamp = 1000, nsteps = 80000):
     """
@@ -345,18 +344,17 @@ reset_timestep  0
     self.lmp.command("run {nsteps}".format(nsteps = nsteps))
     self.lmp.command("unfix 2")
     
-    
   def rdf(self, nbin, rmax):
     """
     Wrapper to the analysis rdf method
     """
-    return A.rdf(self.lmp.lmp, nbin, rmax)
+    return A.rdf(self.lmp.lmp, nbin, rmax, self.npairs)
   
   def minkowski(self, rpart, rcell):
     """
     Wrapper to the analysis minkowski method
     """
-    return A.minkowski(self.lmp.lmp, rpart, rcell)
+    return A.minkowski(self.lmp.lmp, rpart, rcell)[:]
   
   def mste(self):
     """
@@ -387,6 +385,61 @@ reset_timestep  0
     pass
   
   def thermo(self):
-    print "I'm inside thermo and my path is {0}".format(self.this_path)
-    pass
+    """
+    Wrapper to LAMMPS internal computes.
+    To avoid adding unnecesary computes to LAMMPS, we just reference
+    to the default computes created for the LAMMPS inner thermo output.
 
+    We have an advantage here: every time LAMMPS ends a run,
+    calculates again thermo_temp, etc if they are in the thermo_style
+    """
+
+    temp = self.lmp.extract_compute("thermo_temp", 0, 0)
+    epair = self.lmp.extract_compute("thermo_pe", 0, 0)/self.N
+    press = self.lmp.extract_compute("thermo_press", 0, 0)
+    ke = 3.0/2.0 * temp
+    etot = epair + ke 
+    return temp, ke, epair, etot, press
+
+  def structure(self, rdf):
+    """
+    Calculate structure factor given the radial distribution function.
+    Returns an array structured like rdf, with only one column per
+    pair.
+    """
+    r = rdf[:,0]
+    # Assume evenly spaced
+    dr = r[1] - r[0]
+    # Wave vectors
+    n = len(r)
+    q = np.linspace(0,2*np.pi/dr,n)
+    S = np.zeros((n,self.npairs+1))
+    S[:,0] = q
+    for i in range(self.npairs):
+      #Integrand in the fourier transform
+      ker = (rdf[:, 2*i + 1] - 1) * r
+      #Imaginary (sin) part of the Fourier transform
+      ft = np.imag(np.fft.fft(ker)) * dr
+      #Structure factor
+      #We split the q = 0 case, since it is ill-defined
+      S[0,i+1] = 1
+      S[1:,i+1] = 1 - ( ft[1:] / q[1:] ) * ( 4 * np.pi * self.d )
+
+    return S
+
+  def dump(self, fname=None):
+    """
+    Wrapper to dump positions
+    """
+    if fname == None: fname = self.this_path + "dump.lammpstrj"
+    tmp = "dump myDUMP all custom 1 {dumpfile} id x y z vx vy vz"
+    self.lmp.command(tmp.format(dumpfile = fname))
+    self.lmp.command("dump_modify myDUMP sort id")
+    self.lmp.command("run 0 post no")
+    self.lmp.command("undump myDUMP")
+
+  def log(self, variables, fname=None):
+    """
+    Wrapper to write in the log file 
+    """
+    

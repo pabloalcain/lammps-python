@@ -20,14 +20,12 @@ def minkowski(lmp, rad, rcell):
     return np.fromiter(tmp, dtype = np.float, count = 4)
 
 
-def rdf(lmp, nbins, rmax):
+def rdf(lmp, nbins, rmax, npairs):
     """
-    Wrapper for the c++ libanalysis. Its main disadvantage is
-    that we should know beforehand the number of pairs to consider.
-    Since this is meant to Neutron Stars, npair is set to 4.
-    Nevertheless, SHOULD BE CHANGED, and must be changed by hand
-    to use with, for instance, Lennard-Jones.
-
+    Wrapper for the c++ libanalysis. Its main disadvantage is that we
+    should know beforehand the number of pairs to consider.  Since
+    this is meant to Neutron Stars, we document here behavior when
+    npair is set to 4:
 
     If we label the pairs with index k, so that
     k = 1 => all v all
@@ -42,8 +40,7 @@ def rdf(lmp, nbins, rmax):
     2 + 2 * k: int(g(r)) between the pair labeled by k
     """
 
-    npair = 4
-    ncol = npair * 2 + 1
+    ncol = npairs * 2 + 1
     tmp = ( c_double * (nbins * ncol) ) ()
     analysis.rdf.argtypes = [c_void_p, c_int, c_double, c_void_p]
     analysis.rdf(lmp, nbins, rmax, tmp)
