@@ -27,6 +27,15 @@ class MDSys(object):
     #Number of pairs to be considered in the interaction: 
     #1v1, 1v2, 2v2, *v*
     self.npairs = 4
+    self.init_variables()
+    
+  def init_variables(self):
+    self.n_tally = 0
+    self.c_mste = 0
+    self.c_rdf = 0
+    self.c_ssf = 0
+    self.computes = {}
+    self.variables = []
 
   def build_table(self, V_tag, l, N=5000, rc_nuc=5.4, rc_cou=20.0,
 		  fname="potential.table"):
@@ -120,7 +129,6 @@ with Coulomb interaction lambda = {1}".format(V_tag, l)
     - minimize system to remove the potential energy
     - set the fix nvt at the required temperature
     - set thermo style and frequency
-    - set dump style
 
     Thermo style and frequency is just for following up in the screen.
 
@@ -208,42 +216,54 @@ reset_timestep  0
     with open(self.input_fname, 'w') as fp:
       print>>fp, inp
 
-  def setup(self, path='./data', ndump=1000):
+  def setup(self, path='./data',
+            rdf = True, ssf = True,
+            mink = True, mste = True,
+            lind = True, thermo = True):
     """
     This method sets up the run in a specific lmp object according to
-    the inputfile.
+    the inputfile. We also set here the computes.
     """
+    if ssf and not rdf:
+      raise AttributeError("Cannot calculate structure factor without rdf")
+    
     with open(self.input_fname) as fp:
       lines = fp.readlines()
       for line in lines:
 	self.lmp.command(line)
     
     self.path = path
-    self.ndump = ndump
-
+    self.is_rdf = rdf
+    self.is_ssf = ssf
+    self.is_mink = mink
+    self.is_mste = mste
+    self.is_lind = lind
+    self.is_thermo = thermo
+     
   def run(self, Nsteps):
     """
     Wrapper for the "run" command in lammps
     """
     self.lmp.command("run {ns}".format(ns=Nsteps))
 
-  def set_T(self, T, tdamp = 10.0, therm = False):
+  def set_T(self, T, tdamp = 10.0):
     """
     Set value of temperature and change all related values
     in the lammps script.
     """
     self.T = T
-    if (therm): self.thermalize()
     self.update_path()
-    self.update_files()
     self.lmp.command("unfix 1")
-    self.lmp.command("fix 1 all nvt temp {T} {T} {tdamp}".format(T=self.T,
-                                                         tdamp=10.0))
+    temp = "fix 1 all nvt temp {T} {T} {tdamp}"
+    self.lmp.command(temp.format(T=self.T,tdamp=10.0))
 
   def set_l(self, l):
+    """
+    Set value of lambda and change all related values in the lammps
+    script.
+    """
     self.l = l
     self.update_path()
-    self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = "pair_coeff 1 1 {t} PP {co}".format(t=self.table_fname,
                                               co=max(5.4,self.l),
@@ -251,9 +271,12 @@ reset_timestep  0
     self.lmp.command(cmd)
 
   def set_V(self, V):
+    """
+    Set value of the potential and change all related values in the
+    lammps script.
+    """
     self.V = V
     self.update_path()
-    self.update_files()
     self.build_table(self.V, self.l, fname = self.table_fname)
     cmd = """pair_coeff 1 1 {t} PP {co}
     pair_coeff	1 2 {t} NP 5.4
@@ -269,7 +292,6 @@ reset_timestep  0
     configuration. Not implemented yet
     """
     self.update_path()
-    self.update_files()
     self.N = N
     raise AttributeError("This is not implemented yet :(")
   
@@ -279,7 +301,6 @@ reset_timestep  0
     requirement. Not implemented yet
     """
     self.update_path()
-    self.update_files()
     self.x = x
     raise AttributeError("This is not implemented yet :(")
 
@@ -291,7 +312,6 @@ reset_timestep  0
     """
     self.update_path()
     self.d = d
-    self.update_files()
     cmd = ("change_box all "
            "x final 0 {size} "
            "y final 0 {size} "
@@ -302,27 +322,15 @@ reset_timestep  0
     """
     Update this_path according to value of parameters
     """
-    self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}/".format(V=self.V,
-                                                                        l=self.l,
-                                                                        x=self.x,
-                                                                        N=self.N,
-                                                                        d=self.d,
-                                                                        T=self.T,
-                                                                         )
+    self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}/"
+    self.this_path.format(V=self.V, l=self.l, x=self.x,
+                          N=self.N, d=self.d, T=self.T)
     try:
       makedirs(self.this_path)
     except OSError as err:
       msg = "Directory {0} already exists: rename base path or delete old files"
       raise OSError(msg.format(self.this_path))
-
-
-  def update_files(self, therm = False):
-    self.lmp.command("reset_timestep 0")
-    if (therm): fname = "thermalization"
-    else: fname = "evolution"
-    self.lmp.command("log {d}/{fname}.log".format(d=self.this_path,
-                                                  fname=fname))
-
+    
   def thermalize(self, tdamp = 1000, nsteps = 80000):
     """
     This method takes care of the thermalization, with a berendsen
@@ -331,8 +339,6 @@ reset_timestep  0
     problem, because the script building already sets a temperature,
     but be VERY careful with respect to this. 
     """
-    
-    self.update_files(therm = True)
     self.lmp.command("unfix 1")
     brd = ("fix 1 all temp/berendsen"
            " {T} {T} {tdamp}".format(T=self.T,
@@ -375,12 +381,18 @@ reset_timestep  0
     ext = self.lmp.extract_compute("mste", 1, 1)
     tmp = np.fromiter(ext, dtype = np.int, count = self.N)
     # First bincount to count repeated indices => cluster size
+    clust = np.bincount(tmp)
+    # Filter out clusters with 0 mass
+    clust = clust[clust > 0] 
+    mean = np.mean(clust)
+    std = np.std(clust)
     # Second to histogram over sizes
-    mste = np.bincount(np.bincount(tmp))
+    mste = np.bincount(clust)
     mste.resize(self.N + 1) 
-    return mste
+    return mste, mean, std
     
   def lind(self):
+    raise AttributeError("Don't know what to do with Lindemann :(")
     print "I'm inside lind and my path is {0}".format(self.this_path)
     pass
   
@@ -427,19 +439,103 @@ reset_timestep  0
 
     return S
 
-  def dump(self, fname=None):
+  def results(self, 
+              r_mink=1.8, r_cell=0.5,
+              nbins = 200, rmax = None):
+    """
+    Method to take all the results that have been set in the setup()
+    method
+    """
+    
+    if rmax == None: rmax = (float(self.N)/self.d)**(1.0/3)*0.5
+    
+    self.n_tally+=1
+    n = float(self.n_tally)
+    
+    if self.is_rdf:
+      t_r = self.rdf(nbins, rmax)
+      self.c_rdf *= n/(n+1)
+      self.c_rdf += t_r/(n+1)
+
+    if self.is_ssf:
+      t_s = self.structure(t_r)
+      self.c_ssf *= n/(n+1)
+      self.c_ssf += t_s/(n+1)
+
+    if self.is_mste:
+      [t_c, a, b] = self.mste()
+      self.c_mste *= n/(n+1)
+      self.c_mste += t_c/(n+1)
+      self.computes['size_avg'] = a
+      self.computes['size_std'] = b
+
+    if self.is_mink:
+      [a, b, c, d] = self.minkowski(r_mink, r_cell)
+      self.computes['volume'] = a
+      self.computes['surface'] = b
+      self.computes['breadth'] = c
+      self.computes['euler'] = d
+      
+
+    if self.is_thermo:
+      [a, b, c, d, e] = self.thermo()
+      self.computes['temperature'] = a
+      self.computes['kinetic'] = b
+      self.computes['potential'] = c
+      self.computes['energy'] = d
+      self.computes['pressure'] = e
+
+    if self.is_lind:
+      self.lind()
+
+  def dump(self, prefix = ''):
     """
     Wrapper to dump positions
     """
-    if fname == None: fname = self.this_path + "dump.lammpstrj"
+    path = self.this_path + prefix
+    dump_fname = path + 'dump.lammpstrj'
     tmp = "dump myDUMP all custom 1 {dumpfile} id x y z vx vy vz"
-    self.lmp.command(tmp.format(dumpfile = fname))
+    self.lmp.command(tmp.format(dumpfile = dump_fname))
     self.lmp.command("dump_modify myDUMP sort id")
     self.lmp.command("run 0 post no")
     self.lmp.command("undump myDUMP")
 
-  def log(self, variables, fname=None):
+  def flush(self):
     """
-    Wrapper to write in the log file 
+    Wrapper to write in the data file.
     """
+    path = self.this_path + ''
+    if self.is_mste:
+      # To add cluster size to file
+      temp = np.vstack((range(len(self.c_mste)),self.c_mste))
+      mste_fname = path + 'cluster.dat'
+      np.savetxt(mste_fname, temp.T, header = 'size, number', fmt='%6i + %1.4e')
+      
+    if self.is_rdf:
+      rdf_fname = path + 'rdf.dat'
+      h = 'r, a-a, ia-a, 1-1, i1-1, 1-2, i1-2, 2-2, i2-2'
+      np.savetxt(rdf_fname, self.c_rdf, header = h, fmt = '%1.4e')
+
+    if self.is_ssf:
+      ssf_fname = path + 'ssf.dat'
+      h = 'r, a-a, 1-1, 1-2, 2-2'
+      np.savetxt(ssf_fname, self.c_ssf, header = h)
+
+    if self.is_thermo:
+      thermo_fname = path + 'thermo.dat'
+      h = ', '.join(self.computes.keys())
+      np.savetxt(fname, self.variables, header = h, fmt = '%1.4e')
     
+    self.init_variables()
+    self.lmp.command("reset_timestep 0")
+
+  def log(self):
+    """
+    Append new data to variables. This has a problem with memory
+    usage, and the fact that append may render slow for big
+    arrays. Should be checked afterwards for long runs.
+
+    Thoughts: log might upgrade the mean of each column + std dev on
+    the fly.
+    """
+    self.variables.append(self.computes.values())
