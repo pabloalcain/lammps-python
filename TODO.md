@@ -43,7 +43,6 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
-- [ ] Return value of peak of S(k) for low momenta
 - [ ] Plot computes
 - [ ] Add warning to minkowski method related to lattice size
 - [ ] Check analysis
@@ -57,6 +56,7 @@ Analysis wrapper
 - [X] Decide what to do with the npair in rdf. Should be taken
       outside from analysis.py
 - [X] Add S(k) to g(r)
+- [X] Return value of peak of S(k) for low momenta
 
 
 - [O] Finish Horowitz potential

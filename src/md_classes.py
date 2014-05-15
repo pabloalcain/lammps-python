@@ -1,7 +1,8 @@
 import random as R
 import numpy as np
+import pylab as pl
 from lammps import lammps
-from os import makedirs, path
+from os import makedirs
 import analysis as A
 
 class MDSys(object):
@@ -25,7 +26,7 @@ class MDSys(object):
     self.build_table(V, l)
     self.lmp = lammps("")
     #Number of pairs to be considered in the interaction: 
-    #1v1, 1v2, 2v2, *v*
+    #*v*, 1v1, 1v2, 2v2
     self.npairs = 4
     self.init_variables()
     
@@ -323,8 +324,8 @@ reset_timestep  0
     Update this_path according to value of parameters
     """
     self.this_path = self.path + "/{V}/l{l}/x{x}/N{N}/d{d}/T{T}/"
-    self.this_path.format(V=self.V, l=self.l, x=self.x,
-                          N=self.N, d=self.d, T=self.T)
+    self.this_path = self.this_path.format(V=self.V, l=self.l, x=self.x,
+                                           N=self.N, d=self.d, T=self.T)
     try:
       makedirs(self.this_path)
     except OSError as err:
@@ -418,6 +419,8 @@ reset_timestep  0
     Calculate structure factor given the radial distribution function.
     Returns an array structured like rdf, with only one column per
     pair.
+
+    Also return the first peak of the neutron-neutron scattering.
     """
     r = rdf[:,0]
     # Assume evenly spaced
@@ -436,8 +439,16 @@ reset_timestep  0
       #We split the q = 0 case, since it is ill-defined
       S[0,i+1] = 1
       S[1:,i+1] = 1 - ( ft[1:] / q[1:] ) * ( 4 * np.pi * self.d )
-
-    return S
+      
+    data = S[1:,4]
+    try: 
+      c = (np.diff(np.sign(np.diff(data))) < 0).nonzero()[0][0] + 1 # first local max
+      kmax = q[c]
+      Smax = S[c, 4]
+    except IndexError:
+      kmax = float('nan')
+      Smax = float('nan')
+    return S, kmax, Smax
 
   def results(self, 
               r_mink=1.8, r_cell=0.5,
@@ -454,18 +465,20 @@ reset_timestep  0
     
     if self.is_rdf:
       t_r = self.rdf(nbins, rmax)
-      self.c_rdf *= n/(n+1)
-      self.c_rdf += t_r/(n+1)
+      self.c_rdf *= (n-1)/n
+      self.c_rdf += t_r/n
 
     if self.is_ssf:
-      t_s = self.structure(t_r)
-      self.c_ssf *= n/(n+1)
-      self.c_ssf += t_s/(n+1)
+      [t_s, a, b] = self.structure(t_r)
+      self.c_ssf *= (n-1)/n
+      self.c_ssf += t_s/n
+      self.computes['k_absorption'] = a
+      self.computes['S_absorption'] = b
 
     if self.is_mste:
       [t_c, a, b] = self.mste()
-      self.c_mste *= n/(n+1)
-      self.c_mste += t_c/(n+1)
+      self.c_mste *= (n-1)/n
+      self.c_mste += t_c/n
       self.computes['size_avg'] = a
       self.computes['size_std'] = b
 
@@ -502,7 +515,7 @@ reset_timestep  0
 
   def flush(self, prefix = ''):
     """
-    Wrapper to write in the data file.
+    Write log in the data file and plot
     """
     path = self.this_path + prefix
     if self.is_mste:
@@ -524,7 +537,7 @@ reset_timestep  0
     if self.is_thermo:
       thermo_fname = path + 'thermo.dat'
       h = ', '.join(self.computes.keys())
-      np.savetxt(fname, self.variables, header = h, fmt = '%1.4e')
+      np.savetxt(thermo_fname, self.variables, header = h, fmt = '%1.4e')
     
     self.init_variables()
     self.lmp.command("reset_timestep 0")
