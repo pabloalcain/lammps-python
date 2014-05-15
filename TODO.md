@@ -20,7 +20,7 @@ LAMMPS wrapper
 
 - [ ] Write mean and std of computes in a global file inside path
 - [ ] Need to work a bit about when to add the files, when to 
-      update_path to further check if the files _do_ exist.
+      update_path to further check if the files *do* exist.
       Idea: makedirs without problem, but throw error when creating
       the files in flush()?
 - [ ] Thermalization: improve naïve Berendsen implementation, look in
