@@ -25,6 +25,21 @@ LAMMPS wrapper
 - [ ] Need compute mste/atom to be shipped with the distro?
 - [ ] Add makes/installs/pip/whatever
 - [ ] Devise a method for bookkeeping
+- [?] Add a _rerun_ option
+
+Analysis wrapper
+----------------
+
+- [ ] Plot computes
+- [ ] Add warning to minkowski method related to lattice size
+- [ ] Check analysis
+  * [ ] MSTE
+  * [ ] Minkowski
+  * [ ] Lindemann
+  * [ ] RDF
+
+LAMMPS wrapper
+--------------
 
 - [X] When setting temperature, add flag for thermalization
 - [X] Set initial position and velocities from file
@@ -42,14 +57,6 @@ LAMMPS wrapper
 
 Analysis wrapper
 ----------------
-
-- [ ] Plot computes
-- [ ] Add warning to minkowski method related to lattice size
-- [ ] Check analysis
-  * [ ] MSTE
-  * [ ] Minkowski
-  * [ ] Lindemann
-  * [ ] RDF
 
 - [X] Clean&Check the old analysis.py routines, c-style them
 - [X] Insert computes inside the actual run as a library
