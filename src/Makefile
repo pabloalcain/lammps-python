@@ -1,13 +1,13 @@
-LDFLAGS=-L/home/pablo/doc/lammps-1Feb14/src
+LDFLAGS=-L$(LAMMPS)/src
 LDLIBS=-llammps -lfftw3 -lmpi -lpthread
-INFLAGS=-I/home/pablo/doc/lammps-1Feb14/src
+INFLAGS=-I$(LAMMPS)/src
 CXXFLAGS=-Wno-write-strings -g -O0 -fPIC
 
 all: simple.o gofr.o minkowski.o
 	mpic++ $(LDFLAGS) simple.o gofr.o minkowski.o $(LDLIBS) -o simple.e
 
 library: gofr.o minkowski.o
-	mpic++ $(LDFLAGS) gofr.o minkowski.o $(LDLIBS) -shared -o ../libanalysis.so 
+	mpic++ $(LDFLAGS) gofr.o minkowski.o $(LDLIBS) -shared -o libanalysis.so
 
 simple.o: simple.cpp gofr.h minkowski.h
 	mpic++ $(INFLAGS) $(CXXFLAGS) -c simple.cpp
@@ -19,4 +19,4 @@ minkowski.o: minkowski.cpp minkowski.h
 	mpic++ $(INFLAGS) $(CXXFLAGS) -Wall -c minkowski.cpp
 
 clean:
-	rm *.o simple.e *.so
+	rm -f *.o simple.e *.so
