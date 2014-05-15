@@ -19,13 +19,16 @@ LAMMPS wrapper
 --------------
 
 - [ ] Write mean and std of computes in a global file inside path
+- [ ] Need to work a bit about when to add the files, when to 
+      update_path to further check if the files _do_ exist.
+      Idea: makedirs without problem, but throw error when creating
+      the files in flush()?
 - [ ] Thermalization: improve naïve Berendsen implementation, look in
       old_files example
 - [ ] Throw error if dump file number of particles doesnt mach with N
 - [ ] Need compute mste/atom to be shipped with the distro?
 - [ ] Add makes/installs/pip/whatever
 - [ ] Devise a method for bookkeeping
-- [?] Add a _rerun_ option
 
 Analysis wrapper
 ----------------
