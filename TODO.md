@@ -22,7 +22,6 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
-- [ ] Plot computes and histograms
 - [ ] Write mean and std of computes in a global file inside path
 - [ ] Add warning to minkowski method related to lattice size
 - [ ] Check analysis
@@ -65,6 +64,7 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
+- [X] Plot computes
 - [X] Clean&Check the old analysis.py routines, c-style them
 - [X] Insert computes inside the actual run as a library
 - [X] Decide what to do with the npair in rdf. Should be taken

@@ -545,25 +545,54 @@ reset_timestep  0
     path = self.this_path + prefix
     if self.is_mste:
       # To add cluster size to file
-      temp = np.vstack((range(len(self.c_mste)),self.c_mste))
+      x = np.array(range(len(self.c_mste)))
+      temp = np.vstack((x,self.c_mste))
       mste_fname = path + 'cluster.dat'
       np.savetxt(mste_fname, temp.T, header = 'size, number', fmt='%6i + %1.4e')
+      idx = self.c_mste.nonzero()[0]
+      fig = pl.figure()
+      pl.plot(x[idx],self.c_mste[idx])
+      pl.xlabel('Cluster size')
+      pl.ylabel('Frequency')
+      pl.tight_layout()
+      pl.savefig(path + 'cluster.pdf')
+      pl.close()
+      
       
     if self.is_rdf:
       rdf_fname = path + 'rdf.dat'
       h = 'r, a-a, ia-a, 1-1, i1-1, 1-2, i1-2, 2-2, i2-2'
       np.savetxt(rdf_fname, self.c_rdf, header = h, fmt = '%1.4e')
-
+      pairs = ['a-a', '1-1', '1-2', '2-2']
+      for i in range(4):
+        fig = pl.figure()
+        pl.plot(self.c_rdf[:,0], self.c_rdf[:,i*2+1])
+        pl.xlabel('Distance [fm]')
+        pl.ylabel('RDF({0})'.format(pairs[i]))
+        pl.tight_layout()
+        pl.savefig(path + 'rdf_{0}'.format(pairs[i]))
+        pl.close()
+      
     if self.is_ssf:
       ssf_fname = path + 'ssf.dat'
       h = 'r, a-a, 1-1, 1-2, 2-2'
       np.savetxt(ssf_fname, self.c_ssf, header = h)
+      pairs = ['a-a', '1-1', '1-2', '2-2']
+      for i in range(4):
+        fig = pl.figure()
+        pl.plot(self.c_ssf[:,0], self.c_ssf[:,i+1])
+        pl.xlabel(r'Wave number [fm$^{-1}$]')
+        pl.ylabel('SSF_{0}'.format(pairs[i]))
+        pl.tight_layout()
+        pl.savefig(path + 'ssf_{0}'.format(pairs[i]))
+        pl.close()
 
     if self.is_thermo:
       thermo_fname = path + 'thermo.dat'
       h = ', '.join(self.computes.keys())
       np.savetxt(thermo_fname, self.variables, header = h, fmt = '%1.4e')
-    
+      var = np.array(self.variables)
+      
     self.init_variables()
     self.lmp.command("reset_timestep 0")
 
