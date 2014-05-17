@@ -2,11 +2,16 @@
 This is simply a wrapper for the library libanalysis.so
 """
 
-from ctypes import *
+import ctypes as ct
 import numpy as np
 #from lammps import lammps
 
-analysis = cdll.LoadLibrary("libanalysis.so")
+try:
+    analysis = ct.cdll.LoadLibrary("libanalysis.so")
+except OSError:
+    raise OSError("Could not load library. Check libanalysis "
+	          "is built and in the library path")
+
 
 def minkowski(lmp, rad, rcell):
     """
@@ -14,8 +19,8 @@ def minkowski(lmp, rad, rcell):
     size of the lattice for digitalization!
     """
 
-    tmp = (c_double * 4)()
-    analysis.minkowski.argtypes = [c_void_p, c_double, c_double, c_void_p]
+    tmp = (ct.c_double * 4)()
+    analysis.minkowski.argtypes = [ct.c_void_p, ct.c_double, ct.c_double, ct.c_void_p]
     analysis.minkowski(lmp, rad, rcell, tmp)
     return np.fromiter(tmp, dtype = np.float, count = 4)
 
@@ -41,8 +46,8 @@ def rdf(lmp, nbins, rmax, npairs):
     """
 
     ncol = npairs * 2 + 1
-    tmp = ( c_double * (nbins * ncol) ) ()
-    analysis.rdf.argtypes = [c_void_p, c_int, c_double, c_void_p]
+    tmp = ( ct.c_double * (nbins * ncol) ) ()
+    analysis.rdf.argtypes = [ct.c_void_p, ct.c_int, ct.c_double, ct.c_void_p]
     analysis.rdf(lmp, nbins, rmax, tmp)
     r = np.frombuffer(tmp, dtype = np.float, count = nbins * ncol)
     return np.reshape(r, (nbins, ncol))

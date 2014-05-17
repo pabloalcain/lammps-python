@@ -5,15 +5,9 @@ Global Issues
 -------------
 
 - [ ] What is the lindemann coefficient? How can we calculate it?
-- [ ] Reorder code
-  * [ ] Move files and folders
-  * [ ] Put python files inside a folder, maybe a whole package?
-  * [ ] Attention! Methods should be a bit more encapsulated, use
-        advantage of OOP and have different objects, for system,
-        results, etc (if needed)
-- [ ] Analysis: do we *really* need to add those horrible methods
-      inside MDSys? I think not, should be worked out a bit.
-
+- [ ] Attention! Methods should be a bit more encapsulated, use
+      advantage of OOP and have different objects, for system,
+      results, etc (if needed)
 
 LAMMPS wrapper
 --------------
@@ -27,13 +21,12 @@ LAMMPS wrapper
       old_files example
 - [ ] Throw error if dump file number of particles doesnt mach with N
 - [ ] Need compute mste/atom to be shipped with the distro?
-- [ ] Add makes/installs/pip/whatever
 - [ ] Devise a method for bookkeeping
 
 Analysis wrapper
 ----------------
 
-- [ ] Plot computes
+- [ ] Plot computes and histograms
 - [ ] Add warning to minkowski method related to lattice size
 - [ ] Check analysis
   * [ ] MSTE
@@ -41,9 +34,18 @@ Analysis wrapper
   * [ ] Lindemann
   * [ ] RDF
 
+Global issues
+-------------
+
+- [X] Reorder code
+  * [X] Move files and folders
+  * [X] Put python files inside a folder, maybe a whole package?
+
+
 LAMMPS wrapper
 --------------
 
+- [X] Add makes/installs/pip/whatever
 - [X] When setting temperature, add flag for thermalization
 - [X] Set initial position and velocities from file
 - [X] Create classes

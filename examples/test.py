@@ -1,12 +1,14 @@
+#!/usr/bin/python
 """
 This file is an example of how the MDSys class should be imported and
 used. The main idea is that everything can be called like this, and
 therefore looped from within Python
 """
-from md_classes import MDSys
+from neutronstar.MDSys import MDSys
 from lammps import lammps
 import numpy as np
 
+print MDSys
 temp=np.linspace(1.6,0.1,6)
 #temp=[]
 T = 4.2

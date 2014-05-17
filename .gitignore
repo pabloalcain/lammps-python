@@ -1,6 +1,8 @@
 *.table
 *.pyc
+*~
 *.o
+*.so
 *.inp
 *.swp
 src/log.lammps
@@ -9,8 +11,8 @@ data/
 src/log.cite
 src/nohup.out
 minim.lammpstrj
-analysis/libanalysis.so
-analysis/src/simple.e
 examples/log.lammps
 examples/gofr*.dat
 examples/gr
+build/
+*#*#

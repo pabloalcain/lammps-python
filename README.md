@@ -28,9 +28,10 @@ in this code.
 Postprocess
 -----------
 
-It can be discussed how this postprocess should be done. The first idea
-is to mimic the old behaviour: LAMMPS create the dumpfiles, and then it
-is post-processed, with a different class/routine to get:
+It can be discussed how this postprocess should be done. Nevertheless,
+so far we have an analysis library that is dynamically loaded and wrapped
+in analysis.py. We have:
+
 
 - RDF: Radial distribution function, g(r), and its FFT, S(k)
 
@@ -38,53 +39,26 @@ is post-processed, with a different class/routine to get:
 
 - MSTE: The clusterization algorithm with energy binding.
 
-- Lindemann: Calculate Lindemann coefficient
-
-Eventually, we could put the bindings *inside* the run (design should be
-discussed and thought) or, even better, as LAMMPS computes
+- Lindemann: Calculate Lindemann coefficient (not done yet)
 
 Install
 -------
 
-Requires numpy and lammps
+First install the analysis library:
 
-To install, just add src/ to the environment variable PYTHONPATH
+$ cd src/
+$ make install
 
-Analysis
-========
+and make sure libanalysis.so is in your path
 
-In the folder analysis/, there are two routines separately that have the
-RDF and Minkowski algorithms used. Lindemann is already to be made, and
-MSTE has been added to LAMMPS code
+Then run, in the root directory
 
-Goal
-----
+$ python setup.py install
 
-This project just uses the LAMMPS library and implements some analysis
-tools for post process. These should be later used with ctypes to bind 
-it to Python INPUT process.
+(root privileges needed)
 
-The routines that are going to be implemented here are:
+Warning
+-------
 
-- RDF: Radial distribution function, g(r)
-
-- Minkowski: The 4 3-D Minkowski functionals
-
-- Lindemann: Calculate Lindemann coefficient (not done)
-
-The LAMMPS library is dynamically loaded, and in the simple.cpp file
-we see how they are accessed.
-
-How to use
-----------
-
-Change in the Makefile the include and library directories, and type
-
-$ make
-
-then run ./simple.e
-
-to build as a shared library, just run
-
-$ make library
-
+In order to use compute mste/atom, you should have built
+LAMMPS with the compute_mste_atom.cpp/h files.

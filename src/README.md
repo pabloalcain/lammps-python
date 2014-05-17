@@ -26,10 +26,14 @@ How to use
 
 Change in the Makefile the include and library directories, and type
 
-$ make
+$ make simple
 
 then run ./simple.e
 
 to build as a shared library, just run
 
 $ make library
+
+and to install the library,
+
+$ make install
