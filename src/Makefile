@@ -4,7 +4,7 @@ INFLAGS=-I$(LAMMPS)/src
 CXXFLAGS=-Wno-write-strings -g -O0 -fPIC
 
 
-library: gofr.o minkowski.o libanalysis.so
+library: gofr.o minkowski.o
 	mpic++ $(LDFLAGS) gofr.o minkowski.o $(LDLIBS) -shared -o libanalysis.so
 
 install: library
