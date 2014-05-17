@@ -136,9 +136,6 @@ class MDSys(object):
     We can set the initial position and velocities from a dump file
     as well, via the optional argument dump.
 
-    After this, to make a proper run, the dump frequency should be 
-    done in the setup method.
-    
     As a file so we can properly debug if needed. We can also
     check if some kwargs should be added to specify when we want a
     lattice, but since this seems outdated and hard to extend, it is
@@ -165,40 +162,40 @@ class MDSys(object):
 
 
     inp = """#Nuclear model
-  units		lj
-  {package}
-  atom_style	atomic
-  timestep	0.10
+units		lj
+{package}
+atom_style	atomic
+timestep	0.10
 
-  region		box block 0 {size} 0 {size} 0 {size}
-  create_box	2 box
-  create_atoms	1 random {nprot} {seed1} box
-  create_atoms	2 random {nneut} {seed2} box
-  mass		1 938.0
-  mass		2 938.0
-  velocity	all create {T} {seed3}
+region		box block 0 {size} 0 {size} 0 {size}
+create_box	2 box
+create_atoms	1 random {nprot} {seed1} box
+create_atoms	2 random {nneut} {seed2} box
+mass		1 938.0
+mass		2 938.0
+velocity	all create {T} {seed3}
 
-  pair_style	{style} linear {ninter}
-  pair_coeff	1 1 {table_fname} NN 5.4
-  pair_coeff	1 2 {table_fname} NP 5.4
-  pair_coeff	2 2 {table_fname} NN 5.4
+pair_style	{style} linear {ninter}
+pair_coeff	1 1 {table_fname} NN 5.4
+pair_coeff	1 2 {table_fname} NP 5.4
+pair_coeff	2 2 {table_fname} NN 5.4
 
-  neighbor	1.2 bin
-  neigh_modify	every 1 delay 0 check yes one 8000 page 80000
+neighbor	1.2 bin
+neigh_modify	every 1 delay 0 check yes one 8000 page 80000
 
-  thermo_style	custom step temp ke epair etotal press
-  thermo		1000
+thermo_style	custom step temp ke epair etotal press
+thermo		1000
 
-  min_style	hftn
+min_style	hftn
 
-  dump            1 all custom 1000 minim.lammpstrj type id x y z vx vy vz 
-  {config}
-  undump          1
+dump            1 all custom 1000 minim.lammpstrj type id x y z vx vy vz 
+{config}
+undump          1
 
-  pair_coeff	1 1 {table_fname} PP {cutoff}
-  fix		1 all nvt temp {T} {T} {tdamp}
+pair_coeff	1 1 {table_fname} PP {cutoff}
+fix		1 all nvt temp {T} {T} {tdamp}
 
-  reset_timestep  0
+reset_timestep  0
   """.format(package=package,
 	   style=style,
 	   size=(self.N/self.d)**(1.0/3.0),
@@ -332,21 +329,22 @@ class MDSys(object):
       msg = "Directory {0} already exists: rename base path or delete old files"
       raise OSError(msg.format(self.this_path))
     
-  def thermalize(self, tdamp = 1000, nsteps = 80000):
+  def thermalize(self, tdamp = 10.0, nfreq = 100):
     """
     This method takes care of the thermalization, with a berendsen
     thermostat. It has a quite unstable part, in which it unfixes a
     previous "fix 1 all nvt" lammps command. This works with no
     problem, because the script building already sets a temperature,
-    but be VERY careful with respect to this. 
+    but be VERY careful with respect to this.
+
+    nfreq is how many timesteps to take between runs. The criterion
+    for stability is that the average temperature of the last 100
+    steps is close to the set temperature by a standard
+    deviation, while the energy stops decreasing (slope == 0)
     """
     self.lmp.command("unfix 1")
-    brd = ("fix 1 all temp/berendsen"
-	   " {T} {T} {tdamp}".format(T=self.T,
-				     tdamp=tdamp
-				     )
-	   )
-    self.lmp.command(brd)
+    brd = "fix 1 all temp/berendsen {T} {T} {tdamp}"
+    self.lmp.command(brd.format(T = self.T, tdamp = tdamp))
     self.lmp.command("fix 2 all nve")
     self.lmp.command("run {nsteps}".format(nsteps = nsteps))
     self.lmp.command("unfix 2")
