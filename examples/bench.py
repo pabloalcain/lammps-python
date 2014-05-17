@@ -2,7 +2,7 @@
 This benchmark is to check initalization time
 and penalty of splitting multiple runs
 """
-from md_classes import MDSys
+from neutronstar.MDSys import MDSys
 from lammps import lammps
 from numpy import linspace
 import time
@@ -17,7 +17,6 @@ def bench(tot, nsteps):
 					 TPS = float(tot)/(t2-t1))
 
 f = open('info', 'w')
-temp=linspace(1.6,0.1,60)
 T = 1.6
 l = 20
 N = 5000

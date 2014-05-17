@@ -1,7 +1,7 @@
 """
 Example run in neutron stars with gpu
 """
-from md_classes import MDSys
+from neutronstar.MDSys import MDSys
 from lammps import lammps
 from numpy import linspace
 
@@ -18,6 +18,9 @@ system.setup()
 for i in temp:
     system.set_T(i, therm = True) 
     system.run(50000)
-#  system.results()
+    system.results()
+    system.log()
+    system.dump()
+system.flush()
 # RUN Nsteps steps
 # POSTPROCESS

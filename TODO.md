@@ -12,8 +12,7 @@ Global Issues
 LAMMPS wrapper
 --------------
 
-- [ ] Rewrite examples. Add python environments and eventually
-      add examples to the scripts in setup.py?
+- [ ] results and log should be the same method
 - [ ] Need to work a bit about when to add the files, when to 
       update_path to further check if the files *do* exist.
       Idea: makedirs without problem, but throw error when creating
@@ -46,6 +45,7 @@ Global issues
 LAMMPS wrapper
 --------------
 
+- [X] Rewrite examples.
 - [X] Need compute mste/atom to be shipped with the distro?
 - [X] Add makes/installs/pip/whatever
 - [X] When setting temperature, add flag for thermalization

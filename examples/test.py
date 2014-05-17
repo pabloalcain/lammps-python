@@ -8,7 +8,6 @@ from neutronstar.MDSys import MDSys
 from lammps import lammps
 import numpy as np
 
-print MDSys
 temp=np.linspace(1.6,0.1,6)
 #temp=[]
 T = 4.2
