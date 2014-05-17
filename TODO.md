@@ -12,6 +12,8 @@ Global Issues
 LAMMPS wrapper
 --------------
 
+- [ ] Rewrite examples. Add python environments and eventually
+      add examples to the scripts in setup.py?
 - [ ] Write mean and std of computes in a global file inside path
 - [ ] Need to work a bit about when to add the files, when to 
       update_path to further check if the files *do* exist.
