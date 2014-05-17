@@ -524,6 +524,8 @@ reset_timestep  0
     if self.is_lind:
       self.lind()
 
+    self.log()
+    
   def dump(self, prefix = ''):
     """
     Wrapper to dump positions

@@ -26,6 +26,5 @@ for i in temp:
     for j in range(50):
         system.run(100)
         system.results(r_mink = 0.2, r_cell = 0.1)
-        system.log()
         system.dump()
     system.flush()

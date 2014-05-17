@@ -23,7 +23,6 @@ for i in temp:
     system.set_T(i)
     system.run(100)
     system.results()
-    system.log()
     system.dump()
     system.flush()
     #  system.results()

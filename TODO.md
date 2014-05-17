@@ -12,7 +12,6 @@ Global Issues
 LAMMPS wrapper
 --------------
 
-- [ ] results and log should be the same method
 - [ ] Need to work a bit about when to add the files, when to 
       update_path to further check if the files *do* exist.
       Idea: makedirs without problem, but throw error when creating
@@ -43,6 +42,7 @@ Global issues
 LAMMPS wrapper
 --------------
 
+- [X] results and log should be the same method
 - [X] Thermalization: improve naïve Berendsen implementation, look in
       old_files example
 - [X] Rewrite examples.

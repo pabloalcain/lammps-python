@@ -19,7 +19,6 @@ system.set_T(0.6, therm = True)
 for j in range(50):
     system.run(1000)
     system.results()
-    system.log
     system.dump()
 system.flush()
 
