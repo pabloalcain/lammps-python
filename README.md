@@ -61,4 +61,5 @@ Warning
 -------
 
 In order to use compute mste/atom, you should have built
-LAMMPS with the compute_mste_atom.cpp/h files.
+LAMMPS with the compute_mste_atom.cpp/h files. These files
+are in the lammps folder

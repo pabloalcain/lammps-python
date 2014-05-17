@@ -14,7 +14,6 @@ LAMMPS wrapper
 
 - [ ] Rewrite examples. Add python environments and eventually
       add examples to the scripts in setup.py?
-- [ ] Write mean and std of computes in a global file inside path
 - [ ] Need to work a bit about when to add the files, when to 
       update_path to further check if the files *do* exist.
       Idea: makedirs without problem, but throw error when creating
@@ -22,13 +21,13 @@ LAMMPS wrapper
 - [ ] Thermalization: improve naïve Berendsen implementation, look in
       old_files example
 - [ ] Throw error if dump file number of particles doesnt mach with N
-- [ ] Need compute mste/atom to be shipped with the distro?
 - [ ] Devise a method for bookkeeping
 
 Analysis wrapper
 ----------------
 
 - [ ] Plot computes and histograms
+- [ ] Write mean and std of computes in a global file inside path
 - [ ] Add warning to minkowski method related to lattice size
 - [ ] Check analysis
   * [ ] MSTE
@@ -47,6 +46,7 @@ Global issues
 LAMMPS wrapper
 --------------
 
+- [X] Need compute mste/atom to be shipped with the distro?
 - [X] Add makes/installs/pip/whatever
 - [X] When setting temperature, add flag for thermalization
 - [X] Set initial position and velocities from file
