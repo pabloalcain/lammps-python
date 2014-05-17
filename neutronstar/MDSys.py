@@ -329,7 +329,7 @@ reset_timestep  0
       msg = "Directory {0} already exists: rename base path or delete old files"
       raise OSError(msg.format(self.this_path))
     
-  def thermalize(self, tdamp = 10.0, nfreq = 100):
+  def equilibrate(self, tdamp = 10.0, nfreq = 100, wind = 100):
     """
     This method takes care of the thermalization, with a berendsen
     thermostat. It has a quite unstable part, in which it unfixes a
@@ -337,16 +337,41 @@ reset_timestep  0
     problem, because the script building already sets a temperature,
     but be VERY careful with respect to this.
 
-    nfreq is how many timesteps to take between runs. The criterion
-    for stability is that the average temperature of the last 100
-    steps is close to the set temperature by a standard
-    deviation, while the energy stops decreasing (slope == 0)
+    nfreq is how many timesteps to take between runs, and wind is the
+    size of the window. The criterion for stability is that the
+    average temperature of the last 100 steps is close to the set
+    temperature by a standard deviation, while the energy stops
+    decreasing (slope > 0). This works only when setting temperature
+    from high to low (while for going from low to high, one would
+    expect that just setting the temperatures should be enough).
+
+    Thermalization doesn't write any log or dump file.
     """
     self.lmp.command("unfix 1")
     brd = "fix 1 all temp/berendsen {T} {T} {tdamp}"
     self.lmp.command(brd.format(T = self.T, tdamp = tdamp))
     self.lmp.command("fix 2 all nve")
-    self.lmp.command("run {nsteps}".format(nsteps = nsteps))
+    energy = np.zeros(wind)
+    temperature = np.zeros(wind)
+    step = np.zeros(wind)
+    i = 0
+    while True:
+      i = i + 1
+      self.run(nfreq)
+      # Extract thermo values
+      [temp, ke, epair, etot, press] = self.thermo()
+      # Add to the window
+      energy[i % wind] = etot
+      temperature[i % wind] = temp
+      step[i % wind] = i
+      # Only update values if the window is complete
+      if i < wind: continue
+      # Slow, we are calculating things again. Could be updated
+      # and deleted each time. Check profiling!
+      [slope, aux] = np.polyfit(step, energy, 1)
+      diff = abs(self.T - np.mean(temperature))
+      std = np.std(temperature)
+      if slope > 0 and diff < std: break
     self.lmp.command("unfix 2")
     
   def rdf(self, nbin, rmax):

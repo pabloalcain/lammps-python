@@ -17,8 +17,6 @@ LAMMPS wrapper
       update_path to further check if the files *do* exist.
       Idea: makedirs without problem, but throw error when creating
       the files in flush()?
-- [ ] Thermalization: improve naïve Berendsen implementation, look in
-      old_files example
 - [ ] Throw error if dump file number of particles doesnt mach with N
 - [ ] Devise a method for bookkeeping
 
@@ -45,6 +43,8 @@ Global issues
 LAMMPS wrapper
 --------------
 
+- [X] Thermalization: improve naïve Berendsen implementation, look in
+      old_files example
 - [X] Rewrite examples.
 - [X] Need compute mste/atom to be shipped with the distro?
 - [X] Add makes/installs/pip/whatever
