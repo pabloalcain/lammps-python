@@ -7,9 +7,6 @@ from lammps import lammps
 from os import makedirs
 import analysis as A
 
-
-import time
-
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V, gpu=False):
     """
@@ -256,7 +253,6 @@ reset_timestep  0
     """
     self.T = T
     self.update_path()
-    self.lmp.command("unfix 1")
     temp = "fix 1 all nvt temp {T} {T} {tdamp}"
     self.lmp.command(temp.format(T=self.T,tdamp=10.0))
 
@@ -334,13 +330,10 @@ reset_timestep  0
       msg = "Directory {0} already exists: rename base path or delete old files"
       raise OSError(msg.format(self.this_path))
     
-  def equilibrate(self, nfreq = 100, wind = 100):
+  def equilibrate(self, nfreq = 300, wind = 20):
     """
     This method takes care of the thermalization, with a Langevin
-    thermostat. It has a quite unstable part, in which it unfixes a
-    previous "fix 1 all nvt" lammps command. This works with no
-    problem, because the script building already sets a temperature,
-    but be VERY careful with respect to this.
+    thermostat. 
 
     nfreq is how many timesteps to take between runs, and wind is the
     size of the window. The criterion for stability is that the
@@ -372,8 +365,6 @@ reset_timestep  0
       [slope, aux] = np.polyfit(step, energy, 1)
       diff = abs(self.T - np.mean(temperature))
       std = np.std(temperature)
-      print "sl = {0}, diff = {1}, std = {2}".format(slope, diff, std)
-      time.sleep(5)
       if slope > 0 and diff < std: break
     self.lmp.command("reset_timestep 0")
     
@@ -554,7 +545,7 @@ reset_timestep  0
       np.savetxt(mste_fname, temp.T, header = 'size, number', fmt='%6i + %1.4e')
       idx = self.c_mste.nonzero()[0]
       fig = pl.figure()
-      pl.plot(x[idx],self.c_mste[idx],'o-')
+      pl.loglog(x[idx],self.c_mste[idx],'o-')
       pl.xlabel('Cluster size')
       pl.ylabel('Frequency')
       #pl.tight_layout()
