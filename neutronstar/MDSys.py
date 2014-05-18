@@ -1,9 +1,14 @@
 import random as R
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import pylab as pl
 from lammps import lammps
 from os import makedirs
 import analysis as A
+
+
+import time
 
 class MDSys(object):
   def __init__(self, T, l, N, x, d, V, gpu=False):
@@ -329,9 +334,9 @@ reset_timestep  0
       msg = "Directory {0} already exists: rename base path or delete old files"
       raise OSError(msg.format(self.this_path))
     
-  def equilibrate(self, tdamp = 10.0, nfreq = 100, wind = 100):
+  def equilibrate(self, nfreq = 100, wind = 100):
     """
-    This method takes care of the thermalization, with a berendsen
+    This method takes care of the thermalization, with a Langevin
     thermostat. It has a quite unstable part, in which it unfixes a
     previous "fix 1 all nvt" lammps command. This works with no
     problem, because the script building already sets a temperature,
@@ -347,10 +352,6 @@ reset_timestep  0
 
     Thermalization doesn't write any log or dump file.
     """
-    self.lmp.command("unfix 1")
-    brd = "fix 1 all temp/berendsen {T} {T} {tdamp}"
-    self.lmp.command(brd.format(T = self.T, tdamp = tdamp))
-    self.lmp.command("fix 2 all nve")
     energy = np.zeros(wind)
     temperature = np.zeros(wind)
     step = np.zeros(wind)
@@ -371,8 +372,10 @@ reset_timestep  0
       [slope, aux] = np.polyfit(step, energy, 1)
       diff = abs(self.T - np.mean(temperature))
       std = np.std(temperature)
+      print "sl = {0}, diff = {1}, std = {2}".format(slope, diff, std)
+      time.sleep(5)
       if slope > 0 and diff < std: break
-    self.lmp.command("unfix 2")
+    self.lmp.command("reset_timestep 0")
     
   def rdf(self, nbin, rmax):
     """
@@ -463,7 +466,7 @@ reset_timestep  0
       S[0,i+1] = 1
       S[1:,i+1] = 1 - ( ft[1:] / q[1:] ) * ( 4 * np.pi * self.d )
       
-    data = S[1:,4]
+    data = S[:,4]
     try: 
       c = (np.diff(np.sign(np.diff(data))) < 0).nonzero()[0][0] + 1 # first local max
       kmax = q[c]
@@ -532,9 +535,9 @@ reset_timestep  0
     """
     path = self.this_path + prefix
     dump_fname = path + 'dump.lammpstrj'
-    tmp = "dump myDUMP all custom 1 {dumpfile} id x y z vx vy vz"
+    tmp = "dump myDUMP all custom 1 {dumpfile} id type x y z vx vy vz"
     self.lmp.command(tmp.format(dumpfile = dump_fname))
-    self.lmp.command("dump_modify myDUMP sort id")
+    self.lmp.command("dump_modify myDUMP sort id append yes")
     self.lmp.command("run 0 post no")
     self.lmp.command("undump myDUMP")
 
@@ -551,10 +554,10 @@ reset_timestep  0
       np.savetxt(mste_fname, temp.T, header = 'size, number', fmt='%6i + %1.4e')
       idx = self.c_mste.nonzero()[0]
       fig = pl.figure()
-      pl.plot(x[idx],self.c_mste[idx])
+      pl.plot(x[idx],self.c_mste[idx],'o-')
       pl.xlabel('Cluster size')
       pl.ylabel('Frequency')
-      pl.tight_layout()
+      #pl.tight_layout()
       pl.savefig(path + 'cluster.pdf')
       pl.close()
       
@@ -566,10 +569,10 @@ reset_timestep  0
       pairs = ['a-a', '1-1', '1-2', '2-2']
       for i in range(4):
         fig = pl.figure()
-        pl.plot(self.c_rdf[:,0], self.c_rdf[:,i*2+1])
+        pl.plot(self.c_rdf[:,0], self.c_rdf[:,i*2+1],'o-')
         pl.xlabel('Distance [fm]')
         pl.ylabel('RDF({0})'.format(pairs[i]))
-        pl.tight_layout()
+        #pl.tight_layout()
         pl.savefig(path + 'rdf_{0}'.format(pairs[i]))
         pl.close()
       
@@ -580,10 +583,10 @@ reset_timestep  0
       pairs = ['a-a', '1-1', '1-2', '2-2']
       for i in range(4):
         fig = pl.figure()
-        pl.plot(self.c_ssf[:,0], self.c_ssf[:,i+1])
+        pl.plot(self.c_ssf[:,0], self.c_ssf[:,i+1],'o-')
         pl.xlabel(r'Wave number [fm$^{-1}$]')
         pl.ylabel('SSF_{0}'.format(pairs[i]))
-        pl.tight_layout()
+        #pl.tight_layout()
         pl.savefig(path + 'ssf_{0}'.format(pairs[i]))
         pl.close()
 
