@@ -8,7 +8,7 @@ from os import makedirs
 import analysis as A
 
 class MDSys(object):
-  def __init__(self, T, l, N, x, d, V, gpu=False):
+  def __init__(self, T, l, N, x, d, V, gpu=False, out=False):
     """
     Constructor: so far we need to pass all the variables. Eventually
     some default values can be discussed, and some of these variables
@@ -16,6 +16,9 @@ class MDSys(object):
     well, so T is always passed as float, V as string and so on (maybe
     as a lambda function in a future?). We also instantiate the lammps
     class here, so the system is always aware of the object it has.
+
+    gpu = Whether or not use gpu
+    out = Whether or not write output on screen
     """
     
     self.T = T
@@ -26,7 +29,11 @@ class MDSys(object):
     self.V = V
     self.gpu = gpu
     self.build_table(V, l)
-    self.lmp = lammps("")
+    if out:
+        args = None
+    else:
+        args = ['-screen', 'none', '-nocite']
+    self.lmp = lammps("", args)
     #Number of pairs to be considered in the interaction: 
     #*v*, 1v1, 1v2, 2v2
     self.npairs = 4

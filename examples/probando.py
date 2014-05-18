@@ -7,9 +7,14 @@ therefore looped from within Python
 from neutronstar.MDSys import MDSys
 from lammps import lammps
 import numpy as np
+import sys
+from sys import stdout
 
-temp=np.linspace(1.6,0.1,2)
-#temp=[]
+
+Ti = 1.6
+Tf = 0.1
+nT = 51
+temp=np.linspace(Ti, Tf, nT)
 T = 1.6
 l = 20
 N = 5488
@@ -22,10 +27,16 @@ system.lmp.command("compute mste all mste/atom 5.4")
 system.setup(lind=False)
 
 for i in temp:
-    system.set_T(i)
-    system.equilibrate(wind = 10, nfreq = 100)
-    for j in range(5):
-        system.run(100)
+    system.set_T(i, tdamp = 100.0)
+    print "T: {0:>6}. Equilibrating...".format(i),
+    stdout.flush()    
+    system.equilibrate(wind = 20, nfreq = 1000)
+    print "\bDone! Evolution.....0%",
+    stdout.flush()
+    for j in range(50):
+        system.run(1000)
         system.results()
         system.dump()
-    system.flush()
+        print '\b\b\b\b\b{0.>3}%'.format(j*2)
+        system.flush()
+    print '\b\b\b\b\bDone!'
