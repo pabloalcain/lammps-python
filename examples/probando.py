@@ -38,5 +38,6 @@ for i in temp:
         system.results()
         system.dump()
         print '\b\b\b\b\b{0:.>3}%'.format((j+1)*2),
-        system.flush()
+        stdout.flush()
+    system.flush()
     print '\b\b\b\b\bDone!'
