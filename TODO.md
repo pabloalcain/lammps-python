@@ -4,6 +4,7 @@ TODO LIST
 Global Issues
 -------------
 
+- [ ] Clean repository and gitignore list
 - [ ] What is the lindemann coefficient? How can we calculate it?
 - [ ] Attention! Methods should be a bit more encapsulated, use
       advantage of OOP and have different objects, for system,
@@ -22,6 +23,7 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
+- [ ] Remove OSError try&catch in the analysis.py file
 - [ ] Write mean and std of computes in a global file inside path
 - [ ] Add warning to minkowski method related to lattice size
 - [ ] Check analysis

@@ -16,3 +16,4 @@ examples/gofr*.dat
 examples/gr
 build/
 *#*#
+old_files/
