@@ -15,7 +15,7 @@ class PostProcess(object):
     self.mean = [np.mean(self.values[:,i]) for i in range(len(keys))]
     self.std = [np.std(self.values[:,i]) for i in range(len(keys))]
   
-  def hash():
+  def hash(self):
     d = os.walk('data')
     while True:
       try:
