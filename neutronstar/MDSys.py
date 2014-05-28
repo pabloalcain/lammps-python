@@ -68,9 +68,10 @@ class MDSys(object):
     V = {}
     F = {}
     descr = {}
+    Ncou = (N * l) / rc_nuc
     r['NN'] = np.linspace(0,rc_nuc,N+1)[1:]
     r['NP'] = np.linspace(0,rc_nuc,N+1)[1:]
-    r['PP'] = np.linspace(0,rc_cou,N+1)[1:]
+    r['PP'] = np.linspace(0,rc_cou,Ncou+1)[1:]
 
     Vc = 1.44
     uc = 1.0/l
