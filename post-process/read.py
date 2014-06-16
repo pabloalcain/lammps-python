@@ -23,5 +23,5 @@ class PostProcess(object):
       except StopIteration:
         break
       if 'thermo.dat' in info[2]:
-        print info[0]
+        return info[0]
       

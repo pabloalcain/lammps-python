@@ -23,6 +23,7 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
+- [ ] Add code to rdf to add multiple PBC instance of pairs
 - [ ] Remove OSError try&catch in the analysis.py file
 - [ ] Write mean and std of computes in a global file inside path
 - [ ] Add warning to minkowski method related to lattice size
