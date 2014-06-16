@@ -550,7 +550,7 @@ reset_timestep  0
       x = np.array(range(len(self.c_mste)))
       temp = np.vstack((x,self.c_mste))
       mste_fname = path + 'cluster.dat'
-      np.savetxt(mste_fname, temp.T, header = 'size, number', fmt='%6i + %1.4e')
+      np.savetxt(mste_fname, temp.T, header = 'size, number', fmt='%6i %1.4e')
       idx = self.c_mste.nonzero()[0]
       fig = pl.figure()
       pl.loglog(x[idx],self.c_mste[idx],'o-')
