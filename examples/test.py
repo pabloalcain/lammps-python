@@ -26,8 +26,8 @@ for x, d in product(xarr,darr):
 
 	for i in temp:
 	    system.set_T(i)
-	    for j in range(50):
-		system.run(100)
+	    for j in range(5):
+		system.run(1)
 		system.results(r_mink = 0.2, r_cell = 0.1)
 		if ( j % 5 == 0): system.dump()
 	    system.flush()
