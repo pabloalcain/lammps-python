@@ -5,6 +5,8 @@ matplotlib.use('Agg')
 import pylab as pl
 from lammps import lammps
 from os import makedirs
+from scipy.stats.distributions import t
+from scipy.optimize import curve_fit
 import analysis as A
 
 class MDSys(object):
@@ -215,7 +217,7 @@ reset_timestep  0
 	   ninter=5000,
 	   table_fname=self.table_fname,
 	   cutoff=max(5.4,self.l),
-	   tdamp=10.0,
+	   tdamp=100.0,
 	   config=config,
 	   seed1=R.randint(0,10000),
 	   seed2=R.randint(0,10000),
@@ -227,13 +229,16 @@ reset_timestep  0
   def setup(self, path='./data',
 	    rdf = True, ssf = True,
 	    mink = True, mste = True,
-	    lind = True, thermo = True):
+	    lind = True, thermo = True,
+            fit = True):
     """
     This method sets up the run in a specific lmp object according to
     the inputfile. We also set here the computes.
     """
     if ssf and not rdf:
       raise AttributeError("Cannot calculate structure factor without rdf")
+    if fit and not rdf:
+      raise AttributeError("Cannot fit without rdf")
     
     with open(self.input_fname) as fp:
       lines = fp.readlines()
@@ -247,6 +252,7 @@ reset_timestep  0
     self.is_mste = mste
     self.is_lind = lind
     self.is_thermo = thermo
+    self.is_fit = fit
      
   def run(self, Nsteps):
     """
@@ -254,7 +260,7 @@ reset_timestep  0
     """
     self.lmp.command("run {ns}".format(ns=Nsteps))
 
-  def set_T(self, T, tdamp = 10.0):
+  def set_T(self, T, tdamp = 100.0):
     """
     Set value of temperature and change all related values
     in the lammps script.
@@ -262,7 +268,7 @@ reset_timestep  0
     self.T = T
     self.update_path()
     temp = "fix 1 all nvt temp {T} {T} {tdamp}"
-    self.lmp.command(temp.format(T=self.T,tdamp=10.0))
+    self.lmp.command(temp.format(T=self.T,tdamp=tdamp))
 
   def set_l(self, l):
     """
@@ -475,6 +481,52 @@ reset_timestep  0
       Smax = float('nan')
     return S, kmax, Smax
 
+  def fit(self, rdf):
+    """
+    Fit the very-long correlations of neutron-neutron (near 15 fm)
+    with a sine and returns the height of the fit and the wavelength
+    """
+    g = rdf[:,7]
+    r = rdf[:,0]
+    #Filter out initial zeros
+    for i in range(len(g)):
+      if g[i] > 0: break
+      init = i
+    g = g[init:]
+    r = r[init:]
+    sig = (g-1) * r
+    sm_r, sm_sig = self.smooth(sig, r, dr=3.0)
+    func = lambda x, A, l, ph: A * np.sin((2.0*np.pi*x) / l + ph)
+    try: 
+      sm_popt, sm_pcov = curve_fit(func, sm_r, sm_sig, p0 = [3.0, 15.0, 0.0])
+      popt, pcov = curve_fit(func, r, sig, p0 = sm_popt)
+    except RuntimeError: 
+      return float("nan"), float("nan"), float("nan"), float("nan")
+    tval = t.ppf(1.0-0.34/2, 3)
+    h = sm_popt[0]
+    dh = sm_pcov[0][0]**0.5 * tval
+    l = sm_popt[1]
+    dl = sm_pcov[1][1]**0.5 * tval
+    return h, dh, l, dl
+  
+  def smooth(self, sig, r, dr = 3.0):
+    """ 
+    Smooth signals 
+    """
+    win_size = int(dr/(r[1] - r[0]))
+    if win_size % 2 == 0: win_size += 1
+    init = (win_size -1)/2
+    fin_size = len(r) - win_size
+    sm_sig = np.zeros(fin_size)
+    sm_r = np.zeros(fin_size)
+    for i in range(fin_size):
+      for j in range(win_size):
+        sm_sig[i] += sig[i+j-init]
+      sm_sig[i] /= win_size
+      sm_r[i] = r[i+init]
+    return sm_r, sm_sig
+      
+
   def results(self, 
 	      r_mink=1.8, r_cell=0.5,
 	      nbins = 200, rmax = None):
@@ -522,6 +574,14 @@ reset_timestep  0
       self.computes['potential'] = c
       self.computes['energy'] = d
       self.computes['pressure'] = e
+
+    if self.is_fit:
+      [a, b, c, d] = self.fit(t_r)
+      self.computes['height'] = a
+      self.computes['del_height'] = b
+      self.computes['lambda'] = c
+      self.computes['del_lambda'] = d
+
 
     if self.is_lind:
       self.lind()

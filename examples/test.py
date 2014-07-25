@@ -13,9 +13,9 @@ temp=np.linspace(1.6,0.1,6)
 #temp=[]
 T = 4.2
 l = 4
-N = 6
+N = 60
 xarr = np.linspace(0.5,0.4,11)
-darr = np.linspace(0.01,0.12,12)
+darr = np.linspace(0.0001,0.0012,12)
 V = "medium"
 for x, d in product(xarr,darr):
         print "x={0}, d ={1}".format(x, d)
