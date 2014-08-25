@@ -582,7 +582,6 @@ reset_timestep  0
       self.computes['lambda'] = c
       self.computes['del_lambda'] = d
 
-
     if self.is_lind:
       self.lind()
 

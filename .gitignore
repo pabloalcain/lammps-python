@@ -17,3 +17,7 @@ examples/gr
 build/
 *#*#
 old_files/
+examples/*pdf
+examples/*png
+post-process/*png
+post-process/*pdf

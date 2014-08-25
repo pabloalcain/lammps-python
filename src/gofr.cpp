@@ -119,11 +119,6 @@ void rdf(LAMMPS *lmp, int nbins, double rmax, double *array)
   
   int itype,jtype,ipair,jpair,ibin,ihisto;
   double xtmp,ytmp,ztmp,delx,dely,delz,r;
-  double lx, ly, lz;
-
-  lx = lmp->domain->subhi[0] - lmp->domain->sublo[0];
-  ly = lmp->domain->subhi[1] - lmp->domain->sublo[1];
-  lz = lmp->domain->subhi[2] - lmp->domain->sublo[2];
   
   double rmax2 = rmax * rmax;
   
@@ -167,33 +162,16 @@ void rdf(LAMMPS *lmp, int nbins, double rmax, double *array)
       if (r > rmax2) continue;
       r+= delz*delz;
       if (r > rmax2) continue;
-      int imax = static_cast<int> (rmax / lx);
-      int jmax = static_cast<int> (rmax / ly);
-      int kmax = static_cast<int> (rmax / lz);
-      for (int alpha = -imax; alpha < imax + 1; alpha++) {
-        for (int beta = -jmax; beta < jmax + 1; beta++) {
-          for (int gamma = -kmax; gamma < kmax + 1; gamma++) {
-            r += alpha * alpha * (lx * lx);
-            r += beta * beta * (ly * ly);
-            r += gamma * gamma * (lz * lz);
-            if (r > rmax2) continue;
-            r += 2 * alpha * lx * delx;
-            r += 2 * beta * ly * dely;
-            r += 2 * gamma * lz * delz;
-            if (r > rmax2) continue;
-            r = sqrt(r);
-      
-            ibin = static_cast<int> (r*delrinv);
+      r = sqrt(r);
+      ibin = static_cast<int> (r*delrinv);
 
-            if (ipair)
-              for (ihisto = 0; ihisto < ipair; ihisto++)
-                hist[rdfpair[ihisto][itype][jtype]][ibin] += 1.0;
-            if (jpair)
-              for (ihisto = 0; ihisto < jpair; ihisto++)
-                hist[rdfpair[ihisto][jtype][itype]][ibin] += 1.0;
-	  }
-        }
-      }
+      if (ipair)
+        for (ihisto = 0; ihisto < ipair; ihisto++)
+          hist[rdfpair[ihisto][itype][jtype]][ibin] += 1.0;
+        if (jpair)
+          for (ihisto = 0; ihisto < jpair; ihisto++)
+            hist[rdfpair[ihisto][jtype][itype]][ibin] += 1.0;
+	
     }
   }
 
