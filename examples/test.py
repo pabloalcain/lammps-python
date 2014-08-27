@@ -9,25 +9,32 @@ from lammps import lammps
 import numpy as np
 from itertools import product
 
-temp=np.linspace(1.6,0.1,6)
+temp=np.linspace(2.0,0.5,31)
 #temp=[]
-T = 4.2
-l = 4
-N = 60
-xarr = np.linspace(0.5,0.4,11)
-darr = np.linspace(0.0001,0.0012,12)
-V = "medium"
-for x, d in product(xarr,darr):
-        print "x={0}, d ={1}".format(x, d)
-	system = MDSys(T, l, N, x, d, V, gpu=False)
-	system.build_script(fname="test.inp")#, dump="esponja.lammpstrj")
-	system.lmp.command("compute mste all mste/atom 5.4")
-	system.setup(lind=False)
-
-	for i in temp:
-	    system.set_T(i)
-	    for j in range(5):
-		system.run(1)
-		system.results(r_mink = 0.2, r_cell = 0.1)
-		if ( j % 5 == 0): system.dump()
-	    system.flush()
+T = 2.0
+l = 20
+N = 5488
+x = 0.5
+darr = np.linspace(0.01,0.08,8)
+V = "newmed"
+for d in darr:
+    print "x={0}, d ={1}".format(x, d)
+    system = MDSys(T, l, N, x, d, V, gpu=False)
+    system.build_script(fname="test.inp")#, dump="esponja.lammpstrj")
+    system.lmp.command("compute mste all mste/atom 5.4")
+    system.setup(lind=False)
+    
+    for i in temp:
+        print "T: {0:>6}. Equilibrating...".format(i),
+        stdout.flush()    
+        system.equilibrate(wind = 20, nfreq = 1000)
+        print "\bDone! Evolution.....0%",
+        stdout.flush()
+        for j in range(50):
+            system.run(1000)
+            system.results()
+            system.dump()
+            print '\b\b\b\b\b{0:.>3}%'.format((j+1)*2),
+            stdout.flush()
+        system.flush()
+        print '\b\b\b\b\bDone!\r'
