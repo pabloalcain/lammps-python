@@ -78,7 +78,8 @@ class MDSys(object):
     Vc = 1.44
     uc = 1.0/l
 
-    if V_tag == "medium" or V_tag == "stiff":
+    if V_tag == "medium" or V_tag == "stiff"\
+          or V_tag == "newmed":
       if V_tag == "medium":
 	V0=373.118
 	u0=1.5
@@ -88,6 +89,16 @@ class MDSys(object):
 
 	Vr=3088.118
 	ur=1.7468
+
+      if V_tag == "newmed":
+	V0=379.5
+	u0=1.628
+
+	Va=2696.0
+	ua=1.528
+
+	Vr=3097.0
+	ur=1.648
 
       if V_tag == "stiff":
 	V0=17630.256
