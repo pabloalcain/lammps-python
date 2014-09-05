@@ -8,13 +8,14 @@ from neutronstar.MDSys import MDSys
 from lammps import lammps
 import numpy as np
 from itertools import product
+from sys import stdout
 
 temp=np.linspace(2.0,0.5,31)
 #temp=[]
 T = 2.0
 l = 20
 N = 5488
-x = 0.5
+x = 0.48
 darr = np.linspace(0.01,0.08,8)
 V = "newmed"
 for d in darr:
@@ -25,6 +26,7 @@ for d in darr:
     system.setup(lind=False)
     
     for i in temp:
+        system.set_T(i, tdamp = 100.0) 
         print "T: {0:>6}. Equilibrating...".format(i),
         stdout.flush()    
         system.equilibrate(wind = 20, nfreq = 1000)

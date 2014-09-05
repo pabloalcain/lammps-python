@@ -1,4 +1,5 @@
 from scipy.stats.distributions import t
+import numpy as np
 import fit as F
 import os
 

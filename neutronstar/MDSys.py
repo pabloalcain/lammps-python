@@ -40,6 +40,7 @@ class MDSys(object):
     #*v*, 1v1, 1v2, 2v2
     self.npairs = 4
     self.init_variables()
+    self.update_path()
     
   def init_variables(self):
     self.n_tally = 0
