@@ -80,6 +80,10 @@ class Plotter(object):
       A = np.loadtxt(p +'/thermo.dat')
       c = np.mean(A, axis=0)[idx]
       s = np.std(A, axis=0)[idx]
+      if mag in ['lambda', 'height']:
+        idx2 = l.split(', ').index('del_{0}'.format(mag))
+        ss = np.std(A, axis=0)[idx2]
+        s = np.sqrt(s**2 + ss**2)
     else:
       sm_popt, sm_pcov = F.wavelength(p + '/rdf.dat')
       tval = t.ppf(1.0-0.31/2, 3)

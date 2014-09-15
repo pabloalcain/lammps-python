@@ -15,7 +15,7 @@ temp=np.linspace(2.0,0.5,31)
 T = 2.0
 l = 20
 N = 5488
-x = 0.48
+x = 0.46
 darr = np.linspace(0.01,0.08,8)
 V = "newmed"
 for d in darr:
