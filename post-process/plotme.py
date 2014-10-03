@@ -64,8 +64,12 @@ class Plotter(object):
               N = None, d = None, 
               T = None):
     p = self.set_path(V, l, x, N, d, T)
-    fp = open(p + "/thermo.dat")
+    try:
+      fp = open(p + "/thermo.dat")
+    except IOError:
+      return 0, 0
     l = fp.readline()[2:-1]
+#    l = "breadth, del_lambda, S_absorption, pressure, size_avg, k_absorption, surface, height, volume, size_std, del_height, potential, kinetic, lambda, energy, euler, temperature"
     fp.close()
     
     try:
