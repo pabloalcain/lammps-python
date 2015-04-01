@@ -170,7 +170,7 @@ class MDSys(object):
 
     self.input_fname = fname
     if self.gpu:
-      package = "package    gpu force/neigh 1"
+      package = "package    gpu 1"
       style = "table/gpu"
     else: 
       package = ""
