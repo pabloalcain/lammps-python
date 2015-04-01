@@ -40,7 +40,7 @@ class MDSys(object):
     #*v*, 1v1, 1v2, 2v2
     self.npairs = 4
     self.init_variables()
-    self.update_path()
+
     
   def init_variables(self):
     self.n_tally = 0
@@ -265,6 +265,7 @@ reset_timestep  0
     self.is_lind = lind
     self.is_thermo = thermo
     self.is_fit = fit
+    self.update_path()
      
   def run(self, Nsteps):
     """

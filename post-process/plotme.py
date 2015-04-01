@@ -64,8 +64,12 @@ class Plotter(object):
               N = None, d = None, 
               T = None):
     p = self.set_path(V, l, x, N, d, T)
-    fp = open(p + "/thermo.dat")
+    try:
+      fp = open(p + "/thermo.dat")
+    except IOError:
+      return 0, 0
     l = fp.readline()[2:-1]
+#    l = "breadth, del_lambda, S_absorption, pressure, size_avg, k_absorption, surface, height, volume, size_std, del_height, potential, kinetic, lambda, energy, euler, temperature"
     fp.close()
     
     try:
@@ -80,6 +84,10 @@ class Plotter(object):
       A = np.loadtxt(p +'/thermo.dat')
       c = np.mean(A, axis=0)[idx]
       s = np.std(A, axis=0)[idx]
+      if mag in ['lambda', 'height']:
+        idx2 = l.split(', ').index('del_{0}'.format(mag))
+        ss = np.std(A, axis=0)[idx2]
+        s = np.sqrt(s**2 + ss**2)
     else:
       sm_popt, sm_pcov = F.wavelength(p + '/rdf.dat')
       tval = t.ppf(1.0-0.31/2, 3)
