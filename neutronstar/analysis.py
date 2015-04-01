@@ -6,12 +6,7 @@ import ctypes as ct
 import numpy as np
 #from lammps import lammps
 
-try:
-    analysis = ct.cdll.LoadLibrary("libanalysis.so")
-except OSError:
-    raise OSError("Could not load library. Check libanalysis "
-	          "is built and in the library path")
-
+analysis = ct.cdll.LoadLibrary("libanalysis.so")
 
 def minkowski(lmp, rad, rcell):
     """
