@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import pylab as pl
 from lammps import lammps
-from os import makedirs
+from os import makedirs, listdir
 from scipy.stats.distributions import t
 from scipy.optimize import curve_fit
 import analysis as A
@@ -354,8 +354,9 @@ reset_timestep  0
     try:
       makedirs(self.this_path)
     except OSError as err:
-      msg = "Directory {0} already exists: rename base path or delete old files"
-      raise OSError(msg.format(self.this_path))
+      if len(listdir(self.this_path)) != 0:
+          msg = "Directory {0} already exists: rename base path or delete old files"
+          raise OSError(msg.format(self.this_path))
     
   def equilibrate(self, nfreq = 300, wind = 20):
     """
