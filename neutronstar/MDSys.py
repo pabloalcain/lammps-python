@@ -225,9 +225,10 @@ class MDSys(object):
       _N = self.parameters['N']
       _vol = float(_N)/value
       _size = _vol ** (1.0 / 3.0)
-      command = (('change_box all x final 0 {s} '
-                  'y final 0 {s} '
-                  'z final 0 {s} remap').format(s=_size),)
+      _size = _size / 2
+      command = (('change_box all x final -{s} {s} '
+                  'y final -{s} {s} '
+                  'z final -{s} {s} remap').format(s=_size),)
 
     for cmd in command:
       self.lmp.command(cmd)
@@ -271,7 +272,36 @@ class MDSys(object):
     for cmd in command:
       self.lmp.command(cmd)
 
+  def expand(self, vel):
+    """
+    Set initial conditions for an expansion as seen in 
+
+    Dorso and Strachan, Phys. Rev. B 54, 236
+    """
+    _N = self.parameters['N']
+    _d = self.parameters['d']
+    _vol = float(_N)/_d
+    _size = _vol ** (1.0 / 3.0)
+    _rate = vel / _size
+    command = (('fix expansion all deform 1 x erate {0} '
+                'y erate {0} z erate {0}').format(_rate),
+               'velocity all ramp vx 0 {0} x 0 {1} sum yes'.format(vel, _rate),
+               'velocity all ramp vy 0 {0} y 0 {1} sum yes'.format(vel, _rate),
+               'velocity all ramp vz 0 {0} z 0 {1} sum yes'.format(vel, _rate),
+               'velocity all zero linear')
+               
+    for cmd in command:
+      self.lmp.command(cmd)
+
+  def unexpand(self):
+    """
+    Stop expansion
+    """
+    
+    self.lmp.command("unfix expansion")
+
   def read_dump(self, fname):
+
     """
     Read information from the last snapshot of a dump file
     """
