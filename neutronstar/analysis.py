@@ -4,45 +4,188 @@ This is simply a wrapper for the library libanalysis.so
 
 import ctypes as ct
 import numpy as np
-#from lammps import lammps
+from scipy.optimize import curve_fit
+from scipy.stats.distributions import t
 
 analysis = ct.cdll.LoadLibrary("libanalysis.so")
 
-def minkowski(lmp, rad, rcell):
-    """
-    Wrapper for minkowski. Need to add a warning with the
-    size of the lattice for digitalization!
-    """
-
-    tmp = (ct.c_double * 4)()
-    analysis.minkowski.argtypes = [ct.c_void_p, ct.c_double, ct.c_double, ct.c_void_p]
-    analysis.minkowski(lmp, rad, rcell, tmp)
-    return np.fromiter(tmp, dtype = np.float, count = 4)
-
-
 def rdf(lmp, nbins, rmax, npairs):
-    """
-    Wrapper for the c++ libanalysis. Its main disadvantage is that we
-    should know beforehand the number of pairs to consider.  Since
-    this is meant to Neutron Stars, we document here behavior when
-    npair is set to 4:
+  """
+  Wrapper for the c++ libanalysis. Its main disadvantage is that we
+  should know beforehand the number of pairs to consider.  Since
+  this is meant to Neutron Stars, we document here behavior when
+  npair is set to 4:
 
-    If we label the pairs with index k, so that
-    k = 1 => all v all
-    k = 2 =>  1  v  1
-    k = 3 =>  1  v  2
-    k = 4 =>  2  v  2
+  If we label the pairs with index k, so that
+  k = 1 => all v all
+  k = 2 =>  1  v  1
+  k = 3 =>  1  v  2
+  k = 4 =>  2  v  2
 
-    Returns a 2D array, with this format.
+  Returns a 2D array, with this format.
 
-    1st column: Distance
-    1 + 2 * k: g(r) between the pair labeled by k
-    2 + 2 * k: int(g(r)) between the pair labeled by k
-    """
+  1st column: Distance
+  1 + 2 * k: g(r) between the pair labeled by k
+  2 + 2 * k: int(g(r)) between the pair labeled by k
+  """
 
-    ncol = npairs * 2 + 1
-    tmp = ( ct.c_double * (nbins * ncol) ) ()
-    analysis.rdf.argtypes = [ct.c_void_p, ct.c_int, ct.c_double, ct.c_void_p]
-    analysis.rdf(lmp, nbins, rmax, tmp)
-    r = np.frombuffer(tmp, dtype = np.float, count = nbins * ncol)
-    return np.reshape(r, (nbins, ncol))
+  ncol = npairs * 2 + 1
+  tmp = (ct.c_double * (nbins * ncol))()
+  analysis.rdf.argtypes = [ct.c_void_p, ct.c_int, ct.c_double, ct.c_void_p]
+  analysis.rdf(lmp.lmp, nbins, rmax, tmp)
+  r = np.frombuffer(tmp, dtype=np.float, count=nbins * ncol)
+  return np.reshape(r, (nbins, ncol))
+
+def structure(gr, density, npairs):
+  """
+  Calculate structure factor given the radial distribution function.
+  Returns an array structured like rdf, with only one column per
+  pair.
+
+  Also return the first peak of the neutron-neutron scattering.
+  """
+  _d = density
+  r = gr[:, 0]
+  # Assume evenly spaced
+  dr = r[1] - r[0]
+  # Wave vectors
+  n = len(r)
+  q = np.linspace(0, 2*np.pi/dr, n)
+  S = np.zeros((n, npairs+1))
+  S[:, 0] = q
+  for i in range(npairs):
+
+    #Integrand in the fourier transform
+    ker = (gr[:, 2*i + 1] - 1) * r
+    #Imaginary (sin) part of the Fourier transform
+    ft = np.imag(np.fft.fft(ker)) * dr
+    #Structure factor
+    #We split the q = 0 case, since it is ill-defined
+    S[0, i+1] = 1
+    S[1:, i+1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
+
+  data = S[:, 4]
+  try:
+    _change = np.sign(np.diff(data))
+    c = np.diff(_change) < 0
+    c = c.nonzero()[0][0] + 1 # first local max
+    kmax = q[c]
+    Smax = S[c, 4]
+  except IndexError:
+    kmax = float('nan')
+    Smax = float('nan')
+
+  return S, kmax, Smax
+
+def fit(gr):
+  """
+  Fit the very-long correlations of neutron-neutron (near 15 fm)
+  with a sine and returns the height of the fit and the wavelength
+  """
+  g = gr[:, 7]
+  r = gr[:, 0]
+  #Filter out initial zeros
+  for i in range(len(g)):
+    if g[i] > 0:
+        break
+    init = i
+  g = g[init:]
+  r = r[init:]
+  sig = (g-1) * r
+  sm_r, sm_sig = smooth(sig, r, dr=3.0)
+  func = lambda x, A, l, ph: A * np.sin((2.0*np.pi*x) / l + ph)
+  try:
+    sm_popt, sm_pcov = curve_fit(func, sm_r, sm_sig, p0=[3.0, 15.0, 0.0])
+    popt, pcov = curve_fit(func, r, sig, p0=sm_popt)
+  except RuntimeError:
+    return float("nan"), float("nan"), float("nan"), float("nan")
+  tval = t.ppf(1.0-0.34/2, 3)
+  h = sm_popt[0]
+  dh = sm_pcov[0][0]**0.5 * tval
+  l = sm_popt[1]
+  dl = sm_pcov[1][1]**0.5 * tval
+  return h, dh, l, dl
+
+
+def mste(lmp, N):
+  """
+  Wrapper for the compute/mste method in LAMMPS (shipped with the package).
+  LAMMPS returns simply an array with the cluster ID of each
+  tag, so inside we do some calculations to return the mass
+  distribution. The compute name *is* and *must be* mste [although
+  this is meant to be obscured to the user in the setup() method].
+  There is also a problem with setting the cutoff radius. It cannot
+  be set from within the mste method, but it isn't very important: it
+  should always be the cutoff of the pandha potential. Anyway, this is
+  very unstable, so proceed with care when handling.
+
+  There is a resize with mste, to make sure we can add different
+  arrays afterwards. We add a lot of zeros and lose the sparsity
+  of the mste, but early optimization...
+
+  * system: system to analyze
+  """
+
+  ext = lmp.extract_compute("mste", 1, 1)
+  tmp = np.fromiter(ext, dtype=np.int, count=N)
+  # First bincount to count repeated indices => cluster size
+  clust = np.bincount(tmp)
+  # Filter out clusters with 0 mass
+  clust = clust[clust > 0]
+  mean = np.mean(clust)
+  std = np.std(clust)
+  # Second to histogram over sizes
+  histo = np.bincount(clust)
+  histo.resize(N + 1)
+  return histo, mean, std
+
+def minkowski(lmp, rad, rcell):
+  """
+  Wrapper for minkowski. Need to add a warning with the
+  size of the lattice for digitalization!
+  """
+
+  tmp = (ct.c_double * 4)()
+  analysis.minkowski.argtypes = [ct.c_void_p, ct.c_double,
+                                 ct.c_double, ct.c_void_p]
+  analysis.minkowski(lmp.lmp, rad, rcell, tmp)
+  return np.fromiter(tmp, dtype=np.float, count=4)
+
+def lind(lmp):
+    raise AttributeError("Don't know what to do with Lindemann :(")
+
+def thermo(lmp, N):
+  """
+  Wrapper to LAMMPS internal computes.
+  To avoid adding unnecesary computes to LAMMPS, we just reference
+  to the default computes created for the LAMMPS inner thermo output.
+
+  We have an advantage here: every time LAMMPS ends a run,
+  calculates again thermo_temp, etc if they are in the thermo_style
+  """
+
+  temp = lmp.extract_compute("thermo_temp", 0, 0)
+  epair = lmp.extract_compute("thermo_pe", 0, 0)/N
+  press = lmp.extract_compute("thermo_press", 0, 0)
+  ke = 3.0/2.0 * temp
+  etot = epair + ke
+  return temp, ke, epair, etot, press
+
+
+def smooth(sig, r, dr=3.0):
+  """
+  Smooth signals
+  """
+  win_size = int(dr/(r[1] - r[0]))
+  if win_size % 2 == 0:
+    win_size += 1
+  init = (win_size -1)/2
+  fin_size = len(r) - win_size
+  sm_sig = np.zeros(fin_size)
+  sm_r = np.zeros(fin_size)
+  for i in range(fin_size):
+    for j in range(win_size):
+      sm_sig[i] += sig[i+j-init]
+    sm_sig[i] /= win_size
+    sm_r[i] = r[i+init]
+  return sm_r, sm_sig

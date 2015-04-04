@@ -8,8 +8,6 @@ import pylab as pl
 from lammps import lammps
 from random import randint
 from os import makedirs, listdir
-from scipy.stats.distributions import t
-from scipy.optimize import curve_fit
 import neutronstar.analysis as A
 
 _keys = ["potential", "lambda", "x", "N", "d", "T"]
@@ -92,7 +90,7 @@ def build_table(pot, l):
 
 
 class MDSys(object):
-  def __init__(self, gpu=False, silent=True, root='./data', mste=True):
+  def __init__(self, gpu=False, silent=True, root='./data'):
     """
     Constructor: Instantiate the lammps class, so the system is always
     aware of the object it has.
@@ -128,18 +126,16 @@ class MDSys(object):
       "neigh_modify      every 1 delay 0 check yes one 8000 page 80000",
       "thermo_style      custom step temp ke epair etotal press",
       "thermo            1000",
+      "compute           mste all mste/atom 5.4",
     )
 
     for cmd in script:
       self.lmp.command(cmd)
 
-    if mste:
-      self.lmp.command("compute mste all mste/atom 5.4")
-
     self.root = root
-    self.parameters = {}
     self.collective = {}
     self.npairs = 4
+    self.parameters = {}
     for i in _keys:
       self.parameters[i] = None
 
@@ -248,7 +244,13 @@ class MDSys(object):
     if "ssf" in computes:
       self.c_ssf = 0
     self.variables = []
+
     self.computes = computes
+    if not 'rdf' in computes:
+      if 'ssf' in computes:
+        raise AttributeError("Cannot calculate structure factor without rdf")
+      if 'fit' in computes:
+        raise AttributeError("Cannot fit without rdf")
 
   def minimize(self):
     """
@@ -314,11 +316,12 @@ class MDSys(object):
     temperature = np.zeros(wind)
     step = np.zeros(wind)
     i = 0
+    _N = self.parameters["N"]
     while True:
       i = i + 1
       self.run(nfreq)
       # Extract thermo values
-      [temp, ke, epair, etot, press] = self.thermo()
+      [temp, ke, epair, etot, press] = A.thermo(self.lmp, _N)
       # Add to the window
       energy[i % wind] = etot
       temperature[i % wind] = temp
@@ -334,155 +337,6 @@ class MDSys(object):
       if slope > 0 and diff < std:
         break
     self.lmp.command("reset_timestep 0")
-
-  def rdf(self, nbin, rmax):
-    """
-    Wrapper to the analysis rdf method
-    """
-    return A.rdf(self.lmp.lmp, nbin, rmax, self.npairs)
-
-  def minkowski(self, rpart, rcell):
-    """
-    Wrapper to the analysis minkowski method
-    """
-    return A.minkowski(self.lmp.lmp, rpart, rcell)[:]
-
-  def mste(self):
-    """
-    This is simply a wrapper to create a compute mste and extract
-    it. LAMMPS returns simply an array with the cluster ID of each
-    tag, so inside we do some calculations to return the mass
-    distribution. The compute name *is* and *must be* mste [although
-    this is meant to be obscured to the user in the setup() method].
-    There is also a problem with setting the cutoff radius. It cannot
-    be set from within the mste method, but it isn't very important: it
-    should always be the cutoff of the pandha potential. Anyway, this is
-    very unstable, so proceed with care when handling.
-
-    There is a resize with mste, to make sure we can add different
-    arrays afterwards. We add a lot of zeros and lose the sparsity
-    of the mste, but early optimization...
-    """
-    _N = self.parameters['N']
-    ext = self.lmp.extract_compute("mste", 1, 1)
-    tmp = np.fromiter(ext, dtype=np.int, count=_N)
-    # First bincount to count repeated indices => cluster size
-    clust = np.bincount(tmp)
-    # Filter out clusters with 0 mass
-    clust = clust[clust > 0]
-    mean = np.mean(clust)
-    std = np.std(clust)
-    # Second to histogram over sizes
-    mste = np.bincount(clust)
-    mste.resize(_N + 1)
-    return mste, mean, std
-
-  def lind(self):
-    print "I'm inside lind and my path is {0}".format(self.this_path)
-    raise AttributeError("Don't know what to do with Lindemann :(")
-
-  def thermo(self):
-    """
-    Wrapper to LAMMPS internal computes.
-    To avoid adding unnecesary computes to LAMMPS, we just reference
-    to the default computes created for the LAMMPS inner thermo output.
-
-    We have an advantage here: every time LAMMPS ends a run,
-    calculates again thermo_temp, etc if they are in the thermo_style
-    """
-
-    temp = self.lmp.extract_compute("thermo_temp", 0, 0)
-    epair = self.lmp.extract_compute("thermo_pe", 0, 0)/self.parameters['N']
-    press = self.lmp.extract_compute("thermo_press", 0, 0)
-    ke = 3.0/2.0 * temp
-    etot = epair + ke
-    return temp, ke, epair, etot, press
-
-  def structure(self, rdf):
-    """
-    Calculate structure factor given the radial distribution function.
-    Returns an array structured like rdf, with only one column per
-    pair.
-
-    Also return the first peak of the neutron-neutron scattering.
-    """
-    _d = self.parameters['d']
-    r = rdf[:, 0]
-    # Assume evenly spaced
-    dr = r[1] - r[0]
-    # Wave vectors
-    n = len(r)
-    q = np.linspace(0, 2*np.pi/dr, n)
-    S = np.zeros((n, self.npairs+1))
-    S[:, 0] = q
-    for i in range(self.npairs):
-      #Integrand in the fourier transform
-      ker = (rdf[:, 2*i + 1] - 1) * r
-      #Imaginary (sin) part of the Fourier transform
-      ft = np.imag(np.fft.fft(ker)) * dr
-      #Structure factor
-      #We split the q = 0 case, since it is ill-defined
-      S[0, i+1] = 1
-      S[1:, i+1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
-
-    data = S[:, 4]
-    try:
-      _change = np.sign(np.diff(data))
-      c = np.diff(_change) < 0
-      c = c.nonzero()[0][0] + 1 # first local max
-      kmax = q[c]
-      Smax = S[c, 4]
-    except IndexError:
-      kmax = float('nan')
-      Smax = float('nan')
-    return S, kmax, Smax
-
-  def fit(self, rdf):
-    """
-    Fit the very-long correlations of neutron-neutron (near 15 fm)
-    with a sine and returns the height of the fit and the wavelength
-    """
-    g = rdf[:, 7]
-    r = rdf[:, 0]
-    #Filter out initial zeros
-    for i in range(len(g)):
-      if g[i] > 0: break
-      init = i
-    g = g[init:]
-    r = r[init:]
-    sig = (g-1) * r
-    sm_r, sm_sig = self.smooth(sig, r, dr=3.0)
-    func = lambda x, A, l, ph: A * np.sin((2.0*np.pi*x) / l + ph)
-    try:
-      sm_popt, sm_pcov = curve_fit(func, sm_r, sm_sig, p0=[3.0, 15.0, 0.0])
-      popt, pcov = curve_fit(func, r, sig, p0=sm_popt)
-    except RuntimeError:
-      return float("nan"), float("nan"), float("nan"), float("nan")
-    tval = t.ppf(1.0-0.34/2, 3)
-    h = sm_popt[0]
-    dh = sm_pcov[0][0]**0.5 * tval
-    l = sm_popt[1]
-    dl = sm_pcov[1][1]**0.5 * tval
-    return h, dh, l, dl
-
-  def smooth(self, sig, r, dr=3.0):
-    """
-    Smooth signals
-    """
-    win_size = int(dr/(r[1] - r[0]))
-    if win_size % 2 == 0: 
-      win_size += 1
-    init = (win_size -1)/2
-    fin_size = len(r) - win_size
-    sm_sig = np.zeros(fin_size)
-    sm_r = np.zeros(fin_size)
-    for i in range(fin_size):
-      for j in range(win_size):
-        sm_sig[i] += sig[i+j-init]
-      sm_sig[i] /= win_size
-      sm_r[i] = r[i+init]
-    return sm_r, sm_sig
-
 
   def results(self,
 	      r_mink=1.8, r_cell=0.5,
@@ -500,26 +354,33 @@ class MDSys(object):
     n = float(self.n_tally)
 
     if "rdf" in self.computes:
-      t_r = self.rdf(nbins, rmax)
+      t_r = A.rdf(self.lmp, nbins, rmax, self.npairs)
       self.c_rdf *= (n-1)/n
       self.c_rdf += t_r/n
 
     if "ssf" in self.computes:
-      [t_s, a, b] = self.structure(t_r)
+      [t_s, a, b] = A.structure(t_r, _d, self.npairs)
       self.c_ssf *= (n-1)/n
       self.c_ssf += t_s/n
       self.collective['k_absorption'] = a
       self.collective['S_absorption'] = b
 
+    if "fit" in self.computes:
+      [a, b, c, d] = A.fit(t_r)
+      self.collective['height'] = a
+      self.collective['del_height'] = b
+      self.collective['lambda'] = c
+      self.collective['del_lambda'] = d
+
     if "mste" in self.computes:
-      [t_c, a, b] = self.mste()
+      [t_c, a, b] = A.mste(self.lmp, _N)
       self.c_mste *= (n-1)/n
       self.c_mste += t_c/n
       self.collective['size_avg'] = a
       self.collective['size_std'] = b
 
     if "mink" in self.computes:
-      [a, b, c, d] = self.minkowski(r_mink, r_cell)
+      [a, b, c, d] = A.minkowski(self.lmp, r_mink, r_cell)
       self.collective['volume'] = a
       self.collective['surface'] = b
       self.collective['breadth'] = c
@@ -527,19 +388,12 @@ class MDSys(object):
 
 
     if "thermo" in self.computes:
-      [a, b, c, d, e] = self.thermo()
+      [a, b, c, d, e] = A.thermo(self.lmp, _N)
       self.collective['temperature'] = a
       self.collective['kinetic'] = b
       self.collective['potential'] = c
       self.collective['energy'] = d
       self.collective['pressure'] = e
-
-    if "fit" in self.computes:
-      [a, b, c, d] = self.fit(t_r)
-      self.collective['height'] = a
-      self.collective['del_height'] = b
-      self.collective['lambda'] = c
-      self.collective['del_lambda'] = d
 
     if "lind" in self.computes:
       self.lind()
