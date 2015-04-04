@@ -14,6 +14,7 @@ param['lambda'] = 20
 param['N'] = 5488
 x = float(argv[1])
 param['x'] = x
+param['T'] = 2.0
 darr = np.linspace(0.01,0.08,8)
 temp = np.linspace(2.0,0.5,31)
 comp = ('rdf', 'ssf', 'mink', 'mste', 'thermo', 'fit')
