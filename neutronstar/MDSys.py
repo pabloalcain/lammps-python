@@ -313,7 +313,7 @@ class MDSys(object):
           _t = fp.next()[:-1]
 
     if not _t:
-      raise IOError("File {0} does not look correct.")
+      raise IOError("File {0} does not look correct.".format(fname))
 
     cmd = ('read_dump {0} {1} x y z vx vy vz purge yes'
            'add yes replace no'.format(fname, _t))
