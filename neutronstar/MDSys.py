@@ -309,7 +309,7 @@ class MDSys(object):
     _t = None
     with open(fname, 'r') as fp:
       for line in fp:
-        if line == "ITEM: TIMESTEP":
+        if line == "ITEM: TIMESTEP\n":
           _t = fp.next()[:-1]
 
     if not _t:
