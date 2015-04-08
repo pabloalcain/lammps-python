@@ -90,7 +90,7 @@ def build_table(pot, l):
 
 
 class MDSys(object):
-  def __init__(self, gpu=False, silent=True, root='./data'):
+  def __init__(self, gpu=False, silent=True, root='./data', log='log.lammps'):
     """
     Constructor: Instantiate the lammps class, so the system is always
     aware of the object it has.
@@ -102,7 +102,7 @@ class MDSys(object):
     root = Root directory for file hierarchy
     """
 
-    _args = []
+    _args = ['-log', log]
 
     if silent:
       _args += ['-screen', 'none', '-nocite']
