@@ -282,12 +282,12 @@ class MDSys(object):
     _d = self.parameters['d']
     _vol = float(_N)/_d
     _size = _vol ** (1.0 / 3.0)
-    _rate = vel / _size
-    command = (('fix expansion all deform 1 x erate {0} '
-                'y erate {0} z erate {0}').format(_rate),
-               'velocity all ramp vx 0 {0} x 0 {1} sum yes'.format(vel, _rate),
-               'velocity all ramp vy 0 {0} y 0 {1} sum yes'.format(vel, _rate),
-               'velocity all ramp vz 0 {0} z 0 {1} sum yes'.format(vel, _rate),
+    _size = _size / 2
+    command = (('fix expansion all deform 1 x vel {0} '
+                'y vel {0} z vel {0} remap none units box').format(_rate),
+               'velocity all ramp vx 0 {0} x -{1} {1} sum yes units box'.format(vel, _size),
+               'velocity all ramp vy 0 {0} y -{1} {1} sum yes units box'.format(vel, _size),
+               'velocity all ramp vz 0 {0} z -{1} {1} sum yes units box'.format(vel, _size),
                'velocity all zero linear')
                
     for cmd in command:
