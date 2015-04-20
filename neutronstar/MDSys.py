@@ -284,7 +284,7 @@ class MDSys(object):
     _size = _vol ** (1.0 / 3.0)
     _size = _size / 2
     command = (('fix expansion all deform 1 x vel {0} '
-                'y vel {0} z vel {0} remap none units box').format(_rate),
+                'y vel {0} z vel {0} remap none units box').format(vel),
                'velocity all ramp vx 0 {0} x -{1} {1} sum yes units box'.format(vel, _size),
                'velocity all ramp vy 0 {0} y -{1} {1} sum yes units box'.format(vel, _size),
                'velocity all ramp vz 0 {0} z -{1} {1} sum yes units box'.format(vel, _size),
