@@ -45,15 +45,15 @@ def build_table(pot, l):
   if pot in ["medium", "stiff", "newmed"]:
     if pot == "medium":
       (Vr, Va, V0) = (3088.118, 2666.647, 373.118)
-      (ur, ua, u0) = (1.5, 1.6, 1.7468)
+      (ur, ua, u0) = (1.7468, 1.6, 1.5)
 
     if pot == "newmed": ## PARECE QUE ESTA MAL NEWMED
-      (Vr, Va, V0) = (2696.0, 3097.0, 379.5)
-      (ur, ua, u0) = (1.528, 1.648, 1.628)
+      (Vr, Va, V0) = (3097.0, 2696.0, 379.5)
+      (ur, ua, u0) = (1.648, 1.528, 1.628)
 
     if pot == "stiff":
-      (Vr, Va, V0) = (2834.338, 3601.482, 17630.256)
-      (ur, ua, u0) = (2.2398, 2.0, 3.25)
+      (Vr, Va, V0) = (3601.482, 2834.338, 17630.256)
+      (ur, ua, u0) = (2.2395, 2.0, 3.25)
 
 
     descr['NN'] = "# Pandha {0} potential for same species".format(pot)
