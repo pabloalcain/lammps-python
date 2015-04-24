@@ -97,7 +97,8 @@ def build_table(pot, l):
       _r = r[p]
       _V = V[p]
       _F = - np.diff(_V) / np.diff(_r)
-      for i in xrange(N-1): # improve with enumerate
+      _F.resize(N)
+      for i in xrange(N): # improve with enumerate
         print>>fp, i+1, _r[i], _V[i], _F[i]
 
 
