@@ -73,7 +73,7 @@ def build_table(pot, l):
     def Vnp(r):
       return a * np.exp(-r**2 / L) + (b + c) * np.exp(-r**2 / (2*L))
 
-    def Vnn(r):
+    def Vpp(r):
       return a * np.exp(-r**2 / L) + (b - c) * np.exp(-r**2 / (2*L)) + Vc * np.exp(-uc * r) / r
 
   else:
