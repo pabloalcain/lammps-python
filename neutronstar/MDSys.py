@@ -68,13 +68,13 @@ def build_table(pot, l):
     c = 24.0
     L = 1.25
     def Vnn(r):
-      return a * np.exp(-r**2 / L) + (b - c) * np.exp(-r**2 / (2*L))
-
-    def Vnp(r):
       return a * np.exp(-r**2 / L) + (b + c) * np.exp(-r**2 / (2*L))
 
+    def Vnp(r):
+      return a * np.exp(-r**2 / L) + (b - c) * np.exp(-r**2 / (2*L))
+
     def Vpp(r):
-      return a * np.exp(-r**2 / L) + (b - c) * np.exp(-r**2 / (2*L)) + Vc * np.exp(-uc * r) / r
+      return a * np.exp(-r**2 / L) + (b + c) * np.exp(-r**2 / (2*L)) + Vc * np.exp(-uc * r) / r
 
   else:
     raise AttributeError("Option {0} for potential not found".format(pot))
