@@ -1,5 +1,5 @@
 LDFLAGS=-L$(LAMMPS)/src
-LDLIBS=-llammps -lfftw3 -lmpi -lpthread
+LDLIBS=-llammps -lmpi -lpthread
 INFLAGS=-I$(LAMMPS)/src
 CXXFLAGS=-Wno-write-strings -g -O0 -fPIC
 

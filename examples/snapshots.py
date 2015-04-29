@@ -22,7 +22,7 @@ comp = ('rdf', 'ssf', 'mink', 'mste', 'thermo', 'fit')
 for d in darr:
   param['d'] = d
   print "x={0} d={1}".format(x, d)
-  system = MDSys(gpu=True, root="./snapshots")
+  system = MDSys(gpu=True, root="./snapshots", silent=False)
   system.setup(param, comp)
   system.minimize()
   for T in temp:
