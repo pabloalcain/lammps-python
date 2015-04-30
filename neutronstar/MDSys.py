@@ -166,6 +166,8 @@ class MDSys(object):
     self.set_path(parameters)
     self.set_parameters(parameters)
     self.set_computes(computes)
+    # In the beginning, tally everything
+    self.lmp.command("run 0 pre yes post no")
 
   def set_path(self, parameters):
     """
@@ -338,7 +340,7 @@ class MDSys(object):
     """
     Wrapper for the "run" command in lammps
     """
-    self.lmp.command("run {ns}".format(ns=Nsteps))
+    self.lmp.command("run {ns} pre no post yes".format(ns=Nsteps))
 
 
   def equilibrate(self, nfreq=300, wind=20):
@@ -381,6 +383,8 @@ class MDSys(object):
       if slope > 0 and diff < std:
         break
     self.lmp.command("reset_timestep 0")
+    # To tally everything since we reset timestep
+    self.lmp.command("run 0 pre yes post no")
 
   def results(self,
 	      r_mink=1.8, r_cell=0.5,
@@ -453,7 +457,7 @@ class MDSys(object):
     tmp = "dump myDUMP all custom 1 {0} id type x y z vx vy vz"
     self.lmp.command(tmp.format(dump_fname))
     self.lmp.command("dump_modify myDUMP sort id append yes")
-    self.lmp.command("run 0 post no")
+    self.lmp.command("run 0 pre yes post no")
     self.lmp.command("undump myDUMP")
 
   def flush(self):
