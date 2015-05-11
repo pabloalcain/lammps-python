@@ -316,10 +316,11 @@ class MDSys(object):
     
     self.lmp.command("unfix expansion")
 
-  def read_dump(self, fname):
+  def read_dump(self, fname, mste=False):
 
-    """
-    Read information from the last snapshot of a dump file
+    """Read information from the last snapshot of a dump file. In case
+    the dump file has the mste column, set mste to True
+
     """
 
     _t = None
@@ -331,8 +332,11 @@ class MDSys(object):
     if not _t:
       raise IOError("File {0} does not look correct.".format(fname))
 
-    cmd = ('read_dump {0} {1} x y z vx vy vz purge yes '
-           'add yes replace no'.format(fname, _t))
+    if mste: mste_string = "c_mste"
+    else: mste_string = ""
+    
+    cmd = ('read_dump {0} {1} x y z vx vy vz {2} purge yes '
+           'add yes replace no'.format(fname, _t, mste_string))
 
     self.lmp.command(cmd)
 
@@ -434,7 +438,6 @@ class MDSys(object):
       self.collective['breadth'] = c
       self.collective['euler'] = d
 
-
     if "thermo" in self.computes:
       [a, b, c, d, e] = A.thermo(self.lmp, _N)
       self.collective['temperature'] = a
@@ -454,7 +457,7 @@ class MDSys(object):
     """
     path = self.path
     dump_fname = path + 'dump.lammpstrj'
-    tmp = "dump myDUMP all custom 1 {0} id type x y z vx vy vz"
+    tmp = "dump myDUMP all custom 1 {0} id type x y z vx vy vz c_mste"
     self.lmp.command(tmp.format(dump_fname))
     self.lmp.command("dump_modify myDUMP sort id append yes")
     self.lmp.command("run 0 pre yes post no")
