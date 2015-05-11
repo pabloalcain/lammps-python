@@ -176,8 +176,11 @@ void ComputeMSTEAtom::compute_peratom()
 
         for (jj = 0; jj < jnum; jj++) {
           j = jlist[jj];
+	  factor_lj = special_lj[sbmask(j)];
+	  factor_coul = special_coul[sbmask(j)];
           j &= NEIGHMASK;
           if (!(mask[j] & groupbit)) continue;
+
           if (clusterID[i] == clusterID[j]) continue;
 
           delx = xtmp - x[j][0];
@@ -212,8 +215,8 @@ void ComputeMSTEAtom::compute_peratom()
 
 /* ---------------------------------------------------------------------- */
 
-int ComputeMSTEAtom::pack_comm(int n, int *list, double *buf,
-                                  int pbc_flag, int *pbc)
+int ComputeMSTEAtom::pack_forward_comm(int n, int *list, double *buf,
+				       int pbc_flag, int *pbc)
 {
   int i,j,m;
 
@@ -236,7 +239,7 @@ int ComputeMSTEAtom::pack_comm(int n, int *list, double *buf,
 
 /* ---------------------------------------------------------------------- */
 
-void ComputeMSTEAtom::unpack_comm(int n, int first, double *buf)
+void ComputeMSTEAtom::unpack_forward_comm(int n, int first, double *buf)
 {
   int i,m,last;
 
