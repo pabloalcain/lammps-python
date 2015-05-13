@@ -229,8 +229,8 @@ class MDSys(object):
         nprot = int(_x * _N)
         nneut = int(_N) - nprot
         command = ('delete_atoms group all',
-                   'create_atoms 1 random {n1} {s} box'.format(n1=nprot, s=randint(0, 10000)),
-                   'create_atoms 2 random {n2} {s} box'.format(n2=nneut, s=randint(0, 10000)))
+                   'create_atoms 1 random {n1} {s} box'.format(n1=nneut, s=randint(0, 10000)),
+                   'create_atoms 2 random {n2} {s} box'.format(n2=nprot, s=randint(0, 10000)))
       else:
         command = ()
         
