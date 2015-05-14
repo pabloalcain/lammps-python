@@ -100,7 +100,7 @@ void ComputeMSTEAtom::compute_peratom()
 {
   int i,j,ii,jj,inum,jnum,itype,jtype;
   double xtmp,ytmp,ztmp,delx,dely,delz,rsq;
-  double delpx,delpy,delpz,psq;
+  double vxtmp,vytmp,vztmp,delvx,delvy,delvz,vsq;
   double eng,fpair,factor_coul,factor_lj;
   int *ilist,*jlist,*numneigh,**firstneigh;
 
@@ -172,6 +172,9 @@ void ComputeMSTEAtom::compute_peratom()
         xtmp = x[i][0];
         ytmp = x[i][1];
         ztmp = x[i][2];
+        vxtmp = v[i][0];
+        vytmp = v[i][1];
+        vztmp = v[i][2];
 	itype = type[i];
         jlist = firstneigh[i];
         jnum = numneigh[i];
@@ -190,12 +193,12 @@ void ComputeMSTEAtom::compute_peratom()
           jtype = type[j];
           rsq = delx*delx + dely*dely + delz*delz;
           if (rsq < cutsq) {
-            delpx = mass[itype] * v[i][0] - mass[jtype] * v[j][0];
-            delpy = mass[itype] * v[i][1] - mass[jtype] * v[j][1];
-            delpz = mass[itype] * v[i][2] - mass[jtype] * v[j][2];
-            psq = delpx*delpx + delpy*delpy + delpz*delpz;
+            delvx = vxtmp - v[j][0];
+            delvy = vytmp - v[j][1];
+            delvz = vztmp - v[j][2];
+            vsq = delvx*delvx + delvy*delvy + delvz*delvz;
             eng = force->pair->single(i,j,itype,jtype,rsq,factor_coul,factor_lj,fpair);
-            eng += psq / 2.0 * (1./mass[itype] + 1./mass[jtype]);
+            eng += 1.0/2.0 * vsq * (1.0/mass[itype] + 1.0/mass[jtype]);
 	    if (eng < 0.0) {
               clusterID[i] = clusterID[j] = MIN(clusterID[i],clusterID[j]);
               done = 0;

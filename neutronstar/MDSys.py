@@ -434,6 +434,7 @@ class MDSys(object):
       self.c_mste_frac += t_c[:,1] * t_c[:, 0]
       self.c_mste_frac = np.nan_to_num(self.c_mste_frac/((n-1) * self.c_mste_occ + t_c[:, 0]))
 
+      # Normalization of the occupancy
       self.c_mste_occ *= (n-1)/n
       self.c_mste_occ += t_c[:, 0]/n
 
