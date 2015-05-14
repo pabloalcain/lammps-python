@@ -258,7 +258,8 @@ class MDSys(object):
     if "rdf" in computes:
       self.c_rdf = 0
     if "mste" in computes:
-      self.c_mste = 0
+      self.c_mste_occ = 0
+      self.c_mste_frac = 0
     if "ssf" in computes:
       self.c_ssf = 0
     self.variables = []
@@ -427,8 +428,15 @@ class MDSys(object):
 
     if "mste" in self.computes:
       [t_c, a, b] = A.mste(self.lmp, _N)
-      self.c_mste *= (n-1)/n
-      self.c_mste += t_c/n
+
+      # Normalization of the proton fraction
+      self.c_mste_frac *= (n-1) * self.c_mste_occ
+      self.c_mste_frac += t_c[:,1] * t_c[:, 0]
+      self.c_mste_frac = np.nan_to_num(self.c_mste_frac/((n-1) * self.c_mste_occ + t_c[:, 0]))
+
+      self.c_mste_occ *= (n-1)/n
+      self.c_mste_occ += t_c[:, 0]/n
+
       self.collective['size_avg'] = a
       self.collective['size_std'] = b
 
@@ -471,13 +479,13 @@ class MDSys(object):
     path = self.path
     if "mste" in self.computes:
       # To add cluster size to file
-      x = np.array(range(len(self.c_mste)))
-      temp = np.vstack((x, self.c_mste))
+      indices = (self.c_mste_occ != 0.0)
+      x = np.array(range(len(self.c_mste_occ)))
+      temp = np.vstack((x[indices], self.c_mste_occ[indices], self.c_mste_frac[indices]))
       mste_fname = path + 'cluster.dat'
-      np.savetxt(mste_fname, temp.T, header='size, number', fmt='%6i %1.4e')
-      idx = self.c_mste.nonzero()[0]
+      np.savetxt(mste_fname, temp.T, header='size, number, frac', fmt='%6i %1.4e, %1.5f')
       pl.figure()
-      pl.loglog(x[idx], self.c_mste[idx], 'o-')
+      pl.loglog(x[indices], self.c_mste_occ[indices], 'o-')
       pl.xlabel('Cluster size')
       pl.ylabel('Frequency')
       pl.tight_layout()

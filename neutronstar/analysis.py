@@ -128,15 +128,35 @@ def mste(lmp, N):
 
   ext = lmp.extract_compute("mste", 1, 1)
   tmp = np.fromiter(ext, dtype=np.int, count=N)
-  # First bincount to count repeated indices => cluster size
-  clust = np.bincount(tmp)
-  # Filter out clusters with 0 mass
-  clust = clust[clust > 0]
+  ext = lmp.extract_atom("type", 0)
+  typ = np.fromiter(ext, dtype=np.int, count=N)
+  # We loop over all the different clusterIDs present, get the mass as
+  # how often it occurs and the fraction as 
+  
+  single_ids = set([i for i in tmp])
+  clust = np.zeros((N,2), dtype=np.float)
+  for (idx, clusterid) in enumerate(single_ids):
+    indices = (tmp == clusterid)
+    clus_type = typ[indices]
+    mass = np.size(clus_type)
+    frac = float(sum(typ[indices] - 1)) / mass
+    clust[idx, 0] = mass
+    clust[idx, 1] = frac
+
+  clust = clust[clust[:, 0] != 0, :]
   mean = np.mean(clust)
   std = np.std(clust)
-  # Second to histogram over sizes
-  histo = np.bincount(clust)
-  histo.resize(N + 1)
+  single_masses = set([i for i in clust[:, 0]])
+  histo = np.zeros((N + 1,2), dtype=np.float)
+  for (idx, mass) in enumerate(single_masses):
+    if mass == 0: continue
+    indices = (clust[:, 0] == mass)
+
+    occ = sum(indices)
+    frac = sum(clust[indices, 1]) / occ
+    histo[mass, 0] = occ
+    histo[mass, 1] = frac
+  
   return histo, mean, std
 
 def minkowski(lmp, rad, rcell):
