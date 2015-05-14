@@ -36,7 +36,7 @@ using namespace LAMMPS_NS;
 ComputeMSTEAtom::ComputeMSTEAtom(LAMMPS *lmp, int narg, char **arg) :
   Compute(lmp, narg, arg)
 {
-  if (narg != 4) error->all(FLERR,"Illegal compute cluster/atom command");
+  if (narg != 4) error->all(FLERR,"Illegal compute mste/atom command");
 
   double cutoff = force->numeric(FLERR,arg[3]);
   cutsq = cutoff*cutoff;
@@ -60,13 +60,15 @@ ComputeMSTEAtom::~ComputeMSTEAtom()
 
 void ComputeMSTEAtom::init()
 {
+  if (comm->ghost_velocity == 0)
+    error->all(FLERR,"Compute mste/atom requires ghost atoms store velocity");
   if (atom->tag_enable == 0)
-    error->all(FLERR,"Cannot use compute cluster/atom unless atoms have IDs");
+    error->all(FLERR,"Cannot use compute mste/atom unless atoms have IDs");
   if (force->pair == NULL)
-    error->all(FLERR,"Compute cluster/atom requires a pair style be defined");
+    error->all(FLERR,"Compute mste/atom requires a pair style be defined");
   if (sqrt(cutsq) > force->pair->cutforce)
     error->all(FLERR,
-               "Compute cluster/atom cutoff is longer than pairwise cutoff");
+               "Compute mste/atom cutoff is longer than pairwise cutoff");
 
   // need an occasional full neighbor list
   // full required so that pair of atoms on 2 procs both set their clusterID
@@ -80,9 +82,9 @@ void ComputeMSTEAtom::init()
 
   int count = 0;
   for (int i = 0; i < modify->ncompute; i++)
-    if (strcmp(modify->compute[i]->style,"cluster/atom") == 0) count++;
+    if (strcmp(modify->compute[i]->style,"mste/atom") == 0) count++;
   if (count > 1 && comm->me == 0)
-    error->warning(FLERR,"More than one compute cluster/atom");
+    error->warning(FLERR,"More than one compute mste/atom");
 }
 
 /* ---------------------------------------------------------------------- */
@@ -109,7 +111,7 @@ void ComputeMSTEAtom::compute_peratom()
   if (atom->nlocal+atom->nghost > nmax) {
     memory->destroy(clusterID);
     nmax = atom->nmax;
-    memory->create(clusterID,nmax,"cluster/mste:clusterID");
+    memory->create(clusterID,nmax,"mste/atom:clusterID");
     vector_atom = clusterID;
   }
 
@@ -176,11 +178,10 @@ void ComputeMSTEAtom::compute_peratom()
 
         for (jj = 0; jj < jnum; jj++) {
           j = jlist[jj];
-	  factor_lj = special_lj[sbmask(j)];
-	  factor_coul = special_coul[sbmask(j)];
+          factor_lj = special_lj[sbmask(j)];
+          factor_coul = special_coul[sbmask(j)];
           j &= NEIGHMASK;
           if (!(mask[j] & groupbit)) continue;
-
           if (clusterID[i] == clusterID[j]) continue;
 
           delx = xtmp - x[j][0];
@@ -189,12 +190,12 @@ void ComputeMSTEAtom::compute_peratom()
           jtype = type[j];
           rsq = delx*delx + dely*dely + delz*delz;
           if (rsq < cutsq) {
-            delpx = mass[itype] * v[tag[i]][0] - mass[jtype] * v[tag[j]][0];
-            delpy = mass[itype] * v[tag[i]][1] - mass[jtype] * v[tag[j]][1];
-            delpz = mass[itype] * v[tag[i]][2] - mass[jtype] * v[tag[j]][2];
+            delpx = mass[itype] * v[i][0] - mass[jtype] * v[j][0];
+            delpy = mass[itype] * v[i][1] - mass[jtype] * v[j][1];
+            delpz = mass[itype] * v[i][2] - mass[jtype] * v[j][2];
             psq = delpx*delpx + delpy*delpy + delpz*delpz;
             eng = force->pair->single(i,j,itype,jtype,rsq,factor_coul,factor_lj,fpair);
-            eng += psq / 2.0 * (mass[itype] + mass[jtype])/(mass[itype] * mass[jtype]);
+            eng += psq / 2.0 * (1./mass[itype] + 1./mass[jtype]);
 	    if (eng < 0.0) {
               clusterID[i] = clusterID[j] = MIN(clusterID[i],clusterID[j]);
               done = 0;
@@ -216,7 +217,7 @@ void ComputeMSTEAtom::compute_peratom()
 /* ---------------------------------------------------------------------- */
 
 int ComputeMSTEAtom::pack_forward_comm(int n, int *list, double *buf,
-				       int pbc_flag, int *pbc)
+                                       int pbc_flag, int *pbc)
 {
   int i,j,m;
 

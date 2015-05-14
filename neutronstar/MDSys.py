@@ -138,6 +138,7 @@ class MDSys(object):
       "pair_style        table linear {ninter}".format(ninter=5000),
       "neighbor          1.2 bin",
       "neigh_modify      every 1 delay 0 check yes one 8000 page 80000",
+      "comm_modify       vel yes",
       "thermo_style      custom step temp ke epair etotal press",
       "thermo            1000",
       "compute           mste all mste/atom 5.4",
