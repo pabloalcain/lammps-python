@@ -14,7 +14,7 @@ matplotlib.use('Agg')
 import pylab as pl
 import numpy as np
 
-def flush_mste(occ, frac, path='./'):
+def mste(occ, frac, path='./'):
     indices = (occ != 0.0)
     mass = np.arange(len(occ)) # mass is just the indices of occ and frac
     frac = frac[indices]
@@ -49,4 +49,65 @@ def flush_mste(occ, frac, path='./'):
     ax1.legend(h1+h2, l1+l2)
     fig.tight_layout()
     fig.savefig(path + 'cluster.pdf')
-    pl.close(fig)
+    #pl.close(fig)
+
+def rdf(rdf, path='./'):
+    
+    np.savetxt(path + 'rdf.dat', rdf,
+               header=('r, a-a, ia-a, n-n, in-n, '
+                       'n-p, in-p, p-p, ip-p'),
+               fmt=', '.join(['%f']*9))
+
+    labels = ('all', 'n-n', 'n-p', 'p-p')
+    fig, ax = pl.subplots()
+    ax.set_xlabel('Distance [fm]')
+    ax.set_ylabel('RDF')
+    R = rdf[:, 0]
+    ax.set_xlim(0, R[-1])
+    for i in xrange(4):
+        pair = labels[i]
+        idx = i * 2 + 1
+        G = rdf[:, idx]
+        fig_each, ax_each = pl.subplots()
+        ax_each.set_xlabel('Distance [fm]')
+        ax_each.set_xlim(0, R[-1])
+        for axis in (ax, ax_each):
+            axis.plot(R, G, label=pair)
+        ax_each.set_ylabel('RDF ({0})'.format(pair))
+        fig_each.tight_layout()
+        fig_each.savefig(path + '/rdf_{0}.pdf'.format(pair))
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(path + '/rdf.pdf')
+    fig.show()
+        
+def ssf(ssf, path='./'):
+    
+    np.savetxt(path + 'ssf.dat', ssf,
+               header=('r, a-a, n-n, n-p, p-p'),
+               fmt=', '.join(['%f']*5))
+
+    labels = ('all', 'n-n', 'n-p', 'p-p')
+    fig, ax = pl.subplots()
+    ax.set_xlabel(r'Wave number [fm$^{-1}$]')
+    ax.set_ylabel('SSF')
+    Q = ssf[:, 0]
+    qmax = 5.0
+    ax.set_xlim(0, qmax)
+    for i in xrange(4):
+        idx = i + 1
+        pair = labels[i]
+        S = ssf[:, idx]
+        fig_each, ax_each = pl.subplots()
+        ax_each.set_xlabel(r'Wave number [fm$^{-1}$]')
+        ax_each.set_xlim(0, qmax)
+        for axis in (ax, ax_each):
+            axis.plot(Q, S, label=pair)
+        ax_each.set_ylabel('SSF ({0})'.format(pair))
+        fig_each.tight_layout()
+        fig_each.savefig(path + '/ssf_{0}.pdf'.format(pair))
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(path + '/ssf.pdf')
+    fig.show()
+        
