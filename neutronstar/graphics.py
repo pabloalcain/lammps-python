@@ -23,7 +23,7 @@ def flush_mste(occ, frac, path='./'):
     np.savetxt(path + 'cluster.dat', np.transpose([mass, occ, frac]),
                header='size, number, frac', fmt='%i, %f, %f')
 
-    # Coarse-graom the histogram
+    # Coarse-grain the histogram
     nbins = 20
     bins = np.logspace(0, np.log10(mass[-1]), nbins)
     a, xx = np.histogram(mass, weights = occ/50.0, bins = bins)
