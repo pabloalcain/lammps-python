@@ -8,7 +8,9 @@ from os import makedirs, listdir
 import neutronstar.analysis as analysis
 import neutronstar.graphics as graphics
 
-_keys = ["potential", "lambda", "x", "N", "d", "T"]
+_param_keys = ('potential', 'lambda', 'x', 'N', 'd', 'T')
+_comp_keys = ('rdf', 'ssf', 'fit', 'mste', 'mink', 'thermo')
+
 
 def build_table(pot, l):
   """
@@ -96,9 +98,8 @@ def build_table(pot, l):
       _V = V[p]
       _F = - np.diff(_V) / np.diff(_r)
       _F.resize(N)
-      for i in xrange(N): # improve with enumerate
-        print>>fp, i+1, _r[i], _V[i], _F[i]
-
+      for i, (ri, vi, fi) in enumerate(zip(_r, _V, _F)):
+        print>>fp, i+1, ri, vi, fi
 
 
 class MDSys(object):
@@ -149,22 +150,22 @@ class MDSys(object):
     self.collective = {}
     self.npairs = 4
     self.parameters = {}
-    for i in _keys:
+    for i in _param_keys:
       self.parameters[i] = None
 
 
-  def setup(self, parameters, computes):
+  def setup(self, parameters, list_computes):
     """
     Setup: set the parameters and computes.
 
     * parameters: dictionary with values of lambda, N, potential, x, density
     and temperature
-    * computes: list of computes
+    * list_computes: list of computes
     * root: root directory for all information
     """
     self.set_path(parameters)
     self.set_parameters(parameters)
-    self.set_computes(computes)
+    self.set_computes(list_computes)
     # In the beginning, tally everything
     self.lmp.command("run 0 pre yes post no")
 
@@ -180,7 +181,7 @@ class MDSys(object):
                'd': 'd',
                'T': 'T'}
     self.path = self.root
-    for i in _keys:
+    for i in _param_keys:
       self.path += "/{0}{1}".format(_prefix[i], parameters[i])
     self.path += "/"
     
@@ -197,7 +198,7 @@ class MDSys(object):
     We only updates those that change
     """
 
-    for i in _keys:
+    for i in _param_keys:
       if parameters[i] != self.parameters[i]:
         self.update(i, parameters[i])
 
@@ -206,7 +207,7 @@ class MDSys(object):
     Different commands for the update of parameters
     """
 
-    if key not in _keys:
+    if key not in _param_keys:
       raise KeyError("Key {0} does not exist.")
 
     self.parameters[key] = value
@@ -248,26 +249,22 @@ class MDSys(object):
     for cmd in command:
       self.lmp.command(cmd)
 
-  def set_computes(self, computes):
+  def set_computes(self, list_computes):
     """
     Set computes and re-initialize them if needed
     """
+
+    _is_rdf = 'rdf' in list_computes
+    _is_ssf = 'ssf' in list_computes
+    _is_fit = 'fit' in list_computes
+    if not _is_rdf and (_is_ssf or _is_fit):
+      raise AttributeError("Cannot calculate structure factor nor fit without rdf")
+
     self.n_tally = 0
-    if not 'rdf' in computes:
-      if 'ssf' in computes:
-        raise AttributeError("Cannot calculate structure factor without rdf")
-      if 'fit' in computes:
-        raise AttributeError("Cannot fit without rdf")
-
-    if "rdf" in computes:
-      self.c_rdf = 0
-    if "mste" in computes:
-      self.c_mste_occ = 0
-      self.c_mste_frac = 0
-    if "ssf" in computes:
-      self.c_ssf = 0
-
-    _var = {'ssf': ('k_absorption', 'S_absorption'),
+    self.computes = {}
+    
+    _var = {'rdf': (),
+            'ssf': ('k_absorption', 'S_absorption'),
             'fit': ('height', 'del_height', 
                     'lambda', 'del_lambda'),
             'mste': ('size_avg', 'size_std'),
@@ -275,14 +272,20 @@ class MDSys(object):
             'thermo': ('temperature', 'kinetic',
                        'potential', 'energy', 
                        'pressure'),
-            'rdf': ()
             }
 
-    for c in computes:
+    _comp = {'rdf': 0,
+             'ssf': 0,
+             'fit': (),
+             'mste': [0, 0],
+             'mink': (),
+             'thermo': (),
+             }
+    
+    for c in list_computes:
+      self.computes[c] = _comp[c]
       for v in _var[c]:
         self.collective[v] = []
-
-    self.computes = computes
 
   def minimize(self):
     """
@@ -422,13 +425,13 @@ class MDSys(object):
 
     if "rdf" in self.computes:
       t_r = analysis.rdf(self.lmp, nbins, rmax, self.npairs)
-      self.c_rdf *= (n-1)/n
-      self.c_rdf += t_r/n
+      self.computes['rdf'] *= (n-1)/n
+      self.computes['rdf'] += t_r/n
 
     if "ssf" in self.computes:
       [t_s, k, s] = analysis.structure(t_r, _d, self.npairs)
-      self.c_ssf *= (n-1)/n
-      self.c_ssf += t_s/n
+      self.computes['ssf'] *= (n-1)/n
+      self.computes['ssf'] += t_s/n
       self.collective['k_absorption'].append(k)
       self.collective['S_absorption'].append(s)
 
@@ -443,13 +446,14 @@ class MDSys(object):
       [t_c, avg, std] = analysis.mste(self.lmp, _N)
 
       # Normalization of the proton fraction
-      self.c_mste_frac *= (n-1) * self.c_mste_occ
-      self.c_mste_frac += t_c[:,1] * t_c[:, 0]
-      self.c_mste_frac = np.nan_to_num(self.c_mste_frac/((n-1) * self.c_mste_occ + t_c[:, 0]))
-
+      self.computes['mste'][1] *= (n-1) * self.computes['mste'][0]
+      self.computes['mste'][1] += t_c[:,1] * t_c[:, 0]
+      self.computes['mste'][1] /= (n-1) * self.computes['mste'][0] + t_c[:, 0]
+      self.computes['mste'][1] = np.nan_to_num(self.computes['mste'][1])
+      
       # Normalization of the occupancy
-      self.c_mste_occ *= (n-1)/n
-      self.c_mste_occ += t_c[:, 0]/n
+      self.computes['mste'][0] *= (n-1)/n
+      self.computes['mste'][0] += t_c[:, 0]/n
 
       self.collective['size_avg'].append(avg)
       self.collective['size_std'].append(std)
@@ -489,10 +493,14 @@ class MDSys(object):
     Write log in the data file and plot
     """
     path = self.path
-    if "mste" in self.computes: graphics.mste(self.c_mste_occ, self.c_mste_frac, path=path)
-    if "rdf" in self.computes: graphics.rdf(self.c_rdf, path=path)
-    if "ssf" in self.computes: graphics.ssf(self.c_ssf, path=path)
+    if "mste" in self.computes: 
+      graphics.mste(self.computes['mste'][0], 
+                    self.computes['mste'][1], path=path)
+
+    if "rdf" in self.computes: graphics.rdf(self.computes['rdf'], path=path)
+    if "ssf" in self.computes: graphics.ssf(self.computes['ssf'], path=path)
     if "thermo" in self.computes: graphics.thermo(self.collective, path=path)
 
     self.set_computes(self.computes)
     self.lmp.command("reset_timestep 0")
+    
