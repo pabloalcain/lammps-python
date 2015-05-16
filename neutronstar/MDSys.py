@@ -313,9 +313,7 @@ class MDSys(object):
     # To tally everything since we reset timestep
     self.lmp.command("run 0 pre yes post no")
 
-  def results(self,
-	      r_mink=1.8, r_cell=0.5,
-	      nbins=200, rmax=None):
+  def results(self, r_mink=1.8, r_cell=0.5, nbins=200, rmax=None):
     """
     Method to take all the results that have been set in the setup()
     method
