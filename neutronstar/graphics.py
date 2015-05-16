@@ -113,7 +113,7 @@ def ssf(ssf, path='./'):
     ax.set_xlabel(r'Wave number [fm$^{-1}$]')
     ax.set_ylabel('SSF')
     Q = ssf[:, 0]
-    qmax = 5.0
+    qmax = 7.0
     ax.set_xlim(0, qmax)
     for i in xrange(4):
         idx = i + 1

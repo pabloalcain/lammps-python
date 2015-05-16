@@ -43,39 +43,39 @@ def structure(gr, density, npairs):
   pair.
 
   Also return the first peak of the neutron-neutron scattering.
+  (peak between ~8 and ~30 fm wavelength)
   """
   _d = density
   r = gr[:, 0]
   # Assume evenly spaced
   dr = r[1] - r[0]
-  # Wave vectors
-  n = len(r)
+  # How many points do I need to add to get a good resolution?
+  dlda = 0.1
+  lda0 = 15.0
+  rmax = lda0**2 / dlda
+  n = int(rmax/dr)
+
   q = np.linspace(0, 2*np.pi/dr, n)
   S = np.zeros((n, npairs+1))
   S[:, 0] = q
-  for i in range(npairs):
 
+  for i in range(npairs):
     #Integrand in the fourier transform
     ker = (gr[:, 2*i + 1] - 1) * r
     #Imaginary (sin) part of the Fourier transform
-    ft = np.imag(np.fft.fft(ker)) * dr
+    ft = np.imag(np.fft.fft(ker, n)) * dr
     #Structure factor
     #We split the q = 0 case, since it is ill-defined
-    S[0, i+1] = 1
     S[1:, i+1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
 
-  data = S[:, 4]
-  try:
-    _change = np.sign(np.diff(data))
-    c = np.diff(_change) < 0
-    c = c.nonzero()[0][0] + 1 # first local max
-    kmax = q[c]
-    Smax = S[c, 4]
-  except IndexError:
-    kmax = float('nan')
-    Smax = float('nan')
+  mask = ((q > 0.2) & (q < 0.8))
+  s_pasta = S[mask, 2]
+  q_pasta = S[mask, 0]
+  idx = np.argmax(s_pasta)
+  s_max = s_pasta[idx]
+  q_max = q_pasta[idx]
 
-  return S, kmax, Smax
+  return S, q_max, s_max
 
 def fit(gr):
   """
