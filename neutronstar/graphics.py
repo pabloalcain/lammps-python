@@ -14,7 +14,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
-def mste(occ, frac, path='./'):
+def mste((occ, frac), path='./'):
     indices = (occ != 0.0)
     mass = np.arange(len(occ)) # mass is just the indices of occ and frac
     frac = frac[indices]

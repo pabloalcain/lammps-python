@@ -147,17 +147,18 @@ def mste(lmp, N):
   mean = np.mean(clust)
   std = np.std(clust)
   single_masses = set([i for i in clust[:, 0]])
-  histo = np.zeros((N + 1,2), dtype=np.float)
+  histo_occ = np.zeros((N + 1), dtype=np.float)
+  histo_frac = np.zeros((N + 1), dtype=np.float)
   for (idx, mass) in enumerate(single_masses):
     if mass == 0: continue
     indices = (clust[:, 0] == mass)
 
     occ = sum(indices)
     frac = sum(clust[indices, 1]) / occ
-    histo[mass, 0] = occ
-    histo[mass, 1] = frac
+    histo_occ[mass] = occ
+    histo_frac[mass] = frac
   
-  return histo, mean, std
+  return histo_occ, histo_frac, mean, std
 
 def minkowski(lmp, rad, rcell):
   """

@@ -7,99 +7,33 @@ from random import randint
 from os import makedirs, listdir
 import neutronstar.analysis as analysis
 import neutronstar.graphics as graphics
+import neutronstar.results as results
+import neutronstar.potential as potential
 
 _param_keys = ('potential', 'lambda', 'x', 'N', 'd', 'T')
 _comp_keys = ('rdf', 'ssf', 'fit', 'mste', 'mink', 'thermo')
+_var = {'rdf': (),
+        'ssf': ('k_absorption', 'S_absorption'),
+        'fit': ('height', 'del_height', 
+                'lambda', 'del_lambda'),
+        'mste': ('size_avg', 'size_std'),
+        'mink': ('volume', 'surface', 'breadth', 'euler'),
+        'thermo': ('temperature', 'kinetic',
+                   'potential', 'energy', 
+                   'pressure'),}
 
-
-def build_table(pot, l):
-  """
-  This method builds the actual potential table that will be read
-  in lammps. So far, three different potentials are going to be
-  supported:
-
-  - Pandha medium
-  - Pandha stiff
-  - Horowitz
-  """
-
-  rc_nuc = 5.4
-  rc_cou = max(l, rc_nuc)
-  N = 5000
-  pairs = ['NN', 'NP', 'PP']
-  r = {}
-  V = {}
-  F = {}
-  descr = {}
-  Ncou = N
-  r['NN'] = np.linspace(0, rc_nuc, N+1)[1:]
-  r['NP'] = np.linspace(0, rc_nuc, N+1)[1:]
-  r['PP'] = np.linspace(0, rc_cou, Ncou+1)[1:]
-
-  Vc = 1.44
-  uc = 1.0/l
-
-  if pot in ["medium", "stiff", "newmed"]:
-    if pot == "medium":
-      (Vr, Va, V0) = (3088.118, 2666.647, 373.118)
-      (ur, ua, u0) = (1.7468, 1.6, 1.5)
-
-    if pot == "newmed": ## PARECE QUE ESTA MAL NEWMED
-      (Vr, Va, V0) = (3097.0, 2696.0, 379.5)
-      (ur, ua, u0) = (1.648, 1.528, 1.628)
-
-    if pot == "stiff":
-      (Vr, Va, V0) = (3601.482, 2834.338, 17630.256)
-      (ur, ua, u0) = (2.2395, 2.0, 3.25)
-
-    def Vnn(r):
-      return V0 * np.exp(-u0 * r) / r
-    
-    def Vnp(r):
-      return Vr * np.exp(-ur * r) / r - Va * np.exp(-ua * r) / r
-      
-    def Vpp(r):
-      return V0 * np.exp(-u0 * r) / r + Vc * np.exp(-uc * r) / r
-
-
-  elif pot == "horowitz":
-    a = 110.0
-    b = -26.0
-    c = 24.0
-    L = 1.25
-    def Vnn(r):
-      return a * np.exp(-r**2 / L) + (b + c) * np.exp(-r**2 / (2*L))
-
-    def Vnp(r):
-      return a * np.exp(-r**2 / L) + (b - c) * np.exp(-r**2 / (2*L))
-
-    def Vpp(r):
-      return a * np.exp(-r**2 / L) + (b + c) * np.exp(-r**2 / (2*L)) + Vc * np.exp(-uc * r) / r
-
-  else:
-    raise AttributeError("Option {0} for potential not found".format(pot))
-
-  V['NN'] = Vnn(r['NN'])
-  V['NP'] = Vnp(r['NP'])
-  V['PP'] = Vpp(r['PP'])
-
-  descr['NN'] = "# {0} potential for same species".format(pot)
-  descr['NP'] = "# {0} potential for different species".format(pot)
-  descr['PP'] = ("# {0} potential for same species "
-                 "with Coulomb interaction lambda = {1}").format(pot, l)
-
-
-  with open("potential.table", 'w') as fp:
-    for p in pairs:
-      print>>fp, descr[p]+"\n"
-      print>>fp, p
-      print>>fp, "N {0}\n".format(N)
-      _r = r[p]
-      _V = V[p]
-      _F = - np.diff(_V) / np.diff(_r)
-      _F.resize(N)
-      for i, (ri, vi, fi) in enumerate(zip(_r, _V, _F)):
-        print>>fp, i+1, ri, vi, fi
+_comp = {'rdf': 0,
+         'ssf': 0,
+         'fit': (),
+         'mste': [0, 0],
+         'mink': (),
+         'thermo': (),}
+_prefix = {'potential': '',
+           'lambda': 'l',
+           'x': 'x',
+           'N': 'N',
+           'd': 'd',
+           'T': 'T',}
 
 
 class MDSys(object):
@@ -161,7 +95,6 @@ class MDSys(object):
     * parameters: dictionary with values of lambda, N, potential, x, density
     and temperature
     * list_computes: list of computes
-    * root: root directory for all information
     """
     self.set_path(parameters)
     self.set_parameters(parameters)
@@ -174,12 +107,6 @@ class MDSys(object):
     Update this_path according to value of parameters
     """
 
-    _prefix = {'potential': '',
-               'lambda': 'l',
-               'x': 'x',
-               'N': 'N',
-               'd': 'd',
-               'T': 'T'}
     self.path = self.root
     for i in _param_keys:
       self.path += "/{0}{1}".format(_prefix[i], parameters[i])
@@ -215,7 +142,7 @@ class MDSys(object):
       _pot = self.parameters['potential']
       _l = self.parameters['lambda']
       if _l and _pot: 
-        build_table(_pot, _l)
+        potential.build_table(_pot, _l)
         base = 'pair_coeff {t1} {t2} potential.table {pair} {cutoff}'
         command = (base.format(t1=1, t2=1, pair='NN', cutoff=5.4),
                    base.format(t1=1, t2=2, pair='NP', cutoff=5.4),
@@ -254,33 +181,14 @@ class MDSys(object):
     Set computes and re-initialize them if needed
     """
 
-    _is_rdf = 'rdf' in list_computes
-    _is_ssf = 'ssf' in list_computes
-    _is_fit = 'fit' in list_computes
-    if not _is_rdf and (_is_ssf or _is_fit):
+    _r = 'rdf' in list_computes
+    _s = 'ssf' in list_computes
+    _f = 'fit' in list_computes
+    if not _r and (_s or _f):
       raise AttributeError("Cannot calculate structure factor nor fit without rdf")
 
     self.n_tally = 0
     self.computes = {}
-    
-    _var = {'rdf': (),
-            'ssf': ('k_absorption', 'S_absorption'),
-            'fit': ('height', 'del_height', 
-                    'lambda', 'del_lambda'),
-            'mste': ('size_avg', 'size_std'),
-            'mink': ('volume', 'surface', 'breadth', 'euler'),
-            'thermo': ('temperature', 'kinetic',
-                       'potential', 'energy', 
-                       'pressure'),
-            }
-
-    _comp = {'rdf': 0,
-             'ssf': 0,
-             'fit': (),
-             'mste': [0, 0],
-             'mink': (),
-             'thermo': (),
-             }
     
     for c in list_computes:
       self.computes[c] = _comp[c]
@@ -417,64 +325,28 @@ class MDSys(object):
     """
     _N = self.parameters['N']
     _d = self.parameters['d']
-    if rmax == None: 
-      rmax = (float(_N)/_d)**(1.0/3)*0.5
+    if not rmax: rmax = (float(_N)/_d)**(1.0/3)*0.5
 
     self.n_tally += 1
     n = float(self.n_tally)
 
-    if "rdf" in self.computes:
-      t_r = analysis.rdf(self.lmp, nbins, rmax, self.npairs)
-      self.computes['rdf'] *= (n-1)/n
-      self.computes['rdf'] += t_r/n
+    # Go through the analysis
+    if "rdf" in self.computes: rdf = analysis.rdf(self.lmp, nbins, rmax, self.npairs)
+    if "ssf" in self.computes: ssf = analysis.structure(rdf, _d, self.npairs)
+    if "fit" in self.computes: fit = analysis.fit(rdf)
+    if "mste" in self.computes: mste = analysis.mste(self.lmp, _N)
+    if "mink" in self.computes: mink = analysis.minkowski(self.lmp, r_mink, r_cell)
+    if "thermo" in self.computes: thermo = analysis.thermo(self.lmp, _N)
+    if "lind" in self.computes: lind = analysis.lind(self.lmp)
 
-    if "ssf" in self.computes:
-      [t_s, k, s] = analysis.structure(t_r, _d, self.npairs)
-      self.computes['ssf'] *= (n-1)/n
-      self.computes['ssf'] += t_s/n
-      self.collective['k_absorption'].append(k)
-      self.collective['S_absorption'].append(s)
-
-    if "fit" in self.computes:
-      [hei, dh, lam, dl] = analysis.fit(t_r)
-      self.collective['height'].append(hei)
-      self.collective['del_height'].append(dh)
-      self.collective['lambda'].append(lam)
-      self.collective['del_lambda'].append(dl)
-
-    if "mste" in self.computes:
-      [t_c, avg, std] = analysis.mste(self.lmp, _N)
-
-      # Normalization of the proton fraction
-      self.computes['mste'][1] *= (n-1) * self.computes['mste'][0]
-      self.computes['mste'][1] += t_c[:,1] * t_c[:, 0]
-      self.computes['mste'][1] /= (n-1) * self.computes['mste'][0] + t_c[:, 0]
-      self.computes['mste'][1] = np.nan_to_num(self.computes['mste'][1])
-      
-      # Normalization of the occupancy
-      self.computes['mste'][0] *= (n-1)/n
-      self.computes['mste'][0] += t_c[:, 0]/n
-
-      self.collective['size_avg'].append(avg)
-      self.collective['size_std'].append(std)
-
-    if "mink" in self.computes:
-      [vol, sur, bre, eul] = analysis.minkowski(self.lmp, r_mink, r_cell)
-      self.collective['volume'].append(vol)
-      self.collective['surface'].append(sur)
-      self.collective['breadth'].append(bre)
-      self.collective['euler'].append(eul)
-
-    if "thermo" in self.computes:
-      [tem, kin, pot, ene, pre] = analysis.thermo(self.lmp, _N)
-      self.collective['temperature'].append(tem)
-      self.collective['kinetic'].append(kin)
-      self.collective['potential'].append(pot)
-      self.collective['energy'].append(ene)
-      self.collective['pressure'].append(pre)
-
-    if "lind" in self.computes:
-      self.lind()
+    # Tally everything
+    if "rdf" in self.computes: results.rdf(self.computes, self.collective, rdf, n)
+    if "ssf" in self.computes: results.ssf(self.computes, self.collective, ssf, n)
+    if "fit" in self.computes: results.fit(self.computes, self.collective, fit, n)
+    if "mste" in self.computes: results.mste(self.computes, self.collective, mste, n)
+    if "mink" in self.computes: results.mink(self.computes, self.collective, mink, n)
+    if "thermo" in self.computes: results.thermo(self.computes, self.collective, thermo, n)
+    if "lind" in self.computes: results.lind(self.computes, self.collective, lind, n)
 
   def dump(self):
     """
@@ -493,14 +365,9 @@ class MDSys(object):
     Write log in the data file and plot
     """
     path = self.path
-    if "mste" in self.computes: 
-      graphics.mste(self.computes['mste'][0], 
-                    self.computes['mste'][1], path=path)
-
+    if "mste" in self.computes: graphics.mste(self.computes['mste'], path=path)
     if "rdf" in self.computes: graphics.rdf(self.computes['rdf'], path=path)
     if "ssf" in self.computes: graphics.ssf(self.computes['ssf'], path=path)
     if "thermo" in self.computes: graphics.thermo(self.collective, path=path)
-
     self.set_computes(self.computes)
     self.lmp.command("reset_timestep 0")
-    
