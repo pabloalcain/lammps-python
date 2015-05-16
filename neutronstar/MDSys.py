@@ -2,13 +2,11 @@
 MDSys: LAMMPS python wrapper for neutronstars
 """
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
-import pylab as pl
 from lammps import lammps
 from random import randint
 from os import makedirs, listdir
-import neutronstar.analysis as A
+import neutronstar.analysis as analysis
+import neutronstar.graphics as graphics
 
 _keys = ["potential", "lambda", "x", "N", "d", "T"]
 
@@ -255,6 +253,12 @@ class MDSys(object):
     Set computes and re-initialize them if needed
     """
     self.n_tally = 0
+    if not 'rdf' in computes:
+      if 'ssf' in computes:
+        raise AttributeError("Cannot calculate structure factor without rdf")
+      if 'fit' in computes:
+        raise AttributeError("Cannot fit without rdf")
+
     if "rdf" in computes:
       self.c_rdf = 0
     if "mste" in computes:
@@ -262,14 +266,23 @@ class MDSys(object):
       self.c_mste_frac = 0
     if "ssf" in computes:
       self.c_ssf = 0
-    self.variables = []
+
+    _var = {'ssf': ('k_absorption', 'S_absorption'),
+            'fit': ('height', 'del_height', 
+                    'lambda', 'del_lambda'),
+            'mste': ('size_avg', 'size_std'),
+            'mink': ('volume', 'surface', 'breadth', 'euler'),
+            'thermo': ('temperature', 'kinetic',
+                       'potential', 'energy', 
+                       'pressure'),
+            'rdf': ()
+            }
+
+    for c in computes:
+      for v in _var[c]:
+        self.collective[v] = []
 
     self.computes = computes
-    if not 'rdf' in computes:
-      if 'ssf' in computes:
-        raise AttributeError("Cannot calculate structure factor without rdf")
-      if 'fit' in computes:
-        raise AttributeError("Cannot fit without rdf")
 
   def minimize(self):
     """
@@ -373,7 +386,7 @@ class MDSys(object):
       i = i + 1
       self.run(nfreq)
       # Extract thermo values
-      [temp, ke, epair, etot, press] = A.thermo(self.lmp, _N)
+      [temp, ke, epair, etot, press] = analysis.thermo(self.lmp, _N)
       # Add to the window
       energy[i % wind] = etot
       temperature[i % wind] = temp
@@ -408,26 +421,26 @@ class MDSys(object):
     n = float(self.n_tally)
 
     if "rdf" in self.computes:
-      t_r = A.rdf(self.lmp, nbins, rmax, self.npairs)
+      t_r = analysis.rdf(self.lmp, nbins, rmax, self.npairs)
       self.c_rdf *= (n-1)/n
       self.c_rdf += t_r/n
 
     if "ssf" in self.computes:
-      [t_s, a, b] = A.structure(t_r, _d, self.npairs)
+      [t_s, k, s] = analysis.structure(t_r, _d, self.npairs)
       self.c_ssf *= (n-1)/n
       self.c_ssf += t_s/n
-      self.collective['k_absorption'] = a
-      self.collective['S_absorption'] = b
+      self.collective['k_absorption'].append(k)
+      self.collective['S_absorption'].append(s)
 
     if "fit" in self.computes:
-      [a, b, c, d] = A.fit(t_r)
-      self.collective['height'] = a
-      self.collective['del_height'] = b
-      self.collective['lambda'] = c
-      self.collective['del_lambda'] = d
+      [hei, dh, lam, dl] = analysis.fit(t_r)
+      self.collective['height'].append(hei)
+      self.collective['del_height'].append(dh)
+      self.collective['lambda'].append(lam)
+      self.collective['del_lambda'].append(dl)
 
     if "mste" in self.computes:
-      [t_c, a, b] = A.mste(self.lmp, _N)
+      [t_c, avg, std] = analysis.mste(self.lmp, _N)
 
       # Normalization of the proton fraction
       self.c_mste_frac *= (n-1) * self.c_mste_occ
@@ -438,28 +451,26 @@ class MDSys(object):
       self.c_mste_occ *= (n-1)/n
       self.c_mste_occ += t_c[:, 0]/n
 
-      self.collective['size_avg'] = a
-      self.collective['size_std'] = b
+      self.collective['size_avg'].append(avg)
+      self.collective['size_std'].append(std)
 
     if "mink" in self.computes:
-      [a, b, c, d] = A.minkowski(self.lmp, r_mink, r_cell)
-      self.collective['volume'] = a
-      self.collective['surface'] = b
-      self.collective['breadth'] = c
-      self.collective['euler'] = d
+      [vol, sur, bre, eul] = analysis.minkowski(self.lmp, r_mink, r_cell)
+      self.collective['volume'].append(vol)
+      self.collective['surface'].append(sur)
+      self.collective['breadth'].append(bre)
+      self.collective['euler'].append(eul)
 
     if "thermo" in self.computes:
-      [a, b, c, d, e] = A.thermo(self.lmp, _N)
-      self.collective['temperature'] = a
-      self.collective['kinetic'] = b
-      self.collective['potential'] = c
-      self.collective['energy'] = d
-      self.collective['pressure'] = e
+      [tem, kin, pot, ene, pre] = analysis.thermo(self.lmp, _N)
+      self.collective['temperature'].append(tem)
+      self.collective['kinetic'].append(kin)
+      self.collective['potential'].append(pot)
+      self.collective['energy'].append(ene)
+      self.collective['pressure'].append(pre)
 
     if "lind" in self.computes:
       self.lind()
-
-    self.log()
 
   def dump(self):
     """
@@ -478,65 +489,10 @@ class MDSys(object):
     Write log in the data file and plot
     """
     path = self.path
-    if "mste" in self.computes:
-      # To add cluster size to file
-      indices = (self.c_mste_occ != 0.0)
-      x = np.array(range(len(self.c_mste_occ)))
-      temp = np.vstack((x[indices], self.c_mste_occ[indices], self.c_mste_frac[indices]))
-      mste_fname = path + 'cluster.dat'
-      np.savetxt(mste_fname, temp.T, header='size, number, frac', fmt='%6i %1.4e, %1.5f')
-      pl.figure()
-      pl.loglog(x[indices], self.c_mste_occ[indices], 'o-')
-      pl.xlabel('Cluster size')
-      pl.ylabel('Frequency')
-      pl.tight_layout()
-      pl.savefig(path + 'cluster.pdf')
-      pl.close()
-
-
-    if "rdf" in self.computes:
-      rdf_fname = path + 'rdf.dat'
-      h = 'r, a-a, ia-a, 1-1, i1-1, 1-2, i1-2, 2-2, i2-2'
-      np.savetxt(rdf_fname, self.c_rdf, header=h, fmt='%1.4e')
-      pairs = ['a-a', '1-1', '1-2', '2-2']
-      for i in range(4):
-        fig = pl.figure()
-        pl.plot(self.c_rdf[:, 0], self.c_rdf[:, i*2+1], 'o-')
-        pl.xlabel('Distance [fm]')
-        pl.ylabel('RDF({0})'.format(pairs[i]))
-        pl.tight_layout()
-        pl.savefig(path + 'rdf_{0}'.format(pairs[i]))
-        pl.close()
-
-    if "ssf" in self.computes:
-      ssf_fname = path + 'ssf.dat'
-      h = 'r, a-a, 1-1, 1-2, 2-2'
-      np.savetxt(ssf_fname, self.c_ssf, header=h)
-      pairs = ['a-a', '1-1', '1-2', '2-2']
-      for i in range(4):
-        fig = pl.figure()
-        pl.plot(self.c_ssf[:, 0], self.c_ssf[:, i+1], 'o-')
-        pl.xlabel(r'Wave number [fm$^{-1}$]')
-        pl.ylabel('SSF_{0}'.format(pairs[i]))
-        pl.tight_layout()
-        pl.savefig(path + 'ssf_{0}'.format(pairs[i]))
-        pl.close()
-
-    if "thermo" in self.computes:
-      thermo_fname = path + 'thermo.dat'
-      h = ', '.join(self.collective.keys())
-      np.savetxt(thermo_fname, self.variables, header=h, fmt='%1.4e')
+    if "mste" in self.computes: graphics.mste(self.c_mste_occ, self.c_mste_frac, path=path)
+    if "rdf" in self.computes: graphics.rdf(self.c_rdf, path=path)
+    if "ssf" in self.computes: graphics.ssf(self.c_ssf, path=path)
+    if "thermo" in self.computes: graphics.thermo(self.collective, path=path)
 
     self.set_computes(self.computes)
     self.lmp.command("reset_timestep 0")
-
-  def log(self):
-    """
-    Append new data to variables. This has a problem with memory
-    usage, and the fact that append may render slow for big
-    arrays. Should be checked afterwards for long runs.
-
-    Thoughts: log might upgrade the mean of each column + std dev on
-    the fly.
-    """
-    self.variables.append(self.collective.values())
