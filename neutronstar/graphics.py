@@ -11,7 +11,7 @@ matplotlib.rc('lines', **lines)
 legend = {'numpoints': 1}
 matplotlib.rc('legend', **legend)
 matplotlib.use('Agg')
-import pylab as pl
+import matplotlib.pyplot as plt
 import numpy as np
 
 def mste(occ, frac, path='./'):
@@ -28,8 +28,8 @@ def mste(occ, frac, path='./'):
     bins = np.logspace(0, np.log10(mass[-1]), nbins)
     a, xx = np.histogram(mass, weights = occ/50.0, bins = bins)
 
-    
-    fig, ax1 = pl.subplots()
+    # Set the figure
+    fig, ax1 = plt.subplots()
     ax1.set_xlabel('Cluster size')
     ax1.set_xscale('log')
     ax2 = ax1.twinx()
@@ -49,7 +49,7 @@ def mste(occ, frac, path='./'):
     ax1.legend(h1+h2, l1+l2)
     fig.tight_layout()
     fig.savefig(path + 'cluster.pdf')
-    #pl.close(fig)
+    plt.close(fig)
 
 def rdf(rdf, path='./'):
     
@@ -59,7 +59,7 @@ def rdf(rdf, path='./'):
                fmt=', '.join(['%f']*9))
 
     labels = ('all', 'n-n', 'n-p', 'p-p')
-    fig, ax = pl.subplots()
+    fig, ax = plt.subplots()
     ax.set_xlabel('Distance [fm]')
     ax.set_ylabel('RDF')
     R = rdf[:, 0]
@@ -68,7 +68,7 @@ def rdf(rdf, path='./'):
         pair = labels[i]
         idx = i * 2 + 1
         G = rdf[:, idx]
-        fig_each, ax_each = pl.subplots()
+        fig_each, ax_each = plt.subplots()
         ax_each.set_xlabel('Distance [fm]')
         ax_each.set_xlim(0, R[-1])
         for axis in (ax, ax_each):
@@ -76,19 +76,20 @@ def rdf(rdf, path='./'):
         ax_each.set_ylabel('RDF ({0})'.format(pair))
         fig_each.tight_layout()
         fig_each.savefig(path + '/rdf_{0}.pdf'.format(pair))
+        plt.close(fig_each)
     ax.legend()
     fig.tight_layout()
     fig.savefig(path + '/rdf.pdf')
-    fig.show()
-        
+    plt.close(fig)
+
 def ssf(ssf, path='./'):
-    
+
     np.savetxt(path + 'ssf.dat', ssf,
                header=('r, a-a, n-n, n-p, p-p'),
                fmt=', '.join(['%f']*5))
 
     labels = ('all', 'n-n', 'n-p', 'p-p')
-    fig, ax = pl.subplots()
+    fig, ax = plt.subplots()
     ax.set_xlabel(r'Wave number [fm$^{-1}$]')
     ax.set_ylabel('SSF')
     Q = ssf[:, 0]
@@ -98,7 +99,7 @@ def ssf(ssf, path='./'):
         idx = i + 1
         pair = labels[i]
         S = ssf[:, idx]
-        fig_each, ax_each = pl.subplots()
+        fig_each, ax_each = plt.subplots()
         ax_each.set_xlabel(r'Wave number [fm$^{-1}$]')
         ax_each.set_xlim(0, qmax)
         for axis in (ax, ax_each):
@@ -106,8 +107,42 @@ def ssf(ssf, path='./'):
         ax_each.set_ylabel('SSF ({0})'.format(pair))
         fig_each.tight_layout()
         fig_each.savefig(path + '/ssf_{0}.pdf'.format(pair))
+        plt.close(fig_each)
     ax.legend()
     fig.tight_layout()
     fig.savefig(path + '/ssf.pdf')
-    fig.show()
-        
+    plt.close(fig)
+
+def thermo(collective, path='./'):
+
+    tags = {'breadth': 'Breadth [fm]',
+            'del_lambda': r'Fitting $\Delta\lambda$ [fm]',
+            'energy': 'Energy [MeV]',
+            'pressure': r'Pressure [MeV/fm$^3$]',
+            'S_absorption': r'Pasta absorption',
+            'size_avg': 'Average size of clusters',
+            'k_absorption': r'Pasta wavenumber [fm$^{-1}$]',
+            'surface': r'Surface [fm$^2$]',
+            'height': r'Fitting height',
+            'volume': r'Volume [fm$^3$]',
+            'size_std': r'$\sigma$ cluster distribution',
+            'potential': r'Potential energy [MeV]',
+            'temperature': r'Temperature [MeV]',
+            'kinetic': r'Kinetic energy [MeV]',
+            'del_height': r'Fitting $\Delta$ H',
+            'euler': r'Euler characteristic',
+            'lambda': r'Fitting wavelength [fm]',
+    }
+    
+    data = np.vstack(collective.values()).T
+    header = ', '.join(collective.keys())
+    np.savetxt(path + 'thermo.dat', data, header=header, fmt='%f')
+
+    for i, key in enumerate(collective.keys()):
+        fig, ax = plt.subplots()
+        ax.set_xlabel('Timestep')
+        ax.set_ylabel(tags[key])
+        ax.plot(collective[key])
+        fig.tight_layout()
+        fig.savefig(path + key + '.pdf')
+        plt.close(fig)
