@@ -5,10 +5,7 @@ import numpy as np
 from lammps import lammps
 from random import randint
 from os import makedirs, listdir
-import neutronstar.analysis as analysis
-import neutronstar.graphics as graphics
-import neutronstar.results as results
-import neutronstar.potential as potential
+from neutronstar import analysis, graphics, results, potential
 
 _param_keys = ('potential', 'lambda', 'x', 'N', 'd', 'T')
 _comp_keys = ('rdf', 'ssf', 'fit', 'mste', 'mink', 'thermo')

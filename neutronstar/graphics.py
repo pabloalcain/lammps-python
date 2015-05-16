@@ -142,7 +142,7 @@ def thermo(collective, path='./'):
     for i, key in enumerate(collective.keys()):
         fig, ax = plt.subplots()
         ax.set_xlabel('Timestep')
-        ax.set_ylabel(tags[key])
+        ax.set_ylabel(_tags[key])
         ax.plot(collective[key])
         fig.tight_layout()
         fig.savefig(path + key + '.pdf')
