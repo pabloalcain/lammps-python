@@ -101,6 +101,7 @@ void ComputeMSTEAtom::compute_peratom()
   int i,j,ii,jj,inum,jnum,itype,jtype;
   double xtmp,ytmp,ztmp,delx,dely,delz,rsq;
   double vxtmp,vytmp,vztmp,delvx,delvy,delvz,vsq;
+  double mu;
   double eng,fpair,factor_coul,factor_lj;
   int *ilist,*jlist,*numneigh,**firstneigh;
 
@@ -186,7 +187,7 @@ void ComputeMSTEAtom::compute_peratom()
           j &= NEIGHMASK;
           if (!(mask[j] & groupbit)) continue;
           if (clusterID[i] == clusterID[j]) continue;
-
+          mu = (mass[itype] * mass[jtype]) / (mass[itype] + mass[jtype]);
           delx = xtmp - x[j][0];
           dely = ytmp - x[j][1];
           delz = ztmp - x[j][2];
@@ -198,7 +199,7 @@ void ComputeMSTEAtom::compute_peratom()
             delvz = vztmp - v[j][2];
             vsq = delvx*delvx + delvy*delvy + delvz*delvz;
             eng = force->pair->single(i,j,itype,jtype,rsq,factor_coul,factor_lj,fpair);
-            eng += 1.0/2.0 * vsq * (1.0/mass[itype] + 1.0/mass[jtype]);
+            eng += 1.0/2.0 * mu * vsq;
 	    if (eng < 0.0) {
               clusterID[i] = clusterID[j] = MIN(clusterID[i],clusterID[j]);
               done = 0;
