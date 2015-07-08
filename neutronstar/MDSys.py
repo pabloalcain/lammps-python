@@ -52,7 +52,7 @@ class MDSys(object):
       _args += ['-screen', 'none', '-nocite']
 
     if gpu:
-      _args += ['-pk', 'gpu 1', '-sf', 'gpu']
+      _args += ['-pk', 'gpu 1 neigh no', '-sf', 'gpu']
 
     self.lmp = lammps("", _args)
 
@@ -66,8 +66,8 @@ class MDSys(object):
       "mass              1 938.0",
       "mass              2 938.0",
       "pair_style        table linear {ninter}".format(ninter=5000),
-      "neighbor          1.2 bin",
-      "neigh_modify      every 1 delay 0 check yes one 8000 page 80000",
+      "neighbor          5.2 multi",
+      "neigh_modify      every 1 delay 0 check yes one 40000 page 400000",
       "comm_modify       vel yes",
       "thermo_style      custom step temp ke epair etotal press",
       "thermo            1000",
@@ -159,7 +159,7 @@ class MDSys(object):
         command = ()
         
     elif key == "T":
-      command = ('fix 1 all nvt temp {T} {T} 100.0'.format(T=value),)
+      command = ('fix 1 all nvt temp {T} {T} 1000.0'.format(T=value),)
 
     elif key == "d":
       _N = self.parameters['N']

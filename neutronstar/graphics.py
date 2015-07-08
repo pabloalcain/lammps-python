@@ -10,7 +10,7 @@ lines = {'linewidth' : 2.0, 'markersize': 10.0}
 matplotlib.rc('lines', **lines)
 legend = {'numpoints': 1}
 matplotlib.rc('legend', **legend)
-matplotlib.use('Agg')
+matplotlib.use('PDF')
 import matplotlib.pyplot as plt
 import numpy as np
 
