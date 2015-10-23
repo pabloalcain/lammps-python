@@ -211,7 +211,7 @@ class MDSys(object):
     for cmd in command:
       self.lmp.command(cmd)
 
-  def expand(self, vel):
+  def expand(self, rate):
     """
     Set initial conditions for an expansion as seen in 
 
@@ -221,13 +221,14 @@ class MDSys(object):
     _d = self.parameters['d']
     _vol = float(_N)/_d
     _size = _vol ** (1.0 / 3.0)
+    _vel = rate * _size
     _size = _size / 2
-    command = (('fix expansion all deform 1 x vel {0} '
-                'y vel {0} z vel {0} remap none units box').format(vel),
-               'velocity all ramp vx 0 {0} x -{1} {1} sum yes units box'.format(vel, _size),
-               'velocity all ramp vy 0 {0} y -{1} {1} sum yes units box'.format(vel, _size),
-               'velocity all ramp vz 0 {0} z -{1} {1} sum yes units box'.format(vel, _size),
-               'velocity all zero linear')
+    command = (('fix expansion all deform 1 x erate {0} '
+                'y erate {0} z erate {0} remap v remap x').format(rate),)
+#               'velocity all ramp vx 0 {0} x -{1} {1} sum yes units box'.format(_vel, _size),
+#               'velocity all ramp vy 0 {0} y -{1} {1} sum yes units box'.format(_vel, _size),
+#               'velocity all ramp vz 0 {0} z -{1} {1} sum yes units box'.format(_vel, _size),
+#               'velocity all zero linear')
                
     for cmd in command:
       self.lmp.command(cmd)
