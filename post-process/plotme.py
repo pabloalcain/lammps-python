@@ -1,6 +1,6 @@
-from scipy.stats.distributions import t
+#from scipy.stats.distributions import t
 import numpy as np
-import fit as F
+#import fit as F
 import os
 
 class Plotter(object):
@@ -63,41 +63,43 @@ class Plotter(object):
               l = None, x = None, 
               N = None, d = None, 
               T = None):
+    """
+    It doesn't support anymore height, that came from the
+    fit method. Now lambda makes the conversion from k to lambda.
+    """
     p = self.set_path(V, l, x, N, d, T)
     try:
       fp = open(p + "/thermo.dat")
     except IOError:
       return 0, 0
     l = fp.readline()[2:-1]
-#    l = "breadth, del_lambda, S_absorption, pressure, size_avg, k_absorption, surface, height, volume, size_std, del_height, potential, kinetic, lambda, energy, euler, temperature"
+    #    l = "breadth, del_lambda, S_absorption, pressure, size_avg, k_absorption, surface, height, volume, size_std, del_height, potential, kinetic, lambda, energy, euler, temperature"
     fp.close()
-    
-    try:
-      idx = l.split(', ').index(mag)
-    except ValueError:
-      if mag in ['lambda', 'height']:
-        idx = -1
-      else:
-        raise ValueError
 
-    if idx != -1:
-      A = np.loadtxt(p +'/thermo.dat')
-      c = np.mean(A, axis=0)[idx]
-      s = np.std(A, axis=0)[idx]
-      if mag in ['lambda', 'height']:
-        idx2 = l.split(', ').index('del_{0}'.format(mag))
-        ss = np.std(A, axis=0)[idx2]
-        s = np.sqrt(s**2 + ss**2)
+    if mag == 'lambda':
+      idx = l.split(', ').index('k_absorption')
     else:
-      sm_popt, sm_pcov = F.wavelength(p + '/rdf.dat')
-      tval = t.ppf(1.0-0.31/2, 3)
-      if mag == "lambda":
-        s = sm_pcov[1][1]**0.5 * tval
-        c = sm_popt[1]
-      if mag == "height":
-        s = sm_pcov[0][0]**0.5 * tval
-        c = sm_popt[0]
+      idx = l.split(', ').index(mag)
+    A = np.loadtxt(p +'/thermo.dat')
+    c = np.mean(A, axis=0)[idx]
+    s = np.std(A, axis=0)[idx]
+    if mag == 'lambda': 
+      s = 2*np.pi/(c*c) * s
+      c = 2*np.pi/c
     return c, s
+
+  def extract_array(self, mag, V = None, 
+                    l = None, x = None, 
+                    N = None, d = None, 
+                    T = None):
+    p = self.set_path(V, l, x, N, d, T)
+    try:
+      A = np.loadtxt('{0}/{1}.dat'.format(p, mag))
+    except ValueError:
+      A = np.loadtxt('{0}/{1}.dat'.format(p, mag), delimiter = ',')
+    return A
+  
+  
 
 if __name__ == "__main__":
   import numpy as np
