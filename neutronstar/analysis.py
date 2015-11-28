@@ -4,12 +4,13 @@ This is simply a wrapper for the library libanalysis.so
 
 import ctypes as ct
 import numpy as np
+from lammps import lammps
 from scipy.optimize import curve_fit
 from scipy.stats.distributions import t
 
 analysis = ct.cdll.LoadLibrary("libanalysis.so")
 
-def rdf(lmp, nbins, rmax, npairs):
+def rdf(lmp, nbins, npairs):
   """
   Wrapper for the c++ libanalysis. Its main disadvantage is that we
   should know beforehand the number of pairs to consider.  Since
@@ -25,14 +26,21 @@ def rdf(lmp, nbins, rmax, npairs):
   Returns a 2D array, with this format.
 
   1st column: Distance
-  1 + 2 * k: g(r) between the pair labeled by k
-  2 + 2 * k: int(g(r)) between the pair labeled by k
+  k + 1: g(r) between the pair labeled by k
   """
-
-  ncol = npairs * 2 + 1
+  x = lmp.gather_atoms('x', 1, 3)
+  typ = lmp.gather_atoms('type', 0, 1)
+  natoms = lmp.get_natoms()
+  dx = lmp.extract_global('boxxhi', 1) - lmp.extract_global('boxxlo', 1)
+  dy = lmp.extract_global('boxyhi', 1) - lmp.extract_global('boxylo', 1)
+  dz = lmp.extract_global('boxzhi', 1) - lmp.extract_global('boxzlo', 1)
+  if not dx == dy == dz:
+    raise ValueError('Cannot compute for non-cubic boxes! exiting')
+  size = dx
+  ncol = npairs + 1
   tmp = (ct.c_double * (nbins * ncol))()
-  analysis.rdf.argtypes = [ct.c_void_p, ct.c_int, ct.c_double, ct.c_void_p]
-  analysis.rdf(lmp.lmp, nbins, rmax, tmp)
+  analysis.rdf.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int, ct.c_int, ct.c_double, ct.c_void_p]
+  analysis.rdf(x, typ, natoms, nbins, size, tmp)
   r = np.frombuffer(tmp, dtype=np.float, count=nbins * ncol)
   return np.reshape(r, (nbins, ncol))
 
@@ -131,8 +139,8 @@ def mste(lmp, N):
   ext = lmp.extract_atom("type", 0)
   typ = np.fromiter(ext, dtype=np.int, count=N)
   # We loop over all the different clusterIDs present, get the mass as
-  # how often it occurs and the fraction as 
-  
+  # how often it occurs and the fraction as
+
   single_ids = set([i for i in tmp])
   clust = np.zeros((N,2), dtype=np.float)
   for (idx, clusterid) in enumerate(single_ids):
@@ -157,7 +165,7 @@ def mste(lmp, N):
     frac = sum(clust[indices, 1]) / occ
     histo_occ[mass] = occ
     histo_frac[mass] = frac
-  
+
   return histo_occ, histo_frac, mean, std
 
 def minkowski(lmp, rad, rcell):
