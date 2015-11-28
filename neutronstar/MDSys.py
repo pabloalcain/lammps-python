@@ -8,11 +8,9 @@ from os import makedirs, listdir
 from neutronstar import analysis, graphics, results, potential
 
 _param_keys = ('potential', 'lambda', 'x', 'N', 'd', 'T')
-_comp_keys = ('rdf', 'ssf', 'fit', 'mste', 'mink', 'thermo')
+_comp_keys = ('rdf', 'ssf', 'mste', 'mink', 'thermo')
 _var = {'rdf': (),
         'ssf': ('k_absorption', 'S_absorption'),
-        'fit': ('height', 'del_height',
-                'lambda', 'del_lambda'),
         'mste': ('size_avg', 'size_std'),
         'mink': ('volume', 'surface', 'breadth', 'euler'),
         'thermo': ('temperature', 'kinetic',
@@ -21,7 +19,6 @@ _var = {'rdf': (),
 
 _comp = {'rdf': 0,
          'ssf': 0,
-         'fit': (),
          'mste': [0, 0],
          'mink': (),
          'thermo': (),}
@@ -179,9 +176,8 @@ class MDSys(object):
 
     _r = 'rdf' in list_computes
     _s = 'ssf' in list_computes
-    _f = 'fit' in list_computes
-    if not _r and (_s or _f):
-      raise AttributeError("Cannot calculate structure factor nor fit without rdf")
+    if not _r and _s:
+      raise AttributeError("Cannot calculate structure factor without rdf")
 
     self.n_tally = 0
     self.computes = {}
@@ -327,7 +323,6 @@ class MDSys(object):
     # Go through the analysis
     if "rdf" in self.computes: rdf = analysis.rdf(self.lmp, nbins,  self.npairs)
     if "ssf" in self.computes: ssf = analysis.structure(rdf, _d, self.npairs)
-    if "fit" in self.computes: fit = analysis.fit(rdf)
     if "mste" in self.computes: mste = analysis.mste(self.lmp, _N)
     if "mink" in self.computes: mink = analysis.minkowski(self.lmp, r_mink, r_cell)
     if "thermo" in self.computes: thermo = analysis.thermo(self.lmp, _N)
@@ -336,7 +331,6 @@ class MDSys(object):
     # Tally everything
     if "rdf" in self.computes: results.rdf(self.computes, self.collective, rdf, n)
     if "ssf" in self.computes: results.ssf(self.computes, self.collective, ssf, n)
-    if "fit" in self.computes: results.fit(self.computes, self.collective, fit, n)
     if "mste" in self.computes: results.mste(self.computes, self.collective, mste, n)
     if "mink" in self.computes: results.mink(self.computes, self.collective, mink, n)
     if "thermo" in self.computes: results.thermo(self.computes, self.collective, thermo, n)

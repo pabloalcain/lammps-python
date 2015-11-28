@@ -5,8 +5,6 @@ This is simply a wrapper for the library libanalysis.so
 import ctypes as ct
 import numpy as np
 from lammps import lammps
-from scipy.optimize import curve_fit
-from scipy.stats.distributions import t
 
 analysis = ct.cdll.LoadLibrary("libanalysis.so")
 
@@ -84,36 +82,6 @@ def structure(gr, density, npairs):
   q_max = q_pasta[idx]
 
   return S, q_max, s_max
-
-def fit(gr):
-  """
-  Fit the very-long correlations of neutron-neutron (near 15 fm)
-  with a sine and returns the height of the fit and the wavelength
-  """
-  g = gr[:, 2]
-  r = gr[:, 0]
-  #Filter out initial zeros
-  for i in range(len(g)):
-    if g[i] > 0:
-        break
-    init = i
-  g = g[init:]
-  r = r[init:]
-  sig = (g-1) * r
-  sm_r, sm_sig = smooth(sig, r, dr=3.0)
-  func = lambda x, A, l, ph: A * np.sin((2.0*np.pi*x) / l + ph)
-  try:
-    sm_popt, sm_pcov = curve_fit(func, sm_r, sm_sig, p0=[3.0, 15.0, 0.0])
-    popt, pcov = curve_fit(func, r, sig, p0=sm_popt)
-  except RuntimeError:
-    return float("nan"), float("nan"), float("nan"), float("nan")
-  tval = t.ppf(1.0-0.34/2, 3)
-  h = sm_popt[0]
-  dh = sm_pcov[0][0]**0.5 * tval
-  l = sm_popt[1]
-  dl = sm_pcov[1][1]**0.5 * tval
-  return h, dh, l, dl
-
 
 def mste(lmp, N):
   """
@@ -207,22 +175,3 @@ def thermo(lmp, N):
   ke = 3.0/2.0 * temp
   etot = epair + ke
   return temp, ke, epair, etot, press
-
-
-def smooth(sig, r, dr=3.0):
-  """
-  Smooth signals
-  """
-  win_size = int(dr/(r[1] - r[0]))
-  if win_size % 2 == 0:
-    win_size += 1
-  init = (win_size -1)/2
-  fin_size = len(r) - win_size
-  sm_sig = np.zeros(fin_size)
-  sm_r = np.zeros(fin_size)
-  for i in range(fin_size):
-    for j in range(win_size):
-      sm_sig[i] += sig[i+j-init]
-    sm_sig[i] /= win_size
-    sm_r[i] = r[i+init]
-  return sm_r, sm_sig
