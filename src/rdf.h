@@ -2,8 +2,14 @@
 #define RDF_H
 
 #include "math.h"
-#define M_PI 3.141592653
-void rdf(double *x, int natoms, int nbins, double size, double *gr);
+#include "stdio.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+  void rdf(double *x, int *type, int natoms, int nbins, double size, double *gr);
+#ifdef __cplusplus
+}
+#endif
 double f1(double l);
 double f2(double l);
 double volume(double l);

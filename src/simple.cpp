@@ -19,19 +19,7 @@
 //         in.lammps = LAMMPS input script
 // See README for compilation instructions
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-#include "mpi.h"
-
-#include "lammps.h"         // these are LAMMPS include files
-#include "input.h"
-#include "atom.h"
-#include "library.h"
-
-#include "gofr.h"
-#include "minkowski.h"
-using namespace LAMMPS_NS;
+#include "simple.h"
 
 int main(int narg, char **arg)
 {
@@ -98,21 +86,27 @@ int main(int narg, char **arg)
 
   int natoms = static_cast<int> (lmp->atom->natoms);
   double *x = new double[3*natoms];
+  lammps_gather_atoms(lmp, "x", 1, 3, x);
   double *v = new double[3*natoms];
+  lammps_gather_atoms(lmp, "v", 1, 3, v);
   int *id = new int[natoms];
+  lammps_gather_atoms(lmp, "id", 0, 1, id);
   int *type = new int[natoms];
+  lammps_gather_atoms(lmp, "type", 0, 1, type);
   double boxsz, boxhi, boxlo;
-
-  double *c_rdf = new double[300];
+  boxlo = *((double *)lammps_extract_global(lmp, "boxxlo"));
+  boxhi = *((double *)lammps_extract_global(lmp, "boxxhi"));
+  boxsz = boxhi - boxlo;
+  double *c_rdf = new double[500];
   double *c_min = new double[4];
 
-  rdf(lmp, 100, 2.5, c_rdf);
+  rdf(x, type, natoms, 100, boxsz, c_rdf);
   minkowski(lmp, 0.1, 0.01, c_min);
   if (me == 0) {
     for (int i = 0; i < 100; i++) {
-      for (int j = 0; j < 3; j++) 
-    	std::cout<<c_rdf[i*3+j]<<" ";
-        std::cout<<std::endl;
+      for (int j = 0; j < 5; j++) 
+        std::cout<<c_rdf[i*5+j]<<" ";
+      std::cout<<std::endl;
     }
     for (int i = 0; i < 4; i++)
       std::cout<<c_min[i]<<" ";

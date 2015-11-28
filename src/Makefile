@@ -1,23 +1,25 @@
+CC=gcc
+CFLAGS=-O3 -std=gnu99 -fPIC
 LDFLAGS=-L$(LAMMPS)/src
 LDLIBS=-llammps -lmpi -lpthread
 INFLAGS=-I$(LAMMPS)/src
-CXXFLAGS=-Wno-write-strings -g -O0 -fPIC
+CXXFLAGS=-Wno-write-strings -g -O3 -fPIC
 
 
-library: gofr.o minkowski.o
-	mpic++ $(LDFLAGS) gofr.o minkowski.o $(LDLIBS) -shared -o libanalysis.so
+library: minkowski.o rdf.o
+	mpic++ $(LDFLAGS) $^ $(LDLIBS) -shared -o libanalysis.so
 
 install: library
 	cp libanalysis.so /usr/local/lib
 
-simple: simple.o gofr.o minkowski.o
-	mpic++ $(LDFLAGS) simple.o gofr.o minkowski.o $(LDLIBS) -o simple.e
+simple: simple.o rdf.o minkowski.o
+	mpic++ $(LDFLAGS) $^ $(LDLIBS) -o simple.e
 
-simple.o: simple.cpp gofr.h minkowski.h
-	mpic++ $(INFLAGS) $(CXXFLAGS) -c simple.cpp
+simple.o: simple.cpp simple.h
+	mpic++ $(INFLAGS) $(CXXFLAGS) -c $<
 
-gofr.o: gofr.cpp gofr.h
-	mpic++ $(INFLAGS) $(CXXFLAGS) -Wall -c gofr.cpp
+rdf.o: rdf.c rdf.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 minkowski.o: minkowski.cpp minkowski.h
 	mpic++ $(INFLAGS) $(CXXFLAGS) -Wall -c minkowski.cpp
