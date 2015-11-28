@@ -69,7 +69,7 @@ def structure(gr, density, npairs):
 
   for i in range(npairs):
     #Integrand in the fourier transform
-    ker = (gr[:, 2*i + 1] - 1) * r
+    ker = (gr[:, i + 1] - 1) * r
     #Imaginary (sin) part of the Fourier transform
     ft = np.imag(np.fft.fft(ker, n)) * dr
     #Structure factor
@@ -90,7 +90,7 @@ def fit(gr):
   Fit the very-long correlations of neutron-neutron (near 15 fm)
   with a sine and returns the height of the fit and the wavelength
   """
-  g = gr[:, 7]
+  g = gr[:, 2]
   r = gr[:, 0]
   #Filter out initial zeros
   for i in range(len(g)):
@@ -174,10 +174,18 @@ def minkowski(lmp, rad, rcell):
   size of the lattice for digitalization!
   """
 
+  x = lmp.gather_atoms('x', 1, 3)
+  natoms = lmp.get_natoms()
+  dx = lmp.extract_global('boxxhi', 1) - lmp.extract_global('boxxlo', 1)
+  dy = lmp.extract_global('boxyhi', 1) - lmp.extract_global('boxylo', 1)
+  dz = lmp.extract_global('boxzhi', 1) - lmp.extract_global('boxzlo', 1)
+  if not dx == dy == dz:
+    raise ValueError('Cannot compute for non-cubic boxes! exiting')
+  size = dx
   tmp = (ct.c_double * 4)()
-  analysis.minkowski.argtypes = [ct.c_void_p, ct.c_double,
-                                 ct.c_double, ct.c_void_p]
-  analysis.minkowski(lmp.lmp, rad, rcell, tmp)
+  analysis.minkowski.argtypes = [ct.c_void_p, ct.c_int, ct.c_double,
+                                 ct.c_double, ct.c_double, ct.c_void_p]
+  analysis.minkowski(x, natoms, size, rad, rcell, tmp)
   return np.fromiter(tmp, dtype=np.float, count=4)
 
 def lind(lmp):
