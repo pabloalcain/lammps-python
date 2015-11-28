@@ -1,28 +1,42 @@
+CSRC=$(wildcard *.c)
+CXXSRC=$(wildcard *.cpp)
+COBJ=$(patsubst %.c,%_c.o,$(CSRC))
+CXXOBJ=$(patsubst %.cpp,%_cpp.o,$(CXXSRC))
+
+LIB=libanalysis.so
+EXE=simple.e
+
+
 CC=gcc
-CFLAGS=-O3 -std=gnu99 -fPIC
+CXX=mpic++
+LD=mpic++
+CFLAGS=-g -O3 -fPIC -std=gnu99
 LDFLAGS=-L$(LAMMPS)/src
-LDLIBS=-llammps -lmpi -lpthread
-INFLAGS=-I$(LAMMPS)/src
-CXXFLAGS=-Wno-write-strings -g -O3 -fPIC
+LDLIBS=-llammps
+CXXFLAGS=-Wno-write-strings -g -O3 -fPIC -I$(LAMMPS)/src
 
+default: $(LIB)
 
-library: minkowski.o rdf.o
-	mpic++ $(LDFLAGS) $^ $(LDLIBS) -shared -o libanalysis.so
+executable: $(EXE)
 
-install: library
-	cp libanalysis.so /usr/local/lib
+library: $(LIB)
 
-simple: simple.o rdf.o minkowski.o
-	mpic++ $(LDFLAGS) $^ $(LDLIBS) -o simple.e
+all: $(LIB) $(EXE)
 
-simple.o: simple.cpp simple.h
-	mpic++ $(INFLAGS) $(CXXFLAGS) -c $<
+install: $(LIB)
+	cp $< /usr/local/lib
 
-rdf.o: rdf.c rdf.h
+$(LIB): $(COBJ)
+	$(CC) $(LDFLAGS) $^ $(LDLIBS) -shared -o $@
+
+$(EXE): $(CXXOBJ) $(COBJ)
+	$(LD) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+%_cpp.o: %.cpp %.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%_c.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-minkowski.o: minkowski.cpp minkowski.h
-	mpic++ $(INFLAGS) $(CXXFLAGS) -Wall -c minkowski.cpp
-
 clean:
-	rm -f *.o simple.e *.so
+	rm -rfv $(COBJ) $(CXXOBJ) $(EXE) $(LIB)

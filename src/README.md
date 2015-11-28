@@ -1,12 +1,8 @@
 Analysis
 ========
 
-Goal
-----
-
-This project just uses the LAMMPS library and implements some analysis
-tools for post process. These should be later used with ctypes to bind 
-it to Python INPUT process.
+It's a tiny library that performs some typical analysis. It comes bundled
+with an executable that shows how to use them to interact with LAMMPS
 
 The routines that are going to be implemented here are:
 
@@ -14,26 +10,23 @@ The routines that are going to be implemented here are:
 
 - Minkowski: The 4 3-D Minkowski functionals
 
-- MSTE: The clusterization algorithm with energy binding. (not done)
+- MSTE: The clusterization algorithm with energy binding. (not done/moved to LAMMPS)
 
 - Lindemann: Calculate Lindemann coefficient (not done)
-
-The LAMMPS library is dynamically loaded, and in the simple.cpp file
-we see how they are accessed.
 
 How to use
 ----------
 
 Change in the Makefile the include and library directories, and type
 
-$ make simple
+```make executable```
 
-then run ./simple.e
+then run `./simple.e`
 
 to build as a shared library, just run
 
-$ make library
+```make library```
 
 and to install the library,
 
-$ make install
+```make install```

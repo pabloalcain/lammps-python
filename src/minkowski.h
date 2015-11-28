@@ -1,17 +1,31 @@
-#ifndef MINKOWSKI_H
-#define MINKOWSKI_H
+#ifndef MINKOWSKI_C_H
+#define MINKOWSKI_C_H
 
-#include "lammps.h"         // these are LAMMPS include files
-#include "input.h"
-#include "atom.h"
-#include "library.h"
+#include <stdbool.h>
+#include <stdlib.h>
+#include <math.h>
 
-using namespace LAMMPS_NS;
-
+#ifdef __cplusplus
 extern "C" {
-  void minkowski(LAMMPS *lmp, double rmin, double rcell, double *array);
+#endif
+  void minkowski(double *x, int natoms, double size, double rad, double rcell, double *out);
+#ifdef __cplusplus
 }
-void add_pixel(int, int, int);
-bool get_pixel(int, int, int);
-void set_pixel(int, int, int, bool);
+#endif
+void add_pixel(bool *lattice, int n, int i, int j, int k, double *out);
+void set_pixel(bool *lattice, int n, int i, int j, int k, bool value);
+bool get_pixel(bool *lattice, int n, int i, int j, int k);
+
+
+const int v_body =  1; // view M-DR algorithm for explanation
+const int s_body = -6;
+const int s_face =  2;
+const int c_body =  3;
+const int c_face = -2;
+const int c_edge =  1;
+const int e_body = -1;
+const int e_face =  1;
+const int e_edge = -1;
+const int e_vert =  1;
+
 #endif

@@ -101,7 +101,7 @@ int main(int narg, char **arg)
   double *c_min = new double[4];
 
   rdf(x, type, natoms, 100, boxsz, c_rdf);
-  minkowski(lmp, 0.1, 0.01, c_min);
+  minkowski(x, natoms, boxsz, 0.1, 0.01, c_min);
   if (me == 0) {
     for (int i = 0; i < 100; i++) {
       for (int j = 0; j < 5; j++) 
