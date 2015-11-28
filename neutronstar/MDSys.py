@@ -11,12 +11,12 @@ _param_keys = ('potential', 'lambda', 'x', 'N', 'd', 'T')
 _comp_keys = ('rdf', 'ssf', 'fit', 'mste', 'mink', 'thermo')
 _var = {'rdf': (),
         'ssf': ('k_absorption', 'S_absorption'),
-        'fit': ('height', 'del_height', 
+        'fit': ('height', 'del_height',
                 'lambda', 'del_lambda'),
         'mste': ('size_avg', 'size_std'),
         'mink': ('volume', 'surface', 'breadth', 'euler'),
         'thermo': ('temperature', 'kinetic',
-                   'potential', 'energy', 
+                   'potential', 'energy',
                    'pressure'),}
 
 _comp = {'rdf': 0,
@@ -31,7 +31,6 @@ _prefix = {'potential': '',
            'N': 'N',
            'd': 'd',
            'T': 'T',}
-
 
 class MDSys(object):
   def __init__(self, gpu=False, silent=True, root='./data', log='log.lammps'):
@@ -108,7 +107,7 @@ class MDSys(object):
     for i in _param_keys:
       self.path += "/{0}{1}".format(_prefix[i], parameters[i])
     self.path += "/"
-    
+
     try:
       makedirs(self.path)
     except OSError:
@@ -138,7 +137,7 @@ class MDSys(object):
     if key in ['potential', 'lambda']:
       _pot = self.parameters['potential']
       _l = self.parameters['lambda']
-      if _l and _pot: 
+      if _l and _pot:
         potential.build_table(_pot, _l)
         base = 'pair_coeff {t1} {t2} potential.table {pair} {cutoff}'
         command = (base.format(t1=1, t2=1, pair='NN', cutoff=5.4),
@@ -157,7 +156,7 @@ class MDSys(object):
                    'create_atoms 2 random {n2} {s} box'.format(n2=nprot, s=randint(0, 10000)))
       else:
         command = ()
-        
+
     elif key == "T":
       command = ('fix 1 all nvt temp {T} {T} 1000.0'.format(T=value),)
 
@@ -186,7 +185,7 @@ class MDSys(object):
 
     self.n_tally = 0
     self.computes = {}
-    
+
     for c in list_computes:
       self.computes[c] = _comp[c]
       for v in _var[c]:
@@ -213,7 +212,7 @@ class MDSys(object):
 
   def expand(self, rate):
     """
-    Set initial conditions for an expansion as seen in 
+    Set initial conditions for an expansion as seen in
 
     Dorso and Strachan, Phys. Rev. B 54, 236
     """
@@ -229,7 +228,7 @@ class MDSys(object):
 #               'velocity all ramp vy 0 {0} y -{1} {1} sum yes units box'.format(_vel, _size),
 #               'velocity all ramp vz 0 {0} z -{1} {1} sum yes units box'.format(_vel, _size),
 #               'velocity all zero linear')
-               
+
     for cmd in command:
       self.lmp.command(cmd)
 
@@ -237,7 +236,7 @@ class MDSys(object):
     """
     Stop expansion
     """
-    
+
     self.lmp.command("unfix expansion")
 
   def read_dump(self, fname, mste=False):
@@ -258,7 +257,7 @@ class MDSys(object):
 
     if mste: mste_string = "c_mste"
     else: mste_string = ""
-    
+
     cmd = ('read_dump {0} {1} x y z vx vy vz {2} purge yes '
            'add yes replace no'.format(fname, _t, mste_string))
 
@@ -314,20 +313,19 @@ class MDSys(object):
     # To tally everything since we reset timestep
     self.lmp.command("run 0 pre yes post no")
 
-  def results(self, r_mink=1.8, r_cell=0.5, nbins=200, rmax=None):
+  def results(self, r_mink=1.8, r_cell=0.5, nbins=200):
     """
     Method to take all the results that have been set in the setup()
     method
     """
     _N = self.parameters['N']
     _d = self.parameters['d']
-    if not rmax: rmax = (float(_N)/_d)**(1.0/3)*0.5
 
     self.n_tally += 1
     n = float(self.n_tally)
 
     # Go through the analysis
-    if "rdf" in self.computes: rdf = analysis.rdf(self.lmp, nbins, rmax, self.npairs)
+    if "rdf" in self.computes: rdf = analysis.rdf(self.lmp, nbins,  self.npairs)
     if "ssf" in self.computes: ssf = analysis.structure(rdf, _d, self.npairs)
     if "fit" in self.computes: fit = analysis.fit(rdf)
     if "mste" in self.computes: mste = analysis.mste(self.lmp, _N)

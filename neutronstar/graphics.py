@@ -74,9 +74,9 @@ def mste((occ, frac), path='./'):
 def rdf(rdf, path='./'):
     
     np.savetxt(path + 'rdf.dat', rdf,
-               header=('r, a-a, ia-a, n-n, in-n, '
-                       'n-p, in-p, p-p, ip-p'),
-               fmt=', '.join(['%f']*9))
+               header=('r, a-a, n-n, '
+                       'n-p, p-p'),
+               fmt=', '.join(['%f']*5))
 
     labels = ('all', 'n-n', 'n-p', 'p-p')
     fig, ax = plt.subplots()
@@ -86,7 +86,7 @@ def rdf(rdf, path='./'):
     ax.set_xlim(0, R[-1])
     for i in xrange(4):
         pair = labels[i]
-        idx = i * 2 + 1
+        idx = i + 1
         G = rdf[:, idx]
         fig_each, ax_each = plt.subplots()
         ax_each.set_xlabel('Distance [fm]')
