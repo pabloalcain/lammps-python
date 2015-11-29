@@ -27,6 +27,9 @@ Analysis wrapper
   * [ ] Lindemann
   * [X] RDF
 
+RESOLVED ISSUES
+===============
+
 Global issues
 -------------
 
