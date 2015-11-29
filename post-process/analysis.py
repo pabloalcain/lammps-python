@@ -1,5 +1,6 @@
 """
-This files has analysis routines. They have to be in Python, because we want to tamper with them
+This files has analysis routines. They have to be in Python,
+because we want to tamper with them
 """
 
 import numpy as np
