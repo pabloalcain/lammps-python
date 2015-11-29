@@ -18,7 +18,7 @@ param['N'] = 60
 param['x'] = 0.4
 darr = np.linspace(0.01,0.08,8)
 param['potential'] = 'medium'
-comp = ('rdf', 'ssf', 'mink', 'mste', 'thermo', 'fit')
+comp = ('rdf', 'ssf', 'mink', 'mste', 'thermo')
 for d in darr:
     param['d'] = d
     print "x={0} d={1}".format(0.4, d)

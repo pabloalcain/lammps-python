@@ -18,7 +18,7 @@ param['N'] = 5488
 param['x'] = 0.5
 param['d'] = 0.04
 param['potential'] = 'medium'
-comp = ('rdf', 'ssf', 'fit', 'mste', 'mink', 'thermo')
+comp = ('rdf', 'ssf', 'mste', 'mink', 'thermo')
 
 system = MDSys(silent=False)
 system.setup(param, comp)
