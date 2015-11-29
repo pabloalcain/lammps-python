@@ -18,6 +18,10 @@ LABELS = {'energy': r'Energy [MeV]',
           'lambda': r'$\lambda$ [fm]',
           'S_absorption': 'Absorption peak',
           'pressure': r'Pressure [MeV/fm$^3$]',
+          'euler': r'Euler Number',
+          'breadth': r'Mean Breadth [fm]',
+          'surface': r'Mean Surface [fm$^2$]',
+          'volume': r'Mean Volume [fm$^3$]',
           'd': r'Density [fm$^{-3}$]',
           'T': r'Temperature [MeV]',}
 
@@ -72,7 +76,7 @@ class Plotter(object):
       _param[run] = val
       lbl = '{0} = {1}'.format(run, val)
       self.onedim(axis, mag, _param, fmt=fmt, label=lbl)
-    axis.legend(loc='upper left')
+    axis.legend()
     fig.canvas.draw()
     fig.tight_layout()
     return fig, axis
