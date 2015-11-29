@@ -15,23 +15,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 _tags = {'breadth': 'Breadth [fm]',
-         'del_lambda': r'Fitting $\Delta\lambda$ [fm]',
          'energy': 'Energy [MeV]',
          'pressure': r'Pressure [MeV/fm$^3$]',
          'S_absorption': r'Pasta absorption',
          'size_avg': 'Average size of clusters',
          'k_absorption': r'Pasta wavenumber [fm$^{-1}$]',
          'surface': r'Surface [fm$^2$]',
-         'height': r'Fitting height',
          'volume': r'Volume [fm$^3$]',
          'size_std': r'$\sigma$ cluster distribution',
          'potential': r'Potential energy [MeV]',
          'temperature': r'Temperature [MeV]',
          'kinetic': r'Kinetic energy [MeV]',
-         'del_height': r'Fitting $\Delta$ H',
-         'euler': r'Euler characteristic',
-         'lambda': r'Fitting wavelength [fm]',}
-   
+         'euler': r'Euler characteristic',}
 
 
 def mste((occ, frac), path='./'):
