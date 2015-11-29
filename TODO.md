@@ -4,11 +4,7 @@ TODO LIST
 Global Issues
 -------------
 
-- [ ] Clean repository and gitignore list
 - [ ] What is the lindemann coefficient? How can we calculate it?
-- [ ] Attention! Methods should be a bit more encapsulated, use
-      advantage of OOP and have different objects, for system,
-      results, etc (if needed)
 
 LAMMPS wrapper
 --------------
@@ -23,21 +19,23 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
-- [ ] Remove OSError try&catch in the analysis.py file
-- [ ] Write mean and std of computes in a global file inside path
 - [ ] Add warning to minkowski method related to lattice size
-- [ ] Check analysis
-  * [ ] MSTE
-  * [ ] Minkowski
+- [-] Check analysis
+  * [X] MSTE
+  * [X] Minkowski
   * [ ] Lindemann
-  * [ ] RDF
+  * [X] RDF
 
 Global issues
 -------------
 
+- [X] Clean repository and gitignore list
 - [X] Reorder code
   * [X] Move files and folders
   * [X] Put python files inside a folder, maybe a whole package?
+- [X] Attention! Methods should be a bit more encapsulated, use
+      advantage of OOP and have different objects, for system,
+      results, etc (if needed)
 
 
 LAMMPS wrapper
@@ -66,6 +64,8 @@ LAMMPS wrapper
 Analysis wrapper
 ----------------
 
+- [X] Remove OSError try&catch in the analysis.py file
+- [X] Write mean and std of computes in a global file inside path
 - [X] Add code to rdf to add multiple PBC instance of pairs
 - [X] Plot computes
 - [X] Clean&Check the old analysis.py routines, c-style them
