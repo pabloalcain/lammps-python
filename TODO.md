@@ -9,6 +9,7 @@ Global Issues
 LAMMPS wrapper
 --------------
 
+- [ ] Clean scripts
 - [ ] Need to work a bit about when to add the files, when to 
       update_path to further check if the files *do* exist.
       Idea: makedirs without problem, but throw error when creating
