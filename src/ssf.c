@@ -39,6 +39,7 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
   rmax2 = rmax * rmax;
   for (int ii = 0; ii < npoints; ii++) {
     double ki = k[ii];
+    sk[ncols * ii] = ki;
     printf("%d/%d\n", ii, npoints);
     for (int i = 0; i < natoms; i++) {
       int itype = type[i];
@@ -57,7 +58,6 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
         r = sqrt(r);
         sk[ncols * ii + 1] += sin(ki*r)/(ki*r); 
         sk[ncols * ii + idxpair] += sin(ki*r)/(ki*r);
-        fprintf(fp, "%d\n", idxpair);
         if (ii == 0) {
           hist[1] += 1;
           hist[idxpair] += 1;
@@ -65,13 +65,17 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
       }
     }
   }
+  for (int i = 0; i < ncols; i++) {
+    fprintf(fp, "%d, ", hist[i]);
+  }
   fclose(fp);
   for (int i = 0; i < npoints; i++) {
     for (int j = 1; j < ncols; j++) {
       sk[ncols * i + j] /= natoms;
-      sk[ncols * i + j] *= sqrt(hist[j]/hist[1]);
+      sk[ncols * i + j] *= sqrt((double)hist[j]/hist[1]);
       sk[ncols * i + j] += 1;
     }
   }
+  
   return;
 }
