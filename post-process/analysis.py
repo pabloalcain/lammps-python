@@ -6,7 +6,9 @@ import numpy as np
 import itertools as it
 import ctypes as C
 
-librdf = C.CDLL('./librdf.so')
+libanalysis = C.CDLL('libanalysis.so')
+rdf_c = libanalysis.rdf
+ssf_c = libanalysis.ssf
 
 def _f1(l):
   return np.arctan(np.sqrt(4*l**2 - 2))
@@ -44,10 +46,39 @@ def rdf(x, t, size):
   natoms = np.shape(x)[0]
   x_p = x.ctypes.data_as(C.POINTER(C.c_double))
   t_p = t.ctypes.data_as(C.POINTER(C.c_int))
-  librdf.rdf.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int), C.c_int, C.c_int, C.c_double, C.POINTER(C.c_double)]
-  librdf.rdf(x_p, t_p, natoms, nbins, size, tmp)
+  rdf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int),
+                    C.c_int, C.c_int, C.c_double, C.POINTER(C.c_double)]
+  rdf_c(x_p, t_p, natoms, nbins, size, tmp)
   gr = np.frombuffer(tmp, dtype = np.double, count = nbins * 5)
   return gr.reshape((nbins, 5))
+
+def ssf(x, t, k, size):
+  """
+  ssf that gets a box and calculates with PBC in 3d.
+
+  Parameters:
+
+  - x: 2D numpy array
+       First dimension is the number of particles, second one is x y and z
+
+  - t: numpy array
+       Type of particles
+
+  - k: 1D numpy array
+       Wavenumbers to calculate
+  """
+  npoints = np.shape(k)[0]
+  out = (C.c_double * (npoints * 5))()
+  natoms = np.shape(x)[0]
+  x_p = x.ctypes.data_as(C.POINTER(C.c_double))
+  t_p = t.ctypes.data_as(C.POINTER(C.c_int))
+  k_p = k.ctypes.data_as(C.POINTER(C.c_double))
+  ssf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int), C.c_int,
+                    C.c_double, C.c_int, C.POINTER(C.c_double),
+                    C.POINTER(C.c_double)]
+  ssf_c(x_p, t_p, natoms, size, npoints, k_p, out)
+  ssf = np.frombuffer(out, dtype=np.double, count=npoints * 5)
+  return ssf.reshape((npoints, 5))
 
 
 def rdf_py(x, box):
@@ -148,24 +179,13 @@ def pbc_rdf(x, box):
     i[1] = i[1]  / (dV * c * hits)
   return rdf
 
-def ssf(x):
-  """
-  get the form_factor for atoms in all three dimensions
-  """
-  npoints = 1000
-  natoms, dim = np.shape(x)
-  s = np.zeros((npoints/2+1, 2*dim), dtype=np.complex)
-  for i in range(dim):
-    h = np.histogram(x[:, i], npoints)
-    dens = h[0]/float(natoms)
-    r = h[1]
-    s[:, 2*i] = np.fft.rfftfreq(npoints, (r[1] - r[0]))
-    s[:, 2*i+1] = np.fft.rfft(dens)
-  return s
 
 
 if __name__ == '__main__':
   import extract as E
   x = E.positions('dump.lammpstrj', 0)
   t = E.types('dump.lammpstrj', 0)
-  rdf = rdf(x, t, 23.9397*2)
+  gr = rdf(x, t, 23.9397*2)
+  print "Done rdf!"
+  k = np.linspace(0.2, 0.5, 16)
+  sk = ssf(x, t, k, 23.9397*2)
