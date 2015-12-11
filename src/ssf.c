@@ -50,8 +50,10 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
         r = 0.0;
         for (int l = 0; l < 3; l++) {
           dx = x[3*j + l] - x1[l];
-          while (dx > size/2)  dx -= size;
-          while (dx < -size/2) dx += size;
+          /*
+	    while (dx > size/2)  dx -= size;
+	    while (dx < -size/2) dx += size;
+	  */
           r += dx * dx;
         }
         //if (r > rmax2) continue;

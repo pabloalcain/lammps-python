@@ -179,6 +179,32 @@ def pbc_rdf(x, box):
     i[1] = i[1]  / (dV * c * hits)
   return rdf
 
+def transf_rdf(gr, density):
+  """
+  Calculate structure factor given the radial distribution function.
+  """
+  _d = density
+  r = gr[:, 0]
+  # Assume evenly spaced
+  dr = r[1] - r[0]
+  # How many points do I need to add to get a good resolution?
+  dlda = 0.1
+  lda0 = 15.0
+  rmax = lda0**2 / dlda
+  n = int(rmax/dr)
+
+  q = np.linspace(0, 2*np.pi/dr, n)
+  S = np.zeros((n, 2))
+  S[:, 0] = q
+
+  #Integrand in the fourier transform
+  ker = (gr[:, 1] - 1) * r
+  #Imaginary (sin) part of the Fourier transform
+  ft = np.imag(np.fft.fft(ker, n)) * dr
+  #We split the q = 0 case, since it is ill-defined
+  S[1:, 1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
+
+  return S
 
 
 if __name__ == '__main__':
@@ -187,5 +213,12 @@ if __name__ == '__main__':
   t = E.types('dump.lammpstrj', 0)
   gr = rdf(x, t, 23.9397*2)
   print "Done rdf!"
-  k = np.linspace(0.2, 0.5, 16)
+  k1 = np.linspace(0.0, 0.5, 100)
+  k2 = np.linspace(2.0, 4.0, 100)
+  k = np.hstack((k1, k2))
+  k = np.linspace(0.0, 0.5, 100)
+  d = 0.05
+  N = 5488
+  l = (5488/0.05)**(1.0/3.0)
   sk = ssf(x, t, k, 23.9397*2)
+  sk_transf = transf_rdf(gr, 0.05)

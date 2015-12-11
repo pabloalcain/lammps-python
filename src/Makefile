@@ -12,7 +12,7 @@ CXX=mpic++
 LD=mpic++
 CFLAGS=-g -O3 -fPIC -std=gnu99 
 LDFLAGS=-L$(LAMMPS)/src
-LDLIBS=-llammps
+LDLIBS=#-llammps
 CXXFLAGS=-Wno-write-strings -g -O3 -fPIC -I$(LAMMPS)/src
 
 default: $(LIB)
