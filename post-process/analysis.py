@@ -192,7 +192,7 @@ def transf_rdf(gr, density):
   lda0 = 15.0
   rmax = lda0**2 / dlda
   n = int(rmax/dr)
-  n = len(r)
+  #n = len(r)
   q = np.linspace(0, 2*np.pi/dr, n)
   S = np.zeros((n, 2))
   S[:, 0] = q
@@ -224,7 +224,7 @@ if __name__ == '__main__':
   print "Done rdf!"
   k1 = np.linspace(0.0, 0.5, 100)
   k2 = np.linspace(2.0, 4.0, 100)
-  k = np.hstack((k1, k2))
+  k = k1 #np.hstack((k1, k2))
   #k = np.linspace(0.0, 0.5, 100)
   d = 0.05
   N = 5488
