@@ -2,7 +2,11 @@
 #define SSF_H
 
 #include "math.h"
+#include "stdlib.h"
 #include "stdio.h"
+#ifdef _OPENMP
+#include "omp.h"
+#endif
 #ifdef __cplusplus
 extern "C" {
 #endif

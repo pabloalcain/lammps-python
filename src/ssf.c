@@ -21,7 +21,7 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
   double rmax, rmax2;
   double x1[3];
   double dx, r;
-
+  
   int npairs = 4;
   int ncols = npairs + 1;
   int hist[ncols];
@@ -34,43 +34,67 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
     hist[i] = 0;
   for (int i = 0; i < ncols * npoints; i++)
     sk[i] = 0;
-  FILE *fp = fopen("types.dat", "w");
-  rmax = size/2;// * sqrt(3.0)/2;
-  rmax2 = rmax * rmax;
-  for (int ii = 0; ii < npoints; ii++) {
-    double ki = k[ii];
-    sk[ncols * ii] = ki;
-    printf("%d/%d\n", ii, npoints);
-    for (int i = 0; i < natoms; i++) {
-      int itype = type[i];
-      for (int l = 0; l < 3; l++) x1[l] = x[3*i + l];
-      for (int j = i+1; j < natoms; j++) {
-        int jtype = type[j];
-        int idxpair = labels[itype][jtype];
-        r = 0.0;
-        for (int l = 0; l < 3; l++) {
-          dx = x[3*j + l] - x1[l];
-          /*
-	    while (dx > size/2)  dx -= size;
-	    while (dx < -size/2) dx += size;
-	  */
-          r += dx * dx;
-        }
-        //if (r > rmax2) continue;
-        r = sqrt(r);
-        sk[ncols * ii + 1] += sin(ki*r)/(ki*r); 
-        sk[ncols * ii + idxpair] += sin(ki*r)/(ki*r);
-        if (ii == 0) {
-          hist[1] += 1;
-          hist[idxpair] += 1;
-        }
+  int nr = 2;
+  int ndist = 2*nr+1;
+  int *deg = (int *)malloc((ndist)*sizeof(int));
+  int *dist = (int *)malloc((ndist)*sizeof(int));
+  for (int ii = 0; ii < ndist; ii++)
+    dist[ii] = ii - 2;
+  deg[0] = 1;
+  deg[1] = 2;
+  deg[2] = 3;
+  deg[3] = 2;
+  deg[4] = 1;
+
+  #ifdef _OPENMP 
+  #pragma omp parallel
+  #endif
+  {
+    int tid = 0;
+    int nthreads = 1;
+    #ifdef _OPENMP
+    tid = omp_get_thread_num();
+    nthreads = omp_get_num_threads();
+    #endif
+    for (int it = 0; it < npoints; it += nthreads) {
+      int ii = it + tid;
+      if (ii >= npoints) break;
+      double ki = k[ii];
+      sk[ncols * ii] = ki;
+      printf("%d/%d\n", ii, npoints);
+      for (int i = 0; i < natoms; i++) {
+	int itype = type[i];
+	for (int l = 0; l < 3; l++) x1[l] = x[3*i + l];
+	for (int j = i+1; j < natoms; j++) {
+	  int jtype = type[j];
+	  int idxpair = labels[itype][jtype];
+	  for (int ix = 0; ix < ndist; ix ++) {
+	    for (int iy = 0; iy < ndist; iy ++) {
+	      for (int iz = 0; iz < ndist; iz ++) {
+		double deg_tot = deg[ix] * deg[iy] * deg[iz];
+		double cont;
+		r = 0.0;
+		for (int l = 0; l < 3; l++) {
+		  dx = x[3*j + l] - x1[l] + size * dist[l];
+		  r += dx * dx;
+		}
+		r = sqrt(r);
+		if (ki == 0.0d) cont = 1.0d;
+		else cont = sin(ki*r)/(ki*r);
+		cont = cont * deg_tot;
+		sk[ncols * ii + 1] += cont;
+		sk[ncols * ii + idxpair] += cont;
+		if (ii == 0) {
+		  hist[1] += deg_tot;
+		  hist[idxpair] += deg_tot;
+		}
+	      }
+	    }
+	  }
+	}
       }
     }
   }
-  for (int i = 0; i < ncols; i++) {
-    fprintf(fp, "%d, ", hist[i]);
-  }
-  fclose(fp);
   for (int i = 0; i < npoints; i++) {
     for (int j = 1; j < ncols; j++) {
       sk[ncols * i + j] /= natoms;

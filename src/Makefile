@@ -10,8 +10,8 @@ EXE=simple.e
 CC=gcc
 CXX=mpic++
 LD=mpic++
-CFLAGS=-g -O3 -fPIC -std=gnu99 
-LDFLAGS=-L$(LAMMPS)/src
+CFLAGS=-g -O3 -fPIC -std=gnu99 -fopenmp
+LDFLAGS=-L$(LAMMPS)/src -lgomp
 LDLIBS=#-llammps
 CXXFLAGS=-Wno-write-strings -g -O3 -fPIC -I$(LAMMPS)/src
 

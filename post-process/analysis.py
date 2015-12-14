@@ -207,11 +207,10 @@ def transf_rdf(gr, density):
 
 
 def int_s(s, q, r):
-  s = s[1:]
-  q = q[1:]
   dq = q[1] - q[0]
   ker = np.sum(q*(s-1)*np.sin(q*r))*dq
   g = 2/np.pi*ker
+  #g = ker
   g = g/(4*np.pi*r*0.05)+1
   return g
 
@@ -226,7 +225,7 @@ if __name__ == '__main__':
   k1 = np.linspace(0.0, 0.5, 100)
   k2 = np.linspace(2.0, 4.0, 100)
   k = np.hstack((k1, k2))
-  k = np.linspace(0.0, 0.5, 100)
+  #k = np.linspace(0.0, 0.5, 100)
   d = 0.05
   N = 5488
   l = (N/d)**(1.0/3.0)
