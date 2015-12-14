@@ -230,5 +230,5 @@ if __name__ == '__main__':
   N = 5488
   l = (N/d)**(1.0/3.0)
   sk_transf = transf_rdf(gr, d)
-  k =sk_transf[:, 0].copy()
+  #k =sk_transf[:, 0].copy()
   sk = ssf(x, t, k, l)
