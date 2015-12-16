@@ -218,17 +218,19 @@ def int_s(s, q, r):
 
 if __name__ == '__main__':
   import extract as E
-  x = E.positions('dump.lammpstrj', 0)
-  t = E.types('dump.lammpstrj', 0)
-  gr = rdf(x, t, 23.9397*2)
+  x = E.positions('test.lammpstrj', 0)
+  t = E.types('test.lammpstrj', 0)
+  gr = rdf(x, t, 100.0)
   print "Done rdf!"
   k1 = np.linspace(0.0, 0.5, 100)
   k2 = np.linspace(2.0, 4.0, 100)
   k = k1 #np.hstack((k1, k2))
+  k = np.linspace(1.0, 1.0, 1)
   #k = np.linspace(0.0, 0.5, 100)
   d = 0.05
   N = 5488
   l = (N/d)**(1.0/3.0)
+  l = 100
   sk_transf = transf_rdf(gr, d)
   #k =sk_transf[:, 0].copy()
   sk = ssf(x, t, k, l)

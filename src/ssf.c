@@ -46,6 +46,14 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
   deg[3] = 2;
   deg[4] = 1;
 
+  printf("Dist = ");
+  for (int ii = 0; ii < ndist; ii++)
+    printf("%d, ", dist[ii]);
+  printf("\nDeg = ");
+  for (int ii = 0; ii < ndist; ii++)
+    printf("%d, ", deg[ii]);
+  printf("\n");
+
   #ifdef _OPENMP 
   #pragma omp parallel
   #endif
@@ -71,13 +79,20 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
 	  for (int ix = 0; ix < ndist; ix ++) {
 	    for (int iy = 0; iy < ndist; iy ++) {
 	      for (int iz = 0; iz < ndist; iz ++) {
-		double deg_tot = deg[ix] * deg[iy] * deg[iz];
+		int deg_tot = deg[ix] * deg[iy] * deg[iz];
+		int dist2[3];
+		dist2[0] = dist[ix];
+		dist2[1] = dist[iy];
+		dist2[2] = dist[iz];
 		double cont;
 		r = 0.0;
 		for (int l = 0; l < 3; l++) {
-		  dx = x[3*j + l] - x1[l] + size * dist[l];
+		  dx = x[3*j + l] - x1[l] + size * dist2[l];
 		  r += dx * dx;
+		  printf("%f, ", dx);
 		}
+		printf("nrep = %d = %d*%d*%d", deg_tot, deg[ix], deg[iy], deg[iz]);
+		printf(", dist = [%d, %d, %d]\n", dist2[0], dist2[1], dist2[2]);
 		r = sqrt(r);
 		if (ki == 0.0d) cont = 1.0d;
 		else cont = sin(ki*r)/(ki*r);
@@ -95,6 +110,7 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
       }
     }
   }
+
   for (int i = 0; i < npoints; i++) {
     for (int j = 1; j < ncols; j++) {
       sk[ncols * i + j] /= natoms;
@@ -102,6 +118,8 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, 
       sk[ncols * i + j] += 1;
     }
   }
-  
+
+  free(deg);
+  free(dist);
   return;
 }
