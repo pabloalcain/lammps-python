@@ -86,7 +86,7 @@ double volume(double l) {
      length 1 AND the sphere of radius l. See for instance
      https://www.cmu.edu/biolphys/deserno/pdf/gr_periodic.pdf
   */
-  //return 4.0/3.0 * M_PI * l * l * l;
+  return 4.0/3.0 * M_PI * l * l * l;
   double v;
   if (l < 0.5d) {
     v = 4.0/3.0 * M_PI * l * l * l;
