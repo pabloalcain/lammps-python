@@ -54,7 +54,7 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, int nrep, d
     for (int it = 0; it < npoints; it += nthreads) {
       int ii = it + tid;
       if (tid == 0) {
-        printf(" %d%%...\r", (ii * 100)/npoints);
+        printf("\r%d%%...", (ii * 100)/npoints);
         fflush(stdout);
       }
       if (ii >= npoints) break;
@@ -103,7 +103,7 @@ void ssf(double *x, int *type, int natoms, double size, int npoints, int nrep, d
       sk[ncols * i + j] *= sqrt((double)hist[j]/hist[1]);
     }
   }
-  printf("Done!      \n");
+  printf("\rDone!      \n");
 
   free(deg);
   free(dist);
