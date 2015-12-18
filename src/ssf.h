@@ -10,7 +10,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void ssf(double *x, int *type, int natoms, double size, int npoints, double *k, double *gr);
+  void ssf(double *x, int *type, int natoms, double size, int npoints, int nrep, double *k, double *gr);
 #ifdef __cplusplus
 }
 #endif

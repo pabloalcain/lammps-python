@@ -27,10 +27,10 @@ install: $(LIB)
 	cp $< /usr/local/lib
 
 $(LIB): $(COBJ)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -shared -o $@
+	$(CC) $^ $(LDLIBS) $(LDFLAGS) -shared -o $@
 
 $(EXE): $(CXXOBJ) $(COBJ)
-	$(LD) $(LDFLAGS) $^ $(LDLIBS) -o $@
+	$(LD) $^ $(LDLIBS) $(LDFLAGS) -o $@
 
 %_cpp.o: %.cpp %.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
