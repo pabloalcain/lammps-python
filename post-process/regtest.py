@@ -34,5 +34,28 @@ def test_replicas_scheme(full=False):
     pl.legend()
     pl.title('For the test to pass, both should be the same graph')
     pl.show()
+
+def test_fourier_transform():
+  T.replicate('test.lammpstrj', 'replica.lammpstrj')
+  x = E.positions('replica.lammpstrj', 0)
+  t = E.types('replica.lammpstrj', 0)
+  box = E.box('replica.lammpstrj')
+  size = box[0][1] - box[0][0]
+  d = np.shape(x)[0]/(size ** 3)
+
+  gr = A.rdf(x, t, size)
+
+  sk_transf = A.transf_rdf(gr + 1, d)
+  k = sk_transf[:, 0].copy()
+
+  sk = A.ssf(x, t, k, size, 0)
+  pl.plot(sk[:, 0], sk[:, 1], label='By definition')
+  pl.plot(sk_transf[:, 0], sk_transf[:, 1], label='Fourier transform')
+  pl.legend()
+  pl.title('For the test to pass, both should be the same graph')
+  pl.show()
+
+
 if __name__ == '__main__':
   test_replicas_scheme(True)
+  test_fourier_transform()
