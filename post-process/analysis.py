@@ -94,7 +94,6 @@ def transf_rdf(gr, density):
   lda0 = 15.0
   rmax = lda0**2 / dlda
   n = int(rmax/dr)
-  #n = len(r)
   q = np.linspace(0, 2*np.pi/dr, n)
   S = np.zeros((n, 2))
   S[:, 0] = q
@@ -105,6 +104,7 @@ def transf_rdf(gr, density):
   ft = np.imag(np.fft.fft(ker, n)) * dr
   #We split the q = 0 case, since it is ill-defined
   S[1:, 1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
+  S[0, 1] = 1 + dr * sum(ker * r) * (4 * np.pi * _d)
   return S
 
 
@@ -129,5 +129,9 @@ if __name__ == '__main__':
 
   gr = rdf(x, t, size)
   sk_transf = transf_rdf(gr, d)
-  k =sk_transf[:, 0].copy()
+
+  k1 = np.linspace(0.2, 0.5, 101)
+  k2 = np.linspace(3.0, 4.0, 101)
+  k = np.hstack((k1, k2))
+
   sk = ssf(x, t, k, size, 1)
