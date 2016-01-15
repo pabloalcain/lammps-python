@@ -29,7 +29,7 @@ def _vol(l):
     v += 2.0/3.0 * l**2 * _f2(l)
   return v
 
-def rdf(x, t, size):
+def rdf(x, t, size, pbc=True):
   """
   rdf that gets a box and calculates with PBC in 3d.
 
@@ -47,8 +47,9 @@ def rdf(x, t, size):
   x_p = x.ctypes.data_as(C.POINTER(C.c_double))
   t_p = t.ctypes.data_as(C.POINTER(C.c_int))
   rdf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int),
-                    C.c_int, C.c_int, C.c_double, C.POINTER(C.c_double)]
-  rdf_c(x_p, t_p, natoms, nbins, size, tmp)
+                    C.c_int, C.c_int, C.c_double, C.c_bool,
+                    C.POINTER(C.c_double)]
+  rdf_c(x_p, t_p, natoms, nbins, size, pbc, tmp)
   gr = np.frombuffer(tmp, dtype = np.double, count = nbins * 5)
   return gr.reshape((nbins, 5))
 
