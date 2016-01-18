@@ -13,8 +13,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void cluster(double *x, double *v, int *type, int natoms, double size, int *index);
+  void cluster(double *x, double *v, int *type, int natoms,
+               double size, bool energy, bool pbc, int *index);
 #ifdef __cplusplus
 }
 #endif
+double potential(double r);
 #endif

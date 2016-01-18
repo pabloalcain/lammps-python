@@ -106,6 +106,7 @@ def mste(lmp, N):
   tmp = np.fromiter(ext, dtype=np.int, count=N)
   ext = lmp.extract_atom("type", 0)
   typ = np.fromiter(ext, dtype=np.int, count=N)
+
   # We loop over all the different clusterIDs present, get the mass as
   # how often it occurs and the fraction as
 

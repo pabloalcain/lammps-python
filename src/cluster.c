@@ -1,11 +1,17 @@
 #include "cluster.h"
 
-void cluster(double *x, double *v, int *type, int natoms, double size, int *index){
-  /* Calculates clusters. 
+void cluster(double *x, double *v, int *type, int natoms,
+             double size, bool energy, bool pbc, int *index){
+  /* Calculates clusters.
+
+     energy: if true, calculate MSTE
+     pbc: if true, use PBC
 
      On index, returns a 1D array with the cluster index*/
   double cutsq;
-  cutsq = 5.4;
+  double mu;
+  cutsq = 5.4 * 5.4;
+  mu = 938.0/2;
   for (int i = 0; i < natoms; i++) index[i] = i;
   
   while (true) {
@@ -25,13 +31,33 @@ void cluster(double *x, double *v, int *type, int natoms, double size, int *inde
         rsq = 0;
         for (int k = 0; k < 3; k++) {
           double d = x[3*j + k] - x1[k];
-          if (d > size/2) d -= size;
-          else if (d < -size/2) d += size;
+          if (pbc) {
+            if (d > size/2) d -= size;
+            else if (d < -size/2) d += size;
+          }
           rsq += d * d;
         }
         if (rsq < cutsq) {
-          index[i] = index[j] = MIN(index[i],index[j]);
-          done = false;
+          bool clust;
+          clust = true;
+          if (energy) {
+            if (type1 == type[j]) {
+              clust = false;
+            } else {
+              double vsq, eng;
+              vsq = 0.0;
+              for (int k = 0; k < 3; k++) {
+                double dv = v[3*j + k] - v1[k];
+                vsq += dv * dv;
+              }
+              eng = potential(sqrt(rsq)) + 1.0/2.0 * mu * vsq;
+              clust = (eng < 0.0);
+            }
+          }
+          if (clust) {
+            index[i] = index[j] = MIN(index[i],index[j]);
+            done = false;
+          }
         }
       }
     }
@@ -39,3 +65,14 @@ void cluster(double *x, double *v, int *type, int natoms, double size, int *inde
   }
   return;
 }
+
+double potential(double r) {
+  double Vr = 3088.118;
+  double Va = 2666.647;
+  double ur = 1.7468;
+  double ua = 1.6;
+  return Vr * exp(-ur * r) / r - Va * exp(-ua * r) / r;
+}
+
+  
+

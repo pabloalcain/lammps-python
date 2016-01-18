@@ -4,6 +4,7 @@ Module for post-process in neutronstars
 import numpy as np
 from collections import OrderedDict
 import os
+import analysis as A
 
 PREFIX = OrderedDict()
 PREFIX['V'] = ''
@@ -46,7 +47,7 @@ class Extraction(object):
     """
 
     _path = self.path
-    #for every possible parameter, we check whether it was passed or not
+    # for every possible parameter, we check whether it was passed or not
     for _param in PREFIX:
       if _param in parameters:
         direct = PREFIX[_param] + str(parameters[_param])
@@ -116,7 +117,29 @@ class Extraction(object):
       out = np.loadtxt('{0}/{1}.dat'.format(_path, mag), delimiter=',')
     return out
 
-  def particle(self, mag, parameters):
+  def mste(self, parameters, idx=0):
+    """
+    Compute MSTE from the dump file
+    """
+    x = self.particle('x', parameters, idx)
+    v = self.particle('v', parameters, idx)
+    t = self.particle('type', parameters, idx)
+    box = self.box(parameters, idx)
+    size = box[0, 1] - box[0, 0]
+    index = A.cluster(x, v, t, size, energy=True)
+    return index
+
+  def rdf(self, parameters, idx=0):
+    """
+    Compute RDF from the dump file
+    """
+    x = self.particle('x', parameters, idx=idx)
+    t = self.particle('type', parameters, idx=idx)
+    box = self.box(parameters, idx=idx)
+    size = box[0, 1] - box[0, 0]
+    return A.rdf(x, t, size)
+
+  def particle(self, mag, parameters, idx=0):
     """
     Extract a 'per particle' magnitude that is in a lammps dump file
     inside the directory. Get only the first timestep. Possible
@@ -130,6 +153,7 @@ class Extraction(object):
     _path = self._set_path(parameters)
     _size = len(COLS[mag])
     _file = open('{0}/dump.lammpstrj'.format(_path))
+    npart = _file.readlines
     _nline = 0
     for line in _file.readlines():
       _nline += 1
@@ -138,16 +162,40 @@ class Extraction(object):
       if _nline == 4:
         npart = int(line)
         out = np.zeros((npart, _size), dtype=DATA_TYPE[mag])
+        offset = (npart + 9) * idx
         continue
-      if _nline < 10:
+      if _nline < offset + 10:
         continue
-      if _nline == npart + 10:
+      if _nline == offset + npart + 10:
         break
-      idxp = _nline - 10
+      idxp = _nline - offset - 10
       for i, j in enumerate(COLS[mag]):
         out[idxp, i] = line.split()[j]
     _file.close()
     return out
+
+  def box(self, parameters, idx=0):
+    """
+    Extract box at the first timestep from a lammps file
+    """
+    _path = self._set_path(parameters)
+    _file = open('{0}/dump.lammpstrj'.format(_path))
+    size = np.zeros((3, 2))
+    _nline = 0
+    for line in _file.readlines():
+      _nline += 1
+      if _nline < 4:
+        continue
+      if _nline == 4:
+        npart = int(line)
+        offset = (npart + 9) * idx
+        continue
+      if _nline > offset + 5 and _nline < offset + 9:
+        size[_nline - offset - 6, :] = line.split()
+        continue
+      if _nline == offset + 9:
+        break
+    return size
 
 def main():
   """Main function with a use case, we extract the energy and compare
@@ -164,22 +212,6 @@ def main():
   typ = ext.particle('type', parameters)
   print typ
 
-def box(fname):
-  """
-  Extract box at the first timestep from a lammps file
-  """
-  f = open(fname)
-  size = np.zeros((3, 2))
-  n = 0
-  for line in f.readlines():
-    n += 1
-    if n > 5 and n < 9:
-      size[n-6, :] = line.split()
-      continue
-    if n == 9:
-      break
-  f.close()
-  return size
 
 if __name__ == "__main__":
   main()
