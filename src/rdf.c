@@ -1,6 +1,7 @@
 #include "rdf.h"
 
-void rdf(double *x, int *type, int natoms, int nbins, double size, double *gr){
+void rdf(double *x, int *type, int natoms, int nbins,
+	 double size, char pbc, double *gr){
   /* Calculates rdf with PBC in 3D for a cubic box and returns on
      gr. x is an array that has the info in XYZ XYZ XYZ...fashion. The
      rdf is calculated for the whole box up to sqrt(3)/2.
@@ -36,7 +37,9 @@ void rdf(double *x, int *type, int natoms, int nbins, double size, double *gr){
   for (int k = 0; k < ncols * nbins; k++) gr[k] = 0.0;
   for (int k = 0; k < ncols; k++) hist[k] = 0;
 
-  rmax = size * sqrt(3.0);///2;
+  if (pbc) rmax = size * sqrt(3.0)/2;
+  else rmax = size * sqrt(3.0);
+
   dr = rmax/nbins;
   for (int i = 0; i < natoms; i++) {
     int itype = type[i];
@@ -47,12 +50,13 @@ void rdf(double *x, int *type, int natoms, int nbins, double size, double *gr){
       r = 0.0;
       for (int k = 0; k < 3; k++) {
         dx = x[3*j + k] - x1[k];
-        /*while (dx > size/2)  dx -= size;
-          while (dx < -size/2) dx += size;*/
+	if (pbc) {
+	  while (dx > size/2)  dx -= size;
+	  while (dx < -size/2) dx += size;
+	}
         r += dx * dx;
       }
       r = sqrt(r);
-      /* if (r > rmax) continue; */
       idx = (int)(r*nbins/rmax);
       gr[ncols * idx + 1] += 1.0;
       hist[1] += 1;
@@ -62,9 +66,15 @@ void rdf(double *x, int *type, int natoms, int nbins, double size, double *gr){
   }
   for (int k = 0; k < nbins; k++) {
     double p;
+    double r2, r1;
     r = (k+0.5)*rmax/nbins;
+    r2 = (r+0.5*dr)/size;
+    r1 = (r-0.5*dr)/size;
     gr[ncols * k] = r;
-    p = volume((r+0.5*dr)/size) - volume((r-0.5*dr)/size);
+    if (pbc) 
+      p = volume(r2) - volume(r1);
+    else
+      p = 4.0/3.0 * M_PI * (r2 * r2 * r2 - r1 * r1 * r1);
     for (int i = 1; i < ncols; i++) {
       gr[ncols * k + i] /= p * hist[i];
     }
@@ -86,7 +96,7 @@ double volume(double l) {
      length 1 AND the sphere of radius l. See for instance
      https://www.cmu.edu/biolphys/deserno/pdf/gr_periodic.pdf
   */
-  return 4.0/3.0 * M_PI * l * l * l;
+  
   double v;
   if (l < 0.5d) {
     v = 4.0/3.0 * M_PI * l * l * l;

@@ -55,7 +55,22 @@ def test_fourier_transform():
   pl.title('For the test to pass, both should be the same graph')
   pl.show()
 
+def test_rdf(full=False):
+  """In this test, we check that the Replica scheme we use is equal to
+  the result with the replicas made ad-hoc in a new file"""
+
+  x = E.positions('replica.lammpstrj', 0)
+  t = E.types('replica.lammpstrj', 0)
+  box = E.box('replica.lammpstrj')
+  size = box[0][1] - box[0][0]
+  gr = A.rdf(x, t, size, True)
+
+  if full:
+    pl.plot(gr[:, 0], gr[:, 1])
+    pl.show()
+  
 
 if __name__ == '__main__':
+  test_rdf(True)
   test_replicas_scheme(True)
   test_fourier_transform()
