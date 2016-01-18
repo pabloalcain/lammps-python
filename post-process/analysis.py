@@ -12,7 +12,7 @@ rdf_c = libanalysis.rdf
 ssf_c = libanalysis.ssf
 cluster_c = libanalysis.cluster
 
-def rdf(x, t, size, nbins=200):
+def rdf(x, t, size, nbins=200, pbc=True):
   """
   rdf that gets a box and calculates with PBC in 3d.
 
@@ -29,9 +29,10 @@ def rdf(x, t, size, nbins=200):
   x_p = x.ctypes.data_as(C.POINTER(C.c_double))
   t_p = t.ctypes.data_as(C.POINTER(C.c_int))
   rdf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int),
-                    C.c_int, C.c_int, C.c_double, C.POINTER(C.c_double)]
-  rdf_c(x_p, t_p, natoms, nbins, size, tmp)
-  gr = np.frombuffer(tmp, dtype=np.double, count=nbins * 5)
+                    C.c_int, C.c_int, C.c_double, C.c_bool,
+                    C.POINTER(C.c_double)]
+  rdf_c(x_p, t_p, natoms, nbins, size, pbc, tmp)
+  gr = np.frombuffer(tmp, dtype = np.double, count = nbins * 5)
   return gr.reshape((nbins, 5))
 
 def cluster(x, v, t, size, energy=False, pbc=False):
