@@ -340,10 +340,13 @@ class MDSys(object):
     """
     Wrapper to dump positions
     """
-    dump_fname = self.path + 'dump.lammpstrj'
-    self.lmp.extract_compute("mste", 1, 1) # Need to make sure we have our compute updated!
-    tmp = "write_dump all custom {0} id type x y z vx vy vz c_mste"
+    path = self.path
+    dump_fname = path + 'dump.lammpstrj'
+    tmp = "dump myDUMP all custom 1 {0} id type x y z vx vy vz c_mste"
     self.lmp.command(tmp.format(dump_fname))
+    self.lmp.command("dump_modify myDUMP sort id append yes")
+    self.lmp.command("run 0 pre yes post no")
+    self.lmp.command("undump myDUMP")
 
   def flush(self):
     """
