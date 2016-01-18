@@ -10,25 +10,7 @@ import ctypes as C
 libanalysis = C.CDLL('libanalysis.so')
 rdf_c = libanalysis.rdf
 ssf_c = libanalysis.ssf
-
-def _f1(l):
-  return np.arctan(np.sqrt(4*l**2 - 2))
-
-def _f2(l):
-  ang = 2*l*(4*l**2-3)/(np.sqrt(4*l**2-2)*(4*l**2+1))
-  return 8*l*np.arctan(ang)
-
-def _vol(l):
-  if l < 0.5:
-    v = 4.0/3.0 * np.pi * l**3
-  elif l < 1.0/np.sqrt(2):
-    v = -np.pi/12*(3-36*l**2+32*l**3)
-  elif l < np.sqrt(3)/2:
-    v = -np.pi/4 + 3 * np.pi * l**2
-    v += np.sqrt(4 * l**2 - 2)
-    v += (1 - 12 * l**2) * _f1(l)
-    v += 2.0/3.0 * l**2 * _f2(l)
-  return v
+cluster_c = libanalysis.cluster
 
 def rdf(x, t, size):
   """
@@ -52,6 +34,38 @@ def rdf(x, t, size):
   rdf_c(x_p, t_p, natoms, nbins, size, tmp)
   gr = np.frombuffer(tmp, dtype = np.double, count = nbins * 5)
   return gr.reshape((nbins, 5))
+
+def cluster(x, v, t, size):
+  """
+  cluster that gets a box and calculates MST or MSTE
+
+  Parameters:
+
+  - x: 2D numpy array
+       First dimension is the number of particles, second one is x y and z
+
+  - v: 2D numpy array
+       First dimension is the number of particles, second is vx, vy and vz
+
+  - t: numpy array
+       Type of particles
+  """
+  _t = {'x': C.POINTER(C.c_double),
+        'v': C.POINTER(C.c_double),
+        'type': C.POINTER(C.c_int),
+        'natoms': C.c_int,
+        'size': C.c_double,
+        'index': C.POINTER(C.c_int)}
+  natoms = np.shape(x)[0]
+  tmp = (C.c_int * (natoms))()
+  x_p = x.ctypes.data_as(C.POINTER(C.c_double))
+  v_p = v.ctypes.data_as(C.POINTER(C.c_double))
+  t_p = t.ctypes.data_as(C.POINTER(C.c_int))
+  cluster_c.argtypes = [_t['x'], _t['v'], _t['type'], _t['natoms'],
+                        _t['size'], _t['index']]
+  rdf_c(x_p, v_p, t_p, natoms, size, tmp)
+  index = np.frombuffer(tmp, dtype=np.int, count=natoms)
+  return index
 
 def ssf(x, t, k, size, nrep=0):
   """
@@ -120,17 +134,16 @@ def int_s(s, q, r):
 
 if __name__ == '__main__':
   import extract as E
-
-  x = E.positions('dump.lammpstrj', 0)
-  t = E.types('dump.lammpstrj', 0)
-  box = E.box('dump.lammpstrj')
-  size = box[0][1] - box[0][0]
+  ext = E.Extraction('/home/pablo/artemis/eos/data')
+  parameters = {'x': 0.5, 'd': 0.08, 'T': 0.5, 'V': 'horowitz'}
+  x = ext.particle('x', parameters)
+  t = ext.particle('type', parameters)
+  v = ext.particle('v', parameters)
+  size = (11000/0.08)**(1.0/3.0)
   d = np.shape(x)[0]/(size ** 3)
-
-
   gr = rdf(x, t, size)
   sk_transf = transf_rdf(gr, d)
-
+  mst = cluster(x, v, t, size)
   k1 = np.linspace(0.2, 0.5, 101)
   k2 = np.linspace(3.0, 4.0, 101)
   k = np.hstack((k1, k2))
