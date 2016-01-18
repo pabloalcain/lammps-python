@@ -216,14 +216,13 @@ class MDSys(object):
     _d = self.parameters['d']
     _vol = float(_N)/_d
     _size = _vol ** (1.0 / 3.0)
-    _vel = rate * _size
     _size = _size / 2
+    _vel = rate * _size
     command = (('fix expansion all deform 1 x erate {0} '
-                'y erate {0} z erate {0} remap v remap x').format(rate),)
-#               'velocity all ramp vx 0 {0} x -{1} {1} sum yes units box'.format(_vel, _size),
-#               'velocity all ramp vy 0 {0} y -{1} {1} sum yes units box'.format(_vel, _size),
-#               'velocity all ramp vz 0 {0} z -{1} {1} sum yes units box'.format(_vel, _size),
-#               'velocity all zero linear')
+                'y erate {0} z erate {0} remap v').format(rate),)
+                'velocity all ramp vx -{0} {0} x -{1} {1} sum yes units box'.format(_vel, _size),
+                'velocity all ramp vy -{0} {0} y -{1} {1} sum yes units box'.format(_vel, _size),
+                'velocity all ramp vz -{0} {0} z -{1} {1} sum yes units box'.format(_vel, _size))
 
     for cmd in command:
       self.lmp.command(cmd)
@@ -340,6 +339,7 @@ class MDSys(object):
     """
     Wrapper to dump positions
     """
+    print "Dumping..."
     path = self.path
     dump_fname = path + 'dump.lammpstrj'
     tmp = "dump myDUMP all custom 1 {0} id type x y z vx vy vz c_mste"
@@ -347,6 +347,7 @@ class MDSys(object):
     self.lmp.command("dump_modify myDUMP sort id append yes")
     self.lmp.command("run 0 pre yes post no")
     self.lmp.command("undump myDUMP")
+    print "Done dumping"
 
   def flush(self):
     """
