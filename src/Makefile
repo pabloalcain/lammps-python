@@ -10,9 +10,9 @@ EXE=simple.e
 CC=gcc
 CXX=mpic++
 LD=mpic++
-CFLAGS=-g -O3 -fPIC -std=gnu99
-LDFLAGS=-L$(LAMMPS)/src
-LDLIBS=-llammps
+CFLAGS=-g -O3 -fPIC -std=gnu99 -fopenmp -Wall
+LDFLAGS=-L$(LAMMPS)/src -lgomp
+LDLIBS=#-llammps
 CXXFLAGS=-Wno-write-strings -g -O3 -fPIC -I$(LAMMPS)/src
 
 default: $(LIB)
@@ -27,10 +27,10 @@ install: $(LIB)
 	cp $< /usr/local/lib
 
 $(LIB): $(COBJ)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -shared -o $@
+	$(CC) $^ $(LDLIBS) $(LDFLAGS) -shared -o $@
 
 $(EXE): $(CXXOBJ) $(COBJ)
-	$(LD) $(LDFLAGS) $^ $(LDLIBS) -o $@
+	$(LD) $^ $(LDLIBS) $(LDFLAGS) -o $@
 
 %_cpp.o: %.cpp %.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@

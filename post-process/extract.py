@@ -164,5 +164,22 @@ def main():
   typ = ext.particle('type', parameters)
   print typ
 
+def box(fname):
+  """
+  Extract box at the first timestep from a lammps file
+  """
+  f = open(fname)
+  size = np.zeros((3, 2))
+  n = 0
+  for line in f.readlines():
+    n += 1
+    if n > 5 and n < 9:
+      size[n-6, :] = line.split()
+      continue
+    if n == 9:
+      break
+  f.close()
+  return size
+
 if __name__ == "__main__":
   main()

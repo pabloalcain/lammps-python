@@ -36,7 +36,7 @@ void rdf(double *x, int *type, int natoms, int nbins, double size, double *gr){
   for (int k = 0; k < ncols * nbins; k++) gr[k] = 0.0;
   for (int k = 0; k < ncols; k++) hist[k] = 0;
 
-  rmax = size * sqrt(3.0)/2;
+  rmax = size * sqrt(3.0);///2;
   dr = rmax/nbins;
   for (int i = 0; i < natoms; i++) {
     int itype = type[i];
@@ -47,12 +47,12 @@ void rdf(double *x, int *type, int natoms, int nbins, double size, double *gr){
       r = 0.0;
       for (int k = 0; k < 3; k++) {
         dx = x[3*j + k] - x1[k];
-        while (dx > size/2)  dx -= size;
-        while (dx < -size/2) dx += size;
+        /*while (dx > size/2)  dx -= size;
+          while (dx < -size/2) dx += size;*/
         r += dx * dx;
       }
       r = sqrt(r);
-      if (r > rmax) continue;
+      /* if (r > rmax) continue; */
       idx = (int)(r*nbins/rmax);
       gr[ncols * idx + 1] += 1.0;
       hist[1] += 1;
@@ -86,7 +86,7 @@ double volume(double l) {
      length 1 AND the sphere of radius l. See for instance
      https://www.cmu.edu/biolphys/deserno/pdf/gr_periodic.pdf
   */
-
+  return 4.0/3.0 * M_PI * l * l * l;
   double v;
   if (l < 0.5d) {
     v = 4.0/3.0 * M_PI * l * l * l;
