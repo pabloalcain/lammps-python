@@ -56,7 +56,7 @@ class Extraction(object):
       _path += '/' + direct
     return _path
 
-  def scalar(self, mag, parameters):
+  def scalar(self, mag, parameters, full=False):
     """
     Extract a single collective value with its stdev.
     It doesn't support anymore height, that came from the
@@ -76,7 +76,9 @@ class Extraction(object):
     - euler
     - temperature
 
-    - lambda (conversion from k_absoprtion)
+    - lambda (conversion from k_absorption)
+    
+    if full, return all the values instead of avg +/- std
     """
     _path = self._set_path(parameters)
     try:
@@ -91,6 +93,10 @@ class Extraction(object):
     else:
       idx = header.split(', ').index(mag)
     therm = np.loadtxt(_path +'/thermo.dat')
+    if full:
+      if mag == 'lambda':
+        return 2*np.pi/therm[:, idx]
+      return therm[:, idx]
     avg = np.mean(therm, axis=0)[idx]
     std = np.std(therm, axis=0)[idx]
     if mag == 'lambda':
@@ -126,7 +132,7 @@ class Extraction(object):
     t = self.particle('type', parameters, idx)
     box = self.box(parameters, idx)
     size = box[0, 1] - box[0, 0]
-    index = A.cluster(x, v, t, size, energy=True)
+    index = A.cluster(x, v, t, size, energy=False)
     return index
 
   def rdf(self, parameters, idx=0):
