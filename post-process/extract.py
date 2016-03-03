@@ -5,6 +5,7 @@ import numpy as np
 from collections import OrderedDict
 import os
 import analysis as A
+import cluster as C
 
 PREFIX = OrderedDict()
 PREFIX['V'] = ''
@@ -123,7 +124,7 @@ class Extraction(object):
       out = np.loadtxt('{0}/{1}.dat'.format(_path, mag), delimiter=',')
     return out
 
-  def mste(self, parameters, idx=0):
+  def mste(self, parameters, idx=0, remove_inf=True, expansion=0.0):
     """
     Compute MSTE from the dump file
     """
@@ -132,8 +133,25 @@ class Extraction(object):
     t = self.particle('type', parameters, idx)
     box = self.box(parameters, idx)
     size = box[0, 1] - box[0, 0]
-    index = A.cluster(x, v, t, size, energy=False)
-    return index
+    index = C.cluster(x, v, t, size, energy=True, pbc=False)
+    graph, connections = C.connections(index, x, v, t, size, expansion, energy=True)
+    inf = 0
+    for nodes in C.partition(graph):
+      this_graph = {}
+      pbc_index = min(nodes)
+      for n in nodes:
+        this_graph[n] = graph[n]
+        index[index==n] = pbc_index
+      cycles, inf_clusters = C.find_paths(this_graph, connections)
+      mass = 0
+      this_inf = (len(inf_clusters) != 0)
+      mask = index!=pbc_index
+      if this_inf:
+        inf += np.sum(-mask)
+        if remove_inf:
+          index = index[mask]
+          t = t[mask]
+    return index, t, inf
 
   def rdf(self, parameters, idx=0):
     """

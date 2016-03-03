@@ -1,16 +1,16 @@
 """
-This files has analysis routines. They have to be in Python,
-because we want to tamper with them
+This files has analysis routines. They have to be in Python, because
+we want to tamper with them
 """
 
 import numpy as np
 import itertools as it
 import ctypes as C
+import cluster
 
 libanalysis = C.CDLL('libanalysis.so')
 rdf_c = libanalysis.rdf
 ssf_c = libanalysis.ssf
-cluster_c = libanalysis.cluster
 
 def rdf(x, t, size, nbins=200, pbc=True):
   """
@@ -32,42 +32,9 @@ def rdf(x, t, size, nbins=200, pbc=True):
                     C.c_int, C.c_int, C.c_double, C.c_bool,
                     C.POINTER(C.c_double)]
   rdf_c(x_p, t_p, natoms, nbins, size, pbc, tmp)
-  gr = np.frombuffer(tmp, dtype = np.double, count = nbins * 5)
+  gr = np.frombuffer(tmp, dtype=np.double, count=nbins * 5)
   return gr.reshape((nbins, 5))
 
-def cluster(x, v, t, size, energy=False, pbc=False):
-  """
-  cluster that gets a box and calculates MST or MSTE
-
-  Parameters:
-
-  - x: 2D numpy array
-       First dimension is the number of particles, second one is x y and z
-
-  - v: 2D numpy array
-       First dimension is the number of particles, second is vx, vy and vz
-
-  - t: numpy array
-       Type of particles
-  """
-  _t = {'x': C.POINTER(C.c_double),
-        'v': C.POINTER(C.c_double),
-        'type': C.POINTER(C.c_int),
-        'natoms': C.c_int,
-        'size': C.c_double,
-        'index': C.POINTER(C.c_int),
-        'energy': C.c_bool,
-        'pbc': C.c_bool}
-  natoms = np.shape(x)[0]
-  tmp = (C.c_int * (natoms))()
-  x_p = x.ctypes.data_as(C.POINTER(C.c_double))
-  v_p = v.ctypes.data_as(C.POINTER(C.c_double))
-  t_p = t.ctypes.data_as(C.POINTER(C.c_int))
-  cluster_c.argtypes = [_t['x'], _t['v'], _t['type'], _t['natoms'],
-                        _t['size'], _t['energy'], _t['pbc'], _t['index']]
-  cluster_c(x_p, v_p, t_p, natoms, size, energy, pbc, tmp)
-  index = np.frombuffer(tmp, dtype=C.c_int, count=natoms)
-  return index
 
 def ssf(x, t, k, size, nrep=0):
   """
@@ -98,7 +65,7 @@ def ssf(x, t, k, size, nrep=0):
   return ssf.reshape((npoints, 5))
 
 
-def transf_rdf(gr, density):
+def transf_rdf(gr, density, pbc=True):
   """
   Calculate structure factor given the radial distribution function.
   """
@@ -116,14 +83,21 @@ def transf_rdf(gr, density):
   S[:, 0] = q
 
   #Integrand in the fourier transform
-  ker = (gr[:, 1] - 1) * r
+  if pbc: mean = 1
+  else: mean = 0
+  ker = (gr[:, 1] - mean) * r
   #Imaginary (sin) part of the Fourier transform
   ft = np.imag(np.fft.fft(ker, n)) * dr
   #We split the q = 0 case, since it is ill-defined
   S[1:, 1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
   S[0, 1] = 1 + dr * sum(ker * r) * (4 * np.pi * _d)
-  return S
-
+  mask = ((q > 0.2) & (q < 0.8))
+  s_pasta = S[mask, 1]
+  q_pasta = S[mask, 0]
+  idx = np.argmax(s_pasta)
+  s_max = s_pasta[idx]
+  q_max = q_pasta[idx]
+  return S, q_max, s_max
 
 def int_s(s, q, r):
   dq = q[1] - q[0]
@@ -133,53 +107,74 @@ def int_s(s, q, r):
   g = g/(4*np.pi*r*0.05)+1
   return g
 
-def reduce_mste(index, t):
-  """
-  Get a list of indices and types and returns the histogram of
-  occupation and of fractions
-
-  """
-  N = np.shape(index)[0]
-  single_ids = set([i for i in index])
-  clust = np.zeros((N, 2), dtype=np.float)
-  for (idx, clusterid) in enumerate(single_ids):
-    indices = (index == clusterid)
-    clus_type = t[indices]
-    mass = np.size(clus_type)
-    frac = float(sum(t[indices] - 1)) / mass
-    clust[idx, 0] = mass
-    clust[idx, 1] = frac
-    single_masses = set([i for i in clust[:, 0]])
-    histo_occ = np.zeros((N + 1), dtype=np.float)
-    histo_frac = np.zeros((N + 1), dtype=np.float)
-  for (idx, mass) in enumerate(single_masses):
-    if mass == 0: continue
-    indices = (clust[:, 0] == mass)
-    occ = sum(indices)
-    frac = sum(clust[indices, 1]) / occ
-    histo_occ[mass] = occ
-    histo_frac[mass] = frac
-  indices = (histo_occ != 0.0)
-  mass = np.arange(len(histo_occ))
-  frac = histo_frac[indices].copy()
-  mass = mass[indices].copy()
-  occ = histo_occ[indices].copy() # Filter out
-  return np.vstack((mass, occ, frac)).T
-
 if __name__ == '__main__':
   import extract as E
-  ext = E.Extraction('/home/pablo/artemis/eos/data')
-  parameters = {'x': 0.5, 'd': 0.08, 'T': 0.5, 'V': 'horowitz'}
-  x = ext.particle('x', parameters)
-  t = ext.particle('type', parameters)
-  v = ext.particle('v', parameters)
-  size = (11000/0.08)**(1.0/3.0)
-  d = np.shape(x)[0]/(size ** 3)
-  gr = rdf(x, t, size)
-  sk_transf = transf_rdf(gr, d)
-  mst = cluster(x, v, t, size, energy=True, pbc=True)
-  k1 = np.linspace(0.2, 0.5, 101)
-  k2 = np.linspace(3.0, 4.0, 101)
-  k = np.hstack((k1, k2))
+  import pylab as pl
+  ext = E.Extraction('/home/palcain/opacity/data')
+  parameters = {'x': 0.5, 'd': 0.02, 'T': 0.5, 'V': 'medium', 'N': 5488}
+  for x in (0.2, 0.3, 0.4, 0.5):
+    fs = open('s_{0}.dat'.format(x), 'w')
+    fl = open('l_{0}.dat'.format(x), 'w')
+    print>>fs, '#density {0}'.format(' '.join(map(str, np.linspace(0.5, 2.0, 31))))
+    print>>fl, '#density {0}'.format(' '.join(map(str, np.linspace(0.5, 2.0, 31))))
+    print x
+    parameters['x'] = x
+    for d in (0.001, 0.005, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08):
+      print d
+      parameters['d'] = d
+      print>>fs, d,
+      print>>fl, d,
+      size = (5488/d)**(1.0/3.0)
+      for T in np.linspace(0.5, 2.0, 31):
+        print T
+        parameters['T'] = T
+        d = parameters['d']
+        sk = 0
+        q_max = 0
+        s_max = 0
+        for i in range(50):
+          x = ext.particle('x', parameters, idx=i)
+          t = ext.particle('type', parameters, idx=i)
+          v = ext.particle('v', parameters, idx=i)
+          gr_one = rdf(x, t, size, nbins=1000, pbc=False)
+          sk_t, q_max_t, s_max_t = transf_rdf(gr_one[:, [0, 2]], d, pbc=False)
+          sk += sk_t
+          q_max += q_max_t
+          s_max += s_max_t
+        sk /= 50
+        q_max /=50
+        s_max /=50
+        print>>fs, s_max,
+        print>>fl, 2*np.pi/q_max,
+      print>>fs
+      print>>fl
+    fs.close()
+    fl.close()
+  pl.figure()
+  pl.plot(sk[:, 0], sk[:, 1], label='Without PBC')
+  pl.vlines(q_max, 0, s_max*1.5)
+  pl.legend()
+ 
+  """
+  mst = cluster.cluster(x, v, t, size, energy=True, pbc=False)
+  graph, connections  = cluster.connections(mst, x, v, t, size, energy=True)
+  #print graph
+  for nodes in cluster.partition(graph):
+    this_graph = {}
+    for n in nodes:
+      this_graph[n] = graph[n]
+    cycles, inf_clusters = cluster.find_paths(this_graph, connections)
+    mass = 0
+    for n in nodes:
+      mass += np.sum(mst == n)
+    if len(inf_clusters) != 0:
+      print "subgraph {0} is infinite of mass {1}".format(nodes, mass)
+    else:
+      print "subgraph {0} is finite of mass {1}".format(nodes, mass)
 
-  sk = ssf(x, t, k, size, 1)
+  #k1 = np.linspace(0.2, 0.5, 101)
+  #k2 = np.linspace(3.0, 4.0, 101)
+  #k = np.hstack((k1, k2))
+
+  #sk = ssf(x, t, k, size, 1)
+  """

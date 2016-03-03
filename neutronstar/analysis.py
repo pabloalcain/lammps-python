@@ -8,7 +8,7 @@ from lammps import lammps
 
 analysis = ct.cdll.LoadLibrary("libanalysis.so")
 
-def rdf(lmp, nbins, npairs):
+def rdf(lmp, nbins, npairs, pbc=True):
   """
   Wrapper for the c++ libanalysis. Its main disadvantage is that we
   should know beforehand the number of pairs to consider.  Since
@@ -37,8 +37,10 @@ def rdf(lmp, nbins, npairs):
   size = dx
   ncol = npairs + 1
   tmp = (ct.c_double * (nbins * ncol))()
-  analysis.rdf.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int, ct.c_int, ct.c_double, ct.c_void_p]
-  analysis.rdf(x, typ, natoms, nbins, size, tmp)
+  rdf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int),
+                    C.c_int, C.c_int, C.c_double, C.c_bool,
+                    C.POINTER(C.c_double)]
+  analysis.rdf(x, typ, natoms, nbins, size, pbc, tmp)
   r = np.frombuffer(tmp, dtype=np.float, count=nbins * ncol)
   return np.reshape(r, (nbins, ncol))
 
@@ -64,10 +66,13 @@ def structure(gr, density, npairs):
   q = np.linspace(0, 2*np.pi/dr, n)
   S = np.zeros((n, npairs+1))
   S[:, 0] = q
+  # Take care of r->inf value
+  if pbc: mean = 1
+  else: mean = 0
 
   for i in range(npairs):
     #Integrand in the fourier transform
-    ker = (gr[:, i + 1] - 1) * r
+    ker = (gr[:, i + 1] - mean) * r
     #Imaginary (sin) part of the Fourier transform
     ft = np.imag(np.fft.fft(ker, n)) * dr
     #Structure factor
