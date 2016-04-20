@@ -1,14 +1,11 @@
 """
-This files has analysis routines. They have to be in Python, because
-we want to tamper with them
+Structure analysis routines calculations.
 """
 
 import numpy as np
-import itertools as it
-import ctypes as C
-import cluster
-
-libanalysis = C.CDLL('libanalysis.so')
+import ctypes as ct
+import warnings
+libanalysis = ct.CDLL('src/libanalysis.so')
 rdf_c = libanalysis.rdf
 ssf_c = libanalysis.ssf
 
@@ -24,19 +21,26 @@ def rdf(x, t, size, nbins=200, pbc=True):
   - t: numpy array
        Type of particles
   """
-  tmp = (C.c_double * (nbins * 5))()
+  if x.dtype != np.double:
+    warnings.warn("Converting type of x {0} to np.double".format(x.dtype))
+    x = x.astype(np.double)
+  if t.dtype != np.int32:
+    warnings.warn("Converting type of t {0} to np.int32".format(x.dtype))
+    t = t.astype(np.int32, copy=False)
+    
+  tmp = (ct.c_double * (nbins * 5))()
   natoms = np.shape(x)[0]
-  x_p = x.ctypes.data_as(C.POINTER(C.c_double))
-  t_p = t.ctypes.data_as(C.POINTER(C.c_int))
-  rdf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int),
-                    C.c_int, C.c_int, C.c_double, C.c_bool,
-                    C.POINTER(C.c_double)]
+  x_p = x.ctypes.data_as(ct.POINTER(ct.c_double))
+  t_p = t.ctypes.data_as(ct.POINTER(ct.c_int))
+  rdf_c.argtypes = [ct.POINTER(ct.c_double), ct.POINTER(ct.c_int),
+                    ct.c_int, ct.c_int, ct.c_double, ct.c_bool,
+                    ct.POINTER(ct.c_double)]
   rdf_c(x_p, t_p, natoms, nbins, size, pbc, tmp)
   gr = np.frombuffer(tmp, dtype=np.double, count=nbins * 5)
   return gr.reshape((nbins, 5))
 
 
-def ssf(x, t, k, size, nrep=0):
+def ssf_def(x, t, k, size, nrep=0):
   """
   ssf that gets a box and calculates with PBC in 3d.
 
@@ -52,32 +56,45 @@ def ssf(x, t, k, size, nrep=0):
        Wavenumbers to calculate
   """
   npoints = np.shape(k)[0]
-  out = (C.c_double * (npoints * 5))()
+  out = (ct.c_double * (npoints * 5))()
   natoms = np.shape(x)[0]
-  x_p = x.ctypes.data_as(C.POINTER(C.c_double))
-  t_p = t.ctypes.data_as(C.POINTER(C.c_int))
-  k_p = k.ctypes.data_as(C.POINTER(C.c_double))
-  ssf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int), C.c_int,
-                    C.c_double, C.c_int, C.c_int, C.POINTER(C.c_double),
-                    C.POINTER(C.c_double)]
+
+  if x.dtype != np.double:
+    warnings.warn("Converting type of x {0} to np.double".format(x.dtype))
+    x = x.astype(np.double)
+  if t.dtype != np.int32:
+    warnings.warn("Converting type of t {0} to np.int32".format(x.dtype))
+    t = t.astype(np.int32, copy=False)
+  if k.dtype != np.double:
+    warnings.warn("Converting type of k {0} to np.double".format(x.dtype))
+    k = k.astype(np.double)
+
+  x_p = x.ctypes.data_as(ct.POINTER(ct.c_double))
+  t_p = t.ctypes.data_as(ct.POINTER(ct.c_int))
+  k_p = k.ctypes.data_as(ct.POINTER(ct.c_double))
+  ssf_c.argtypes = [ct.POINTER(ct.c_double), ct.POINTER(ct.c_int), ct.c_int,
+                    ct.c_double, ct.c_int, ct.c_int, ct.POINTER(ct.c_double),
+                    ct.POINTER(ct.c_double)]
   ssf_c(x_p, t_p, natoms, size, npoints, nrep, k_p, out)
   ssf = np.frombuffer(out, dtype=np.double, count=npoints * 5)
   return ssf.reshape((npoints, 5))
 
 
-def transf_rdf(gr, density, pbc=True):
+def ssf(gr, density, pbc=True, npoints=0):
   """
   Calculate structure factor given the radial distribution function.
   """
-  _d = density
   r = gr[:, 0]
   # Assume evenly spaced
   dr = r[1] - r[0]
   # How many points do I need to add to get a good resolution?
-  dlda = 0.1
-  lda0 = 15.0
-  rmax = lda0**2 / dlda
-  n = int(rmax/dr)
+  if npoints == 0:
+    dlda = 0.1
+    lda0 = 15.0
+    rmax = lda0**2 / dlda
+    n = int(rmax/dr)
+  else:
+    n = npoints
   q = np.linspace(0, 2*np.pi/dr, n)
   S = np.zeros((n, 2))
   S[:, 0] = q
@@ -89,8 +106,8 @@ def transf_rdf(gr, density, pbc=True):
   #Imaginary (sin) part of the Fourier transform
   ft = np.imag(np.fft.fft(ker, n)) * dr
   #We split the q = 0 case, since it is ill-defined
-  S[1:, 1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
-  S[0, 1] = 1 + dr * sum(ker * r) * (4 * np.pi * _d)
+  S[1:, 1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * density)
+  S[0, 1] = 1 + dr * sum(ker * r) * (4 * np.pi * density)
   mask = ((q > 0.2) & (q < 0.8))
   s_pasta = S[mask, 1]
   q_pasta = S[mask, 0]
@@ -98,14 +115,6 @@ def transf_rdf(gr, density, pbc=True):
   s_max = s_pasta[idx]
   q_max = q_pasta[idx]
   return S, q_max, s_max
-
-def int_s(s, q, r):
-  dq = q[1] - q[0]
-  ker = np.sum(q*(s-1)*np.sin(q*r))*dq
-  g = 2/np.pi*ker
-  #g = ker
-  g = g/(4*np.pi*r*0.05)+1
-  return g
 
 if __name__ == '__main__':
   import extract as E

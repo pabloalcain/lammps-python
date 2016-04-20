@@ -218,11 +218,11 @@ class MDSys(object):
     _size = _vol ** (1.0 / 3.0)
     _size = _size / 2
     _vel = rate * _size
-    command = (('fix expansion all deform 1 x erate {0} '
-                'y erate {0} z erate {0} remap v').format(rate),)
-                'velocity all ramp vx -{0} {0} x -{1} {1} sum yes units box'.format(_vel, _size),
-                'velocity all ramp vy -{0} {0} y -{1} {1} sum yes units box'.format(_vel, _size),
-                'velocity all ramp vz -{0} {0} z -{1} {1} sum yes units box'.format(_vel, _size))
+    command = ('fix expansion all deform 1 x erate {0} ',
+               #'y erate {0} z erate {0} remap v').format(rate),)
+               'velocity all ramp vx -{0} {0} x -{1} {1} sum yes units box'.format(_vel, _size),
+               'velocity all ramp vy -{0} {0} y -{1} {1} sum yes units box'.format(_vel, _size),
+               'velocity all ramp vz -{0} {0} z -{1} {1} sum yes units box'.format(_vel, _size),)
 
     for cmd in command:
       self.lmp.command(cmd)

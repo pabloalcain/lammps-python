@@ -17,8 +17,10 @@ d = 0.005
 V = "medium"
 system = MDSys(T, l, N, x, d, V, gpu=False)
 system.build_script(fname="main.inp")
+system.lmp.command("comm_modify vel yes")
 system.lmp.command("compute mste all mste/atom 5.4")
 system.setup(lind = False)
+print "Esto?"
 for i in temp:
     system.set_T(i)
     system.run(100)

@@ -4,9 +4,10 @@ This is simply a wrapper for the library libanalysis.so
 
 import ctypes as ct
 import numpy as np
-from lammps import lammps
 
 analysis = ct.cdll.LoadLibrary("libanalysis.so")
+rdf_c = analysis.rdf
+
 
 def rdf(lmp, nbins, npairs, pbc=True):
   """
@@ -37,14 +38,14 @@ def rdf(lmp, nbins, npairs, pbc=True):
   size = dx
   ncol = npairs + 1
   tmp = (ct.c_double * (nbins * ncol))()
-  rdf_c.argtypes = [C.POINTER(C.c_double), C.POINTER(C.c_int),
-                    C.c_int, C.c_int, C.c_double, C.c_bool,
-                    C.POINTER(C.c_double)]
+  rdf_c.argtypes = [ct.POINTER(ct.c_double), ct.POINTER(ct.c_int),
+                    ct.c_int, ct.c_int, ct.c_double, ct.c_bool,
+                    ct.POINTER(ct.c_double)]
   analysis.rdf(x, typ, natoms, nbins, size, pbc, tmp)
   r = np.frombuffer(tmp, dtype=np.float, count=nbins * ncol)
   return np.reshape(r, (nbins, ncol))
 
-def structure(gr, density, npairs):
+def structure(gr, density, npairs, pbc=True):
   """
   Calculate structure factor given the radial distribution function.
   Returns an array structured like rdf, with only one column per
@@ -116,7 +117,7 @@ def mste(lmp, N):
   # how often it occurs and the fraction as
 
   single_ids = set([i for i in tmp])
-  clust = np.zeros((N,2), dtype=np.float)
+  clust = np.zeros((N, 2), dtype=np.float)
   for (idx, clusterid) in enumerate(single_ids):
     indices = (tmp == clusterid)
     clus_type = typ[indices]

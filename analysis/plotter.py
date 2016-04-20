@@ -12,7 +12,9 @@ params = {'axes.labelsize': 12,
           'text.usetex': False,
           'lines.linewidth': 2.0,
           'lines.markersize': 10.0,
-          'legend.numpoints': 1,}
+          'legend.numpoints': 1,
+          'axes.color_cycle': ('#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3',
+                               '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3')}
 
 def _format(axis):
   """

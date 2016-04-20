@@ -22,7 +22,8 @@ comp = ('rdf', 'ssf', 'mste', 'mink', 'thermo')
 
 system = MDSys(silent=False)
 system.setup(param, comp)
-system.read_dump("dump.lammpstrj")
+system.minimize()
+#system.read_dump("dump.lammpstrj")
 system.lmp.command("run 0")
 for j in range(10):
   system.run(10)

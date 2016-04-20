@@ -2,12 +2,9 @@
 Routines for cluster analysis and graph reduction
 """
 
-import ctypes as C
 import numpy as np
-
-libanalysis = C.CDLL('libanalysis.so')
-cluster_c = libanalysis.cluster
-connections_c = libanalysis.connections
+from analysis import cluster_c, connections_c
+import ctypes as ct
 
 def _idx2wall(w):
   """
@@ -40,7 +37,7 @@ def reduce_mste(index, t):
   N = np.shape(index)[0]
   single_ids = set([i for i in index])
   clust = np.zeros((N, 2), dtype=np.float)
-  
+
   for (idx, clusterid) in enumerate(single_ids):
     indices = (index == clusterid)
     clus_type = t[indices]
@@ -80,23 +77,23 @@ def cluster(x, v, t, size, energy=False, pbc=False):
   - t: numpy array
        Type of particles
   """
-  _t = {'x': C.POINTER(C.c_double),
-        'v': C.POINTER(C.c_double),
-        'type': C.POINTER(C.c_int),
-        'natoms': C.c_int,
-        'size': C.c_double,
-        'index': C.POINTER(C.c_int),
-        'energy': C.c_bool,
-        'pbc': C.c_bool}
+  _t = {'x': ct.POINTER(ct.c_double),
+        'v': ct.POINTER(ct.c_double),
+        'type': ct.POINTER(ct.c_int),
+        'natoms': ct.c_int,
+        'size': ct.c_double,
+        'index': ct.POINTER(ct.c_int),
+        'energy': ct.c_bool,
+        'pbc': ct.c_bool}
   natoms = np.shape(x)[0]
-  tmp = (C.c_int * (natoms))()
-  x_p = x.ctypes.data_as(C.POINTER(C.c_double))
-  v_p = v.ctypes.data_as(C.POINTER(C.c_double))
-  t_p = t.ctypes.data_as(C.POINTER(C.c_int))
+  tmp = (ct.c_int * (natoms))()
+  x_p = x.ctypes.data_as(ct.POINTER(ct.c_double))
+  v_p = v.ctypes.data_as(ct.POINTER(ct.c_double))
+  t_p = t.ctypes.data_as(ct.POINTER(ct.c_int))
   cluster_c.argtypes = [_t['x'], _t['v'], _t['type'], _t['natoms'],
                         _t['size'], _t['energy'], _t['pbc'], _t['index']]
   cluster_c(x_p, v_p, t_p, natoms, size, energy, pbc, tmp)
-  index = np.frombuffer(tmp, dtype=C.c_int, count=natoms)
+  index = np.frombuffer(tmp, dtype=ct.c_int, count=natoms)
   return index
 
 def connections(index, x, v, t, size, expansion=0.0, energy=False):
@@ -119,32 +116,33 @@ def connections(index, x, v, t, size, expansion=0.0, energy=False):
        Type of particles
   """
 
-  _t = {'x': C.POINTER(C.c_double),
-        'v': C.POINTER(C.c_double),
-        'type': C.POINTER(C.c_int),
-        'natoms': C.c_int,
-        'size': C.c_double,
-        'index': C.POINTER(C.c_int),
-        'expansion': C.c_double,
-        'energy': C.c_bool,
-        'connect': C.POINTER(C.c_int)}
+  _t = {'x': ct.POINTER(ct.c_double),
+        'v': ct.POINTER(ct.c_double),
+        'type': ct.POINTER(ct.c_int),
+        'natoms': ct.c_int,
+        'size': ct.c_double,
+        'index': ct.POINTER(ct.c_int),
+        'expansion': ct.c_double,
+        'energy': ct.c_bool,
+        'connect': ct.POINTER(ct.c_int)}
 
   natoms = np.shape(x)[0]
   nclus = len(np.unique(index))
   #TODO: check for size not too large
   if nclus > 1000: nclus = 1000
   guess = nclus ** 2 * 6
-  tmp = (C.c_int * (3 * guess))()
-  x_p = x.ctypes.data_as(C.POINTER(C.c_double))
-  v_p = v.ctypes.data_as(C.POINTER(C.c_double))
-  t_p = t.ctypes.data_as(C.POINTER(C.c_int))
-  index_p = index.ctypes.data_as(C.POINTER(C.c_int))
+  tmp = (ct.c_int * (3 * guess))()
+  x_p = x.ctypes.data_as(ct.POINTER(ct.c_double))
+  v_p = v.ctypes.data_as(ct.POINTER(ct.c_double))
+  t_p = t.ctypes.data_as(ct.POINTER(ct.c_int))
+  index_p = index.ctypes.data_as(ct.POINTER(ct.c_int))
   connections_c.argtypes = [_t['index'], _t['x'], _t['v'], _t['type'],
                             _t['natoms'], _t['size'], _t['expansion'],
                             _t['energy'], _t['connect']]
-  connections_c.restype = C.c_int
-  count = connections_c(index_p, x_p, v_p, t_p, natoms, size, expansion, energy, tmp)
-  conn = np.frombuffer(tmp, dtype=C.c_int, count=count * 3)
+  connections_c.restype = ct.c_int
+  count = connections_c(index_p, x_p, v_p, t_p,
+                        natoms, size, expansion, energy, tmp)
+  conn = np.frombuffer(tmp, dtype=ct.c_int, count=count * 3)
   conn = conn.reshape((count, 3))
   graph = {}
   cnct = {}
