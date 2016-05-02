@@ -76,8 +76,7 @@ class RDF(Compute):
     super(RDF, self).__init__()
 
   def compute(self, system):
-    """
-    Calculate RDF.
+    """Calculate RDF.
 
     Parameters
     ----------
@@ -88,10 +87,9 @@ class RDF(Compute):
     Returns
     -------
 
-    rdf : dict
-        A dictionary with the information of the compute. It has as
-        keys 'r' and the list of pairs in which the RDF was
-        calculated.
+    rdf : numpy array An array with the information of the
+        compute. The first column is 'r' and the rest are the RDF
+        calculated for the pair list.
     """
     natoms = system['N']
     size = system.size

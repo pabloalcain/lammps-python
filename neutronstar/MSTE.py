@@ -223,8 +223,8 @@ class MST(Compute):
     Notes
     -----
 
-    So far, this only works for systems with `medium` potential.
-
+    So far, when energy is "True", this only works for systems with
+    `medium` potential.
     """
     natoms = system['N']
     expansion = system['expansion']
@@ -256,7 +256,8 @@ class MST(Compute):
     mst = index.copy()
     idx = 0
     inf = []
-    value = []
+    natoms = system['N']
+    value = np.zeros((natoms + 1, 2))
     for nodes in _partition(graph):
       idx += 1
       this_graph = {}
@@ -269,22 +270,23 @@ class MST(Compute):
         mst[index == n] = idx
         mass += len(index == n)
         protons += len((index == n) & (system.t == 2))
-      frac = protons/mass
+      frac = float(protons)/mass
       if len(inf_clusters) != 0:
         inf.append(idx)
-        mass = np.inf
-      value.append([mass, frac])
-    return value, (mst, inf)
+        mass = 0
+      value[mass, 0] += 1
+      value[mass, 1] *= (value[mass, 0] - 1.0)/value[mass, 0]
+      value[mass, 1] += frac/value[mass, 0]
+    return value
 
   def tally(self, value):
     """
-    We need to override the previous tally, since this compute does
+    We need to override the parent tally, since this compute does
     not average trivially. We create the histogram from the values.
     """
     self.idx += 1
-    for item in self.value:
-      item[0] *= (self.idx - 1)/self.idx
-    for mass, fraction in value:
-      self.value[mass, 0] += 1/self.idx
-      self.value[mass, 1] *= (self.value[mass] - 1)/self.value[mass]
-      self.value[mass, 1] += fraction/self.value[mass]
+    new_occ = (self.idx - 1) * self.value[:, 0] + value[:, 0]
+    self.value[:, 0] = new_occ / self.idx
+    self.value[:, 1] *= (self.idx - 1) * self.value[:, 0]
+    self.value[:, 1] += value[:, 1] * value[:, 0]
+    self.value[:, 1] /= new_occ
