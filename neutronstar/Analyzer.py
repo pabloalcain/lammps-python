@@ -41,3 +41,31 @@ class Analyzer(object):
         The system that we will use to calculate the computes
     """
     pass
+
+  def log(self, path):
+    """
+    Log all the computes
+
+    Parameters
+    ----------
+
+    path : str
+        Path where to write the log
+
+    """
+    for comp in self.computes:
+      comp.log(path)
+
+  def plot(self, path):
+    """
+    Plot all the computes
+
+    Parameters
+    ----------
+
+    path : str
+        Path where to save the plots
+
+    """
+    for comp in self.computes:
+      comp.plot(path)

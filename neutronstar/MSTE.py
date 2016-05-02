@@ -5,7 +5,7 @@ MST Compute class
 from Compute import Compute
 import ctypes as ct
 import numpy as np
-
+import pylab as pl
 
 #TODO: Maybe avoid this int2str and str2int conversion?
 def _idx2wall(wall):
@@ -201,6 +201,7 @@ class MST(Compute):
     """
     self.energy = energy
     self.pbc = pbc
+    self.header = ['mass', 'occupancy', 'fraction']
     super(MST, self).__init__()
 
   def compute(self, system):
@@ -216,7 +217,7 @@ class MST(Compute):
     -------
 
     value, (mst, inf) : numpy array, numpy array, list
-        value is the [mass, fraction] reduction
+        value is the [mass, occupancy, fraction] histogram
         mst is the array of indices to which each particle belongs.
         inf is the list of infinite clusters.
 
@@ -257,7 +258,8 @@ class MST(Compute):
     idx = 0
     inf = []
     natoms = system['N']
-    value = np.zeros((natoms + 1, 2))
+    value = np.zeros((natoms + 1, 3))
+    value[:, 0] = range(natoms + 1)
     for nodes in _partition(graph):
       idx += 1
       this_graph = {}
@@ -274,9 +276,9 @@ class MST(Compute):
       if len(inf_clusters) != 0:
         inf.append(idx)
         mass = 0
-      value[mass, 0] += 1
-      value[mass, 1] *= (value[mass, 0] - 1.0)/value[mass, 0]
-      value[mass, 1] += frac/value[mass, 0]
+      value[mass, 1] += 1
+      value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
+      value[mass, 2] += frac/value[mass, 1]
     return value
 
   def tally(self, value):
@@ -290,3 +292,27 @@ class MST(Compute):
     self.value[:, 1] *= (self.idx - 1) * self.value[:, 0]
     self.value[:, 1] += value[:, 1] * value[:, 0]
     self.value[:, 1] /= new_occ
+
+  def plot(self, filename):
+    """Plotting routine. We need to override since in this case we don't
+    want both plots to be on the same y-axis"""
+    fig, ax1 = pl.subplots()
+    ax1.set_xlabel('Cluster size')
+    ax1.set_xscale('log')
+    ax2 = ax1.twinx()
+    mass = self.value[1:, 0]
+    occ = self.value[1:, 1]
+    frac = self.value[1:, 2]
+    ax1.plot(mass[occ > 0], occ[occ > 0], '.-', label='Frequency')
+    ax1.set_yscale('log')
+    ax1.set_ylabel('Frequency')
+    h1, l1 = ax1.get_legend_handles_labels()
+    # Plot proton fraction
+    ax2.plot(mass[occ > 0], frac[occ > 0], 'o--', label='Proton fraction')
+    ax2.set_ylim(0, 1)
+    ax2.set_ylabel('Proton fraction')
+    h2, l2 = ax2.get_legend_handles_labels()
+    # Add legend save and close fig
+    ax1.legend(h1+h2, l1+l2)
+    fig.tight_layout()
+    fig.savefig(filename)

@@ -335,19 +335,27 @@ class MDSys(object):
     if "thermo" in self.computes: results.thermo(self.computes, self.collective, thermo, n)
     if "lind" in self.computes: results.lind(self.computes, self.collective, lind, n)
 
-  def dump(self):
+  def dump(self, path, style='text'):
     """
     Wrapper to dump positions
+
+    Parameters
+    ----------
+
+    path : str
+        Path where to write the dump
+
+    style : {'text', 'image'}
+        Style to use when dumping
     """
-    print "Dumping..."
-    path = self.path
-    dump_fname = path + 'dump.lammpstrj'
-    tmp = "dump myDUMP all custom 1 {0} id type x y z vx vy vz c_mste"
-    self.lmp.command(tmp.format(dump_fname))
-    self.lmp.command("dump_modify myDUMP sort id append yes")
-    self.lmp.command("run 0 pre yes post no")
-    self.lmp.command("undump myDUMP")
-    print "Done dumping"
+    if style == 'text':
+      cmd = ("write_dump all custom {0}/dump.lammpstrj id "
+             "type x y z vx vy vz modify sort id append yes")
+    elif style == 'image':
+      cmd = "write_dump all image {0}/dump.png type 1.4"
+    else:
+      raise ValueError('Style {0} not recognized'.format(style))
+    self.lmp.command(cmd.format(path))
 
   def flush(self):
     """

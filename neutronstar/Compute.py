@@ -3,6 +3,9 @@ Compute class
 """
 
 import ctypes as ct
+import numpy as np
+import pylab as pl
+#TODO: Take care of the looks of these plots
 
 class Compute(object):
   """
@@ -15,6 +18,7 @@ class Compute(object):
     """
     self.value = 0
     self.idx = 0
+    self.header = []
 
   def compute(self, system):
     """
@@ -38,6 +42,28 @@ class Compute(object):
     """
     self.value = 0
     self.idx = 0
+
+  def log(self, filename):
+    """
+    Logging routine. By default we just write self.value to filename,
+    with self.header
+    """
+    np.savetxt(filename, self.value, header='; '.join(self.header))
+
+  def plot(self, filename):
+    """
+    Plotting routine. By default we plot every column [1:] as a
+    function of column 0, setting labels and axis names with
+    self.header and save it to filename.
+    """
+    fig, ax = pl.subplots()
+    for i, vec in enumerate(self.value.T[1:]):
+      ax.plot(self.value[:, 0], vec, label=self.header[i])
+    ax.set_xlabel(self.header[0])
+    fig.savefig('{0}.pdf'.format(filename))
+    pl.close()
+
+
 
 class RDF(Compute):
   """
@@ -74,6 +100,12 @@ class RDF(Compute):
     self.pbc = pbc
     #self.rdf = np.zeros((nbins, len(pairs) + 1))
     super(RDF, self).__init__()
+    self.header = []
+    for p in pairs:
+      h = []
+      for t in p:
+        h.append(','.join(map(str, t)))
+      self.header.append('-'.join(map(str, h)))
 
   def compute(self, system):
     """Calculate RDF.
@@ -147,7 +179,17 @@ class StructureFactor(Compute):
     Pairs have to be of same types, we cannot calculate by definition
     (yet, at least) the structure factor of 1 - 2 types.
     """
-    pass
+    self.pairs = pairs
+    self.rep = repetitions
+    self.k = k
+    self.lebedev = lebedev
+    super(StructureFactor, self).__init__()
+    self.header = []
+    for p in pairs:
+      h = []
+      for t in p:
+        h.append(','.join(map(str, t)))
+      self.header.append('-'.join(map(str, h)))
 
   def compute(self, system):
     """
@@ -167,4 +209,18 @@ class StructureFactor(Compute):
         keys 'k' and the list of pairs in which the structure factor
         was calculated.
     """
-    pass
+    natoms = system['N']
+    size = system.size
+    ncol = len(self.pairs) + 1
+    npoints = len(self.k)
+    tmp = (ct.c_double * (npoints * ncol))()
+    x_p = system.x.ctypes.data_as(ct.c_void_p)
+    t_p = system.t.ctypes.data_as(ct.c_void_p)
+    k_p = self.k.ctypes.data_as(ct.c_void_p)
+    ssf_ang_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int,
+                          ct.c_double, ct.c_int, ct.c_int, ct.c_int,
+                          ct.c_void_p, ct.c_void_p]
+    ssf_ang_c(x_p, t_p, natoms, size, npoints, self.lebedev, self.rep,
+              k_p, tmp)
+    ssf = np.frombuffer(tmp, dtype=np.double, count=npoints * ncol)
+    return ssf.reshape((npoints, ncol))
