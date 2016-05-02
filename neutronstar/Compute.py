@@ -2,6 +2,8 @@
 Compute class
 """
 
+import ctypes as ct
+
 class Compute(object):
   """
   Abstract compute class. It will never be used, but is parent of all
@@ -11,27 +13,31 @@ class Compute(object):
     """
     Constructor. Not clear what to do here
     """
-    pass
+    self.value = 0
+    self.idx = 0
 
-  def compute(self):
+  def compute(self, system):
     """
     Compute routine
     """
     pass
 
-  def tally(self):
+  def tally(self, value):
     """
     Tally new compute with the previous ones. Mostly because not all
     of the computes have the same structure, so the "average" is not
-    standard.
+    standard. By default we do the usual average.
     """
-    pass
+    self.idx += 1
+    self.value *= (self.idx - 1)/self.idx
+    self.value += value/self.idx
 
   def zero(self):
     """
     Zero out current tallies.
     """
-    pass
+    self.value = 0
+    self.idx = 0
 
 class RDF(Compute):
   """
@@ -63,7 +69,11 @@ class RDF(Compute):
         Whether or not to use periodic boundary conditions. Default is
         True.
     """
-    pass
+    self.pairs = pairs
+    self.nbins = nbins
+    self.pbc = pbc
+    #self.rdf = np.zeros((nbins, len(pairs) + 1))
+    super(RDF, self).__init__()
 
   def compute(self, system):
     """
@@ -83,49 +93,17 @@ class RDF(Compute):
         keys 'r' and the list of pairs in which the RDF was
         calculated.
     """
-    pass
-
-  def tally(self, system):
-    """
-    """
-
-class MST(Compute):
-  """
-  MST/MSTE calculation.
-  """
-  def __init__(self, energy=True):
-    """
-    Constructor.
-
-    Parameters
-    ----------
-
-    energy : boolean
-        Whether or not to use energy considerations (MSTE) in the
-        cluster recognition. Default is True.
-    """
-    pass
-
-  def compute(self, system, pairs):
-    """
-    Calculate MST.
-
-    Parameters
-    ----------
-
-    system : System
-        System on which we calculate the Minimum Spanning Tree
-
-    Returns
-    -------
-
-    mste : list
-        A list of tuples, with format (mass, x, infinite): mass is the
-        total mass of the system, x is the proton fraction and
-        infinite is boolean on whether the fragment is infinite or
-        not.
-    """
-    pass
+    natoms = system['N']
+    size = system.size
+    ncol = len(self.pairs) + 1
+    tmp = (ct.c_double * (self.nbins * ncol))()
+    x_p = system.x.ctypes.data_as(ct.c_void_p)
+    t_p = system.t.ctypes.data_as(ct.c_void_p)
+    rdf_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int, ct.c_int,
+                      ct.c_double, ct.c_bool, ct.c_void_p]
+    rdf_c(x_p, t_p, natoms, self.nbins, size, self.pbc, tmp)
+    rdf = np.frombuffer(tmp, dtype=np.double, count=self.nbins * ncol)
+    return rdf.reshape((self.nbins, ncol))
 
 class StructureFactor(Compute):
   """

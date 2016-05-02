@@ -163,7 +163,7 @@ if __name__ == '__main__':
   pl.plot(sk[:, 0], sk[:, 1], label='Without PBC')
   pl.vlines(q_max, 0, s_max*1.5)
   pl.legend()
- 
+
   """
   mst = cluster.cluster(x, v, t, size, energy=True, pbc=False)
   graph, connections  = cluster.connections(mst, x, v, t, size, energy=True)

@@ -58,10 +58,13 @@ class System(dict):
 
     etol : float
         Stopping tolerance for energy (unitless)
+
     ftol : float
         Stopping tolerance for force (force units)
+
     maxiter : int
         Maximum number of iterations of minimizer
+
     maxeval : int
         Maximum number of force evaulations
     """
@@ -126,17 +129,17 @@ class System(dict):
         In case there is no snapshot in the filename to read
     """
 
-    _t = None
-    with open(fname, 'r') as fp:
-      for line in fp:
+    _ts = None
+    with open(fname, 'r') as filep:
+      for line in filep:
         if line == "ITEM: TIMESTEP\n":
-          _t = fp.next()[:-1]
+          _ts = filep.next()[:-1]
 
-    if not _t:
+    if not _ts:
       raise IOError("File {0} does not look correct.".format(fname))
 
     self.lmp.command('read_dump {0} {1} x y z vx vy vz purge yes '
-                     'add yes replace no'.format(fname, _t))
+                     'add yes replace no'.format(fname, _ts))
 
   def thermalize(self, freq, wind):
     """Runs the system until it has thermalized. The criterion for
@@ -174,7 +177,7 @@ class System(dict):
       i = i + 1
       self.run(freq)
       # Extract thermo values
-      [temp, ke, epair, etot, press] = analysis.thermo(self)
+      [temp, _, _, etot, _] = analysis.thermo(self)
       # Add to the window
       energy[i % wind] = etot
       temperature[i % wind] = temp
@@ -209,22 +212,22 @@ class NeutronStarSystem(System):
   """
   def __init__(self, gpu=False, silent=True):
     super(NeutronStarSystem, self).__init__(gpu, silent)
-    script = ("#Nuclear model",
-              "units             lj",
-              "atom_style        atomic",
-              "timestep          0.10",
-              "region            box block 0 1.0 0 1.0 0 1.0",
-              "create_box        2 box",
-              "mass              1 938.0",
-              "mass              2 938.0",
-              "pair_style        table linear {ninter}".format(ninter=5000),
-              "neighbor          5.2 multi",
-              "neigh_modify      every 1 delay 0 check yes one 40000 page 400000",
-              "comm_modify       vel yes",
-              "thermo_style      custom step temp ke epair etotal press",
-              "thermo            1000",
-              "compute           mste all mste/atom 5.4",)
-    for cmd in script:
+    _sc = ("#Nuclear model",
+           "units             lj",
+           "atom_style        atomic",
+           "timestep          0.10",
+           "region            box block 0 1.0 0 1.0 0 1.0",
+           "create_box        2 box",
+           "mass              1 938.0",
+           "mass              2 938.0",
+           "pair_style        table linear {ninter}".format(ninter=5000),
+           "neighbor          5.2 multi",
+           "neigh_modify      every 1 delay 0 check yes one 40000 page 400000",
+           "comm_modify       vel yes",
+           "thermo_style      custom step temp ke epair etotal press",
+           "thermo            1000",
+           "compute           mste all mste/atom 5.4",)
+    for cmd in _sc:
       self.lmp.command(cmd)
 
   def __setitem__(self, key, value):
@@ -237,10 +240,10 @@ class NeutronStarSystem(System):
       # This is because we don't know if potential and lambda have
       # been set
       try:
-        _pot = self['potential']
-        _l = self['lambda']
+        _ = self['potential']
+        _lambda = self['lambda']
         base = 'pair_coeff {t1} {t2} potential.table {pair} {cutoff}'
-        _pp_cutoff = max(5.4, float(_l))
+        _pp_cutoff = max(5.4, float(_lambda))
         _nn = base.format(t1=1, t2=1, pair='NN', cutoff=5.4)
         _np = base.format(t1=1, t2=2, pair='NP', cutoff=5.4)
         _pp = base.format(t1=2, t2=2, pair='PP', cutoff=_pp_cutoff)
@@ -275,7 +278,7 @@ class NeutronStarSystem(System):
         _vol = float(_N)/value
         _size = _vol ** (1.0 / 3.0) / 2
         _cb = ('change_box all x final -{s} {s} y final -{s} {s} '
-             'z final  {s} {s} remap')
+               'z final  {s} {s} remap')
         self.lmp.command(_cb.format(s=_size))
       except KeyError:
         pass
