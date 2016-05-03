@@ -40,7 +40,29 @@ class Analyzer(object):
     system : System instance
         The system that we will use to calculate the computes
     """
-    pass
+    for key in self.computes:
+      self.computes[key].compute(system)
+
+  def update(self, system):
+    """
+    Perform the computes and update all the tallies
+
+    Parameters
+    ----------
+
+    system : System instance
+        The system that we will update
+    """
+    for key in self.computes:
+      value = self.computes[key].compute(system)
+      self.computes[key].tally(value)
+
+  def zero(self):
+    """
+    Zero out all the computes
+    """
+    for key in self.computes:
+      self.computes[key].zero()
 
   def log(self, path):
     """
@@ -53,8 +75,8 @@ class Analyzer(object):
         Path where to write the log
 
     """
-    for comp in self.computes:
-      comp.log(path)
+    for key in self.computes:
+      self.computes[key].log('{0}/{1}.dat'.format(path, key))
 
   def plot(self, path):
     """
@@ -67,5 +89,5 @@ class Analyzer(object):
         Path where to save the plots
 
     """
-    for comp in self.computes:
-      comp.plot(path)
+    for key in self.computes:
+      self.computes[key].plot('{0}/{1}.pdf'.format(path, key))

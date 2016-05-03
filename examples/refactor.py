@@ -26,6 +26,7 @@ for T in np.linspace(2.0, 0.5, 31):
   for i in range(50):
     sys.run(1000)
     log.dump(sys, 'text')
+    analyzer.update(sys)
   log.dump(sys, 'image')
   log.log(analyzer)
   log.plot(analyzer)
