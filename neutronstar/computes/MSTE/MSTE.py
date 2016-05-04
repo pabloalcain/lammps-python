@@ -2,10 +2,15 @@
 MST Compute class
 """
 
-from Compute import Compute
+from neutronstar.computes import Compute
 import ctypes as ct
 import numpy as np
 import pylab as pl
+
+libmst = ct.CDLL('cluster.so')
+connections_c = libmst.connections
+cluster_c = libmst.cluster
+
 
 #TODO: Maybe avoid this int2str and str2int conversion?
 def _idx2wall(wall):
