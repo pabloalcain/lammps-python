@@ -7,7 +7,7 @@ import ctypes as ct
 import numpy as np
 #TODO: Take care of the looks of these plots
 
-librdf = ct.CDLL('rdf.so')
+librdf = ct.CDLL('librdf.so')
 rdf_c = librdf.rdf
 
 class RDF(Compute):

@@ -6,6 +6,9 @@ from neutronstar.computes import Compute
 import ctypes as ct
 import numpy as np
 
+libssf = ct.CDLL('libssf.so')
+ssf_c = libssf.ssf
+
 class StructureFactor(Compute):
   """
   Structure Factor computation from definition.

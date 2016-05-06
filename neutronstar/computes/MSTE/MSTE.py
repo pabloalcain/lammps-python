@@ -1,5 +1,5 @@
 """
-MST Compute class
+MSTE Compute class
 """
 
 from neutronstar.computes import Compute
@@ -7,9 +7,9 @@ import ctypes as ct
 import numpy as np
 import pylab as pl
 
-libmst = ct.CDLL('cluster.so')
-connections_c = libmst.connections
-cluster_c = libmst.cluster
+libmste = ct.CDLL('libmste.so')
+connections_c = libmste.connections
+cluster_c = libmste.cluster
 
 
 #TODO: Maybe avoid this int2str and str2int conversion?
@@ -189,7 +189,7 @@ def _find_paths(graph, cncts):
   return cycles, inf_clusters
 
 
-class MST(Compute):
+class MSTE(Compute):
   """
   MST/MSTE calculation.
   """
@@ -207,10 +207,10 @@ class MST(Compute):
     self.energy = energy
     self.pbc = pbc
     self.header = ['mass', 'occupancy', 'fraction']
-    super(MST, self).__init__()
+    super(MSTE, self).__init__()
 
   def compute(self, system):
-    """Calculate MST.
+    """Calculate MSTE.
 
     Parameters
     ----------
