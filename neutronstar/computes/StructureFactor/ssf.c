@@ -1,7 +1,7 @@
 #include "ssf.h"
 
-void ssf_angle(double *x, int *type, int natoms, double size, int npoints,
-               int naver, int nrep, int *pairs, int npairs, double *k, double *sk){
+void ssf(double *x, int *type, int natoms, double size, int npoints,
+         int naver, int nrep, int *pairs, int npairs, double *k, double *sk){
   /* Calculates ssf with in 3D for a cubic box and returns on ssf. x is
      an array that has the info in XYZ XYZ XYZ...fashion. The rdf is
      calculated for the whole box up to sqrt(3)/2.

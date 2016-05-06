@@ -14,8 +14,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void ssf_angle(double *x, int *type, int natoms, double size, int npoints,
-                 int naver, int nrep, int *pairs, int npairs, double *k, double *gr);
+  void ssf(double *x, int *type, int natoms, double size, int npoints,
+           int naver, int nrep, int *pairs, int npairs, double *k, double *gr);
 #ifdef __cplusplus
 }
 #endif

@@ -101,11 +101,11 @@ class StructureFactor(Compute):
     t_p = system.t.ctypes.data_as(ct.c_void_p)
     k_p = self.k.ctypes.data_as(ct.c_void_p)
     pair_p = pair_ar.ctypes.data_as(ct.c_void_p)
-    ssf_ang_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int,
+    ssf_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int,
                           ct.c_double, ct.c_int, ct.c_int, ct.c_int,
                           ct.c_void_p, ct.c_int, ct.c_void_p,
                           ct.c_void_p]
-    ssf_ang_c(x_p, t_p, natoms, size, npoints, self.lebedev, self.rep,
+    ssf_c(x_p, t_p, natoms, size, npoints, self.lebedev, self.rep,
               k_p, tmp)
     ssf = np.frombuffer(tmp, dtype=np.double, count=npoints * ncol)
     return ssf.reshape((npoints, ncol))
