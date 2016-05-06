@@ -20,6 +20,10 @@ void rdf(double *x, int *type, int natoms, int nbins, double size, int *pairs,
 
   // Warning!! maximum two types of particles
   int labels[3][3];
+  for (int i = 0; i < 3; i++) 
+    for (int j = 0; j < 3; j++) 
+      labels[i][j] = 0;
+
   for (int k = 0; k < npairs; k++) {
     int i = pairs[2*k];
     int j = pairs[2*k + 1];
@@ -49,10 +53,13 @@ void rdf(double *x, int *type, int natoms, int nbins, double size, int *pairs,
       }
       r = sqrt(r);
       idx = (int)(r*nbins/rmax);
-      gr[ncols * idx + 1] += 1.0;
-      hist[1] += 1;
-      gr[ncols * idx + idxpair] += 1.0;
+      int all = labels[0][0];
+      if (all != 0) {
+        hist[all] += 1;
+        gr[ncols * idx + all] += 1.0;
+      }
       hist[idxpair] += 1;
+      gr[ncols * idx + idxpair] += 1.0;
     }
   }
   for (int k = 0; k < nbins; k++) {

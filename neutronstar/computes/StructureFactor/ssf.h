@@ -1,5 +1,5 @@
-#ifndef SSF_ANGLE_H
-#define SSF_ANGLE_H
+#ifndef SSF_H
+#define SSF_H
 
 #include "math.h"
 #include "stdlib.h"
