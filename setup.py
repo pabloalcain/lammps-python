@@ -7,16 +7,16 @@ import sys
 
 files = ["neutronstar/*"]
 
-setup(name = "LAMMPS Neutron Star Wrapper",
-      version = "0.1",
-      description = "LAMMPS from Python in Neutron Star simulations",
-      author = "Pablo Alcain",
-      author_email = "pabloalcain@gmail.com",
-      url = "none yet",
-      packages = ['neutronstar'],
-      package_data = {'package' : files},
-      scripts = ["examples/test.py"],
-      long_description = 
+setup(name="LAMMPS Neutron Star Wrapper",
+      version="0.1",
+      description="LAMMPS from Python in Neutron Star simulations",
+      author="Pablo Alcain",
+      author_email="pabloalcain@gmail.com",
+      url="none yet",
+      packages=['neutronstar'],
+      package_data={'package' : files},
+      scripts=["examples/test.py"],
+      long_description=
       """
 The idea of this project is to create a good framework to call LAMMPS
 from Python, within the Neutron Star typical simulations. The core idea
@@ -36,6 +36,5 @@ is that we have a 6 dimensional parameters space, which are:
 
 It will have *no* input file, at least in its core. Python flexibility
 allows an easy extension to support this behaviour, but the idea is to
-create python files that instantiates the classes that will be developed
-in this code.
-""") 
+create python files that instantiates the classes that will be
+developed in this code.""")

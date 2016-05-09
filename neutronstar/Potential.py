@@ -1,6 +1,7 @@
 import numpy as np
+import random as rn
 
-def build_table(pot, l):
+def build_table(pot, l, name=None):
   """
   This method builds the actual potential table that will be read
   in lammps. So far, three different potentials are going to be
@@ -11,6 +12,8 @@ def build_table(pot, l):
   - Horowitz
   """
 
+  if name == None:
+    name = '{0}-{1}-{2}.table'.format(pot, l, rn.randint(1, 1000))
   rc_nuc = 5.4
   rc_cou = max(l, rc_nuc)
   N = 5000
@@ -77,7 +80,7 @@ def build_table(pot, l):
                  "with Coulomb interaction lambda = {1}").format(pot, l)
 
 
-  with open("potential.table", 'w') as fp:
+  with open(name, 'w') as fp:
     for p in pairs:
       print>>fp, descr[p]+"\n"
       print>>fp, p
@@ -89,3 +92,4 @@ def build_table(pot, l):
       for i, (ri, vi, fi) in enumerate(zip(_r, _V, _F)):
         print>>fp, i+1, ri, vi, fi
 
+  return name

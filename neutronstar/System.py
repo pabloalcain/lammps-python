@@ -3,6 +3,7 @@ System class: the Lammps Molecular Dynamics main object
 """
 
 from DummyLammps import Lammps as lammps
+import Potential
 from random import randint
 import numpy as np
 
@@ -240,13 +241,14 @@ class NeutronStarSystem(System):
       # This is because we don't know if potential and lambda have
       # been set
       try:
-        _ = self['potential']
+        _pot = self['potential']
         _lambda = self['lambda']
-        base = 'pair_coeff {t1} {t2} potential.table {pair} {cutoff}'
+        _name = Potential.build_table(_pot, _lambda)
+        base = 'pair_coeff {t1} {t2} {fname} {pair} {cutoff}'
         _pp_cutoff = max(5.4, float(_lambda))
-        _nn = base.format(t1=1, t2=1, pair='NN', cutoff=5.4)
-        _np = base.format(t1=1, t2=2, pair='NP', cutoff=5.4)
-        _pp = base.format(t1=2, t2=2, pair='PP', cutoff=_pp_cutoff)
+        _nn = base.format(t1=1, t2=1, fname=_name, pair='NN', cutoff=5.4)
+        _np = base.format(t1=1, t2=2, fname=_name, pair='NP', cutoff=5.4)
+        _pp = base.format(t1=2, t2=2, fname=_name, pair='PP', cutoff=_pp_cutoff)
         self.lmp.command(_nn)
         self.lmp.command(_np)
         self.lmp.command(_pp)
