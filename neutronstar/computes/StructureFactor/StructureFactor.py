@@ -5,8 +5,9 @@ Compute class
 from neutronstar.computes import Compute
 import ctypes as ct
 import numpy as np
-
-libssf = ct.CDLL('libssf.so')
+import os
+_DIRNAME = os.path.dirname(__file__)
+libssf = ct.CDLL(os.path.join(_DIRNAME, 'libssf.so'))
 ssf_c = libssf.ssf
 
 class StructureFactor(Compute):

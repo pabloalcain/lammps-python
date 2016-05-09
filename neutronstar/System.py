@@ -2,8 +2,10 @@
 System class: the Lammps Molecular Dynamics main object
 """
 
-from DummyLammps import Lammps as lammps
-import Potential
+from lammps import lammps#neutronstar.DummyLammps import Lammps as lammps
+import neutronstar
+from neutronstar import Potential
+
 from random import randint
 import numpy as np
 
@@ -93,9 +95,9 @@ class System(dict):
 
     .. [Dorso] Dorso and Strachan, Phys. Rev. B 54, 236
     """
-    _N = self['N']
-    _d = self['d']
-    _vol = float(_N)/_d
+    _npart = self['N']
+    _density = self['d']
+    _vol = float(_npart)/_density
     _size = _vol ** (1.0 / 3.0) / 2
     _vel = rate * _size
     _vc = ('velocity all ramp {vi} -{v} {v} {ri} -{s} {s} '
@@ -170,6 +172,7 @@ class System(dict):
     temperatures, one would expect that just setting the temperatures
     and complying with 1 should be enough.
     """
+    thermo = neutronstar.computes.Thermo.Thermo.Thermo()
     energy = np.zeros(wind)
     temperature = np.zeros(wind)
     step = np.zeros(wind)
@@ -186,7 +189,7 @@ class System(dict):
       # Only update values if the window is complete
       if i < wind:
         continue
-      [slope, aux] = np.polyfit(step, energy, 1)
+      [slope, _] = np.polyfit(step, energy, 1)
       diff = abs(self['T'] - np.mean(temperature))
       std = np.std(temperature)
       if slope > 0 and diff < std:
@@ -194,6 +197,32 @@ class System(dict):
     self.lmp.command("reset_timestep 0")
     # To tally everything since we reset timestep
     self.lmp.command("run 0 pre yes post no")
+
+  @property
+  def x(self):
+    """
+    Get x as a numpy array from the simulation
+    """
+    _data = np.array(self.lmp.gather_atoms("x", 1, 3))
+    natoms = np.shape(_data)[0]
+    return _data.reshape(natoms, 3)
+
+  @property
+  def v(self):
+    """
+    Get v as a numpy array from the simulation
+    """
+    _data = np.array(self.lmp.gather_atoms("v", 1, 3))
+    natoms = np.shape(_data)[0]
+    return _data.reshape(natoms, 3)
+
+  @property
+  def t(self):
+    """
+    Get types as a numpy array from the simulation
+    """
+    _data = np.array(self.lmp.gather_atoms("type", 0, 1), dtype=np.int)
+    return _data
 
   def run(self, steps):
     """
@@ -259,10 +288,10 @@ class NeutronStarSystem(System):
       # This is because we don't know if potential and lambda have
       # been set
       try:
-        _x = self['x']
-        _N = self['N']
-        _np = int(_x * _N)
-        _nn = int(_N) - _np
+        _fraction = self['x']
+        _npart = self['N']
+        _np = int(_fraction * _npart)
+        _nn = int(_npart) - _np
         _cr = 'create_atoms {t} random {n1} {s} box'
         self.lmp.command('delete_atoms group all')
         self.lmp.command(_cr.format(t=1, n1=_nn, s=randint(0, 10000)))
@@ -271,13 +300,13 @@ class NeutronStarSystem(System):
         pass
 
     elif key == "T":
-      _t = 'fix 1 all nvt temp {T} {T} 1000.0'
-      self.lmp.command(_t.format(T=value))
+      _temp = 'fix 1 all nvt temp {T} {T} 1000.0'
+      self.lmp.command(_temp.format(T=value))
 
     elif key == "d":
       try:
-        _N = self['N']
-        _vol = float(_N)/value
+        _npart = self['N']
+        _vol = float(_npart)/value
         _size = _vol ** (1.0 / 3.0) / 2
         _cb = ('change_box all x final -{s} {s} y final -{s} {s} '
                'z final  {s} {s} remap')

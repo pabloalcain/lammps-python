@@ -3,6 +3,10 @@ Analyzer class: the Analyzer of LAMMPS Systems
 """
 
 class Analyzer(object):
+  """
+  The analyzer class. Has to be instantiated for each simulation, with
+  the computes that we want to calculate
+  """
   def __init__(self, computes):
     """
     Constructor: Instantiate an analyzer with a compute list

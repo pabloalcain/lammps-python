@@ -4,6 +4,9 @@ everything on a file
 """
 
 class Lammps(object):
+  """
+  Dummy lammps object that just debugs
+  """
   def __init__(self, args, vals):
     """
     Constructor. Can be overriden with lammps real class

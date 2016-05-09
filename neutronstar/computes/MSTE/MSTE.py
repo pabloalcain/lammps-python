@@ -6,8 +6,10 @@ from neutronstar.computes import Compute
 import ctypes as ct
 import numpy as np
 import pylab as pl
+import os
 
-libmste = ct.CDLL('libmste.so')
+_DIRNAME = os.path.dirname(__file__)
+libmste = ct.CDLL(os.path.join(_DIRNAME, 'libmste.so'))
 connections_c = libmste.connections
 cluster_c = libmste.cluster
 
@@ -206,8 +208,8 @@ class MSTE(Compute):
     """
     self.energy = energy
     self.pbc = pbc
-    self.header = ['mass', 'occupancy', 'fraction']
     super(MSTE, self).__init__()
+    self.header = ['mass', 'occupancy', 'fraction']
 
   def compute(self, system):
     """Calculate MSTE.
@@ -246,7 +248,8 @@ class MSTE(Compute):
     index = np.frombuffer(index_p, dtype=ct.c_int, count=natoms)
     nclus = len(np.unique(index))
     #TODO: check for size not too large
-    if nclus > 1000: nclus = 1000
+    if nclus > 1000:
+      nclus = 1000
     guess = nclus ** 2 * 6
     tmp = (ct.c_int * (3 * guess))()
 
@@ -311,13 +314,13 @@ class MSTE(Compute):
     ax1.plot(mass[occ > 0], occ[occ > 0], '.-', label='Frequency')
     ax1.set_yscale('log')
     ax1.set_ylabel('Frequency')
-    h1, l1 = ax1.get_legend_handles_labels()
+    hand1, lab1 = ax1.get_legend_handles_labels()
     # Plot proton fraction
     ax2.plot(mass[occ > 0], frac[occ > 0], 'o--', label='Proton fraction')
     ax2.set_ylim(0, 1)
     ax2.set_ylabel('Proton fraction')
-    h2, l2 = ax2.get_legend_handles_labels()
+    hand2, lab2 = ax2.get_legend_handles_labels()
     # Add legend save and close fig
-    ax1.legend(h1+h2, l1+l2)
+    ax1.legend(hand1+hand2, lab1+lab2)
     fig.tight_layout()
     fig.savefig(filename)

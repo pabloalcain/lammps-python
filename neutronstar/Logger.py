@@ -6,6 +6,9 @@ import fcntl
 import random
 
 class Logger(object):
+  """
+  Main logger class. Can either plot or write the data on a text file
+  """
   def __init__(self, system, root_path='./data'):
     """
     Constructor.

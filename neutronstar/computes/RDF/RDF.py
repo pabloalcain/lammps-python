@@ -5,9 +5,10 @@ Compute class
 from neutronstar.computes import Compute
 import ctypes as ct
 import numpy as np
+import os
 #TODO: Take care of the looks of these plots
-
-librdf = ct.CDLL('librdf.so')
+_DIRNAME = os.path.dirname(__file__)
+librdf = ct.CDLL(os.path.join(_DIRNAME, 'librdf.so'))
 rdf_c = librdf.rdf
 
 class RDF(Compute):
