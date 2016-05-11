@@ -18,20 +18,21 @@ class Analyzer(object):
         A dict of computes that will be used to analyze. The key is
         the identifier and the value is a compute instance
     """
-    pass
+    self.computes = computes
 
   @property
   def computes(self):
     """
     Computes for the analyzer
     """
-    pass
+    return self.__computes
 
   @computes.setter
   def computes(self, value):
     """
     Set computes for the analyzer
     """
+    self.__computes = value
     pass
 
   def analyze(self, system):
@@ -94,4 +95,4 @@ class Analyzer(object):
 
     """
     for key in self.computes:
-      self.computes[key].plot('{0}/{1}.pdf'.format(path, key))
+      self.computes[key].plot('{0}/{1}'.format(path, key))

@@ -3,6 +3,7 @@ Logger class
 """
 
 import fcntl
+import os
 import random
 
 class Logger(object):
@@ -24,7 +25,7 @@ class Logger(object):
         Root path in which we will store all the information
     """
     identifier = [' '.join(map(str, (i, system[i]))) for i in system]
-    key = hash(frozenset(system)) + random.randint(0, 1e10)
+    key = abs(hash(frozenset(system)) + random.randint(0, 1e10))
     identifier.append('id {0}'.format(key))
     success = False
     while not success:
@@ -38,8 +39,8 @@ class Logger(object):
       except IOError:
         pass
     self.path = '{0}/{1}'.format(root_path, key)
-
-    fkey = open('{0}/key.dat'.format(self.path))
+    os.makedirs(self.path)
+    fkey = open('{0}/key.dat'.format(self.path), 'w')
     print>>fkey, ', '.join(identifier)
     fkey.close()
 

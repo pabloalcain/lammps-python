@@ -236,7 +236,7 @@ class MSTE(Compute):
     """
     natoms = system['N']
     expansion = system['expansion']
-    size = system.size
+    size = system['size']
     index_p = (ct.c_int * natoms)()
     x_p = system.x.ctypes.data_as(ct.c_void_p)
     v_p = system.v.ctypes.data_as(ct.c_void_p)

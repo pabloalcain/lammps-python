@@ -89,7 +89,7 @@ class StructureFactor(Compute):
         pair list.
     """
     natoms = system['N']
-    size = system.size
+    size = system['size']
     npairs = len(self.pairs)
     ncol = npairs + 1
     pair_ar = np.zeros(2*npairs)
@@ -102,14 +102,14 @@ class StructureFactor(Compute):
     npoints = len(self.k)
     tmp = (ct.c_double * (npoints * ncol))()
     x_p = system.x.ctypes.data_as(ct.c_void_p)
-    t_p = system.t.ctypes.data_as(ct.c_void_p)
+    t_p = system.lmp.gather_atoms("type", 0, 1)#t.ctypes.data_as(ct.c_void_p)
     k_p = self.k.ctypes.data_as(ct.c_void_p)
     pair_p = pair_ar.ctypes.data_as(ct.c_void_p)
     ssf_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int,
-                          ct.c_double, ct.c_int, ct.c_int, ct.c_int,
-                          ct.c_void_p, ct.c_int, ct.c_void_p,
-                          ct.c_void_p]
+                      ct.c_double, ct.c_int, ct.c_int, ct.c_int,
+                      ct.c_void_p, ct.c_int, ct.c_void_p,
+                      ct.c_void_p]
     ssf_c(x_p, t_p, natoms, size, npoints, self.lebedev, self.rep,
-              k_p, tmp)
+          pair_p, npairs, k_p, tmp)
     ssf = np.frombuffer(tmp, dtype=np.double, count=npoints * ncol)
     return ssf.reshape((npoints, ncol))

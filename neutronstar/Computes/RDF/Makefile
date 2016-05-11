@@ -6,7 +6,7 @@ CC=gcc
 LD=gcc
 
 LDLIBS=-lgomp
-CFLAGS=-g -O3 -fPIC -std=gnu99 -fopenmp -Wall
+CFLAGS=-g -O3 -ffast-math -fPIC -std=gnu99 -fopenmp -Wall
 
 default: library
 

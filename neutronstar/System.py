@@ -38,6 +38,7 @@ class System(dict):
       _args += ['-pk', 'gpu 1 neigh no', '-sf', 'gpu']
 
     self.lmp = lammps("", _args)
+    self['expansion'] = 0.0
     super(System, self).__init__()
 
   def __setitem__(self, key, value):
@@ -82,6 +83,8 @@ class System(dict):
       self.lmp.command(_vel.format(T=_temp, s=_seed))
     except KeyError:
       pass
+    self.lmp.command("reset_timestep 0")
+    self.lmp.command("run 0 pre yes post no")
 
   def expand(self, rate):
     """
@@ -106,12 +109,14 @@ class System(dict):
     self.lmp.command(_vc.format(vi='vx', ri='x', v=_vel, s=_size))
     self.lmp.command(_vc.format(vi='vy', ri='y', v=_vel, s=_size))
     self.lmp.command(_vc.format(vi='vz', ri='z', v=_vel, s=_size))
+    self['expansion'] = rate
 
   def unexpand(self):
     """
     Stop expansion
     """
     self.lmp.command("unfix expansion")
+    self['expansion'] = 0.0
 
   def read_dump(self, fname):
     """
@@ -144,6 +149,30 @@ class System(dict):
     self.lmp.command('read_dump {0} {1} x y z vx vy vz purge yes '
                      'add yes replace no'.format(fname, _ts))
 
+
+  def dump(self, path, style):
+    """
+    Wrapper to the lammps dump format
+
+    Parameters
+    ----------
+
+    path : string
+        Path where to save the dump
+
+    style : {'text', 'image'}
+        Style to use when dumping
+    """
+    if style == 'text':
+      cmd = ('write_dump all custom {0}/dump.lammpstrj id type '
+             'x y z vx vy vz modify sort id append yes').format(path)
+    elif style == 'image':
+      cmd = 'write_dump all image {0}/dump.png type type'.format(path)
+    else:
+      raise ValueError('Style {0} not available'.format(style))
+
+    self.lmp.command(cmd)
+
   def thermalize(self, freq, wind):
     """Runs the system until it has thermalized. The criterion for
     stability is:
@@ -172,7 +201,7 @@ class System(dict):
     temperatures, one would expect that just setting the temperatures
     and complying with 1 should be enough.
     """
-    thermo = neutronstar.computes.Thermo.Thermo.Thermo()
+    thermo = neutronstar.Computes.Thermo()
     energy = np.zeros(wind)
     temperature = np.zeros(wind)
     step = np.zeros(wind)
@@ -181,7 +210,7 @@ class System(dict):
       i = i + 1
       self.run(freq)
       # Extract thermo values
-      [temp, _, _, etot, _] = analysis.thermo(self)
+      [temp, _, _, etot, _] = thermo.compute(self)
       # Add to the window
       energy[i % wind] = etot
       temperature[i % wind] = temp
@@ -204,7 +233,7 @@ class System(dict):
     Get x as a numpy array from the simulation
     """
     _data = np.array(self.lmp.gather_atoms("x", 1, 3))
-    natoms = np.shape(_data)[0]
+    natoms = np.shape(_data)[0]/3
     return _data.reshape(natoms, 3)
 
   @property
@@ -213,7 +242,7 @@ class System(dict):
     Get v as a numpy array from the simulation
     """
     _data = np.array(self.lmp.gather_atoms("v", 1, 3))
-    natoms = np.shape(_data)[0]
+    natoms = np.shape(_data)[0]/3
     return _data.reshape(natoms, 3)
 
   @property
@@ -221,7 +250,7 @@ class System(dict):
     """
     Get types as a numpy array from the simulation
     """
-    _data = np.array(self.lmp.gather_atoms("type", 0, 1), dtype=np.int)
+    _data = np.array(self.lmp.gather_atoms("type", 0, 1), dtype=np.int32)
     return _data
 
   def run(self, steps):
@@ -233,7 +262,7 @@ class System(dict):
 
     steps: number of steps to run
     """
-    self.lmp.command("run {ns} pre no post yes".format(ns=steps))
+    self.lmp.command("run {ns}".format(ns=steps))
 
 class NeutronStarSystem(System):
   """
@@ -294,7 +323,7 @@ class NeutronStarSystem(System):
         _cr = 'create_atoms {t} random {n1} {s} box'
         self.lmp.command('delete_atoms group all')
         self.lmp.command(_cr.format(t=1, n1=_nn, s=randint(0, 10000)))
-        self.lmp.command(_cr.format(t=2, n2=_np, s=randint(0, 10000)))
+        self.lmp.command(_cr.format(t=2, n1=_np, s=randint(0, 10000)))
       except KeyError:
         pass
 
@@ -308,7 +337,8 @@ class NeutronStarSystem(System):
         _vol = float(_npart)/value
         _size = _vol ** (1.0 / 3.0) / 2
         _cb = ('change_box all x final -{s} {s} y final -{s} {s} '
-               'z final  {s} {s} remap')
+               'z final  -{s} {s} remap')
+        self['size'] = _size * 2
         self.lmp.command(_cb.format(s=_size))
       except KeyError:
         pass

@@ -95,9 +95,10 @@ def build_table(pot, lda, name=None):
       print>>potfile, pair
       print>>potfile, "N {0}\n".format(npoints)
       _pot = potential[pair]
-      _force = - np.diff(_pot) / np.diff(positions)
+      _pos = positions[pair]
+      _force = - np.diff(_pot) / np.diff(_pos)
       _force.resize(npoints)
-      for i, info in enumerate(zip(positions, _pot, _force)):
+      for i, info in enumerate(zip(_pos, _pot, _force)):
         print>>potfile, i+1, info[0], info[1], info[2]
 
   return name

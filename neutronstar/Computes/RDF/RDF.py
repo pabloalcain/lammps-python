@@ -56,8 +56,11 @@ class RDF(Compute):
     self.header = []
     for p in pairs:
       h = []
-      for t in p:
-        h.append(','.join(map(str, t)))
+      try:
+        for t in p:
+          h.append(','.join(map(str, t)))
+      except TypeError:
+        h.append(str(p))
       self.header.append('-'.join(map(str, h)))
 
   def compute(self, system):
@@ -78,7 +81,7 @@ class RDF(Compute):
     """
     #TODO: Add some warning in case the indices repeat
     natoms = system['N']
-    size = system.size
+    size = system['size']
     npairs = len(self.pairs)
     ncol = npairs + 1
     pair_ar = np.zeros(2*npairs)
@@ -89,7 +92,8 @@ class RDF(Compute):
       i += 2
     tmp = (ct.c_double * (self.nbins * ncol))()
     x_p = system.x.ctypes.data_as(ct.c_void_p)
-    t_p = system.t.ctypes.data_as(ct.c_void_p)
+    t_p = system.lmp.gather_atoms("type", 0, 1)#t.ctypes.data_as(ct.c_void_p)
+    #t_p = system.t.ctypes.data_as(ct.c_void_p)
     pair_p = pair_ar.ctypes.data_as(ct.c_void_p)
     rdf_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int, ct.c_int,
                       ct.c_double, ct.c_void_p, ct.c_int, ct.c_bool,

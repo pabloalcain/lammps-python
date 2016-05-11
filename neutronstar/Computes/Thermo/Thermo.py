@@ -3,6 +3,8 @@ Thermodynamic Compute class
 """
 
 from neutronstar.Computes.Compute import Compute
+import numpy as np
+import pylab as pl
 
 class Thermo(Compute):
   """
@@ -25,7 +27,7 @@ class Thermo(Compute):
     self.value = []
 
   def compute(self, system):
-    """Calculate MSTE.
+    """Calculate Thermo.
 
     Parameters
     ----------
@@ -36,16 +38,7 @@ class Thermo(Compute):
     Returns
     -------
 
-    value, (mst, inf) : numpy array, numpy array, list
-        value is the [mass, occupancy, fraction] histogram
-        mst is the array of indices to which each particle belongs.
-        inf is the list of infinite clusters.
-
-    Notes
-    -----
-
-    So far, when energy is `True`, this only works for systems with
-    `medium` potential.
+    temperature, kinetic, potential, total, pressure: 5*float
     """
     natoms = system['N']
     temperature = system.lmp.extract_compute("thermo_temp", 0, 0)
@@ -68,3 +61,15 @@ class Thermo(Compute):
     """
     super(Thermo, self).zero()
     self.value = []
+
+  def plot(self, filename):
+    """
+    We need to override the parent plot method
+    """
+    work = np.array(self.value).T
+    for i, measure in enumerate(work):
+      fig, axis = pl.subplots()
+      axis.plot(measure)
+      axis.set_ylabel(self.header[i])
+      fig.savefig('{0}-{1}.pdf'.format(filename, self.header[i]))
+      pl.close()
