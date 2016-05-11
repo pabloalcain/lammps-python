@@ -2,7 +2,7 @@
 Thermodynamic Compute class
 """
 
-from neutronstar.computes.Compute import Compute
+from neutronstar.Computes.Compute import Compute
 
 class Thermo(Compute):
   """

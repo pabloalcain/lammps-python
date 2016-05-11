@@ -2,7 +2,7 @@
 MSTE Compute class
 """
 
-from neutronstar.computes import Compute
+from neutronstar.Computes import Compute
 import ctypes as ct
 import numpy as np
 import pylab as pl
