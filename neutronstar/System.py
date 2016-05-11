@@ -255,8 +255,7 @@ class NeutronStarSystem(System):
            "neigh_modify      every 1 delay 0 check yes one 40000 page 400000",
            "comm_modify       vel yes",
            "thermo_style      custom step temp ke epair etotal press",
-           "thermo            1000",
-           "compute           mste all mste/atom 5.4",)
+           "thermo            1000",)
     for cmd in _sc:
       self.lmp.command(cmd)
 
