@@ -252,7 +252,6 @@ class MSTE(Compute):
       nclus = 1000
     guess = nclus ** 2 * 6
     tmp = (ct.c_int * (3 * guess))()
-
     connections_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
                               ct.c_void_p, ct.c_int, ct.c_float,
                               ct.c_bool, ct.c_double, ct.c_void_p]
@@ -278,8 +277,8 @@ class MSTE(Compute):
       protons = 0
       for n in nodes:
         mst[index == n] = idx
-        mass += len(index == n)
-        protons += len((index == n) & (system.t == 2))
+        mass += sum(index == n)
+        protons += sum((index == n) & (system.t == 2))
       frac = float(protons)/mass
       if len(inf_clusters) != 0:
         inf.append(idx)
@@ -295,15 +294,24 @@ class MSTE(Compute):
     not average trivially. We create the histogram from the values.
     """
     self.idx += 1
-    new_occ = (self.idx - 1) * self.value[:, 0] + value[:, 0]
-    self.value[:, 0] = new_occ / self.idx
-    self.value[:, 1] *= (self.idx - 1) * self.value[:, 0]
-    self.value[:, 1] += value[:, 1] * value[:, 0]
-    self.value[:, 1] /= new_occ
+    #If we are in the first frame of the calculation, just replace by
+    #the value.
+    try:
+      new_occ = (self.idx - 1) * self.value[:, 0] + value[:, 0]
+      self.value[:, 0] = new_occ / self.idx
+      self.value[:, 1] *= (self.idx - 1) * self.value[:, 0]
+      self.value[:, 1] += value[:, 1] * value[:, 0]
+      self.value[:, 1] /= new_occ
+    except TypeError:
+      if self.idx == 1:
+        self.value = value
+      else: raise TypeError
 
   def plot(self, filename):
-    """Plotting routine. We need to override since in this case we don't
-    want both plots to be on the same y-axis"""
+    """
+    Plotting routine. We need to override since in this case we don't
+    want both plots to be on the same y-axis
+    """
     fig, ax1 = pl.subplots()
     ax1.set_xlabel('Cluster size')
     ax1.set_xscale('log')
@@ -324,3 +332,4 @@ class MSTE(Compute):
     ax1.legend(hand1+hand2, lab1+lab2)
     fig.tight_layout()
     fig.savefig(filename)
+    pl.close()
