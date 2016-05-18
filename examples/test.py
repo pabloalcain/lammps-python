@@ -11,7 +11,7 @@ pairs = (((0,), (0,),),)
 computes = {'rdf': ns.Computes.RDF(200, pairs),
             'ssf': ns.Computes.StructureFactor(k, pairs),
             'thermo': ns.Computes.Thermo(),
-            }#'mste': ns.Computes.MSTE()}
+            'mste': ns.Computes.MSTE()}
 analyzer = ns.Analyzer(computes)
 
 sys['potential'] = 'medium'
@@ -25,7 +25,7 @@ for T in np.linspace(2.0, 0.5, 31):
   sys['T'] = T
   log = ns.Logger(sys)
   log.dump(sys, 'image')
-  #sys.thermalize(200, 30)
+  sys.thermalize(200, 30)
   analyzer.zero()
   for i in range(5):
     sys.run(100)
