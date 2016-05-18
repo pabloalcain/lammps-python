@@ -80,6 +80,7 @@ class Logger(object):
     fkey = open('{0}/key.dat'.format(self.path), 'w')
     print>>fkey, ', '.join(identifier)
     fkey.close()
+    system.lmp.command('log {0}/log.lammps'.format(self.path))
 
   def dump(self, system, style='text'):
     """
