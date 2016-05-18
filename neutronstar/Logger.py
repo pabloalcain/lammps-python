@@ -5,6 +5,43 @@ Logger class
 import fcntl
 import os
 import random
+from collections import OrderedDict as od
+
+def _create_path(system, style='folder'):
+  """
+  Create a path from the system.
+
+  Parameters
+  ----------
+
+  system : neutronstar System
+      The system to create path from
+
+  style : {'folder', 'hash'}
+      Style to use. Folder creates a path that mimics a folder
+      structure similar to that of the system parameters. Hash creates
+      a hash integer from the system dictionary.
+
+  Returns
+  -------
+
+  path : string
+      Path relative to root_path in which we will insert the data
+  """
+  prefix = od([('lambda', 'l'), ('N', 'N'), ('expansion', 'exp'),
+               ('potential', ''), ('x', 'x'), ('d', 'd'), ('T', 'T')])
+
+  if style == 'folder':
+    path = ''
+    for key in prefix.keys():
+      if key in system.keys():
+        path = path + ''.join((prefix[key], str(system[key]))) + '/'
+  elif style == 'hash':
+    path = str(hash(frozenset(system)))
+  else:
+    raise ValueError("The style {0} wasn't found".format(style))
+
+  return path
 
 class Logger(object):
   """
@@ -25,8 +62,10 @@ class Logger(object):
         Root path in which we will store all the information
     """
     identifier = [' '.join(map(str, (i, system[i]))) for i in system]
-    key = abs(hash(frozenset(system)) + random.randint(0, 1e10))
-    identifier.append('id {0}'.format(key))
+    path = _create_path(system, 'folder')
+    self.path = '{0}/{1}'.format(root_path, path)
+    os.makedirs(self.path)
+    identifier.append('id {0}'.format(path))
     success = False
     while not success:
       try:
@@ -38,8 +77,6 @@ class Logger(object):
         success = True
       except IOError:
         pass
-    self.path = '{0}/{1}'.format(root_path, key)
-    os.makedirs(self.path)
     fkey = open('{0}/key.dat'.format(self.path), 'w')
     print>>fkey, ', '.join(identifier)
     fkey.close()

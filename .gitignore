@@ -21,3 +21,4 @@ examples/*pdf
 examples/*png
 post-process/*png
 post-process/*pdf
+*.egg-info
