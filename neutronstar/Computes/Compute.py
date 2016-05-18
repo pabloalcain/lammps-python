@@ -4,6 +4,8 @@ Compute class
 
 import ctypes as ct
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import pylab as pl
 #TODO: Take care of the looks of these plots
 
