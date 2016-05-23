@@ -8,6 +8,7 @@ from neutronstar import Potential
 
 from random import randint
 import numpy as np
+import ctypes as ct
 
 class System(dict):
   """
@@ -232,7 +233,7 @@ class System(dict):
     """
     Get x as a numpy array from the simulation
     """
-    _data = np.array(self.lmp.gather_atoms("x", 1, 3))
+    _data = np.array(self.lmp.gather_atoms("x", 1, 3), dtype=ct.c_double)
     natoms = np.shape(_data)[0]/3
     return _data.reshape(natoms, 3)
 
@@ -241,7 +242,7 @@ class System(dict):
     """
     Get v as a numpy array from the simulation
     """
-    _data = np.array(self.lmp.gather_atoms("v", 1, 3))
+    _data = np.array(self.lmp.gather_atoms("v", 1, 3), dtype=ct.c_double)
     natoms = np.shape(_data)[0]/3
     return _data.reshape(natoms, 3)
 
