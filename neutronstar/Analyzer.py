@@ -18,7 +18,7 @@ class Analyzer(object):
         A dict of computes that will be used to analyze. The key is
         the identifier and the value is a compute instance
     """
-    self.computes = computes
+    self.__computes = computes
 
   @property
   def computes(self):
@@ -33,7 +33,6 @@ class Analyzer(object):
     Set computes for the analyzer
     """
     self.__computes = value
-    pass
 
   def analyze(self, system):
     """
