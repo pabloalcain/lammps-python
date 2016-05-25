@@ -3,12 +3,7 @@ Compute class
 """
 
 from neutronstar.Computes import Compute
-import ctypes as ct
-import numpy as np
-import os
-_DIRNAME = os.path.dirname(__file__)
-libssf = ct.CDLL(os.path.join(_DIRNAME, 'libssf.so'))
-ssf_c = libssf.ssf
+from analysis import structureFactor
 
 class StructureFactor(Compute):
   """
@@ -88,28 +83,6 @@ class StructureFactor(Compute):
         is 'r' and the rest is the structure factor calculated for the
         pair list.
     """
-    natoms = system['N']
-    size = system['size']
-    npairs = len(self.pairs)
-    ncol = npairs + 1
-    pair_ar = np.zeros(2*npairs)
-    i = 0
-    for p in self.pairs:
-      pair_ar[i] = p[0][0]
-      pair_ar[i+1] = p[1][0]
-      i += 2
-    ncol = len(self.pairs) + 1
-    npoints = len(self.k)
-    tmp = (ct.c_double * (npoints * ncol))()
-    x_p = system.x.ctypes.data_as(ct.c_void_p)
-    t_p = system.lmp.gather_atoms("type", 0, 1)#t.ctypes.data_as(ct.c_void_p)
-    k_p = self.k.ctypes.data_as(ct.c_void_p)
-    pair_p = pair_ar.ctypes.data_as(ct.c_void_p)
-    ssf_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_int,
-                      ct.c_double, ct.c_int, ct.c_int, ct.c_int,
-                      ct.c_void_p, ct.c_int, ct.c_void_p,
-                      ct.c_void_p]
-    ssf_c(x_p, t_p, natoms, size, npoints, self.lebedev, self.rep,
-          pair_p, npairs, k_p, tmp)
-    ssf = np.frombuffer(tmp, dtype=np.double, count=npoints * ncol)
-    return ssf.reshape((npoints, ncol))
+    val = structureFactor(system.x, system.t, system['size'], self.k,
+                          rep=self.rep, lebedev=self.lebedev)
+    return val

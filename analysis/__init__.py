@@ -1,10 +1,8 @@
-#from analysis.cluster import cluster, connections, find_paths
-#from analysis.structure import rdf, ssf
+"""
+Main analysis module. It should work stand alone completely
+independent of any data structure
+"""
 
-import ctypes as C
-
-libanalysis = C.CDLL('libanalysis.so')
-cluster_c = libanalysis.cluster
-connections_c = libanalysis.connections
-rdf_c = libanalysis.rdf
-ssf_c = libanalysis.ssf
+from analysis.MSTE.MSTE import mste
+from analysis.RDF.RDF import rdf
+from analysis.StructureFactor.Structure import structureFactor
