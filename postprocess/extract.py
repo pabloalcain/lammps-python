@@ -1,5 +1,5 @@
 """
-Module for post-process in neutronstars
+Module for post-process in lammps
 """
 import numpy as np
 from collections import OrderedDict

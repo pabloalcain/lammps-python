@@ -2,7 +2,6 @@
 Compute class
 """
 
-import ctypes as ct
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')

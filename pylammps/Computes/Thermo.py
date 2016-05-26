@@ -2,7 +2,7 @@
 Thermodynamic Compute class
 """
 
-from neutronstar.Computes.Compute import Compute
+from pylammps.Computes import Compute
 import numpy as np
 import pylab as pl
 

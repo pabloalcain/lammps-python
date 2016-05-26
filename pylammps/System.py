@@ -3,8 +3,7 @@ System class: the Lammps Molecular Dynamics main object
 """
 
 from lammps import lammps#neutronstar.DummyLammps import Lammps as lammps
-import neutronstar
-from neutronstar import Potential
+from pylammps import Potential, Computes
 
 from random import randint
 import numpy as np
@@ -202,7 +201,7 @@ class System(dict):
     temperatures, one would expect that just setting the temperatures
     and complying with 1 should be enough.
     """
-    thermo = neutronstar.Computes.Thermo()
+    thermo = Computes.Thermo()
     energy = np.zeros(wind)
     temperature = np.zeros(wind)
     step = np.zeros(wind)

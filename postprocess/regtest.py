@@ -68,7 +68,6 @@ def test_rdf(full=False):
   if full:
     pl.plot(gr[:, 0], gr[:, 1])
     pl.show()
-  
 
 if __name__ == '__main__':
   test_rdf(True)

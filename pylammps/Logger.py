@@ -4,7 +4,6 @@ Logger class
 
 import fcntl
 import os
-import random
 from collections import OrderedDict as od
 
 def _create_path(system, style='folder'):
@@ -14,7 +13,7 @@ def _create_path(system, style='folder'):
   Parameters
   ----------
 
-  system : neutronstar System
+  system : lammps System
       The system to create path from
 
   style : {'folder', 'hash'}

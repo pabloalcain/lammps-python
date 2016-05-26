@@ -5,4 +5,4 @@ independent of any data structure
 
 from analysis.MSTE.MSTE import mste
 from analysis.RDF.RDF import rdf
-from analysis.StructureFactor.Structure import structureFactor
+from analysis.StructureFactor.StructureFactor import structureFactor

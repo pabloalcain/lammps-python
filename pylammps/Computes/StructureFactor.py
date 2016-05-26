@@ -2,7 +2,7 @@
 Compute class
 """
 
-from neutronstar.Computes import Compute
+from pylammps.Computes import Compute
 from analysis import structureFactor
 
 class StructureFactor(Compute):
@@ -83,6 +83,7 @@ class StructureFactor(Compute):
         is 'r' and the rest is the structure factor calculated for the
         pair list.
     """
-    val = structureFactor(system.x, system.t, system['size'], self.k,
-                          rep=self.rep, lebedev=self.lebedev)
+    val = structureFactor(system.x, system.t, system['size'],
+                          self.pairs, self.k, rep=self.rep,
+                          lebedev=self.lebedev)
     return val

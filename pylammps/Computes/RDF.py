@@ -2,7 +2,7 @@
 Compute class
 """
 
-from neutronstar.Computes import Compute
+from pylammps.Computes import Compute
 from analysis import rdf
 
 class RDF(Compute):
