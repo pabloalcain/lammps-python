@@ -18,6 +18,9 @@ void ssf(double *x, int *type, int natoms, double size, int npoints,
   for (int i = 0; i < ncols * npoints; i++)
     sk[i] = 0;
 
+  for (int i = 0; i < ncols; i++)
+    hist[i] = 0;
+
   // Warning!! maximum two types of particles
   int labels[3][3];
   for (int i = 0; i < 3; i++) 
@@ -69,7 +72,7 @@ void ssf(double *x, int *type, int natoms, double size, int npoints,
         for (int i = 0; i < natoms; i++) {
           int itype = type[i];
           int idxpair = labels[itype][itype];
-          if (ii == 0) {
+          if (ii == 0 && j == 0) {
             int all = labels[0][0];
             if (all != 0) hist[all] += nrep * nrep * nrep;
             hist[idxpair] += nrep * nrep * nrep;
