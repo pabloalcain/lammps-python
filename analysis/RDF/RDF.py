@@ -70,3 +70,53 @@ def rdf(x, t, size, pairs, nbins, pbc=True):
   rdf_c(x_p, t_p, natoms, nbins, size, pair_p, npairs, pbc, tmp)
   value = np.frombuffer(tmp, dtype=np.double, count=nbins * ncol)
   return value.reshape((nbins, ncol))
+
+
+def ssf(gr, density, pbc=True):
+  """
+  Calculate structure factor given the radial distribution function.
+
+  Parameters
+  ----------
+
+  gr : numpy array
+      Radial Distribution Function. First column is the position,
+      second is the RDF itself
+
+  density : float
+      Density of the studied system
+
+  pbc : boolean, optional
+      Whether or not the rdf was calculated with periodic boundary
+      conditions.
+
+  Returns
+  -------
+
+  S : numpy array
+      The structure factor of the system. First column is the
+      wavenumber, second is the ssf itself.
+  """
+  _d = density
+  r = gr[:, 0]
+  # Assume evenly spaced
+  dr = r[1] - r[0]
+  # How many points do I need to add to get a good resolution?
+  dlda = 0.1
+  lda0 = 15.0
+  rmax = lda0**2 / dlda
+  n = int(rmax/dr)
+  q = np.linspace(0, 2*np.pi/dr, n)
+  S = np.zeros((n, 2))
+  S[:, 0] = q
+
+  #Integrand in the fourier transform
+  if pbc: mean = 1
+  else: mean = 0
+  ker = (gr[:, 1] - mean) * r
+  #Imaginary (sin) part of the Fourier transform
+  ft = np.imag(np.fft.fft(ker, n)) * dr
+  #We split the q = 0 case, since it is ill-defined
+  S[1:, 1] = 1 - (ft[1:] / q[1:]) * (4 * np.pi * _d)
+  S[0, 1] = 1 + dr * sum(ker * r) * (4 * np.pi * _d)
+  return S
