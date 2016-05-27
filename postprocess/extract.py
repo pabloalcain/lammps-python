@@ -41,7 +41,7 @@ class Extraction(object):
         ret.append(entry)
     return ret
 
-  def particle(self, cols, parameters, dtype=np.float32, idx=0):
+  def particle(self, cols, parameters, dtype=np.float64, idx=0):
     """
     Extract a 'per particle' magnitude that is in a lammps dump file
     inside the directory. Get only the first timestep. Possible
@@ -81,11 +81,11 @@ class Extraction(object):
 
   def x(self, parameters, idx=0):
     """ Return the positions """
-    return self.particle((2, 3, 4), parameters, np.float32, idx)
+    return self.particle((2, 3, 4), parameters, np.float64, idx)
 
   def v(self, parameters, idx=0):
     """ Return the velocities """
-    return self.particle((5, 6, 7), parameters, np.float32, idx)
+    return self.particle((5, 6, 7), parameters, np.float64, idx)
 
   def t(self, parameters, idx=0):
     """ Return the velocities """
