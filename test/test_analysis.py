@@ -80,3 +80,69 @@ class TestRDF(object):
     k = sk_transf[:, 0].copy()
     sk = A.structureFactor(x, t, size, pairs, k, 1, lebedev=194)
     nst.assert_almost_equal(sum(abs(sk_transf.flatten() - sk.flatten())), 0)
+
+class TestMSTE(object):
+  """
+  Test Minimum Spanning Tree in analysis module
+  """
+
+  def test_mste_exists(self):
+    """
+    Can call mste
+    """
+    A.mste
+
+  def test_graph_partition(self):
+    """
+    Returns partition of a graph.
+    """
+    graph = {1: [2, 3], 2: [1,], 3: [1,],
+             4: [5, 6], 5: [6, 4], 6: [4, 5]}
+    hand_part = [set([1, 2, 3]), set([4, 5, 6])]
+    part = A.MSTE.MSTE._partition(graph)
+    for i, j in zip(part, hand_part):
+      nst.assert_equal(i, j)
+    graph = {1: [2, 3], 2: [1,], 3: [1,],
+             4: [5], 5: [4], 6: []}
+    hand_part = [set([1, 2, 3]), set([4, 5]), set([6,])]
+    part = A.MSTE.MSTE._partition(graph)
+    for i, j in zip(part, hand_part):
+      nst.assert_equal(i, j)
+
+  def test_idx(self):
+    """
+    Binary to wall conversion and back
+    """
+    nst.assert_equal(A.MSTE.MSTE._idx2wall(1), "W")
+    nst.assert_equal(A.MSTE.MSTE._idx2wall(-1), "E")
+    nst.assert_equal(A.MSTE.MSTE._idx2wall(2), "N")
+    nst.assert_equal(A.MSTE.MSTE._idx2wall(-2), "S")
+    nst.assert_equal(A.MSTE.MSTE._idx2wall(4), "U")
+    nst.assert_equal(A.MSTE.MSTE._idx2wall(-4), "D")
+    nst.assert_equal(1, A.MSTE.MSTE._wall2idx("W"))
+    nst.assert_equal(-1, A.MSTE.MSTE._wall2idx("E"))
+    nst.assert_equal(2, A.MSTE.MSTE._wall2idx("N"))
+    nst.assert_equal(-2, A.MSTE.MSTE._wall2idx("S"))
+    nst.assert_equal(4, A.MSTE.MSTE._wall2idx("U"))
+    nst.assert_equal(-4, A.MSTE.MSTE._wall2idx("D"))
+    nst.assert_raises(ValueError, A.MSTE.MSTE._wall2idx, "GF")
+    nst.assert_raises(ValueError, A.MSTE.MSTE._idx2wall, -8)
+
+
+  def test_graph_creation(self):
+    """
+    Create a graph structure from connections
+    """
+    conn = [[1, 2, 1], [2, 4, 2], [1, 2, -2], [3, 3, -1]]
+    hand_graph = {1: [2,], 2: [4,], 3: [3,]}
+    hand_cnct = {(1, 2): ['W', 'S'], (2, 4): ['N'], (3, 3): ['E']}
+    graph, cnct = A.MSTE.MSTE._create_graph(conn)
+    nst.assert_equal(hand_graph, graph)
+    nst.assert_equal(hand_cnct, cnct)
+
+  def test_cycles_finding(self):
+    """
+    Return cycles and edges in undirected graph
+    """
+    hand_graph = {1: [2, 4], 2: [1, 4,], 3: [3,], 4: [1, 2, 5], 5: [4,]}
+    nst.assert_equal(0, A.MSTE.MSTE._find_cycles(hand_graph))
