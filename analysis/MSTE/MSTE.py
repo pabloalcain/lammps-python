@@ -29,6 +29,8 @@ def _idx2wall(wall):
     return 'U'
   if wall == -4:
     return 'D'
+  else:
+    raise ValueError('Index {0} not understood'.format(wall))
 
 def _wall2idx(wall):
   """
@@ -46,6 +48,8 @@ def _wall2idx(wall):
     return 4
   if wall == 'D':
     return -4
+  else:
+    raise ValueError('Wall {0} not understood'.format(wall))
 
 def _create_graph(conn):
   """
@@ -146,7 +150,6 @@ def _find_cycles(graph):
     for i in graph[gnode]:
       if i > gnode:
         cycs.append([gnode, i])
-
   return cycs
 
 def _find_paths(graph, cncts):
