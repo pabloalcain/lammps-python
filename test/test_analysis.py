@@ -144,5 +144,36 @@ class TestMSTE(object):
     """
     Return cycles and edges in undirected graph
     """
-    hand_graph = {1: [2, 4], 2: [1, 4,], 3: [3,], 4: [1, 2, 5], 5: [4,]}
-    nst.assert_equal(0, A.MSTE.MSTE._find_cycles(hand_graph))
+    graph = {1: [2, 4], 2: [1, 4,], 3: [3,], 4: [1, 2, 5], 5: [4,]}
+    cycles = A.MSTE.MSTE._find_cycles(graph)
+    hand_cycles = [[1, 2], [1, 4], [2, 4], [4, 5], [3,], [2, 4, 1]]
+    for i in cycles:
+      nst.assert_in(i, hand_cycles)
+
+  def test_path(self):
+    """
+    Paths in the graph and whether they are infinite
+    """
+    #Connections here are duplicated because it's easier to implement
+    #the c-code that generates them
+    conn = [[1, 2, 1], [2, 1, -1], [2, 4, 2], [4, 2, -2], [4, 1, -1], [1, 4, 1],
+            [4, 5, -4], [5, 4, 4], [3, 3, 1]]
+    graph, cnct = A.MSTE.MSTE._create_graph(conn)
+    paths, inf = A.MSTE.MSTE._find_paths(graph, cnct)
+    hand_paths = [([2, 4, 1, 2], 'NEW'), ([3, 3], 'W'), ([1, 2, 1], 'WE'),
+                  ([1, 4, 1], 'WE'), ([2, 4, 2], 'NS'), ([4, 5, 4], 'DU')]
+    hand_inf = [[2, 4, 1, 2], [3, 3]]
+    nst.assert_equal(hand_paths, paths)
+    nst.assert_equal(hand_inf, inf)
+
+
+  def test_mst(self):
+    """
+    Test MST [no energy considerations]
+    """
+    x = np.array([[1, 2, 3], [4, 5, 1], [2, 4, 3], [0.5, 2, -0.5],
+                  [1.8, 6, 1.0], [2, 5, 1]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 10000
+    nst.assert_equal(0, A.mste(x, v, t, size, False))
