@@ -256,6 +256,7 @@ def mste(x, v, t, size, energy, expansion=0.0):
                         expansion, energy, tmp)
   conn = np.frombuffer(tmp, dtype=ct.c_int, count=count * 3)
   conn = conn.reshape((count, 3))
+  print conn
   graph, cnct = _create_graph(conn)
   mst = index.copy()
   idx = 0
@@ -273,7 +274,7 @@ def mste(x, v, t, size, energy, expansion=0.0):
     for n in nodes:
       mst[index == n] = idx
       mass += sum(index == n)
-      protons += sum((index == n) & (t == 2))
+      protons += sum((index == n) & (t.flatten() == 2))
     frac = float(protons)/mass
     if len(inf_clusters) != 0:
       inf.append(idx)
