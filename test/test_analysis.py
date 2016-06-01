@@ -250,3 +250,30 @@ class TestMSTE(object):
     index = A.MSTE.MSTE.cluster(x, v, t, size, False)
     conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
     nst.assert_equal(conn.shape, (4, 3))
+
+
+  def test_mst_1(self):
+    """
+    Full MST Cluster with tallies: 1 cluster [no energy considerations]
+    """
+    x = np.array([[1, 2, 3], [4, 5, 1], [2, 4, 3], [0.5, 2, 0.5],
+                  [1.8, 5, 1.0], [2, 5, 1]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 100
+    value = A.mste(x, v, t, size, False)
+    nst.assert_equal(value, 0)
+    print value
+
+  def test_mst_2(self):
+    """
+    Full MST Cluster with tallies: 1 cluster [no energy considerations]
+    """
+    x = np.array([[1, 2, 3], [2, 2, 3], [3, 2, 3], [5, 2, 3],
+                  [7, 2, 3], [9, 2, 3]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 10
+    value = A.mste(x, v, t, size, False)
+    nst.assert_equal(value, 0)
+    print value

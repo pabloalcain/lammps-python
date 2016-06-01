@@ -234,29 +234,26 @@ def mste(x, v, t, size, energy, expansion=0.0):
   """
   index = cluster(x, v, t, size, energy)
   conn = connections(x, v, t, index, size, energy, expansion)
-  print conn
   graph, cnct = _create_graph(conn)
   mst = index.copy()
   natoms = np.shape(x)[0]
-  idx = 0
   inf = []
   value = np.zeros((natoms + 1, 3))
   value[:, 0] = range(natoms + 1)
+  print graph, conn
   for nodes in _partition(graph):
-    idx += 1
     this_graph = {}
     for n in nodes:
       this_graph[n] = graph[n]
-    _, inf_clusters = _find_paths(this_graph, cnct)
-    mass = 0
-    protons = 0
-    for n in nodes:
-      mst[index == n] = idx
-      mass += sum(index == n)
-      protons += sum((index == n) & (t.flatten() == 2))
+      mst[index == n] = min(nodes)
+      _, inf_clusters = _find_paths(this_graph, cnct)
+      if len(inf_clusters) != 0:
+        inf.append(min(nodes))
+  for clus in np.unique(mst):
+    mass = sum(mst == clus)
+    protons = sum((mst == clus) & (t.flatten() == 2))
     frac = float(protons)/mass
-    if len(inf_clusters) != 0:
-      inf.append(idx)
+    if clus in inf:
       mass = 0
     value[mass, 1] += 1
     value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
