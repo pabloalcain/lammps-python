@@ -227,38 +227,17 @@ def mste(x, v, t, size, energy, expansion=0.0):
   Notes
   -----
 
-  1. So far, when energy is "True", this only works for systems with
+   1. So far, when energy is "True", this only works for systems with
      `medium` potential.
 
   2. The box needs to be cubic for this to work
   """
-  natoms = np.shape(x)[0]
-  index_p = (ct.c_int * natoms)()
-  x_p = x.ctypes.data_as(ct.c_void_p)
-  v_p = v.ctypes.data_as(ct.c_void_p)
-  t_p = t.ctypes.data_as(ct.c_void_p)
-  cluster_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
-                        ct.c_int, ct.c_double, ct.c_bool,
-                        ct.c_void_p]
-  cluster_c(x_p, v_p, t_p, natoms, size, energy, index_p)
-  index = np.frombuffer(index_p, dtype=ct.c_int, count=natoms)
-  nclus = len(np.unique(index))
-  #TODO: check for size not too large
-  if nclus > 1000:
-    nclus = 1000
-  guess = nclus ** 2 * 6
-  tmp = (ct.c_int * (3 * guess))()
-  connections_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
-                            ct.c_void_p, ct.c_int, ct.c_float,
-                            ct.c_bool, ct.c_double, ct.c_void_p]
-  connections_c.restype = ct.c_int
-  count = connections_c(index_p, x_p, v_p, t_p, natoms, size,
-                        expansion, energy, tmp)
-  conn = np.frombuffer(tmp, dtype=ct.c_int, count=count * 3)
-  conn = conn.reshape((count, 3))
+  index = cluster(x, v, t, size, energy)
+  conn = connections(x, v, t, index, size, energy, expansion)
   print conn
   graph, cnct = _create_graph(conn)
   mst = index.copy()
+  natoms = np.shape(x)[0]
   idx = 0
   inf = []
   value = np.zeros((natoms + 1, 3))
@@ -283,3 +262,112 @@ def mste(x, v, t, size, energy, expansion=0.0):
     value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
     value[mass, 2] += frac/value[mass, 1]
   return value, (mst, inf)
+
+def cluster(x, v, t, size, energy):
+  """
+  Get either MST or MSTE clusters from the configuration.
+
+  Parameters
+  ----------
+
+  x : numpy array
+      Positions of the particles in the system
+
+  v : numpy array
+      Velocities of the particles
+
+  t : numpy array
+      Types of the particles
+
+  size : float
+      Length of the box
+
+  energy : boolean
+      Whether to do energy considerations in the cluster computation.
+
+  Returns
+  -------
+
+  index : numpy array
+      An array with the cluster index of each particle.
+  """
+  natoms = np.shape(x)[0]
+  index_p = (ct.c_int * natoms)()
+  x_p = x.ctypes.data_as(ct.c_void_p)
+  v_p = v.ctypes.data_as(ct.c_void_p)
+  t_p = t.ctypes.data_as(ct.c_void_p)
+  cluster_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
+                        ct.c_int, ct.c_double, ct.c_bool,
+                        ct.c_void_p]
+  cluster_c(x_p, v_p, t_p, natoms, size, energy, index_p)
+  index = np.frombuffer(index_p, dtype=ct.c_int, count=natoms)
+  return index
+
+
+def connections(x, v, t, index, size, energy, expansion):
+  """Find the connections with a given cluster distribution.
+
+  Parameters
+  ----------
+
+  x : numpy array
+      Positions of the particles in the system
+
+  v : numpy array
+      Velocities of the particles
+
+  t : numpy array
+      Types of the particles
+
+  index : numpy array
+      Cluster index of the particles
+
+  size : float
+      Length of the box
+
+  energy : boolean
+      Whether to do energy considerations in the cluster computation.
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
+  Returns
+  -------
+
+  conn : 2D numpy array
+      The connections between the clusters, in the format:
+      [[cluster1, cluster2, wall], [cluster1, cluster2, wall]...]
+
+  Notes
+  -----
+
+   1. So far, when energy is "True", this only works for systems with
+     `medium` potential.
+
+  2. The box needs to be cubic for this to work
+  """
+
+
+  natoms = np.shape(x)[0]
+  index_p = index.ctypes.data_as(ct.c_void_p)
+  x_p = x.ctypes.data_as(ct.c_void_p)
+  v_p = v.ctypes.data_as(ct.c_void_p)
+  t_p = t.ctypes.data_as(ct.c_void_p)
+  nclus = len(np.unique(index))
+  #TODO: check for size not too large
+  if nclus > 1000:
+    nclus = 1000
+  guess = nclus ** 2 * 6
+  tmp = (ct.c_int * (3 * guess))()
+  connections_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
+                            ct.c_void_p, ct.c_int, ct.c_double,
+                            ct.c_bool, ct.c_double, ct.c_void_p]
+  connections_c.restype = ct.c_int
+
+
+
+  count = connections_c(index_p, x_p, v_p, t_p, natoms, size,
+                        expansion, energy, tmp)
+  conn = np.frombuffer(tmp, dtype=ct.c_int, count=count * 3)
+  conn = conn.reshape((count, 3))
+  return conn

@@ -167,13 +167,86 @@ class TestMSTE(object):
     nst.assert_equal(hand_inf, inf)
 
 
-  def test_mst(self):
+  def test_cluster_1(self):
     """
-    Test MST [no energy considerations]
+    MST Cluster recognition: 1 cluster [no energy considerations]
     """
     x = np.array([[1, 2, 3], [4, 5, 1], [2, 4, 3], [0.5, 2, -0.5],
-                  [1.8, 6, 1.0], [2, 5, 1]])
+                  [1.8, 5, 1.0], [2, 5, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 10000
-    nst.assert_equal(0, A.mste(x, v, t, size, False))
+    size = 100
+    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    hand_index = [0, 0, 0, 0, 0, 0]
+    for i, j in zip(index, hand_index):
+      nst.assert_equal(i, j)
+
+  def test_cluster_2(self):
+    """
+    MST Cluster recognition: 2 clusters [no energy considerations]
+    """
+
+    x = np.array([[1.8, 55, 3], [4, 5, 1], [2, 4, 3], [0.5, 2, -0.5],
+                  [1.8, 56, 1.0], [2, 5, 1]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 100
+    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    hand_index = [0, 1, 1, 1, 0, 1]
+    for i, j in zip(index, hand_index):
+      nst.assert_equal(i, j)
+
+  def test_cluster_3(self):
+    """
+    MST Cluster recognition: 6 clusters [no energy considerations]
+    """
+
+    x = np.array([[1.8, 55, 3], [54, 55, 1], [2, 54, 53], [0.5, 25, 0.5],
+                  [1.8, 26, 51.0], [22, 25, 1]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 100
+    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    hand_index = [0, 1, 2, 3, 4, 5]
+    for i, j in zip(index, hand_index):
+      nst.assert_equal(i, j)
+
+  def test_connections_1(self):
+    """
+    Connections: No connections in the cluster
+    """
+    x = np.array([[1.8, 55, 3], [54, 55, 1], [2, 54, 53], [0.5, 25, 0.5],
+                  [1.8, 26, 51.0], [22, 25, 1]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 100
+    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    nst.assert_equal(conn.shape, (0, 3))
+
+
+  def test_connections_2(self):
+    """
+    Connections: Cluster 0 connects with 4
+    """
+    x = np.array([[1.8, 55, 3], [54, 55, 1], [2, 54, 53], [0.5, 25, 0.5],
+                  [99.8, 55, 3], [22, 25, 1]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 100.0
+    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    nst.assert_equal(conn.shape, (2, 3))
+
+  def test_connections_3(self):
+    """
+    Connections: Cluster 0 connects twice with 4
+    """
+    x = np.array([[1.8, 0.5, 3], [54, 55, 1], [2, 54, 53], [0.5, 25, 0.5],
+                  [99.8, 99.5, 3], [22, 25, 1]])
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 100.0
+    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    nst.assert_equal(conn.shape, (4, 3))
