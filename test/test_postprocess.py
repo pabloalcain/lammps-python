@@ -73,7 +73,7 @@ class TestExtract(object):
 
   def test_box_extraction(self):
     """Extract box from an entry"""
-    box = self.ext.box({'T': 0.5}, idx=3)
+    box = self.ext.box({'T': 0.5}, idx=3)[0]
     known = [[-5, 5], [-5, 5], [-5, 5]]
     for i, j in zip(box, known):
       nst.assert_equal(i[0], j[0])
