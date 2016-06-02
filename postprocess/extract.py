@@ -29,8 +29,19 @@ class Extraction(object):
 
   def entries(self, parameters):
     """
-    From a dict or parameters, return all the entries from the db that
-    match.
+    Return all the entries from the database that match the parameters.
+
+    Parameters
+    ----------
+
+    parameters : dict
+        A dictionary of parameters to look for in the database
+
+    Returns
+    -------
+
+    ret : list
+        A list of the entries (directories) in the database.
     """
     ret = []
     for entry in self.db:
@@ -42,15 +53,30 @@ class Extraction(object):
     return ret
 
   def particle(self, cols, parameters, dtype=np.float64, idx=0):
-    """
-    Extract a 'per particle' magnitude that is in a lammps dump file
-    inside the directory. Get only the first timestep. Possible
-    magnitudes are:
+    """Extract a 'per particle' magnitude that is in a lammps dump file
+    that matches the parameters.
 
-    - x
-    - v
-    - type
-    - clus
+    Parameters
+    ----------
+
+    cols : tuple
+        Columns to extract
+
+    parameters : dict
+        A dictionary of parameters from which to extract
+
+    dtype : datatype, optional
+        Datatype of the array
+
+    idx : datatype, optional
+        Index of the timestep to look for [not the timestep itself]
+
+    Returns
+    -------
+
+    output : list
+        A list of numpy arrays with the requested data that match all
+        parameters.
     """
     _size = len(cols)
     output = []
@@ -80,21 +106,92 @@ class Extraction(object):
     return output
 
   def x(self, parameters, idx=0):
-    """ Return the positions """
+    """Extract the positions that are in a lammps dump file
+    that matches the parameters.
+
+    Parameters
+    ----------
+
+    parameters : dict
+        A dictionary of parameters from which to extract
+
+    idx : datatype, optional
+        Index of the timestep to look for [not the timestep itself]
+
+    Returns
+    -------
+
+    x : list
+        A list of numpy arrays with the positions that match all
+        parameters.
+    """
     return self.particle((2, 3, 4), parameters, np.float64, idx)
 
   def v(self, parameters, idx=0):
-    """ Return the velocities """
+    """Extract the velocities that are in a lammps dump file
+    that matches the parameters.
+
+    Parameters
+    ----------
+
+    parameters : dict
+        A dictionary of parameters from which to extract
+
+    idx : datatype, optional
+        Index of the timestep to look for [not the timestep itself]
+
+    Returns
+    -------
+
+    v : list
+        A list of numpy arrays with the velocities that match all
+        parameters.
+    """
     return self.particle((5, 6, 7), parameters, np.float64, idx)
 
   def t(self, parameters, idx=0):
-    """ Return the velocities """
+    """Extract the types that are in a lammps dump file
+    that matches the parameters.
+
+    Parameters
+    ----------
+
+    parameters : dict
+        A dictionary of parameters from which to extract
+
+    idx : datatype, optional
+        Index of the timestep to look for [not the timestep itself]
+
+    Returns
+    -------
+
+    t : list
+        A list of numpy arrays with the types that match all
+        parameters.
+    """
     return self.particle((1,), parameters, np.int32, idx)
 
   def box(self, parameters, idx=0):
+    """Extract the boxes that are in a lammps dump file
+    that matches the parameters.
+
+    Parameters
+    ----------
+
+    parameters : dict
+        A dictionary of parameters from which to extract
+
+    idx : datatype, optional
+        Index of the timestep to look for [not the timestep itself]
+
+    Returns
+    -------
+
+    output : list
+        A list of numpy arrays with the boxes that match all
+        parameters.
     """
-    Extract box at the first timestep from a lammps file
-    """
+    output = []
     for item in self.entries(parameters):
       path = '{0}/{1}'.format(self.path, item['id'])
       _file = open('{0}/dump.lammpstrj'.format(path))
@@ -113,4 +210,5 @@ class Extraction(object):
           continue
         if _nline == offset + 9:
           break
-      return size
+      output.append(size)
+    return output
