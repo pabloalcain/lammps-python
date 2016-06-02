@@ -32,5 +32,3 @@ Then run, in the root directory
 .. code-block:: bash
 
    python setup.py install
-
-(root privileges needed)

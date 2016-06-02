@@ -90,13 +90,13 @@ class System(dict):
     """
     Set initial condition for an expansion as seen in [Dorso]_
 
+    .. [Dorso] Dorso and Strachan, Phys. Rev. B 54, 236
+
     Parameters
     ----------
 
     rate : float
         Expansion rate, in box per seconds units
-
-    .. [Dorso] Dorso and Strachan, Phys. Rev. B 54, 236
     """
     _npart = self['N']
     _density = self['d']
