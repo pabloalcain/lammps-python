@@ -260,9 +260,9 @@ def mste(x, v, t, size, energy, expansion=0.0):
     for n in nodes:
       this_graph[n] = graph[n]
       mst[index == n] = min(nodes)
-      _, inf_clusters = _find_paths(this_graph, cnct)
-      if len(inf_clusters) != 0:
-        inf.append(min(nodes))
+    _, inf_clusters = _find_paths(this_graph, cnct)
+    if len(inf_clusters) != 0:
+      inf.append(min(nodes))
   for clus in np.unique(mst):
     mass = sum(mst == clus)
     protons = sum((mst == clus) & (t.flatten() == 2))
