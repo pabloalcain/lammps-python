@@ -103,10 +103,10 @@ int connections(int *index, double *x, double *v, int *type, int natoms,
         bool conn;
         conn = (idx >> k) & 1;
         if (conn) {
+          int wall;
+          wall = wallidx[k];
           bool add = true;
           for (int l = 0; l < count; l++) {
-            int wall;
-            wall = wallidx[k];
             if (connect[3*l] == index[i] &&
                 connect[3*l + 1] == index[j] &&
                 connect[3*l + 2] == wall) {
@@ -117,10 +117,10 @@ int connections(int *index, double *x, double *v, int *type, int natoms,
           if (add) {
             connect[3*count] = index[i];
             connect[3*count + 1] = index[j];
-            connect[3*count + 2] = idx;
+            connect[3*count + 2] = wall;
             connect[3*count + 3] = index[j];
             connect[3*count + 4] = index[i];
-            connect[3*count + 5] = - idx;
+            connect[3*count + 5] = - wall;
             count += 2;
           }
         }
