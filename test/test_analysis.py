@@ -3,6 +3,7 @@ import numpy as np
 from postprocess import tools as T
 from postprocess.extract import Extraction
 import nose.tools as nst
+import warnings
 
 class TestSSF(object):
   """
@@ -251,8 +252,33 @@ class TestMSTE(object):
     conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
     nst.assert_equal(conn.shape, (4, 3))
 
+  def test_connections_4(self):
+    """
+    Connections: Cluster 0 connects with itself
+    """
+    x = np.array([[1, 2, 3], [2, 2, 3], [3, 2, 3], [5, 2, 3],
+                  [7, 2, 3], [9, 2, 3]], dtype=np.float64)
+    v = np.zeros((6, 3))
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
+    size = 10
+    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    nst.assert_equal(conn.shape, (2, 3))
 
   def test_mst_1(self):
+    """
+    Full MST Cluster warns when x, v and t are not the proper type
+    """
+    x = np.array([[1, 2, 3], [2, 2, 3], [3, 2, 3], [5, 2, 3],
+                  [7, 2, 3], [9, 2, 3]], dtype=np.int32)
+    v = np.zeros((6, 3), dtype=np.int32)
+    t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.float64)
+    size = 10
+    with warnings.catch_warnings(record=True) as w:
+      value, _ = A.mste(x, v, t, size, False)
+    nst.assert_equal(len(w), 3)
+
+  def test_mst_2(self):
     """
     Full MST Cluster with tallies: 1 cluster [no energy considerations]
     """
@@ -261,19 +287,39 @@ class TestMSTE(object):
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
     size = 100
-    value = A.mste(x, v, t, size, False)
-    nst.assert_equal(value, 0)
+    value, _ = A.mste(x, v, t, size, False)
+    value_hand = np.zeros((7, 3))
+    value_hand[:, 0] = range(7)
+    value_hand[6, 1:] = (1, 0.5)
+    for i, j in zip(value, value_hand):
+      for e1, e2 in zip(i, j):
+        nst.assert_equal(e1, e2)
     print value
 
-  def test_mst_2(self):
+  def test_mst_3(self):
     """
-    Full MST Cluster with tallies: 1 cluster [no energy considerations]
+    Full MST Cluster with tallies: 1 cluster links with itself
     """
     x = np.array([[1, 2, 3], [2, 2, 3], [3, 2, 3], [5, 2, 3],
-                  [7, 2, 3], [9, 2, 3]])
+                  [7, 2, 3], [9, 2, 3]], dtype=np.float64)
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
     size = 10
-    value = A.mste(x, v, t, size, False)
-    nst.assert_equal(value, 0)
-    print value
+    value, _ = A.mste(x, v, t, size, False)
+    value_hand = np.zeros((7, 3))
+    value_hand[:, 0] = range(7)
+    value_hand[0, 1:] = (1, 0.5)
+    for i, j in zip(value, value_hand):
+      for e1, e2 in zip(i, j):
+        nst.assert_equal(e1, e2)
+
+  def test_mst_4(self):
+    """
+    Full MST Cluster warns when x, v and t are not the proper type
+    """
+    x = np.array([[1, 2, 3], [2, 2, 3], [3, 2, 3], [5, 2, 3],
+                  [7, 2, 3], [9, 2, 3]], dtype=np.int32)
+    v = np.zeros((6, 3), dtype=np.int32)
+    t = np.array([[1.5], [2], [1], [2], [1], [2]], dtype=np.float64)
+    size = 10
+    nst.assert_raises(ValueError, A.mste, x, v, t, size, False)
