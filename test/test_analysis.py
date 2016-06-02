@@ -315,7 +315,7 @@ class TestMSTE(object):
 
   def test_mst_4(self):
     """
-    Full MST Cluster warns when x, v and t are not the proper type
+    Full MST Cluster error when cast of t modifies its value
     """
     x = np.array([[1, 2, 3], [2, 2, 3], [3, 2, 3], [5, 2, 3],
                   [7, 2, 3], [9, 2, 3]], dtype=np.int32)
