@@ -249,6 +249,7 @@ def mste(x, v, t, size, energy, expansion=0.0):
   index = cluster(x, v, t, size, energy)
   conn = connections(x, v, t, index, size, energy, expansion)
   graph, cnct = _create_graph(conn)
+  #TODO: This should be an independent function
   mst = index.copy()
   natoms = np.shape(x)[0]
   inf = []
