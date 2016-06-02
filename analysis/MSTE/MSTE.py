@@ -5,6 +5,7 @@ MSTE calculation
 import ctypes as ct
 import numpy as np
 import os
+import warnings
 
 _DIRNAME = os.path.dirname(__file__)
 libmste = ct.CDLL(os.path.join(_DIRNAME, 'libmste.so'))
@@ -198,13 +199,13 @@ def mste(x, v, t, size, energy, expansion=0.0):
   Parameters
   ----------
 
-  x : numpy array
+  x : numpy float64 array
       Positions of the particles in the system
 
-  v : numpy array
+  v : numpy float64 array
       Velocities of the particles
 
-  t : numpy array
+  t : numpy int32 array
       Types of the particles
 
   size : float
@@ -230,8 +231,21 @@ def mste(x, v, t, size, energy, expansion=0.0):
    1. So far, when energy is "True", this only works for systems with
      `medium` potential.
 
-  2. The box needs to be cubic for this to work
+   2. The box needs to be cubic for this to work
   """
+  if x.dtype != np.float64:
+    warnings.warn("Type of x should be 64bit float", UserWarning)
+    x = x.astype(np.float64)
+  if v.dtype != np.float64:
+    warnings.warn("Type of v should be 64bit float", UserWarning)
+    v = v.astype(np.float64)
+  if t.dtype != np.int32:
+    warnings.warn("Type of t should be 32bit float", UserWarning)
+    t1 = t.astype(np.int32)
+    for i, j in zip(t.flatten(), t1.flatten()):
+      if i != j:
+        raise ValueError("Casting resulted in different values")
+
   index = cluster(x, v, t, size, energy)
   conn = connections(x, v, t, index, size, energy, expansion)
   graph, cnct = _create_graph(conn)
@@ -267,13 +281,13 @@ def cluster(x, v, t, size, energy):
   Parameters
   ----------
 
-  x : numpy array
+  x : numpy float64 array
       Positions of the particles in the system
 
-  v : numpy array
+  v : numpy float64 array
       Velocities of the particles
 
-  t : numpy array
+  t : numpy int32 array
       Types of the particles
 
   size : float
@@ -307,13 +321,13 @@ def connections(x, v, t, index, size, energy, expansion):
   Parameters
   ----------
 
-  x : numpy array
+  x : numpy float64 array
       Positions of the particles in the system
 
-  v : numpy array
+  v : numpy float64 array
       Velocities of the particles
 
-  t : numpy array
+  t : numpy int32 array
       Types of the particles
 
   index : numpy array
@@ -354,7 +368,7 @@ def connections(x, v, t, index, size, energy, expansion):
   #TODO: check for size not too large
   if nclus > 1000:
     nclus = 1000
-  guess = nclus ** 2 * 6
+  guess = nclus ** 2 * 8
   tmp = (ct.c_int * (3 * guess))()
   connections_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
                             ct.c_void_p, ct.c_int, ct.c_double,
@@ -365,6 +379,7 @@ def connections(x, v, t, index, size, energy, expansion):
 
   count = connections_c(index_p, x_p, v_p, t_p, natoms, size,
                         expansion, energy, tmp)
+  print count
   conn = np.frombuffer(tmp, dtype=ct.c_int, count=count * 3)
   conn = conn.reshape((count, 3))
   return conn
