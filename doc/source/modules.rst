@@ -1,5 +1,5 @@
-neutronstars
-============
+lammps-python
+=============
 
 .. toctree::
    :maxdepth: 4
