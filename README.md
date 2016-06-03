@@ -49,6 +49,3 @@ nosetests . --with-coverage --rednose --cover-package=analysis,postprocess,pylam
 Before running, make sure the python `lammps.py` file is in your
 `PYTHONPATH` variable. Otherwise, it will fail when trying to import
 it.
-
-  [image]: https://travis-ci.org/pabloalcain/lammps-python.svg?branch=master
-  [![image]]: https://travis-ci.org/pabloalcain/lammps-python
