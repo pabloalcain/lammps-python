@@ -84,6 +84,7 @@
                 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lammps-interface">LAMMPS Interface</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="example.html">Example file</a></li>
@@ -151,6 +152,12 @@ python setup.py install
 nosetests . --with-coverage --rednose --cover-package<span class="o">=</span>analysis,postprocess,pylammps
 </pre></div>
 </div>
+</div>
+<div class="section" id="lammps-interface">
+<h2>LAMMPS Interface<a class="headerlink" href="#lammps-interface" title="Permalink to this headline">¶</a></h2>
+<p>Before running, make sure the python <code class="docutils literal"><span class="pre">lammps.py</span></code> file is in your
+<code class="docutils literal"><span class="pre">PYTHONPATH</span></code> variable. Otherwise, it will fail when trying to import
+it.</p>
 </div>
 </div>
 

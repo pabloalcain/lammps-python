@@ -24,3 +24,10 @@ To run the tests, go to the test directory:
 
    cd test
    nosetests . --with-coverage --rednose --cover-package=analysis,postprocess,pylammps
+
+LAMMPS Interface
+----------------
+
+Before running, make sure the python ``lammps.py`` file is in your
+``PYTHONPATH`` variable. Otherwise, it will fail when trying to import
+it.
