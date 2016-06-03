@@ -228,10 +228,10 @@ def mste(x, v, t, size, energy, expansion=0.0):
   Notes
   -----
 
-   1. So far, when energy is "True", this only works for systems with
-     `medium` potential.
+  1. So far, when energy is "True", this only works for systems with
+  `medium` potential.
 
-   2. The box needs to be cubic for this to work
+  2. The box needs to be cubic for this to work
   """
   if x.dtype != np.float64:
     warnings.warn("Type of x should be 64bit float", UserWarning)
@@ -353,7 +353,7 @@ def connections(x, v, t, index, size, energy, expansion):
   Notes
   -----
 
-   1. So far, when energy is "True", this only works for systems with
+  1. So far, when energy is "True", this only works for systems with
      `medium` potential.
 
   2. The box needs to be cubic for this to work
