@@ -1,0 +1,4790 @@
+write_dump all image ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.6//dump.png type type
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+     500   0.68438228     1.006042   0.15752994    1.1635719   0.22856075 
+     700   0.85369723    1.2549349  -0.13661408    1.1183208   0.26863673 
+Loop time of 0.0916781 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18848549.414 tau/day, 2181.545 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063363   | 0.063363   | 0.063363   |   0.0 | 69.11
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02597    | 0.02597    | 0.02597    |   0.0 | 28.33
+Output  | 2.8849e-05 | 2.8849e-05 | 2.8849e-05 |   0.0 |  0.03
+Modify  | 0.00045133 | 0.00045133 | 0.00045133 |   0.0 |  0.49
+Other   |            | 0.001865   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25721 ave 25721 max 25721 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25721
+Ave neighs/atom = 514.42
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+     700   0.85369723    1.2549349  -0.13661408    1.1183208   0.26863673 
+     900   0.63982531    0.9405432   0.18543085    1.1259741   0.22972427 
+Loop time of 0.0902979 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19136649.738 tau/day, 2214.890 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062216   | 0.062216   | 0.062216   |   0.0 | 68.90
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025791   | 0.025791   | 0.025791   |   0.0 | 28.56
+Output  | 1.9073e-05 | 1.9073e-05 | 1.9073e-05 |   0.0 |  0.02
+Modify  | 0.00041652 | 0.00041652 | 0.00041652 |   0.0 |  0.46
+Other   |            | 0.001855   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25672 ave 25672 max 25672 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25672
+Ave neighs/atom = 513.44
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+     900   0.63982531    0.9405432   0.18543085    1.1259741   0.22972427 
+    1000   0.64212247   0.94392004   0.18351971    1.1274397   0.27768111 
+    1100   0.65916485   0.96897234   0.14487681    1.1138491   0.26055182 
+Loop time of 0.0901742 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19162909.518 tau/day, 2217.929 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062072   | 0.062072   | 0.062072   |   0.0 | 68.84
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025816   | 0.025816   | 0.025816   |   0.0 | 28.63
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.00042343 | 0.00042343 | 0.00042343 |   0.0 |  0.47
+Other   |            | 0.001838   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25665 ave 25665 max 25665 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25665
+Ave neighs/atom = 513.3
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    1100   0.65916485   0.96897234   0.14487681    1.1138491   0.26055182 
+    1300    0.6681122   0.98212494   0.14428287    1.1264078   0.24780426 
+Loop time of 0.0906031 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19072192.328 tau/day, 2207.430 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062376   | 0.062376   | 0.062376   |   0.0 | 68.85
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025928   | 0.025928   | 0.025928   |   0.0 | 28.62
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00041413 | 0.00041413 | 0.00041413 |   0.0 |  0.46
+Other   |            | 0.001872   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25687 ave 25687 max 25687 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25687
+Ave neighs/atom = 513.74
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    1300    0.6681122   0.98212494   0.14428287    1.1264078   0.24780426 
+    1500   0.69931225     1.027989   0.10439851    1.1323875   0.21067785 
+Loop time of 0.091327 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18921030.019 tau/day, 2189.934 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06289    | 0.06289    | 0.06289    |   0.0 | 68.86
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026112   | 0.026112   | 0.026112   |   0.0 | 28.59
+Output  | 2.8849e-05 | 2.8849e-05 | 2.8849e-05 |   0.0 |  0.03
+Modify  | 0.00041866 | 0.00041866 | 0.00041866 |   0.0 |  0.46
+Other   |            | 0.001878   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25695 ave 25695 max 25695 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25695
+Ave neighs/atom = 513.9
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    1500   0.69931225     1.027989   0.10439851    1.1323875   0.21067785 
+    1700   0.79017391    1.1615557 -0.048246037    1.1133096   0.25737502 
+Loop time of 0.0929282 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18595007.073 tau/day, 2152.200 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063885   | 0.063885   | 0.063885   |   0.0 | 68.75
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026665   | 0.026665   | 0.026665   |   0.0 | 28.69
+Output  | 2.9087e-05 | 2.9087e-05 | 2.9087e-05 |   0.0 |  0.03
+Modify  | 0.00045633 | 0.00045633 | 0.00045633 |   0.0 |  0.49
+Other   |            | 0.001892   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25727 ave 25727 max 25727 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25727
+Ave neighs/atom = 514.54
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    1700   0.79017391    1.1615557 -0.048246037    1.1133096   0.25737502 
+    1900   0.69196066    1.0171822     0.102085    1.1192672   0.25311035 
+Loop time of 0.0912731 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18932199.955 tau/day, 2191.227 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063264   | 0.063264   | 0.063264   |   0.0 | 69.31
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025698   | 0.025698   | 0.025698   |   0.0 | 28.16
+Output  | 2.5988e-05 | 2.5988e-05 | 2.5988e-05 |   0.0 |  0.03
+Modify  | 0.00043273 | 0.00043273 | 0.00043273 |   0.0 |  0.47
+Other   |            | 0.001852   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10900 ave 10900 max 10900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25676 ave 25676 max 25676 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25676
+Ave neighs/atom = 513.52
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    1900   0.69196066    1.0171822     0.102085    1.1192672   0.25311035 
+    2000     0.666187   0.97929488   0.14846202    1.1277569    0.2177425 
+    2100   0.68822789     1.011695   0.12522337    1.1369184   0.23058838 
+Loop time of 0.090678 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19056446.390 tau/day, 2205.607 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062598   | 0.062598   | 0.062598   |   0.0 | 69.03
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025783   | 0.025783   | 0.025783   |   0.0 | 28.43
+Output  | 2.5988e-05 | 2.5988e-05 | 2.5988e-05 |   0.0 |  0.03
+Modify  | 0.00042963 | 0.00042963 | 0.00042963 |   0.0 |  0.47
+Other   |            | 0.001841   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25685 ave 25685 max 25685 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25685
+Ave neighs/atom = 513.7
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    2100   0.68822789     1.011695   0.12522337    1.1369184   0.23058838 
+    2300   0.74029634    1.0882356  0.073267726    1.1615034   0.24721796 
+Loop time of 0.090852 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19019939.884 tau/day, 2201.382 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062669   | 0.062669   | 0.062669   |   0.0 | 68.98
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025859   | 0.025859   | 0.025859   |   0.0 | 28.46
+Output  | 2.9087e-05 | 2.9087e-05 | 2.9087e-05 |   0.0 |  0.03
+Modify  | 0.00043583 | 0.00043583 | 0.00043583 |   0.0 |  0.48
+Other   |            | 0.001859   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25668 ave 25668 max 25668 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25668
+Ave neighs/atom = 513.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    2300   0.74029634    1.0882356  0.073267726    1.1615034   0.24721796 
+    2500   0.68670144    1.0094511   0.12558156    1.1350327   0.25789752 
+Loop time of 0.093637 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18454245.566 tau/day, 2135.908 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06461    | 0.06461    | 0.06461    |   0.0 | 69.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026636   | 0.026636   | 0.026636   |   0.0 | 28.45
+Output  | 3.314e-05  | 3.314e-05  | 3.314e-05  |   0.0 |  0.04
+Modify  | 0.00042725 | 0.00042725 | 0.00042725 |   0.0 |  0.46
+Other   |            | 0.00193    |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25681 ave 25681 max 25681 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25681
+Ave neighs/atom = 513.62
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    2500   0.68670144    1.0094511   0.12558156    1.1350327   0.25789752 
+    2700   0.61903443   0.90998061   0.19353741     1.103518   0.31109533 
+Loop time of 0.094197 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18344526.481 tau/day, 2123.209 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.064774   | 0.064774   | 0.064774   |   0.0 | 68.76
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.027005   | 0.027005   | 0.027005   |   0.0 | 28.67
+Output  | 2.8849e-05 | 2.8849e-05 | 2.8849e-05 |   0.0 |  0.03
+Modify  | 0.00044084 | 0.00044084 | 0.00044084 |   0.0 |  0.47
+Other   |            | 0.001948   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25637 ave 25637 max 25637 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25637
+Ave neighs/atom = 512.74
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    2700   0.61903443   0.90998061   0.19353741     1.103518   0.31109533 
+    2900   0.62328704   0.91623195    0.2218702    1.1381022   0.24575867 
+Loop time of 0.092747 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18631335.810 tau/day, 2156.405 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063999   | 0.063999   | 0.063999   |   0.0 | 69.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026348   | 0.026348   | 0.026348   |   0.0 | 28.41
+Output  | 3.0041e-05 | 3.0041e-05 | 3.0041e-05 |   0.0 |  0.03
+Modify  | 0.00044107 | 0.00044107 | 0.00044107 |   0.0 |  0.48
+Other   |            | 0.001928   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25673 ave 25673 max 25673 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25673
+Ave neighs/atom = 513.46
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    2900   0.62328704   0.91623195    0.2218702    1.1381022   0.24575867 
+    3000     0.622248   0.91470456   0.20843709    1.1231417   0.22551089 
+    3100   0.56332145   0.82808254   0.29943399    1.1275165   0.25653738 
+Loop time of 0.091464 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18892670.274 tau/day, 2186.652 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063316   | 0.063316   | 0.063316   |   0.0 | 69.23
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02583    | 0.02583    | 0.02583    |   0.0 | 28.24
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.00041389 | 0.00041389 | 0.00041389 |   0.0 |  0.45
+Other   |            | 0.00188    |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25679 ave 25679 max 25679 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25679
+Ave neighs/atom = 513.58
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    3100   0.56332145   0.82808254   0.29943399    1.1275165   0.25653738 
+    3300   0.79606351    1.1702134 -0.049653503    1.1205599   0.26393005 
+Loop time of 0.0902321 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19150605.510 tau/day, 2216.505 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061925   | 0.061925   | 0.061925   |   0.0 | 68.63
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025999   | 0.025999   | 0.025999   |   0.0 | 28.81
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.000422   | 0.000422   | 0.000422   |   0.0 |  0.47
+Other   |            | 0.001873   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11044 ave 11044 max 11044 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25643 ave 25643 max 25643 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25643
+Ave neighs/atom = 512.86
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    3300   0.79606351    1.1702134 -0.049653503    1.1205599   0.26393005 
+    3500   0.66128312   0.97208619   0.14532407    1.1174103   0.28824432 
+Loop time of 0.090729 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19045729.971 tau/day, 2204.367 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062533   | 0.062533   | 0.062533   |   0.0 | 68.92
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02589    | 0.02589    | 0.02589    |   0.0 | 28.54
+Output  | 2.0981e-05 | 2.0981e-05 | 2.0981e-05 |   0.0 |  0.02
+Modify  | 0.00043583 | 0.00043583 | 0.00043583 |   0.0 |  0.48
+Other   |            | 0.001848   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25651 ave 25651 max 25651 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25651
+Ave neighs/atom = 513.02
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    3500   0.66128312   0.97208619   0.14532407    1.1174103   0.28824432 
+    3700   0.65598452   0.96429725   0.17742454    1.1417218   0.22896906 
+Loop time of 0.0908499 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19020389.112 tau/day, 2201.434 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062511   | 0.062511   | 0.062511   |   0.0 | 68.81
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026033   | 0.026033   | 0.026033   |   0.0 | 28.65
+Output  | 1.812e-05  | 1.812e-05  | 1.812e-05  |   0.0 |  0.02
+Modify  | 0.00041819 | 0.00041819 | 0.00041819 |   0.0 |  0.46
+Other   |            | 0.00187    |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25647 ave 25647 max 25647 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25647
+Ave neighs/atom = 512.94
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    3700   0.65598452   0.96429725   0.17742454    1.1417218   0.22896906 
+    3900   0.64402265   0.94671329   0.17969751    1.1264108   0.29837458 
+Loop time of 0.091054 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18977757.240 tau/day, 2196.500 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062815   | 0.062815   | 0.062815   |   0.0 | 68.99
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025933   | 0.025933   | 0.025933   |   0.0 | 28.48
+Output  | 1.6928e-05 | 1.6928e-05 | 1.6928e-05 |   0.0 |  0.02
+Modify  | 0.000422   | 0.000422   | 0.000422   |   0.0 |  0.46
+Other   |            | 0.001867   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10900 ave 10900 max 10900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25681 ave 25681 max 25681 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25681
+Ave neighs/atom = 513.62
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    3900   0.64402265   0.94671329   0.17969751    1.1264108   0.29837458 
+    4000   0.79612725    1.1703071 -0.054006021     1.116301   0.29139092 
+    4100   0.82866775    1.2181416   -0.1103723    1.1077693   0.27454281 
+Loop time of 0.0902622 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19144231.873 tau/day, 2215.768 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062285   | 0.062285   | 0.062285   |   0.0 | 69.01
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025665   | 0.025665   | 0.025665   |   0.0 | 28.43
+Output  | 3.2902e-05 | 3.2902e-05 | 3.2902e-05 |   0.0 |  0.04
+Modify  | 0.00043726 | 0.00043726 | 0.00043726 |   0.0 |  0.48
+Other   |            | 0.001842   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25647 ave 25647 max 25647 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25647
+Ave neighs/atom = 512.94
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    4100   0.82866775    1.2181416   -0.1103723    1.1077693   0.27454281 
+    4300   0.72343553    1.0634502   0.05700752    1.1204578    0.2506001 
+Loop time of 0.0902929 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19137710.876 tau/day, 2215.013 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06215    | 0.06215    | 0.06215    |   0.0 | 68.83
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025852   | 0.025852   | 0.025852   |   0.0 | 28.63
+Output  | 1.1921e-05 | 1.1921e-05 | 1.1921e-05 |   0.0 |  0.01
+Modify  | 0.00042057 | 0.00042057 | 0.00042057 |   0.0 |  0.47
+Other   |            | 0.001858   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25745 ave 25745 max 25745 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25745
+Ave neighs/atom = 514.9
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    4300   0.72343553    1.0634502   0.05700752    1.1204578    0.2506001 
+    4500    0.6501946   0.95578606   0.16716796     1.122954   0.27686603 
+Loop time of 0.090158 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19166355.446 tau/day, 2218.328 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062095   | 0.062095   | 0.062095   |   0.0 | 68.87
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025746   | 0.025746   | 0.025746   |   0.0 | 28.56
+Output  | 1.812e-05  | 1.812e-05  | 1.812e-05  |   0.0 |  0.02
+Modify  | 0.00041151 | 0.00041151 | 0.00041151 |   0.0 |  0.46
+Other   |            | 0.001887   |            |       |  2.09
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25746 ave 25746 max 25746 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25746
+Ave neighs/atom = 514.92
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    4500    0.6501946   0.95578606   0.16716796     1.122954   0.27686603 
+    4700   0.56880955   0.83615004   0.29246496     1.128615   0.22691645 
+Loop time of 0.089503 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19306604.668 tau/day, 2234.561 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061383   | 0.061383   | 0.061383   |   0.0 | 68.58
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025845   | 0.025845   | 0.025845   |   0.0 | 28.88
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00041509 | 0.00041509 | 0.00041509 |   0.0 |  0.46
+Other   |            | 0.001847   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25711 ave 25711 max 25711 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25711
+Ave neighs/atom = 514.22
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    4700   0.56880955   0.83615004   0.29246496     1.128615   0.22691645 
+    4900   0.69546481    1.0223333  0.093998302    1.1163316   0.24230573 
+Loop time of 0.0936201 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18457582.332 tau/day, 2136.294 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.064421   | 0.064421   | 0.064421   |   0.0 | 68.81
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026797   | 0.026797   | 0.026797   |   0.0 | 28.62
+Output  | 2.7895e-05 | 2.7895e-05 | 2.7895e-05 |   0.0 |  0.03
+Modify  | 0.00044203 | 0.00044203 | 0.00044203 |   0.0 |  0.47
+Other   |            | 0.001932   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25726 ave 25726 max 25726 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25726
+Ave neighs/atom = 514.52
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    4900   0.69546481    1.0223333  0.093998302    1.1163316   0.24230573 
+    5000   0.71437639    1.0501333  0.063109204    1.1132425   0.24292008 
+    5100   0.66480284   0.97726018   0.13356703    1.1108272   0.23129813 
+Loop time of 0.0911 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18968171.536 tau/day, 2195.390 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062386   | 0.062386   | 0.062386   |   0.0 | 68.48
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026371   | 0.026371   | 0.026371   |   0.0 | 28.95
+Output  | 3.3855e-05 | 3.3855e-05 | 3.3855e-05 |   0.0 |  0.04
+Modify  | 0.00042915 | 0.00042915 | 0.00042915 |   0.0 |  0.47
+Other   |            | 0.001879   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25727 ave 25727 max 25727 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25727
+Ave neighs/atom = 514.54
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    5100   0.66480284   0.97726018   0.13356703    1.1108272   0.23129813 
+    5300   0.70477546    1.0360199  0.048404631    1.0844246   0.26884761 
+Loop time of 0.0893199 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19346183.117 tau/day, 2239.142 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061262   | 0.061262   | 0.061262   |   0.0 | 68.59
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025773   | 0.025773   | 0.025773   |   0.0 | 28.85
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00040841 | 0.00040841 | 0.00040841 |   0.0 |  0.46
+Other   |            | 0.001863   |            |       |  2.09
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10972 ave 10972 max 10972 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25661 ave 25661 max 25661 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25661
+Ave neighs/atom = 513.22
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    5300   0.70477546    1.0360199  0.048404631    1.0844246   0.26884761 
+    5500   0.68036445    1.0001357   0.10018324     1.100319   0.25134032 
+Loop time of 0.089606 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19284412.873 tau/day, 2231.992 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061369   | 0.061369   | 0.061369   |   0.0 | 68.49
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025955   | 0.025955   | 0.025955   |   0.0 | 28.97
+Output  | 1.4067e-05 | 1.4067e-05 | 1.4067e-05 |   0.0 |  0.02
+Modify  | 0.00041699 | 0.00041699 | 0.00041699 |   0.0 |  0.47
+Other   |            | 0.001851   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25704 ave 25704 max 25704 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25704
+Ave neighs/atom = 514.08
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    5500   0.68036445    1.0001357   0.10018324     1.100319   0.25134032 
+    5700   0.61461104   0.90347823   0.18063846    1.0841167   0.22895466 
+Loop time of 0.089467 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19314373.573 tau/day, 2235.460 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061179   | 0.061179   | 0.061179   |   0.0 | 68.38
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026012   | 0.026012   | 0.026012   |   0.0 | 29.07
+Output  | 1.4067e-05 | 1.4067e-05 | 1.4067e-05 |   0.0 |  0.02
+Modify  | 0.00041461 | 0.00041461 | 0.00041461 |   0.0 |  0.46
+Other   |            | 0.001848   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10972 ave 10972 max 10972 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25699 ave 25699 max 25699 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25699
+Ave neighs/atom = 513.98
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    5700   0.61461104   0.90347823   0.18063846    1.0841167   0.22895466 
+    5900    0.6940942    1.0203185  0.058240006    1.0785585   0.28338772 
+Loop time of 0.091387 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18908590.579 tau/day, 2188.494 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062682   | 0.062682   | 0.062682   |   0.0 | 68.59
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026365   | 0.026365   | 0.026365   |   0.0 | 28.85
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.00043416 | 0.00043416 | 0.00043416 |   0.0 |  0.48
+Other   |            | 0.001882   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25683 ave 25683 max 25683 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25683
+Ave neighs/atom = 513.66
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    5900    0.6940942    1.0203185  0.058240006    1.0785585   0.28338772 
+    6000   0.76748911     1.128209 -0.026112007     1.102097   0.25751707 
+    6100   0.63441362   0.93258802    0.1627209    1.0953089   0.22308423 
+Loop time of 0.0920558 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18771224.035 tau/day, 2172.595 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063297   | 0.063297   | 0.063297   |   0.0 | 68.76
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026402   | 0.026402   | 0.026402   |   0.0 | 28.68
+Output  | 4.7922e-05 | 4.7922e-05 | 4.7922e-05 |   0.0 |  0.05
+Modify  | 0.00041842 | 0.00041842 | 0.00041842 |   0.0 |  0.45
+Other   |            | 0.00189    |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25691 ave 25691 max 25691 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25691
+Ave neighs/atom = 513.82
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    6100   0.63441362   0.93258802    0.1627209    1.0953089   0.22308423 
+    6300   0.57533132   0.84573705   0.27167336    1.1174104    0.2364341 
+Loop time of 0.090344 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19126902.890 tau/day, 2213.762 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061923   | 0.061923   | 0.061923   |   0.0 | 68.54
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026122   | 0.026122   | 0.026122   |   0.0 | 28.91
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00042796 | 0.00042796 | 0.00042796 |   0.0 |  0.47
+Other   |            | 0.001859   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25718 ave 25718 max 25718 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25718
+Ave neighs/atom = 514.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    6300   0.57533132   0.84573705   0.27167336    1.1174104    0.2364341 
+    6500   0.61635418   0.90604065    0.1892799    1.0953205   0.23554618 
+Loop time of 0.090204 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19156578.322 tau/day, 2217.197 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061843   | 0.061843   | 0.061843   |   0.0 | 68.56
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026071   | 0.026071   | 0.026071   |   0.0 | 28.90
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.000422   | 0.000422   | 0.000422   |   0.0 |  0.47
+Other   |            | 0.001855   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25666 ave 25666 max 25666 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25666
+Ave neighs/atom = 513.32
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    6500   0.61635418   0.90604065    0.1892799    1.0953205   0.23554618 
+    6700   0.66225634   0.97351682   0.11184367    1.0853605   0.27252859 
+Loop time of 0.0898321 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19235892.575 tau/day, 2226.376 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061505   | 0.061505   | 0.061505   |   0.0 | 68.47
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026041   | 0.026041   | 0.026041   |   0.0 | 28.99
+Output  | 1.4067e-05 | 1.4067e-05 | 1.4067e-05 |   0.0 |  0.02
+Modify  | 0.00042748 | 0.00042748 | 0.00042748 |   0.0 |  0.48
+Other   |            | 0.001845   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25711 ave 25711 max 25711 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25711
+Ave neighs/atom = 514.22
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    6700   0.66225634   0.97351682   0.11184367    1.0853605   0.27252859 
+    6900   0.68522278    1.0072775  0.086572575    1.0938501   0.26531873 
+Loop time of 0.0914011 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18905680.533 tau/day, 2188.157 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062806   | 0.062806   | 0.062806   |   0.0 | 68.71
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026253   | 0.026253   | 0.026253   |   0.0 | 28.72
+Output  | 2.6941e-05 | 2.6941e-05 | 2.6941e-05 |   0.0 |  0.03
+Modify  | 0.00044036 | 0.00044036 | 0.00044036 |   0.0 |  0.48
+Other   |            | 0.001875   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10972 ave 10972 max 10972 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25742 ave 25742 max 25742 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25742
+Ave neighs/atom = 514.84
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    6900   0.68522278    1.0072775  0.086572575    1.0938501   0.26531873 
+    7000   0.73086502    1.0743716  0.004062616    1.0784342   0.26880473 
+    7100   0.62260031   0.91522245   0.14211456     1.057337   0.29002758 
+Loop time of 0.093251 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18530634.384 tau/day, 2144.749 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.064094   | 0.064094   | 0.064094   |   0.0 | 68.73
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026731   | 0.026731   | 0.026731   |   0.0 | 28.67
+Output  | 6.5088e-05 | 6.5088e-05 | 6.5088e-05 |   0.0 |  0.07
+Modify  | 0.00046802 | 0.00046802 | 0.00046802 |   0.0 |  0.50
+Other   |            | 0.001893   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10900 ave 10900 max 10900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25736 ave 25736 max 25736 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25736
+Ave neighs/atom = 514.72
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    7100   0.62260031   0.91522245   0.14211456     1.057337   0.29002758 
+    7300   0.63482622   0.93319455   0.13415085    1.0673454   0.23645943 
+Loop time of 0.090097 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19179339.476 tau/day, 2219.831 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061824   | 0.061824   | 0.061824   |   0.0 | 68.62
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025965   | 0.025965   | 0.025965   |   0.0 | 28.82
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.00042462 | 0.00042462 | 0.00042462 |   0.0 |  0.47
+Other   |            | 0.001859   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11008 ave 11008 max 11008 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25707 ave 25707 max 25707 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25707
+Ave neighs/atom = 514.14
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    7300   0.63482622   0.93319455   0.13415085    1.0673454   0.23645943 
+    7500   0.59548163     0.875358   0.18103537    1.0563934   0.27415223 
+Loop time of 0.0898039 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19241918.713 tau/day, 2227.074 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061671   | 0.061671   | 0.061671   |   0.0 | 68.67
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025873   | 0.025873   | 0.025873   |   0.0 | 28.81
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00042295 | 0.00042295 | 0.00042295 |   0.0 |  0.47
+Other   |            | 0.001823   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25719 ave 25719 max 25719 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25719
+Ave neighs/atom = 514.38
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    7500   0.59548163     0.875358   0.18103537    1.0563934   0.27415223 
+    7700    0.7732658    1.1367007 -0.084178514    1.0525222   0.26203997 
+Loop time of 0.0902951 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19137256.088 tau/day, 2214.960 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061968   | 0.061968   | 0.061968   |   0.0 | 68.63
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026009   | 0.026009   | 0.026009   |   0.0 | 28.80
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.00042892 | 0.00042892 | 0.00042892 |   0.0 |  0.48
+Other   |            | 0.001876   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25665 ave 25665 max 25665 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25665
+Ave neighs/atom = 513.3
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    7700    0.7732658    1.1367007 -0.084178514    1.0525222   0.26203997 
+    7900   0.56141987   0.82528721   0.20493929    1.0302265   0.26198316 
+Loop time of 0.090328 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19130285.385 tau/day, 2214.153 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061986   | 0.061986   | 0.061986   |   0.0 | 68.62
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025982   | 0.025982   | 0.025982   |   0.0 | 28.76
+Output  | 2.6941e-05 | 2.6941e-05 | 2.6941e-05 |   0.0 |  0.03
+Modify  | 0.00045657 | 0.00045657 | 0.00045657 |   0.0 |  0.51
+Other   |            | 0.001877   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25646 ave 25646 max 25646 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25646
+Ave neighs/atom = 512.92
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    7900   0.56141987   0.82528721   0.20493929    1.0302265   0.26198316 
+    8000   0.66670817   0.98006101   0.07129059    1.0513516   0.22042272 
+    8100   0.63965693   0.94029569   0.12880566    1.0691013   0.24255523 
+Loop time of 0.0922461 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18732508.276 tau/day, 2168.114 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063483   | 0.063483   | 0.063483   |   0.0 | 68.82
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026397   | 0.026397   | 0.026397   |   0.0 | 28.62
+Output  | 3.6955e-05 | 3.6955e-05 | 3.6955e-05 |   0.0 |  0.04
+Modify  | 0.00043058 | 0.00043058 | 0.00043058 |   0.0 |  0.47
+Other   |            | 0.001898   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25681 ave 25681 max 25681 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25681
+Ave neighs/atom = 513.62
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    8100   0.63965693   0.94029569   0.12880566    1.0691013   0.24255523 
+    8300   0.64532348   0.94862552   0.12138101    1.0700065   0.24713128 
+Loop time of 0.0897071 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19262681.589 tau/day, 2229.477 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061502   | 0.061502   | 0.061502   |   0.0 | 68.56
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025948   | 0.025948   | 0.025948   |   0.0 | 28.93
+Output  | 1.8835e-05 | 1.8835e-05 | 1.8835e-05 |   0.0 |  0.02
+Modify  | 0.00041103 | 0.00041103 | 0.00041103 |   0.0 |  0.46
+Other   |            | 0.001827   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11008 ave 11008 max 11008 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25659 ave 25659 max 25659 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25659
+Ave neighs/atom = 513.18
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    8300   0.64532348   0.94862552   0.12138101    1.0700065   0.24713128 
+    8500   0.74622046    1.0969441  -0.05776785    1.0391762   0.25725637 
+Loop time of 0.0900428 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19190867.383 tau/day, 2221.165 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061687   | 0.061687   | 0.061687   |   0.0 | 68.51
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026088   | 0.026088   | 0.026088   |   0.0 | 28.97
+Output  | 1.3828e-05 | 1.3828e-05 | 1.3828e-05 |   0.0 |  0.02
+Modify  | 0.00041366 | 0.00041366 | 0.00041366 |   0.0 |  0.46
+Other   |            | 0.001841   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11074 ave 11074 max 11074 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25684 ave 25684 max 25684 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25684
+Ave neighs/atom = 513.68
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    8500   0.74622046    1.0969441  -0.05776785    1.0391762   0.25725637 
+    8700    0.6671641   0.98073123  0.076741396    1.0574726   0.21372618 
+Loop time of 0.0906351 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19065469.542 tau/day, 2206.652 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061939   | 0.061939   | 0.061939   |   0.0 | 68.34
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026359   | 0.026359   | 0.026359   |   0.0 | 29.08
+Output  | 3.2902e-05 | 3.2902e-05 | 3.2902e-05 |   0.0 |  0.04
+Modify  | 0.00041389 | 0.00041389 | 0.00041389 |   0.0 |  0.46
+Other   |            | 0.001891   |            |       |  2.09
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11152 ave 11152 max 11152 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25688 ave 25688 max 25688 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25688
+Ave neighs/atom = 513.76
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    8700    0.6671641   0.98073123  0.076741396    1.0574726   0.21372618 
+    8900   0.60022804   0.88233521   0.17908586    1.0614211   0.27566609 
+Loop time of 0.0900271 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19194221.710 tau/day, 2221.553 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061974   | 0.061974   | 0.061974   |   0.0 | 68.84
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025778   | 0.025778   | 0.025778   |   0.0 | 28.63
+Output  | 1.502e-05  | 1.502e-05  | 1.502e-05  |   0.0 |  0.02
+Modify  | 0.00041437 | 0.00041437 | 0.00041437 |   0.0 |  0.46
+Other   |            | 0.001846   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25646 ave 25646 max 25646 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25646
+Ave neighs/atom = 512.92
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    8900   0.60022804   0.88233521   0.17908586    1.0614211   0.27566609 
+    9000   0.56870696   0.83599923    0.2163005    1.0522997   0.26350186 
+    9100   0.62524478   0.91910982   0.11931604    1.0384259   0.24116231 
+Loop time of 0.0907121 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19049284.082 tau/day, 2204.778 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062346   | 0.062346   | 0.062346   |   0.0 | 68.73
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026031   | 0.026031   | 0.026031   |   0.0 | 28.70
+Output  | 3.8624e-05 | 3.8624e-05 | 3.8624e-05 |   0.0 |  0.04
+Modify  | 0.00043702 | 0.00043702 | 0.00043702 |   0.0 |  0.48
+Other   |            | 0.001859   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10900 ave 10900 max 10900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25649 ave 25649 max 25649 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25649
+Ave neighs/atom = 512.98
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    9100   0.62524478   0.91910982   0.11931604    1.0384259   0.24116231 
+    9300   0.57562705   0.84617176   0.16963825      1.01581   0.22872512 
+Loop time of 0.0894189 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19324776.195 tau/day, 2236.664 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061398   | 0.061398   | 0.061398   |   0.0 | 68.66
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025731   | 0.025731   | 0.025731   |   0.0 | 28.78
+Output  | 1.5974e-05 | 1.5974e-05 | 1.5974e-05 |   0.0 |  0.02
+Modify  | 0.00041366 | 0.00041366 | 0.00041366 |   0.0 |  0.46
+Other   |            | 0.00186    |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10936 ave 10936 max 10936 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25656 ave 25656 max 25656 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25656
+Ave neighs/atom = 513.12
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    9300   0.57562705   0.84617176   0.16963825      1.01581   0.22872512 
+    9500   0.62253553   0.91512723  0.084521778   0.99964901   0.26870116 
+Loop time of 0.0895438 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19297814.311 tau/day, 2233.543 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061267   | 0.061267   | 0.061267   |   0.0 | 68.42
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025981   | 0.025981   | 0.025981   |   0.0 | 29.01
+Output  | 2.0981e-05 | 2.0981e-05 | 2.0981e-05 |   0.0 |  0.02
+Modify  | 0.00042677 | 0.00042677 | 0.00042677 |   0.0 |  0.48
+Other   |            | 0.001848   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25673 ave 25673 max 25673 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25673
+Ave neighs/atom = 513.46
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    9500   0.62253553   0.91512723  0.084521778   0.99964901   0.26870116 
+    9700   0.62717141   0.92194197  0.090125732    1.0120677   0.29270607 
+Loop time of 0.089474 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19312881.046 tau/day, 2235.287 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061348   | 0.061348   | 0.061348   |   0.0 | 68.57
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025851   | 0.025851   | 0.025851   |   0.0 | 28.89
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.0004096  | 0.0004096  | 0.0004096  |   0.0 |  0.46
+Other   |            | 0.001852   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25736 ave 25736 max 25736 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25736
+Ave neighs/atom = 514.72
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    9700   0.62717141   0.92194197  0.090125732    1.0120677   0.29270607 
+    9900   0.61963805   0.91086793   0.11734104     1.028209   0.22521268 
+Loop time of 0.09024 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19148935.814 tau/day, 2216.312 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061707   | 0.061707   | 0.061707   |   0.0 | 68.38
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026209   | 0.026209   | 0.026209   |   0.0 | 29.04
+Output  | 2.8849e-05 | 2.8849e-05 | 2.8849e-05 |   0.0 |  0.03
+Modify  | 0.00042725 | 0.00042725 | 0.00042725 |   0.0 |  0.47
+Other   |            | 0.001869   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25734 ave 25734 max 25734 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25734
+Ave neighs/atom = 514.68
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+    9900   0.61963805   0.91086793   0.11734104     1.028209   0.22521268 
+   10000    0.5262721   0.77361999   0.24036698     1.013987   0.22449772 
+   10100   0.52922186   0.77795614   0.21705416    0.9950103   0.27356399 
+Loop time of 0.0923259 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18716302.973 tau/day, 2166.239 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062871   | 0.062871   | 0.062871   |   0.0 | 68.10
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026997   | 0.026997   | 0.026997   |   0.0 | 29.24
+Output  | 5.6982e-05 | 5.6982e-05 | 5.6982e-05 |   0.0 |  0.06
+Modify  | 0.00045013 | 0.00045013 | 0.00045013 |   0.0 |  0.49
+Other   |            | 0.001951   |            |       |  2.11
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11122 ave 11122 max 11122 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25690 ave 25690 max 25690 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25690
+Ave neighs/atom = 513.8
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   10100   0.52922186   0.77795614   0.21705416    0.9950103   0.27356399 
+   10300   0.56270161   0.82717137   0.19495075    1.0221221   0.28221356 
+Loop time of 0.091996 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18783434.654 tau/day, 2174.009 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062969   | 0.062969   | 0.062969   |   0.0 | 68.45
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026662   | 0.026662   | 0.026662   |   0.0 | 28.98
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.0004468  | 0.0004468  | 0.0004468  |   0.0 |  0.49
+Other   |            | 0.001894   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11044 ave 11044 max 11044 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25685 ave 25685 max 25685 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25685
+Ave neighs/atom = 513.7
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   10300   0.56270161   0.82717137   0.19495075    1.0221221   0.28221356 
+   10500   0.69355745    1.0195295 -0.011322431     1.008207   0.26015974 
+Loop time of 0.0909929 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18990486.915 tau/day, 2197.973 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0623     | 0.0623     | 0.0623     |   0.0 | 68.47
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026343   | 0.026343   | 0.026343   |   0.0 | 28.95
+Output  | 2.5988e-05 | 2.5988e-05 | 2.5988e-05 |   0.0 |  0.03
+Modify  | 0.00042748 | 0.00042748 | 0.00042748 |   0.0 |  0.47
+Other   |            | 0.001896   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25678 ave 25678 max 25678 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25678
+Ave neighs/atom = 513.56
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   10500   0.69355745    1.0195295 -0.011322431     1.008207   0.26015974 
+   10700   0.63488669   0.93328343  0.073551537     1.006835    0.2795146 
+Loop time of 0.0892868 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19353363.753 tau/day, 2239.973 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061007   | 0.061007   | 0.061007   |   0.0 | 68.33
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025992   | 0.025992   | 0.025992   |   0.0 | 29.11
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00041437 | 0.00041437 | 0.00041437 |   0.0 |  0.46
+Other   |            | 0.00186    |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11080 ave 11080 max 11080 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25718 ave 25718 max 25718 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25718
+Ave neighs/atom = 514.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   10700   0.63488669   0.93328343  0.073551537     1.006835    0.2795146 
+   10900   0.62968317   0.92563425  0.078815084    1.0044493   0.27619229 
+Loop time of 0.089329 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19344220.993 tau/day, 2238.914 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061149   | 0.061149   | 0.061149   |   0.0 | 68.45
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025888   | 0.025888   | 0.025888   |   0.0 | 28.98
+Output  | 1.3828e-05 | 1.3828e-05 | 1.3828e-05 |   0.0 |  0.02
+Modify  | 0.00041842 | 0.00041842 | 0.00041842 |   0.0 |  0.47
+Other   |            | 0.00186    |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25730 ave 25730 max 25730 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25730
+Ave neighs/atom = 514.6
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   10900   0.62968317   0.92563425  0.078815084    1.0044493   0.27619229 
+   11000   0.58731175   0.86334828   0.14337858    1.0067269   0.24957662 
+   11100   0.54347364   0.79890625   0.20430354    1.0032098    0.2549933 
+Loop time of 0.0906799 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19056045.559 tau/day, 2205.561 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062489   | 0.062489   | 0.062489   |   0.0 | 68.91
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025903   | 0.025903   | 0.025903   |   0.0 | 28.57
+Output  | 2.718e-05  | 2.718e-05  | 2.718e-05  |   0.0 |  0.03
+Modify  | 0.00041676 | 0.00041676 | 0.00041676 |   0.0 |  0.46
+Other   |            | 0.001844   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25752 ave 25752 max 25752 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25752
+Ave neighs/atom = 515.04
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   11100   0.54347364   0.79890625   0.20430354    1.0032098    0.2549933 
+   11300   0.60914344   0.89544086   0.11763987    1.0130807   0.26857772 
+Loop time of 0.0912242 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18942343.389 tau/day, 2192.401 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062469   | 0.062469   | 0.062469   |   0.0 | 68.48
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026401   | 0.026401   | 0.026401   |   0.0 | 28.94
+Output  | 3.1948e-05 | 3.1948e-05 | 3.1948e-05 |   0.0 |  0.04
+Modify  | 0.00042295 | 0.00042295 | 0.00042295 |   0.0 |  0.46
+Other   |            | 0.001899   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10972 ave 10972 max 10972 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25765 ave 25765 max 25765 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25765
+Ave neighs/atom = 515.3
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   11300   0.60914344   0.89544086   0.11763987    1.0130807   0.26857772 
+   11500    0.6990725    1.0276366 -0.0095553946    1.0180812   0.23558855 
+Loop time of 0.0900841 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19182080.542 tau/day, 2220.148 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061355   | 0.061355   | 0.061355   |   0.0 | 68.11
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026386   | 0.026386   | 0.026386   |   0.0 | 29.29
+Output  | 2.5988e-05 | 2.5988e-05 | 2.5988e-05 |   0.0 |  0.03
+Modify  | 0.00041151 | 0.00041151 | 0.00041151 |   0.0 |  0.46
+Other   |            | 0.001905   |            |       |  2.12
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11080 ave 11080 max 11080 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25769 ave 25769 max 25769 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25769
+Ave neighs/atom = 515.38
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   11500    0.6990725    1.0276366 -0.0095553946    1.0180812   0.23558855 
+   11700   0.69948065    1.0282366 -0.045088054    0.9831485   0.25492377 
+Loop time of 0.0905349 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19086556.831 tau/day, 2209.092 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061889   | 0.061889   | 0.061889   |   0.0 | 68.36
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026347   | 0.026347   | 0.026347   |   0.0 | 29.10
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.00043249 | 0.00043249 | 0.00043249 |   0.0 |  0.48
+Other   |            | 0.001854   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25717 ave 25717 max 25717 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25717
+Ave neighs/atom = 514.34
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   11700   0.69948065    1.0282366 -0.045088054    0.9831485   0.25492377 
+   11900   0.61460384   0.90346765  0.069158663   0.97262631    0.2705941 
+Loop time of 0.0901971 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19158046.787 tau/day, 2217.367 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062002   | 0.062002   | 0.062002   |   0.0 | 68.74
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025893   | 0.025893   | 0.025893   |   0.0 | 28.71
+Output  | 2.9802e-05 | 2.9802e-05 | 2.9802e-05 |   0.0 |  0.03
+Modify  | 0.00044298 | 0.00044298 | 0.00044298 |   0.0 |  0.49
+Other   |            | 0.00183    |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10822 ave 10822 max 10822 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25684 ave 25684 max 25684 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25684
+Ave neighs/atom = 513.68
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   11900   0.61460384   0.90346765  0.069158663   0.97262631    0.2705941 
+   12000    0.6512795   0.95738086  0.041878784   0.99925965     0.258443 
+   12100   0.53829752   0.79129735    0.1853381   0.97663545   0.22994622 
+Loop time of 0.0915959 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18865475.679 tau/day, 2183.504 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063046   | 0.063046   | 0.063046   |   0.0 | 68.83
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026203   | 0.026203   | 0.026203   |   0.0 | 28.61
+Output  | 5.3883e-05 | 5.3883e-05 | 5.3883e-05 |   0.0 |  0.06
+Modify  | 0.00043654 | 0.00043654 | 0.00043654 |   0.0 |  0.48
+Other   |            | 0.001856   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25684 ave 25684 max 25684 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25684
+Ave neighs/atom = 513.68
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   12100   0.53829752   0.79129735    0.1853381   0.97663545   0.22994622 
+   12300   0.58089662   0.85391803   0.11793118   0.97184921   0.25712349 
+Loop time of 0.0930068 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18579276.830 tau/day, 2150.379 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063998   | 0.063998   | 0.063998   |   0.0 | 68.81
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026588   | 0.026588   | 0.026588   |   0.0 | 28.59
+Output  | 3.6001e-05 | 3.6001e-05 | 3.6001e-05 |   0.0 |  0.04
+Modify  | 0.00046825 | 0.00046825 | 0.00046825 |   0.0 |  0.50
+Other   |            | 0.001917   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10900 ave 10900 max 10900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25705 ave 25705 max 25705 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25705
+Ave neighs/atom = 514.1
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   12300   0.58089662   0.85391803   0.11793118   0.97184921   0.25712349 
+   12500   0.66651909   0.97978307 -0.021276825   0.95850624   0.27608296 
+Loop time of 0.0935769 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18466094.199 tau/day, 2137.279 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.064113   | 0.064113   | 0.064113   |   0.0 | 68.51
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026986   | 0.026986   | 0.026986   |   0.0 | 28.84
+Output  | 3.4094e-05 | 3.4094e-05 | 3.4094e-05 |   0.0 |  0.04
+Modify  | 0.00046468 | 0.00046468 | 0.00046468 |   0.0 |  0.50
+Other   |            | 0.001979   |            |       |  2.11
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25663 ave 25663 max 25663 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25663
+Ave neighs/atom = 513.26
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   12500   0.66651909   0.97978307 -0.021276825   0.95850624   0.27608296 
+   12700   0.63763831   0.93732832 0.0084251051   0.94575342   0.26857864 
+Loop time of 0.0892529 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19360704.873 tau/day, 2240.822 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061137   | 0.061137   | 0.061137   |   0.0 | 68.50
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025831   | 0.025831   | 0.025831   |   0.0 | 28.94
+Output  | 2.1935e-05 | 2.1935e-05 | 2.1935e-05 |   0.0 |  0.02
+Modify  | 0.00042248 | 0.00042248 | 0.00042248 |   0.0 |  0.47
+Other   |            | 0.00184    |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25690 ave 25690 max 25690 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25690
+Ave neighs/atom = 513.8
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   12700   0.63763831   0.93732832 0.0084251051   0.94575342   0.26857864 
+   12900   0.77424815    1.1381448  -0.19898416   0.93916062   0.25491523 
+Loop time of 0.0889032 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19436873.133 tau/day, 2249.638 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.060912   | 0.060912   | 0.060912   |   0.0 | 68.52
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025716   | 0.025716   | 0.025716   |   0.0 | 28.93
+Output  | 1.3828e-05 | 1.3828e-05 | 1.3828e-05 |   0.0 |  0.02
+Modify  | 0.00041533 | 0.00041533 | 0.00041533 |   0.0 |  0.47
+Other   |            | 0.001846   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25722 ave 25722 max 25722 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25722
+Ave neighs/atom = 514.44
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   12900   0.77424815    1.1381448  -0.19898416   0.93916062   0.25491523 
+   13000   0.60516084   0.88958643  0.056737662    0.9463241   0.24660497 
+   13100   0.65746844    0.9664786 -0.019927153   0.94655145   0.26930174 
+Loop time of 0.0898609 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19229717.148 tau/day, 2225.662 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061642   | 0.061642   | 0.061642   |   0.0 | 68.60
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025917   | 0.025917   | 0.025917   |   0.0 | 28.84
+Output  | 3.4094e-05 | 3.4094e-05 | 3.4094e-05 |   0.0 |  0.04
+Modify  | 0.00044203 | 0.00044203 | 0.00044203 |   0.0 |  0.49
+Other   |            | 0.001826   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25726 ave 25726 max 25726 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25726
+Ave neighs/atom = 514.52
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   13100   0.65746844    0.9664786 -0.019927153   0.94655145   0.26930174 
+   13300    0.5498779   0.80832051   0.14016096   0.94848147   0.24448208 
+Loop time of 0.090297 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19136851.851 tau/day, 2214.913 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06169    | 0.06169    | 0.06169    |   0.0 | 68.32
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026304   | 0.026304   | 0.026304   |   0.0 | 29.13
+Output  | 3.1948e-05 | 3.1948e-05 | 3.1948e-05 |   0.0 |  0.04
+Modify  | 0.00042725 | 0.00042725 | 0.00042725 |   0.0 |  0.47
+Other   |            | 0.001844   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25660 ave 25660 max 25660 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25660
+Ave neighs/atom = 513.2
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   13300    0.5498779   0.80832051   0.14016096   0.94848147   0.24448208 
+   13500    0.6321534    0.9292655 0.0041609994    0.9334265   0.25433513 
+Loop time of 0.0973239 on 1 procs for 200 steps with 50 atoms
+
+Performance: 17755146.451 tau/day, 2054.994 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.067209   | 0.067209   | 0.067209   |   0.0 | 69.06
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.027585   | 0.027585   | 0.027585   |   0.0 | 28.34
+Output  | 4.8876e-05 | 4.8876e-05 | 4.8876e-05 |   0.0 |  0.05
+Modify  | 0.00050068 | 0.00050068 | 0.00050068 |   0.0 |  0.51
+Other   |            | 0.001981   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25705 ave 25705 max 25705 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25705
+Ave neighs/atom = 514.1
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   13500    0.6321534    0.9292655 0.0041609994    0.9334265   0.25433513 
+   13700   0.62173383   0.91394872  0.011709546   0.92565827   0.26065555 
+Loop time of 0.0933731 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18506408.549 tau/day, 2141.945 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063988   | 0.063988   | 0.063988   |   0.0 | 68.53
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026917   | 0.026917   | 0.026917   |   0.0 | 28.83
+Output  | 4.5061e-05 | 4.5061e-05 | 4.5061e-05 |   0.0 |  0.05
+Modify  | 0.00047684 | 0.00047684 | 0.00047684 |   0.0 |  0.51
+Other   |            | 0.001945   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25714 ave 25714 max 25714 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25714
+Ave neighs/atom = 514.28
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   13700   0.62173383   0.91394872  0.011709546   0.92565827   0.26065555 
+   13900   0.60755138   0.89310053  0.042862641   0.93596317   0.26166751 
+Loop time of 0.0921371 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18754660.518 tau/day, 2170.678 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0628     | 0.0628     | 0.0628     |   0.0 | 68.16
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026932   | 0.026932   | 0.026932   |   0.0 | 29.23
+Output  | 2.5988e-05 | 2.5988e-05 | 2.5988e-05 |   0.0 |  0.03
+Modify  | 0.00045609 | 0.00045609 | 0.00045609 |   0.0 |  0.50
+Other   |            | 0.001923   |            |       |  2.09
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11044 ave 11044 max 11044 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25683 ave 25683 max 25683 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25683
+Ave neighs/atom = 513.66
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   13900   0.60755138   0.89310053  0.042862641   0.93596317   0.26166751 
+   14000   0.57365758   0.84327664  0.096798771   0.94007541    0.2718939 
+   14100   0.56497621   0.83051503  0.097659444   0.92817447   0.25360243 
+Loop time of 0.0900869 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19181471.349 tau/day, 2220.078 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061953   | 0.061953   | 0.061953   |   0.0 | 68.77
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025859   | 0.025859   | 0.025859   |   0.0 | 28.70
+Output  | 2.8133e-05 | 2.8133e-05 | 2.8133e-05 |   0.0 |  0.03
+Modify  | 0.00043106 | 0.00043106 | 0.00043106 |   0.0 |  0.48
+Other   |            | 0.001815   |            |       |  2.01
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25668 ave 25668 max 25668 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25668
+Ave neighs/atom = 513.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   14100   0.56497621   0.83051503  0.097659444   0.92817447   0.25360243 
+   14300    0.6233491   0.91632317 0.0041745367   0.92049771   0.22622571 
+Loop time of 0.0900381 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19191883.722 tau/day, 2221.283 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061976   | 0.061976   | 0.061976   |   0.0 | 68.83
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025796   | 0.025796   | 0.025796   |   0.0 | 28.65
+Output  | 1.7166e-05 | 1.7166e-05 | 1.7166e-05 |   0.0 |  0.02
+Modify  | 0.00042009 | 0.00042009 | 0.00042009 |   0.0 |  0.47
+Other   |            | 0.001828   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25677 ave 25677 max 25677 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25677
+Ave neighs/atom = 513.54
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   14300    0.6233491   0.91632317 0.0041745367   0.92049771   0.22622571 
+   14500   0.66990325   0.98475777 -0.092267806   0.89248996   0.25230506 
+Loop time of 0.090852 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19019939.884 tau/day, 2201.382 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06238    | 0.06238    | 0.06238    |   0.0 | 68.66
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026152   | 0.026152   | 0.026152   |   0.0 | 28.79
+Output  | 2.6941e-05 | 2.6941e-05 | 2.6941e-05 |   0.0 |  0.03
+Modify  | 0.00043488 | 0.00043488 | 0.00043488 |   0.0 |  0.48
+Other   |            | 0.001858   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10936 ave 10936 max 10936 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25645 ave 25645 max 25645 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25645
+Ave neighs/atom = 512.9
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   14500   0.66990325   0.98475777 -0.092267806   0.89248996   0.25230506 
+   14700   0.57694756   0.84811292  0.025405937   0.87351885   0.28052695 
+Loop time of 0.088722 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19476569.322 tau/day, 2254.233 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.060829   | 0.060829   | 0.060829   |   0.0 | 68.56
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025613   | 0.025613   | 0.025613   |   0.0 | 28.87
+Output  | 2.0027e-05 | 2.0027e-05 | 2.0027e-05 |   0.0 |  0.02
+Modify  | 0.00043583 | 0.00043583 | 0.00043583 |   0.0 |  0.49
+Other   |            | 0.001825   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10822 ave 10822 max 10822 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25652 ave 25652 max 25652 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25652
+Ave neighs/atom = 513.04
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   14700   0.57694756   0.84811292  0.025405937   0.87351885   0.28052695 
+   14900   0.50665887   0.74478853    0.1313622   0.87615073   0.22464781 
+Loop time of 0.089906 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19220079.163 tau/day, 2224.546 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061574   | 0.061574   | 0.061574   |   0.0 | 68.49
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025999   | 0.025999   | 0.025999   |   0.0 | 28.92
+Output  | 2.1935e-05 | 2.1935e-05 | 2.1935e-05 |   0.0 |  0.02
+Modify  | 0.00041819 | 0.00041819 | 0.00041819 |   0.0 |  0.47
+Other   |            | 0.001893   |            |       |  2.11
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10936 ave 10936 max 10936 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25718 ave 25718 max 25718 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25718
+Ave neighs/atom = 514.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   14900   0.50665887   0.74478853    0.1313622   0.87615073   0.22464781 
+   15000   0.58424259   0.85883661  0.019203229   0.87803984   0.23103264 
+   15100    0.6977786    1.0257345  -0.16014493    0.8655896   0.25561655 
+Loop time of 0.090241 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19148733.446 tau/day, 2216.289 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06178    | 0.06178    | 0.06178    |   0.0 | 68.46
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026162   | 0.026162   | 0.026162   |   0.0 | 28.99
+Output  | 2.5034e-05 | 2.5034e-05 | 2.5034e-05 |   0.0 |  0.03
+Modify  | 0.00041866 | 0.00041866 | 0.00041866 |   0.0 |  0.46
+Other   |            | 0.001855   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25772 ave 25772 max 25772 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25772
+Ave neighs/atom = 515.44
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   15100    0.6977786    1.0257345  -0.16014493    0.8655896   0.25561655 
+   15300   0.63545325   0.93411628 -0.054068666   0.88004761   0.26066072 
+Loop time of 0.088784 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19462970.813 tau/day, 2252.659 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.060883   | 0.060883   | 0.060883   |   0.0 | 68.57
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025658   | 0.025658   | 0.025658   |   0.0 | 28.90
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00043488 | 0.00043488 | 0.00043488 |   0.0 |  0.49
+Other   |            | 0.001795   |            |       |  2.02
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25676 ave 25676 max 25676 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25676
+Ave neighs/atom = 513.52
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   15300   0.63545325   0.93411628 -0.054068666   0.88004761   0.26066072 
+   15500   0.57449395   0.84450611  0.038428548   0.88293466   0.22960667 
+Loop time of 0.090296 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19137053.967 tau/day, 2214.937 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06175    | 0.06175    | 0.06175    |   0.0 | 68.39
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026181   | 0.026181   | 0.026181   |   0.0 | 28.99
+Output  | 3.5048e-05 | 3.5048e-05 | 3.5048e-05 |   0.0 |  0.04
+Modify  | 0.00043893 | 0.00043893 | 0.00043893 |   0.0 |  0.49
+Other   |            | 0.001891   |            |       |  2.09
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25743 ave 25743 max 25743 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25743
+Ave neighs/atom = 514.86
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   15500   0.57449395   0.84450611  0.038428548   0.88293466   0.22960667 
+   15700   0.58133328   0.85455992  0.024055211   0.87861514   0.25920559 
+Loop time of 0.091198 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18947790.689 tau/day, 2193.031 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062423   | 0.062423   | 0.062423   |   0.0 | 68.45
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026385   | 0.026385   | 0.026385   |   0.0 | 28.93
+Output  | 3.0041e-05 | 3.0041e-05 | 3.0041e-05 |   0.0 |  0.03
+Modify  | 0.00044227 | 0.00044227 | 0.00044227 |   0.0 |  0.48
+Other   |            | 0.001918   |            |       |  2.10
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25689 ave 25689 max 25689 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25689
+Ave neighs/atom = 513.78
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   15700   0.58133328   0.85455992  0.024055211   0.87861514   0.25920559 
+   15900   0.56788088    0.8347849   0.05831222   0.89309712   0.23501245 
+Loop time of 0.0893159 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19347061.038 tau/day, 2239.243 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061135   | 0.061135   | 0.061135   |   0.0 | 68.45
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025867   | 0.025867   | 0.025867   |   0.0 | 28.96
+Output  | 2.8133e-05 | 2.8133e-05 | 2.8133e-05 |   0.0 |  0.03
+Modify  | 0.00043511 | 0.00043511 | 0.00043511 |   0.0 |  0.49
+Other   |            | 0.001851   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25705 ave 25705 max 25705 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25705
+Ave neighs/atom = 514.1
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   15900   0.56788088    0.8347849   0.05831222   0.89309712   0.23501245 
+   16000   0.61539322   0.90462804 -0.021504761   0.88312328   0.25857415 
+   16100   0.60821779   0.89408015 -0.015044105   0.87903605   0.28371085 
+Loop time of 0.0899038 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19220537.896 tau/day, 2224.599 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061393   | 0.061393   | 0.061393   |   0.0 | 68.29
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026153   | 0.026153   | 0.026153   |   0.0 | 29.09
+Output  | 5.3167e-05 | 5.3167e-05 | 5.3167e-05 |   0.0 |  0.06
+Modify  | 0.0004425  | 0.0004425  | 0.0004425  |   0.0 |  0.49
+Other   |            | 0.001862   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25682 ave 25682 max 25682 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25682
+Ave neighs/atom = 513.64
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   16100   0.60821779   0.89408015 -0.015044105   0.87903605   0.28371085 
+   16300   0.65677631   0.96546117 -0.094713628   0.87074754    0.2640242 
+Loop time of 0.0928202 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18616643.837 tau/day, 2154.704 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063671   | 0.063671   | 0.063671   |   0.0 | 68.60
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026778   | 0.026778   | 0.026778   |   0.0 | 28.85
+Output  | 3.1948e-05 | 3.1948e-05 | 3.1948e-05 |   0.0 |  0.03
+Modify  | 0.00042892 | 0.00042892 | 0.00042892 |   0.0 |  0.46
+Other   |            | 0.00191    |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25668 ave 25668 max 25668 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25668
+Ave neighs/atom = 513.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   16300   0.65677631   0.96546117 -0.094713628   0.87074754    0.2640242 
+   16500    0.6919537    1.0171719  -0.14932259   0.86784935   0.29144712 
+Loop time of 0.0926089 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18659107.978 tau/day, 2159.619 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063457   | 0.063457   | 0.063457   |   0.0 | 68.52
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026757   | 0.026757   | 0.026757   |   0.0 | 28.89
+Output  | 4.3869e-05 | 4.3869e-05 | 4.3869e-05 |   0.0 |  0.05
+Modify  | 0.00043654 | 0.00043654 | 0.00043654 |   0.0 |  0.47
+Other   |            | 0.001915   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25685 ave 25685 max 25685 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25685
+Ave neighs/atom = 513.7
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   16500    0.6919537    1.0171719  -0.14932259   0.86784935   0.29144712 
+   16700   0.54814817   0.80577781  0.057898268   0.86367608   0.23528421 
+Loop time of 0.091877 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18807757.193 tau/day, 2176.824 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063134   | 0.063134   | 0.063134   |   0.0 | 68.72
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026382   | 0.026382   | 0.026382   |   0.0 | 28.71
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.00046229 | 0.00046229 | 0.00046229 |   0.0 |  0.50
+Other   |            | 0.001874   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25685 ave 25685 max 25685 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25685
+Ave neighs/atom = 513.7
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   16700   0.54814817   0.80577781  0.057898268   0.86367608   0.23528421 
+   16900   0.67172462   0.98743519  -0.12529431   0.86214088   0.26963396 
+Loop time of 0.0895491 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19296683.969 tau/day, 2233.412 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061227   | 0.061227   | 0.061227   |   0.0 | 68.37
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02602    | 0.02602    | 0.02602    |   0.0 | 29.06
+Output  | 2.0027e-05 | 2.0027e-05 | 2.0027e-05 |   0.0 |  0.02
+Modify  | 0.00043058 | 0.00043058 | 0.00043058 |   0.0 |  0.48
+Other   |            | 0.001852   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25698 ave 25698 max 25698 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25698
+Ave neighs/atom = 513.96
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   16900   0.67172462   0.98743519  -0.12529431   0.86214088   0.26963396 
+   17000   0.69871843    1.0271161  -0.16820847   0.85890762   0.25752246 
+   17100   0.62427733   0.91768767 -0.075342712   0.84234496   0.28972724 
+Loop time of 0.0891371 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19385872.319 tau/day, 2243.735 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061003   | 0.061003   | 0.061003   |   0.0 | 68.44
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025858   | 0.025858   | 0.025858   |   0.0 | 29.01
+Output  | 2.3842e-05 | 2.3842e-05 | 2.3842e-05 |   0.0 |  0.03
+Modify  | 0.00041962 | 0.00041962 | 0.00041962 |   0.0 |  0.47
+Other   |            | 0.001833   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25722 ave 25722 max 25722 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25722
+Ave neighs/atom = 514.44
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   17100   0.62427733   0.91768767 -0.075342712   0.84234496   0.28972724 
+   17300    0.5910666    0.8688679 -0.011782348   0.85708555   0.22795212 
+Loop time of 0.088856 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19447199.440 tau/day, 2250.833 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.060693   | 0.060693   | 0.060693   |   0.0 | 68.30
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025883   | 0.025883   | 0.025883   |   0.0 | 29.13
+Output  | 1.3828e-05 | 1.3828e-05 | 1.3828e-05 |   0.0 |  0.02
+Modify  | 0.000422   | 0.000422   | 0.000422   |   0.0 |  0.47
+Other   |            | 0.001844   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25743 ave 25743 max 25743 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25743
+Ave neighs/atom = 514.86
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   17300    0.5910666    0.8688679 -0.011782348   0.85708555   0.22795212 
+   17500   0.61726956   0.90738625  -0.06523718   0.84214907   0.21429813 
+Loop time of 0.0892019 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19371778.778 tau/day, 2242.104 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061105   | 0.061105   | 0.061105   |   0.0 | 68.50
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0258     | 0.0258     | 0.0258     |   0.0 | 28.92
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.00042772 | 0.00042772 | 0.00042772 |   0.0 |  0.48
+Other   |            | 0.001856   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25740 ave 25740 max 25740 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25740
+Ave neighs/atom = 514.8
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   17500   0.61726956   0.90738625  -0.06523718   0.84214907   0.21429813 
+   17700   0.60452565   0.88865271  -0.04859936   0.84005335   0.25957145 
+Loop time of 0.0910568 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18977160.955 tau/day, 2196.431 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062162   | 0.062162   | 0.062162   |   0.0 | 68.27
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026566   | 0.026566   | 0.026566   |   0.0 | 29.18
+Output  | 3.6001e-05 | 3.6001e-05 | 3.6001e-05 |   0.0 |  0.04
+Modify  | 0.00044107 | 0.00044107 | 0.00044107 |   0.0 |  0.48
+Other   |            | 0.001851   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25715 ave 25715 max 25715 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25715
+Ave neighs/atom = 514.3
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   17700   0.60452565   0.88865271  -0.04859936   0.84005335   0.25957145 
+   17900   0.53527936   0.78686066  0.054690727   0.84155139   0.23956091 
+Loop time of 0.0915089 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18883416.304 tau/day, 2185.581 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062922   | 0.062922   | 0.062922   |   0.0 | 68.76
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026258   | 0.026258   | 0.026258   |   0.0 | 28.69
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.00043035 | 0.00043035 | 0.00043035 |   0.0 |  0.47
+Other   |            | 0.001874   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25697 ave 25697 max 25697 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25697
+Ave neighs/atom = 513.94
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   17900   0.53527936   0.78686066  0.054690727   0.84155139   0.23956091 
+   18000   0.53523773   0.78679947  0.061958559   0.84875803   0.23481711 
+   18100   0.52774352   0.77578298  0.060722556   0.83650553    0.2423787 
+Loop time of 0.091207 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18945908.540 tau/day, 2192.813 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06213    | 0.06213    | 0.06213    |   0.0 | 68.12
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026736   | 0.026736   | 0.026736   |   0.0 | 29.31
+Output  | 3.4332e-05 | 3.4332e-05 | 3.4332e-05 |   0.0 |  0.04
+Modify  | 0.00042295 | 0.00042295 | 0.00042295 |   0.0 |  0.46
+Other   |            | 0.001884   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11152 ave 11152 max 11152 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25660 ave 25660 max 25660 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25660
+Ave neighs/atom = 513.2
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   18100   0.52774352   0.77578298  0.060722556   0.83650553    0.2423787 
+   18300   0.60043195   0.88263497 -0.061590751   0.82104422   0.25217526 
+Loop time of 0.089889 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19223698.649 tau/day, 2224.965 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061678   | 0.061678   | 0.061678   |   0.0 | 68.62
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025896   | 0.025896   | 0.025896   |   0.0 | 28.81
+Output  | 2.4796e-05 | 2.4796e-05 | 2.4796e-05 |   0.0 |  0.03
+Modify  | 0.00042892 | 0.00042892 | 0.00042892 |   0.0 |  0.48
+Other   |            | 0.001861   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25707 ave 25707 max 25707 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25707
+Ave neighs/atom = 514.14
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   18300   0.60043195   0.88263497 -0.061590751   0.82104422   0.25217526 
+   18500   0.52945668   0.77830132  0.055284219   0.83358553   0.25190708 
+Loop time of 0.0900431 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19190816.569 tau/day, 2221.159 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061268   | 0.061268   | 0.061268   |   0.0 | 68.04
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026458   | 0.026458   | 0.026458   |   0.0 | 29.38
+Output  | 2.5034e-05 | 2.5034e-05 | 2.5034e-05 |   0.0 |  0.03
+Modify  | 0.00042009 | 0.00042009 | 0.00042009 |   0.0 |  0.47
+Other   |            | 0.001872   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11110 ave 11110 max 11110 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25664 ave 25664 max 25664 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25664
+Ave neighs/atom = 513.28
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   18500   0.52945668   0.77830132  0.055284219   0.83358553   0.25190708 
+   18700    0.5505815   0.80935481  0.038811915   0.84816672   0.25541342 
+Loop time of 0.090225 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19152123.669 tau/day, 2216.681 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061601   | 0.061601   | 0.061601   |   0.0 | 68.28
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026323   | 0.026323   | 0.026323   |   0.0 | 29.18
+Output  | 1.502e-05  | 1.502e-05  | 1.502e-05  |   0.0 |  0.02
+Modify  | 0.00042391 | 0.00042391 | 0.00042391 |   0.0 |  0.47
+Other   |            | 0.001862   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11074 ave 11074 max 11074 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25733 ave 25733 max 25733 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25733
+Ave neighs/atom = 514.66
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   18700    0.5505815   0.80935481  0.038811915   0.84816672   0.25541342 
+   18900   0.59170742   0.86980991 -0.015245069   0.85456484   0.22893929 
+Loop time of 0.092196 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18742681.141 tau/day, 2169.292 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063375   | 0.063375   | 0.063375   |   0.0 | 68.74
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026474   | 0.026474   | 0.026474   |   0.0 | 28.72
+Output  | 2.408e-05  | 2.408e-05  | 2.408e-05  |   0.0 |  0.03
+Modify  | 0.00043416 | 0.00043416 | 0.00043416 |   0.0 |  0.47
+Other   |            | 0.001889   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11080 ave 11080 max 11080 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25747 ave 25747 max 25747 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25747
+Ave neighs/atom = 514.94
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   18900   0.59170742   0.86980991 -0.015245069   0.85456484   0.22893929 
+   19000   0.58520645   0.86025349 -0.017853375   0.84240011   0.25209258 
+   19100   0.62928525   0.92504931 -0.077405989   0.84764332   0.25511073 
+Loop time of 0.0908298 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19024582.936 tau/day, 2201.919 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062298   | 0.062298   | 0.062298   |   0.0 | 68.59
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026199   | 0.026199   | 0.026199   |   0.0 | 28.84
+Output  | 3.0994e-05 | 3.0994e-05 | 3.0994e-05 |   0.0 |  0.03
+Modify  | 0.00042772 | 0.00042772 | 0.00042772 |   0.0 |  0.47
+Other   |            | 0.001874   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11038 ave 11038 max 11038 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25708 ave 25708 max 25708 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25708
+Ave neighs/atom = 514.16
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   19100   0.62928525   0.92504931 -0.077405989   0.84764332   0.25511073 
+   19300   0.61505896   0.90413667  -0.07783445   0.82630222   0.25980463 
+Loop time of 0.090296 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19137053.967 tau/day, 2214.937 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062079   | 0.062079   | 0.062079   |   0.0 | 68.75
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025946   | 0.025946   | 0.025946   |   0.0 | 28.73
+Output  | 1.4782e-05 | 1.4782e-05 | 1.4782e-05 |   0.0 |  0.02
+Modify  | 0.00040507 | 0.00040507 | 0.00040507 |   0.0 |  0.45
+Other   |            | 0.001851   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25680 ave 25680 max 25680 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25680
+Ave neighs/atom = 513.6
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   19300   0.61505896   0.90413667  -0.07783445   0.82630222   0.25980463 
+   19500   0.55292939    0.8128062  0.017381539   0.83018774   0.24520065 
+Loop time of 0.090344 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19126902.890 tau/day, 2213.762 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062217   | 0.062217   | 0.062217   |   0.0 | 68.87
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025848   | 0.025848   | 0.025848   |   0.0 | 28.61
+Output  | 1.812e-05  | 1.812e-05  | 1.812e-05  |   0.0 |  0.02
+Modify  | 0.00043511 | 0.00043511 | 0.00043511 |   0.0 |  0.48
+Other   |            | 0.001825   |            |       |  2.02
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10936 ave 10936 max 10936 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25651 ave 25651 max 25651 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25651
+Ave neighs/atom = 513.02
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   19500   0.55292939    0.8128062  0.017381539   0.83018774   0.24520065 
+   19700    0.6194605   0.91060694 -0.095290291   0.81531665   0.26736671 
+Loop time of 0.09097 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18995264.947 tau/day, 2198.526 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06265    | 0.06265    | 0.06265    |   0.0 | 68.87
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026062   | 0.026062   | 0.026062   |   0.0 | 28.65
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00041509 | 0.00041509 | 0.00041509 |   0.0 |  0.46
+Other   |            | 0.001829   |            |       |  2.01
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10972 ave 10972 max 10972 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25690 ave 25690 max 25690 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25690
+Ave neighs/atom = 513.8
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   19700    0.6194605   0.91060694 -0.095290291   0.81531665   0.26736671 
+   19900   0.64332778   0.94569184  -0.14160954    0.8040823    0.2358835 
+Loop time of 0.092113 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18759563.380 tau/day, 2171.246 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063299   | 0.063299   | 0.063299   |   0.0 | 68.72
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026438   | 0.026438   | 0.026438   |   0.0 | 28.70
+Output  | 2.7895e-05 | 2.7895e-05 | 2.7895e-05 |   0.0 |  0.03
+Modify  | 0.00043869 | 0.00043869 | 0.00043869 |   0.0 |  0.48
+Other   |            | 0.001909   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25695 ave 25695 max 25695 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25695
+Ave neighs/atom = 513.9
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   19900   0.64332778   0.94569184  -0.14160954    0.8040823    0.2358835 
+   20000   0.59061687   0.86820681 -0.077740173   0.79046663   0.23856366 
+   20100   0.60113034   0.88366159 -0.080452775   0.80320882    0.2405871 
+Loop time of 0.0909841 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18992328.163 tau/day, 2198.186 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062681   | 0.062681   | 0.062681   |   0.0 | 68.89
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025986   | 0.025986   | 0.025986   |   0.0 | 28.56
+Output  | 3.6001e-05 | 3.6001e-05 | 3.6001e-05 |   0.0 |  0.04
+Modify  | 0.000422   | 0.000422   | 0.000422   |   0.0 |  0.46
+Other   |            | 0.001859   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25747 ave 25747 max 25747 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25747
+Ave neighs/atom = 514.94
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   20100   0.60113034   0.88366159 -0.080452775   0.80320882    0.2405871 
+   20300   0.56970273   0.83746301 -0.053002379   0.78446063   0.27317338 
+Loop time of 0.091198 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18947790.689 tau/day, 2193.031 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063145   | 0.063145   | 0.063145   |   0.0 | 69.24
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025776   | 0.025776   | 0.025776   |   0.0 | 28.26
+Output  | 1.5974e-05 | 1.5974e-05 | 1.5974e-05 |   0.0 |  0.02
+Modify  | 0.00044584 | 0.00044584 | 0.00044584 |   0.0 |  0.49
+Other   |            | 0.001815   |            |       |  1.99
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10900 ave 10900 max 10900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25735 ave 25735 max 25735 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25735
+Ave neighs/atom = 514.7
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   20300   0.56970273   0.83746301 -0.053002379   0.78446063   0.27317338 
+   20500   0.59074393   0.86839357 -0.066922385   0.80147119   0.25343848 
+Loop time of 0.0895779 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19290469.454 tau/day, 2232.693 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061523   | 0.061523   | 0.061523   |   0.0 | 68.68
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025769   | 0.025769   | 0.025769   |   0.0 | 28.77
+Output  | 1.502e-05  | 1.502e-05  | 1.502e-05  |   0.0 |  0.02
+Modify  | 0.00041008 | 0.00041008 | 0.00041008 |   0.0 |  0.46
+Other   |            | 0.001861   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10972 ave 10972 max 10972 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25695 ave 25695 max 25695 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25695
+Ave neighs/atom = 513.9
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   20500   0.59074393   0.86839357 -0.066922385   0.80147119   0.25343848 
+   20700   0.65142639   0.95759679  -0.15610728   0.80148951   0.29082388 
+Loop time of 0.0903239 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19131143.821 tau/day, 2214.253 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062095   | 0.062095   | 0.062095   |   0.0 | 68.75
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025955   | 0.025955   | 0.025955   |   0.0 | 28.74
+Output  | 1.4067e-05 | 1.4067e-05 | 1.4067e-05 |   0.0 |  0.02
+Modify  | 0.00042224 | 0.00042224 | 0.00042224 |   0.0 |  0.47
+Other   |            | 0.001837   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25681 ave 25681 max 25681 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25681
+Ave neighs/atom = 513.62
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   20700   0.65142639   0.95759679  -0.15610728   0.80148951   0.29082388 
+   20900   0.59315774   0.87194188  -0.05677083   0.81517105   0.25270679 
+Loop time of 0.0900831 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19182283.615 tau/day, 2220.172 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06224    | 0.06224    | 0.06224    |   0.0 | 69.09
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025567   | 0.025567   | 0.025567   |   0.0 | 28.38
+Output  | 1.7881e-05 | 1.7881e-05 | 1.7881e-05 |   0.0 |  0.02
+Modify  | 0.00041199 | 0.00041199 | 0.00041199 |   0.0 |  0.46
+Other   |            | 0.001847   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25714 ave 25714 max 25714 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25714
+Ave neighs/atom = 514.28
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   20900   0.59315774   0.87194188  -0.05677083   0.81517105   0.25270679 
+   21000   0.57558355   0.84610782 -0.028354252   0.81775357   0.26570752 
+   21100   0.53695596   0.78932526  0.014234866   0.80356013   0.23601675 
+Loop time of 0.0924959 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18681905.453 tau/day, 2162.258 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063894   | 0.063894   | 0.063894   |   0.0 | 69.08
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02627    | 0.02627    | 0.02627    |   0.0 | 28.40
+Output  | 3.8147e-05 | 3.8147e-05 | 3.8147e-05 |   0.0 |  0.04
+Modify  | 0.00043702 | 0.00043702 | 0.00043702 |   0.0 |  0.47
+Other   |            | 0.001857   |            |       |  2.01
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25710 ave 25710 max 25710 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25710
+Ave neighs/atom = 514.2
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   21100   0.53695596   0.78932526  0.014234866   0.80356013   0.23601675 
+   21300   0.53416714    0.7852257  0.033955276   0.81918097   0.28671497 
+Loop time of 0.0903091 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19134275.239 tau/day, 2214.615 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062358   | 0.062358   | 0.062358   |   0.0 | 69.05
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025684   | 0.025684   | 0.025684   |   0.0 | 28.44
+Output  | 1.7881e-05 | 1.7881e-05 | 1.7881e-05 |   0.0 |  0.02
+Modify  | 0.00043893 | 0.00043893 | 0.00043893 |   0.0 |  0.49
+Other   |            | 0.001811   |            |       |  2.01
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25700 ave 25700 max 25700 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25700
+Ave neighs/atom = 514
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   21300   0.53416714    0.7852257  0.033955276   0.81918097   0.28671497 
+   21500     0.592013    0.8702591 -0.059418618   0.81084048   0.28515871 
+Loop time of 0.090008 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19198289.134 tau/day, 2222.024 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062007   | 0.062007   | 0.062007   |   0.0 | 68.89
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025737   | 0.025737   | 0.025737   |   0.0 | 28.59
+Output  | 1.2159e-05 | 1.2159e-05 | 1.2159e-05 |   0.0 |  0.01
+Modify  | 0.00041699 | 0.00041699 | 0.00041699 |   0.0 |  0.46
+Other   |            | 0.001835   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25700 ave 25700 max 25700 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25700
+Ave neighs/atom = 514
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   21500     0.592013    0.8702591 -0.059418618   0.81084048   0.28515871 
+   21700   0.58029161   0.85302866 -0.042557866   0.81047079   0.27414667 
+Loop time of 0.090744 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19042577.434 tau/day, 2204.002 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062687   | 0.062687   | 0.062687   |   0.0 | 69.08
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025767   | 0.025767   | 0.025767   |   0.0 | 28.40
+Output  | 1.812e-05  | 1.812e-05  | 1.812e-05  |   0.0 |  0.02
+Modify  | 0.00042272 | 0.00042272 | 0.00042272 |   0.0 |  0.47
+Other   |            | 0.001849   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25698 ave 25698 max 25698 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25698
+Ave neighs/atom = 513.96
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   21700   0.58029161   0.85302866 -0.042557866   0.81047079   0.27414667 
+   21900   0.62506981   0.91885262  -0.14759992    0.7712527   0.25201252 
+Loop time of 0.0900259 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19194475.874 tau/day, 2221.583 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061853   | 0.061853   | 0.061853   |   0.0 | 68.71
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025889   | 0.025889   | 0.025889   |   0.0 | 28.76
+Output  | 1.3828e-05 | 1.3828e-05 | 1.3828e-05 |   0.0 |  0.02
+Modify  | 0.00042319 | 0.00042319 | 0.00042319 |   0.0 |  0.47
+Other   |            | 0.001847   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25683 ave 25683 max 25683 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25683
+Ave neighs/atom = 513.66
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   21900   0.62506981   0.91885262  -0.14759992    0.7712527   0.25201252 
+   22000   0.55591824   0.81719981 -0.036370611    0.7808292   0.23597595 
+   22100    0.6563062   0.96477012  -0.19557437   0.76919575   0.25295187 
+Loop time of 0.092103 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18761602.949 tau/day, 2171.482 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063369   | 0.063369   | 0.063369   |   0.0 | 68.80
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026366   | 0.026366   | 0.026366   |   0.0 | 28.63
+Output  | 6.2227e-05 | 6.2227e-05 | 6.2227e-05 |   0.0 |  0.07
+Modify  | 0.00043511 | 0.00043511 | 0.00043511 |   0.0 |  0.47
+Other   |            | 0.001871   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25695 ave 25695 max 25695 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25695
+Ave neighs/atom = 513.9
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   22100    0.6563062   0.96477012  -0.19557437   0.76919575   0.25295187 
+   22300   0.57903071   0.85117514 -0.082523036    0.7686521    0.2529805 
+Loop time of 0.089282 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19354397.377 tau/day, 2240.092 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061128   | 0.061128   | 0.061128   |   0.0 | 68.47
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025852   | 0.025852   | 0.025852   |   0.0 | 28.96
+Output  | 2.0981e-05 | 2.0981e-05 | 2.0981e-05 |   0.0 |  0.02
+Modify  | 0.00041699 | 0.00041699 | 0.00041699 |   0.0 |  0.47
+Other   |            | 0.001863   |            |       |  2.09
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25700 ave 25700 max 25700 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25700
+Ave neighs/atom = 514
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   22300   0.57903071   0.85117514 -0.082523036    0.7686521    0.2529805 
+   22500   0.56369388   0.82863001 -0.039642567   0.78898744   0.24363417 
+Loop time of 0.089886 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19224361.519 tau/day, 2225.042 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061708   | 0.061708   | 0.061708   |   0.0 | 68.65
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025902   | 0.025902   | 0.025902   |   0.0 | 28.82
+Output  | 1.502e-05  | 1.502e-05  | 1.502e-05  |   0.0 |  0.02
+Modify  | 0.00043464 | 0.00043464 | 0.00043464 |   0.0 |  0.48
+Other   |            | 0.001827   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25702 ave 25702 max 25702 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25702
+Ave neighs/atom = 514.04
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   22500   0.56369388   0.82863001 -0.039642567   0.78898744   0.24363417 
+   22700   0.62981984   0.92583516  -0.13673858   0.78909658   0.25667003 
+Loop time of 0.089673 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19270005.296 tau/day, 2230.325 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061513   | 0.061513   | 0.061513   |   0.0 | 68.60
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02587    | 0.02587    | 0.02587    |   0.0 | 28.85
+Output  | 2.5034e-05 | 2.5034e-05 | 2.5034e-05 |   0.0 |  0.03
+Modify  | 0.00042605 | 0.00042605 | 0.00042605 |   0.0 |  0.48
+Other   |            | 0.001839   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25721 ave 25721 max 25721 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25721
+Ave neighs/atom = 514.42
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   22700   0.62981984   0.92583516  -0.13673858   0.78909658   0.25667003 
+   22900   0.47327284   0.69571108  0.083765401   0.77947648   0.22092682 
+Loop time of 0.090517 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19090327.328 tau/day, 2209.529 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062338   | 0.062338   | 0.062338   |   0.0 | 68.87
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025883   | 0.025883   | 0.025883   |   0.0 | 28.59
+Output  | 1.4067e-05 | 1.4067e-05 | 1.4067e-05 |   0.0 |  0.02
+Modify  | 0.00042915 | 0.00042915 | 0.00042915 |   0.0 |  0.47
+Other   |            | 0.001853   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25719 ave 25719 max 25719 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25719
+Ave neighs/atom = 514.38
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   22900   0.47327284   0.69571108  0.083765401   0.77947648   0.22092682 
+   23000   0.52910792   0.77778865  0.022900178   0.80068883   0.21471952 
+   23100   0.57096678   0.83932117 -0.032349303   0.80697187   0.21704867 
+Loop time of 0.0919001 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18803024.234 tau/day, 2176.276 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063251   | 0.063251   | 0.063251   |   0.0 | 68.83
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026304   | 0.026304   | 0.026304   |   0.0 | 28.62
+Output  | 4.0054e-05 | 4.0054e-05 | 4.0054e-05 |   0.0 |  0.04
+Modify  | 0.00043464 | 0.00043464 | 0.00043464 |   0.0 |  0.47
+Other   |            | 0.00187    |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25690 ave 25690 max 25690 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25690
+Ave neighs/atom = 513.8
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   23100   0.57096678   0.83932117 -0.032349303   0.80697187   0.21704867 
+   23300   0.55068574   0.80950804 -0.020501988   0.78900605   0.22843032 
+Loop time of 0.0896602 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19272772.341 tau/day, 2230.645 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061542   | 0.061542   | 0.061542   |   0.0 | 68.64
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025838   | 0.025838   | 0.025838   |   0.0 | 28.82
+Output  | 1.4782e-05 | 1.4782e-05 | 1.4782e-05 |   0.0 |  0.02
+Modify  | 0.00041556 | 0.00041556 | 0.00041556 |   0.0 |  0.46
+Other   |            | 0.00185    |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25710 ave 25710 max 25710 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25710
+Ave neighs/atom = 514.2
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   23300   0.55068574   0.80950804 -0.020501988   0.78900605   0.22843032 
+   23500   0.51763689   0.76092623  0.033805724   0.79473195   0.26546456 
+Loop time of 0.0891211 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19389347.038 tau/day, 2244.137 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061206   | 0.061206   | 0.061206   |   0.0 | 68.68
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025666   | 0.025666   | 0.025666   |   0.0 | 28.80
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.00042105 | 0.00042105 | 0.00042105 |   0.0 |  0.47
+Other   |            | 0.001815   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25727 ave 25727 max 25727 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25727
+Ave neighs/atom = 514.54
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   23500   0.51763689   0.76092623  0.033805724   0.79473195   0.26546456 
+   23700   0.55571003   0.81689374 -0.054076911   0.76281683   0.20278682 
+Loop time of 0.089314 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19347474.205 tau/day, 2239.291 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061459   | 0.061459   | 0.061459   |   0.0 | 68.81
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025601   | 0.025601   | 0.025601   |   0.0 | 28.66
+Output  | 1.4067e-05 | 1.4067e-05 | 1.4067e-05 |   0.0 |  0.02
+Modify  | 0.00042582 | 0.00042582 | 0.00042582 |   0.0 |  0.48
+Other   |            | 0.001814   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10786 ave 10786 max 10786 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25708 ave 25708 max 25708 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25708
+Ave neighs/atom = 514.16
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   23700   0.55571003   0.81689374 -0.054076911   0.76281683   0.20278682 
+   23900   0.67973998   0.99921777  -0.21920348   0.78001429   0.20703021 
+Loop time of 0.0899749 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19205360.383 tau/day, 2222.843 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061762   | 0.061762   | 0.061762   |   0.0 | 68.64
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025892   | 0.025892   | 0.025892   |   0.0 | 28.78
+Output  | 2.0027e-05 | 2.0027e-05 | 2.0027e-05 |   0.0 |  0.02
+Modify  | 0.00043225 | 0.00043225 | 0.00043225 |   0.0 |  0.48
+Other   |            | 0.001868   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25699 ave 25699 max 25699 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25699
+Ave neighs/atom = 513.98
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   23900   0.67973998   0.99921777  -0.21920348   0.78001429   0.20703021 
+   24000   0.50084454   0.73624148  0.032821682   0.76906316   0.22551772 
+   24100   0.49166133   0.72274216  0.053694146   0.77643631   0.20512595 
+Loop time of 0.09007 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19185076.306 tau/day, 2220.495 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061622   | 0.061622   | 0.061622   |   0.0 | 68.42
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026145   | 0.026145   | 0.026145   |   0.0 | 29.03
+Output  | 2.8133e-05 | 2.8133e-05 | 2.8133e-05 |   0.0 |  0.03
+Modify  | 0.00041604 | 0.00041604 | 0.00041604 |   0.0 |  0.46
+Other   |            | 0.001859   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11074 ave 11074 max 11074 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25710 ave 25710 max 25710 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25710
+Ave neighs/atom = 514.2
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   24100   0.49166133   0.72274216  0.053694146   0.77643631   0.20512595 
+   24300   0.58953668   0.86661892  -0.11554189   0.75107703   0.23434157 
+Loop time of 0.09181 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18821481.597 tau/day, 2178.412 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062645   | 0.062645   | 0.062645   |   0.0 | 68.23
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026781   | 0.026781   | 0.026781   |   0.0 | 29.17
+Output  | 2.9087e-05 | 2.9087e-05 | 2.9087e-05 |   0.0 |  0.03
+Modify  | 0.00045633 | 0.00045633 | 0.00045633 |   0.0 |  0.50
+Other   |            | 0.001899   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11110 ave 11110 max 11110 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25690 ave 25690 max 25690 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25690
+Ave neighs/atom = 513.8
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   24300   0.58953668   0.86661892  -0.11554189   0.75107703   0.23434157 
+   24500   0.58513929   0.86015475  -0.10025262   0.75990213    0.2070904 
+Loop time of 0.090827 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19025182.205 tau/day, 2201.989 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062063   | 0.062063   | 0.062063   |   0.0 | 68.33
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026422   | 0.026422   | 0.026422   |   0.0 | 29.09
+Output  | 2.2888e-05 | 2.2888e-05 | 2.2888e-05 |   0.0 |  0.03
+Modify  | 0.00042367 | 0.00042367 | 0.00042367 |   0.0 |  0.47
+Other   |            | 0.001895   |            |       |  2.09
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25714 ave 25714 max 25714 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25714
+Ave neighs/atom = 514.28
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   24500   0.58513929   0.86015475  -0.10025262   0.75990213    0.2070904 
+   24700   0.58066194   0.85357305  -0.10407719   0.74949587   0.19626567 
+Loop time of 0.090703 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19051186.828 tau/day, 2204.998 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062178   | 0.062178   | 0.062178   |   0.0 | 68.55
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026239   | 0.026239   | 0.026239   |   0.0 | 28.93
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.00041962 | 0.00041962 | 0.00041962 |   0.0 |  0.46
+Other   |            | 0.001853   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25701 ave 25701 max 25701 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25701
+Ave neighs/atom = 514.02
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   24700   0.58066194   0.85357305  -0.10407719   0.74949587   0.19626567 
+   24900   0.56743203   0.83412509 -0.096643298   0.73748179   0.21606981 
+Loop time of 0.089025 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19410273.520 tau/day, 2246.559 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.060947   | 0.060947   | 0.060947   |   0.0 | 68.46
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025826   | 0.025826   | 0.025826   |   0.0 | 29.01
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00043535 | 0.00043535 | 0.00043535 |   0.0 |  0.49
+Other   |            | 0.001804   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25688 ave 25688 max 25688 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25688
+Ave neighs/atom = 513.76
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   24900   0.56743203   0.83412509 -0.096643298   0.73748179   0.21606981 
+   25000   0.51695965   0.75993069 -0.026997924   0.73293276   0.22923784 
+   25100    0.5873175   0.86335672  -0.11305532    0.7503014   0.22596903 
+Loop time of 0.089287 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19353312.075 tau/day, 2239.967 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061119   | 0.061119   | 0.061119   |   0.0 | 68.45
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025883   | 0.025883   | 0.025883   |   0.0 | 28.99
+Output  | 2.9325e-05 | 2.9325e-05 | 2.9325e-05 |   0.0 |  0.03
+Modify  | 0.00040579 | 0.00040579 | 0.00040579 |   0.0 |  0.45
+Other   |            | 0.00185    |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25699 ave 25699 max 25699 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25699
+Ave neighs/atom = 513.98
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   25100    0.5873175   0.86335672  -0.11305532    0.7503014   0.22596903 
+   25300   0.62422129   0.91760529  -0.12266777   0.79493752   0.19342062 
+Loop time of 0.0934539 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18490403.221 tau/day, 2140.093 timesteps/s
+99.6% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.064363   | 0.064363   | 0.064363   |   0.0 | 68.87
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026701   | 0.026701   | 0.026701   |   0.0 | 28.57
+Output  | 3.0041e-05 | 3.0041e-05 | 3.0041e-05 |   0.0 |  0.03
+Modify  | 0.00045753 | 0.00045753 | 0.00045753 |   0.0 |  0.49
+Other   |            | 0.001902   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25685 ave 25685 max 25685 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25685
+Ave neighs/atom = 513.7
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   25300   0.62422129   0.91760529  -0.12266777   0.79493752   0.19342062 
+   25500   0.62996804   0.92605302  -0.16094734   0.76510567   0.23967551 
+Loop time of 0.0898521 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19231605.081 tau/day, 2225.880 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061818   | 0.061818   | 0.061818   |   0.0 | 68.80
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025761   | 0.025761   | 0.025761   |   0.0 | 28.67
+Output  | 2.2173e-05 | 2.2173e-05 | 2.2173e-05 |   0.0 |  0.02
+Modify  | 0.00041676 | 0.00041676 | 0.00041676 |   0.0 |  0.46
+Other   |            | 0.001834   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25737 ave 25737 max 25737 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25737
+Ave neighs/atom = 514.74
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   25500   0.62996804   0.92605302  -0.16094734   0.76510567   0.23967551 
+   25700   0.60909018   0.89536256   -0.1266278   0.76873476   0.25885585 
+Loop time of 0.090776 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19035875.506 tau/day, 2203.226 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062552   | 0.062552   | 0.062552   |   0.0 | 68.91
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02591    | 0.02591    | 0.02591    |   0.0 | 28.54
+Output  | 3.3855e-05 | 3.3855e-05 | 3.3855e-05 |   0.0 |  0.04
+Modify  | 0.00042915 | 0.00042915 | 0.00042915 |   0.0 |  0.47
+Other   |            | 0.00185    |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25733 ave 25733 max 25733 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25733
+Ave neighs/atom = 514.66
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   25700   0.60909018   0.89536256   -0.1266278   0.76873476   0.25885585 
+   25900   0.62487677   0.91856885  -0.14613797   0.77243088   0.23168644 
+Loop time of 0.0915039 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18884449.542 tau/day, 2185.700 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062885   | 0.062885   | 0.062885   |   0.0 | 68.72
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026272   | 0.026272   | 0.026272   |   0.0 | 28.71
+Output  | 2.6941e-05 | 2.6941e-05 | 2.6941e-05 |   0.0 |  0.03
+Modify  | 0.00043774 | 0.00043774 | 0.00043774 |   0.0 |  0.48
+Other   |            | 0.001882   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11074 ave 11074 max 11074 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25702 ave 25702 max 25702 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25702
+Ave neighs/atom = 514.04
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   25900   0.62487677   0.91856885  -0.14613797   0.77243088   0.23168644 
+   26000   0.50928516   0.74864918  0.021082683   0.76973186   0.25763321 
+   26100   0.54448054    0.8003864 -0.027444041   0.77294236   0.26946351 
+Loop time of 0.090909 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19008018.127 tau/day, 2200.002 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062532   | 0.062532   | 0.062532   |   0.0 | 68.79
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02607    | 0.02607    | 0.02607    |   0.0 | 28.68
+Output  | 2.9087e-05 | 2.9087e-05 | 2.9087e-05 |   0.0 |  0.03
+Modify  | 0.00043821 | 0.00043821 | 0.00043821 |   0.0 |  0.48
+Other   |            | 0.001839   |            |       |  2.02
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11002 ave 11002 max 11002 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25636 ave 25636 max 25636 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25636
+Ave neighs/atom = 512.72
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   26100   0.54448054    0.8003864 -0.027444041   0.77294236   0.26946351 
+   26300   0.54148388    0.7959813 -0.055127923   0.74085338   0.29070957 
+Loop time of 0.090369 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19121604.369 tau/day, 2213.149 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062263   | 0.062263   | 0.062263   |   0.0 | 68.90
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025798   | 0.025798   | 0.025798   |   0.0 | 28.55
+Output  | 3.314e-05  | 3.314e-05  | 3.314e-05  |   0.0 |  0.04
+Modify  | 0.00042605 | 0.00042605 | 0.00042605 |   0.0 |  0.47
+Other   |            | 0.001848   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25612 ave 25612 max 25612 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25612
+Ave neighs/atom = 512.24
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   26300   0.54148388    0.7959813 -0.055127923   0.74085338   0.29070957 
+   26500   0.53648524   0.78863331 -0.030932054   0.75770125   0.25804899 
+Loop time of 0.0922999 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18721572.665 tau/day, 2166.849 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06349    | 0.06349    | 0.06349    |   0.0 | 68.79
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026476   | 0.026476   | 0.026476   |   0.0 | 28.68
+Output  | 1.502e-05  | 1.502e-05  | 1.502e-05  |   0.0 |  0.02
+Modify  | 0.0004313  | 0.0004313  | 0.0004313  |   0.0 |  0.47
+Other   |            | 0.001887   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25642 ave 25642 max 25642 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25642
+Ave neighs/atom = 512.84
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   26500   0.53648524   0.78863331 -0.030932054   0.75770125   0.25804899 
+   26700   0.59964367   0.88147619 -0.086297094    0.7951791   0.20406807 
+Loop time of 0.0896349 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19278206.258 tau/day, 2231.274 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06165    | 0.06165    | 0.06165    |   0.0 | 68.78
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025711   | 0.025711   | 0.025711   |   0.0 | 28.68
+Output  | 2.1935e-05 | 2.1935e-05 | 2.1935e-05 |   0.0 |  0.02
+Modify  | 0.00041151 | 0.00041151 | 0.00041151 |   0.0 |  0.46
+Other   |            | 0.001841   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25651 ave 25651 max 25651 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25651
+Ave neighs/atom = 513.02
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   26700   0.59964367   0.88147619 -0.086297094    0.7951791   0.20406807 
+   26900   0.60610823    0.8909791  -0.12200639   0.76897271   0.22655028 
+Loop time of 0.090224 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19152326.108 tau/day, 2216.704 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061855   | 0.061855   | 0.061855   |   0.0 | 68.56
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026093   | 0.026093   | 0.026093   |   0.0 | 28.92
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00040793 | 0.00040793 | 0.00040793 |   0.0 |  0.45
+Other   |            | 0.001856   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11074 ave 11074 max 11074 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25712 ave 25712 max 25712 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25712
+Ave neighs/atom = 514.24
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   26900   0.60610823    0.8909791  -0.12200639   0.76897271   0.22655028 
+   27000   0.59197379   0.87020147  -0.11074135   0.75946013   0.23677609 
+   27100   0.63710961   0.93655112  -0.18525545   0.75129568   0.22664332 
+Loop time of 0.09026 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19144686.992 tau/day, 2215.820 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061989   | 0.061989   | 0.061989   |   0.0 | 68.68
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025972   | 0.025972   | 0.025972   |   0.0 | 28.77
+Output  | 2.5272e-05 | 2.5272e-05 | 2.5272e-05 |   0.0 |  0.03
+Modify  | 0.00039625 | 0.00039625 | 0.00039625 |   0.0 |  0.44
+Other   |            | 0.001877   |            |       |  2.08
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25691 ave 25691 max 25691 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25691
+Ave neighs/atom = 513.82
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   27100   0.63710961   0.93655112  -0.18525545   0.75129568   0.22664332 
+   27300   0.58047432   0.85329724  -0.10388063   0.74941661   0.25110237 
+Loop time of 0.09004 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19191477.174 tau/day, 2221.236 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061826   | 0.061826   | 0.061826   |   0.0 | 68.67
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02595    | 0.02595    | 0.02595    |   0.0 | 28.82
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.00042558 | 0.00042558 | 0.00042558 |   0.0 |  0.47
+Other   |            | 0.001826   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25668 ave 25668 max 25668 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25668
+Ave neighs/atom = 513.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   27300   0.58047432   0.85329724  -0.10388063   0.74941661   0.25110237 
+   27500   0.56411769     0.829253  -0.04812194   0.78113106   0.24988973 
+Loop time of 0.091362 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18913771.691 tau/day, 2189.094 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062775   | 0.062775   | 0.062775   |   0.0 | 68.71
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026242   | 0.026242   | 0.026242   |   0.0 | 28.72
+Output  | 2.8133e-05 | 2.8133e-05 | 2.8133e-05 |   0.0 |  0.03
+Modify  | 0.00044084 | 0.00044084 | 0.00044084 |   0.0 |  0.48
+Other   |            | 0.001875   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25664 ave 25664 max 25664 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25664
+Ave neighs/atom = 513.28
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   27500   0.56411769     0.829253  -0.04812194   0.78113106   0.24988973 
+   27700   0.60767479   0.89328194  -0.12391497   0.76936697   0.24449665 
+Loop time of 0.0916021 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18864199.018 tau/day, 2183.356 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063243   | 0.063243   | 0.063243   |   0.0 | 69.04
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026045   | 0.026045   | 0.026045   |   0.0 | 28.43
+Output  | 2.5034e-05 | 2.5034e-05 | 2.5034e-05 |   0.0 |  0.03
+Modify  | 0.00044084 | 0.00044084 | 0.00044084 |   0.0 |  0.48
+Other   |            | 0.001848   |            |       |  2.02
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25656 ave 25656 max 25656 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25656
+Ave neighs/atom = 513.12
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   27700   0.60767479   0.89328194  -0.12391497   0.76936697   0.24449665 
+   27900    0.6108937   0.89801374  -0.16337926   0.73463447   0.24576997 
+Loop time of 0.0901089 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19176802.151 tau/day, 2219.537 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061833   | 0.061833   | 0.061833   |   0.0 | 68.62
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026005   | 0.026005   | 0.026005   |   0.0 | 28.86
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.0004127  | 0.0004127  | 0.0004127  |   0.0 |  0.46
+Other   |            | 0.001846   |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25660 ave 25660 max 25660 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25660
+Ave neighs/atom = 513.2
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   27900    0.6108937   0.89801374  -0.16337926   0.73463447   0.24576997 
+   28000   0.60662324   0.89173616  -0.15575977   0.73597639   0.24894878 
+   28100   0.63666456    0.9358969  -0.19083663   0.74506028   0.26535459 
+Loop time of 0.0903199 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19132002.334 tau/day, 2214.352 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062332   | 0.062332   | 0.062332   |   0.0 | 69.01
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025685   | 0.025685   | 0.025685   |   0.0 | 28.44
+Output  | 2.3842e-05 | 2.3842e-05 | 2.3842e-05 |   0.0 |  0.03
+Modify  | 0.0004189  | 0.0004189  | 0.0004189  |   0.0 |  0.46
+Other   |            | 0.00186    |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25660 ave 25660 max 25660 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25660
+Ave neighs/atom = 513.2
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   28100   0.63666456    0.9358969  -0.19083663   0.74506028   0.26535459 
+   28300   0.58751859   0.86365233  -0.10363185   0.76002048    0.2335168 
+Loop time of 0.089503 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19306604.668 tau/day, 2234.561 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061364   | 0.061364   | 0.061364   |   0.0 | 68.56
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02583    | 0.02583    | 0.02583    |   0.0 | 28.86
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.0004015  | 0.0004015  | 0.0004015  |   0.0 |  0.45
+Other   |            | 0.001895   |            |       |  2.12
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25700 ave 25700 max 25700 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25700
+Ave neighs/atom = 514
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   28300   0.58751859   0.86365233  -0.10363185   0.76002048    0.2335168 
+   28500   0.59488499   0.87448094  -0.10979994     0.764681   0.24107282 
+Loop time of 0.0923259 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18716302.973 tau/day, 2166.239 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.063509   | 0.063509   | 0.063509   |   0.0 | 68.79
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02648    | 0.02648    | 0.02648    |   0.0 | 28.68
+Output  | 2.718e-05  | 2.718e-05  | 2.718e-05  |   0.0 |  0.03
+Modify  | 0.00044394 | 0.00044394 | 0.00044394 |   0.0 |  0.48
+Other   |            | 0.001865   |            |       |  2.02
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10966 ave 10966 max 10966 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25692 ave 25692 max 25692 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25692
+Ave neighs/atom = 513.84
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   28500   0.59488499   0.87448094  -0.10979994     0.764681   0.24107282 
+   28700   0.62551148   0.91950187  -0.16178798   0.75771389   0.22640174 
+Loop time of 0.0906188 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19068880.513 tau/day, 2207.046 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062181   | 0.062181   | 0.062181   |   0.0 | 68.62
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026124   | 0.026124   | 0.026124   |   0.0 | 28.83
+Output  | 2.0981e-05 | 2.0981e-05 | 2.0981e-05 |   0.0 |  0.02
+Modify  | 0.00043225 | 0.00043225 | 0.00043225 |   0.0 |  0.48
+Other   |            | 0.00186    |            |       |  2.05
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    11044 ave 11044 max 11044 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25659 ave 25659 max 25659 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25659
+Ave neighs/atom = 513.18
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   28700   0.62551148   0.91950187  -0.16178798   0.75771389   0.22640174 
+   28900   0.68102139    1.0011014  -0.24940517   0.75169627   0.25896686 
+Loop time of 0.0900519 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19188936.636 tau/day, 2220.942 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062073   | 0.062073   | 0.062073   |   0.0 | 68.93
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025729   | 0.025729   | 0.025729   |   0.0 | 28.57
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.01
+Modify  | 0.00041056 | 0.00041056 | 0.00041056 |   0.0 |  0.46
+Other   |            | 0.001826   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25720 ave 25720 max 25720 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25720
+Ave neighs/atom = 514.4
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   28900   0.68102139    1.0011014  -0.24940517   0.75169627   0.25896686 
+   29000   0.62720979   0.92199839  -0.18744608   0.73455231   0.26159993 
+   29100   0.56906596   0.83652696 -0.087415009   0.74911195   0.22532528 
+Loop time of 0.0907471 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19041927.040 tau/day, 2203.927 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062568   | 0.062568   | 0.062568   |   0.0 | 68.95
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025841   | 0.025841   | 0.025841   |   0.0 | 28.48
+Output  | 3.314e-05  | 3.314e-05  | 3.314e-05  |   0.0 |  0.04
+Modify  | 0.00042605 | 0.00042605 | 0.00042605 |   0.0 |  0.47
+Other   |            | 0.001879   |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25723 ave 25723 max 25723 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25723
+Ave neighs/atom = 514.46
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   29100   0.56906596   0.83652696 -0.087415009   0.74911195   0.22532528 
+   29300   0.52873388   0.77723881 -0.011376512    0.7658623   0.22500665 
+Loop time of 0.0896099 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19283591.934 tau/day, 2231.897 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061752   | 0.061752   | 0.061752   |   0.0 | 68.91
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025599   | 0.025599   | 0.025599   |   0.0 | 28.57
+Output  | 1.812e-05  | 1.812e-05  | 1.812e-05  |   0.0 |  0.02
+Modify  | 0.00041413 | 0.00041413 | 0.00041413 |   0.0 |  0.46
+Other   |            | 0.001827   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10822 ave 10822 max 10822 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25741 ave 25741 max 25741 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25741
+Ave neighs/atom = 514.82
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   29300   0.52873388   0.77723881 -0.011376512    0.7658623   0.22500665 
+   29500   0.59753481   0.87837617  -0.11371593   0.76466023   0.23456749 
+Loop time of 0.0898881 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19223902.604 tau/day, 2224.989 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.061884   | 0.061884   | 0.061884   |   0.0 | 68.85
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.02575    | 0.02575    | 0.02575    |   0.0 | 28.65
+Output  | 1.2875e-05 | 1.2875e-05 | 1.2875e-05 |   0.0 |  0.01
+Modify  | 0.00040817 | 0.00040817 | 0.00040817 |   0.0 |  0.45
+Other   |            | 0.001832   |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25692 ave 25692 max 25692 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25692
+Ave neighs/atom = 513.84
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   29500   0.59753481   0.87837617  -0.11371593   0.76466023   0.23456749 
+   29700   0.58600548   0.86142806  -0.10177274   0.75965532   0.27025513 
+Loop time of 0.0911958 on 1 procs for 200 steps with 50 atoms
+
+Performance: 18948236.516 tau/day, 2193.083 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062832   | 0.062832   | 0.062832   |   0.0 | 68.90
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.026038   | 0.026038   | 0.026038   |   0.0 | 28.55
+Output  | 2.9087e-05 | 2.9087e-05 | 2.9087e-05 |   0.0 |  0.03
+Modify  | 0.00042272 | 0.00042272 | 0.00042272 |   0.0 |  0.46
+Other   |            | 0.001874   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25668 ave 25668 max 25668 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25668
+Ave neighs/atom = 513.36
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   29700   0.58600548   0.86142806  -0.10177274   0.75965532   0.27025513 
+   29900   0.60284078   0.88617594  -0.12241627   0.76375967   0.24807703 
+Loop time of 0.090188 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19159971.323 tau/day, 2217.589 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.06231    | 0.06231    | 0.06231    |   0.0 | 69.09
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025609   | 0.025609   | 0.025609   |   0.0 | 28.40
+Output  | 3.0041e-05 | 3.0041e-05 | 3.0041e-05 |   0.0 |  0.03
+Modify  | 0.00041366 | 0.00041366 | 0.00041366 |   0.0 |  0.46
+Other   |            | 0.001824   |            |       |  2.02
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10822 ave 10822 max 10822 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25704 ave 25704 max 25704 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25704
+Ave neighs/atom = 514.08
+Neighbor list builds = 0
+Dangerous builds = 0
+run 200
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+   29900   0.60284078   0.88617594  -0.12241627   0.76375967   0.24807703 
+   30000   0.47488381   0.69807921  0.059133331   0.75721254   0.25411927 
+   30100   0.53037675   0.77965382 -0.0083232984   0.77133052   0.26220099 
+Loop time of 0.0902932 on 1 procs for 200 steps with 50 atoms
+
+Performance: 19137660.343 tau/day, 2215.007 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.062259   | 0.062259   | 0.062259   |   0.0 | 68.95
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.025737   | 0.025737   | 0.025737   |   0.0 | 28.50
+Output  | 3.6955e-05 | 3.6955e-05 | 3.6955e-05 |   0.0 |  0.04
+Modify  | 0.00042868 | 0.00042868 | 0.00042868 |   0.0 |  0.47
+Other   |            | 0.001832   |            |       |  2.03
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25687 ave 25687 max 25687 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25687
+Ave neighs/atom = 513.74
+Neighbor list builds = 0
+Dangerous builds = 0
+reset_timestep 0
+run 0 pre yes post no
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+       0   0.53037675   0.77965382 -0.0083232984   0.77133052   0.26220099 
+Loop time of 9.53674e-07 on 1 procs for 0 steps with 50 atoms
+
+104.9% CPU use with 1 MPI tasks x no OpenMP threads
+run 100
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+       0   0.53037675   0.77965382 -0.0083232984   0.77133052   0.26220099 
+     100   0.64530416   0.94859712  -0.16410319   0.78449393   0.20957458 
+Loop time of 0.044807 on 1 procs for 100 steps with 50 atoms
+
+Performance: 19282719.763 tau/day, 2231.796 timesteps/s
+99.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.030783   | 0.030783   | 0.030783   |   0.0 | 68.70
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.012863   | 0.012863   | 0.012863   |   0.0 | 28.71
+Output  | 2.718e-05  | 2.718e-05  | 2.718e-05  |   0.0 |  0.06
+Modify  | 0.0002079  | 0.0002079  | 0.0002079  |   0.0 |  0.46
+Other   |            | 0.0009253  |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25670 ave 25670 max 25670 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25670
+Ave neighs/atom = 513.4
+Neighbor list builds = 0
+Dangerous builds = 0
+write_dump all custom ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.6//dump.lammpstrj id type x y z vx vy vz modify sort id append yes
+run 100
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+     100   0.64530416   0.94859712  -0.16410319   0.78449393   0.20957458 
+     200   0.54882858   0.80677802 -0.072296771   0.73448125   0.22719578 
+Loop time of 0.0446589 on 1 procs for 100 steps with 50 atoms
+
+Performance: 19346647.889 tau/day, 2239.195 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.030648   | 0.030648   | 0.030648   |   0.0 | 68.63
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.012851   | 0.012851   | 0.012851   |   0.0 | 28.78
+Output  | 1.1921e-05 | 1.1921e-05 | 1.1921e-05 |   0.0 |  0.03
+Modify  | 0.00020409 | 0.00020409 | 0.00020409 |   0.0 |  0.46
+Other   |            | 0.0009439  |            |       |  2.11
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10894 ave 10894 max 10894 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25664 ave 25664 max 25664 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25664
+Ave neighs/atom = 513.28
+Neighbor list builds = 0
+Dangerous builds = 0
+write_dump all custom ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.6//dump.lammpstrj id type x y z vx vy vz modify sort id append yes
+run 100
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+     200   0.54882858   0.80677802 -0.072296771   0.73448125   0.22719578 
+     300   0.66885183    0.9832122  -0.24071968   0.74249252   0.23375867 
+Loop time of 0.0447409 on 1 procs for 100 steps with 50 atoms
+
+Performance: 19311182.935 tau/day, 2235.091 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.030822   | 0.030822   | 0.030822   |   0.0 | 68.89
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.01278    | 0.01278    | 0.01278    |   0.0 | 28.56
+Output  | 1.3828e-05 | 1.3828e-05 | 1.3828e-05 |   0.0 |  0.03
+Modify  | 0.00020409 | 0.00020409 | 0.00020409 |   0.0 |  0.46
+Other   |            | 0.000921   |            |       |  2.06
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10858 ave 10858 max 10858 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25678 ave 25678 max 25678 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25678
+Ave neighs/atom = 513.56
+Neighbor list builds = 0
+Dangerous builds = 0
+write_dump all custom ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.6//dump.lammpstrj id type x y z vx vy vz modify sort id append yes
+run 100
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+     300   0.66885183    0.9832122  -0.24071968   0.74249252   0.23375867 
+     400   0.66723635   0.98083743  -0.24511484   0.73572259   0.23369399 
+Loop time of 0.0457859 on 1 procs for 100 steps with 50 atoms
+
+Performance: 18870436.659 tau/day, 2184.078 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.031375   | 0.031375   | 0.031375   |   0.0 | 68.53
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.013223   | 0.013223   | 0.013223   |   0.0 | 28.88
+Output  | 2.5034e-05 | 2.5034e-05 | 2.5034e-05 |   0.0 |  0.05
+Modify  | 0.00021696 | 0.00021696 | 0.00021696 |   0.0 |  0.47
+Other   |            | 0.0009458  |            |       |  2.07
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25675 ave 25675 max 25675 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25675
+Ave neighs/atom = 513.5
+Neighbor list builds = 0
+Dangerous builds = 0
+write_dump all custom ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.6//dump.lammpstrj id type x y z vx vy vz modify sort id append yes
+run 100
+Memory usage per processor = 2.79345 Mbytes
+Step Temp KinEng E_pair TotEng Press 
+     400   0.66723635   0.98083743  -0.24511484   0.73572259   0.23369399 
+     500   0.51516887   0.75729825 -0.00083819231   0.75646005   0.22007965 
+Loop time of 0.045099 on 1 procs for 100 steps with 50 atoms
+
+Performance: 19157844.226 tau/day, 2217.343 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.03099    | 0.03099    | 0.03099    |   0.0 | 68.71
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.012973   | 0.012973   | 0.012973   |   0.0 | 28.77
+Output  | 1.3113e-05 | 1.3113e-05 | 1.3113e-05 |   0.0 |  0.03
+Modify  | 0.00020313 | 0.00020313 | 0.00020313 |   0.0 |  0.45
+Other   |            | 0.0009198  |            |       |  2.04
+
+Nlocal:    50 ave 50 max 50 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    10930 ave 10930 max 10930 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    25692 ave 25692 max 25692 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 25692
+Ave neighs/atom = 513.84
+Neighbor list builds = 0
+Dangerous builds = 0
+write_dump all custom ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.6//dump.lammpstrj id type x y z vx vy vz modify sort id append yes
+write_dump all image ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.6//dump.png type type
+fix 1 all nvt temp 0.55 0.55 1000.0
+log ./data/l20/N50/exp0.0/medium/x0.5/d0.05/T0.55//log.lammps
