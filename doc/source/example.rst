@@ -9,7 +9,6 @@ from a relatively high temperature of :math:`T=2.0`, we go down to
 the use of computes in the analyzer and the logger that is
 re-instantiated each time we change the system parameters.
 
-.. code-block:: python
+.. literalinclude:: ../../examples/neutronstar.py
+   :language: python
    :linenos:
-
-   .. include:: ../../examples/neutronstar.py
