@@ -21,11 +21,6 @@ import sys
 sys.path.insert(0, os.path.abspath('../..'))
 print os.path.abspath('../..')
 
-# To parse markdown files
-from recommonmark.parser import CommonMarkParser
-
-source_parsers = {'.md': CommonMarkParser}
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
