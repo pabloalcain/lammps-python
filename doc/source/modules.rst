@@ -1,5 +1,5 @@
-lammps-python
-=============
+API Documentation
+=================
 
 .. toctree::
    :maxdepth: 4
@@ -7,4 +7,3 @@ lammps-python
    analysis
    postprocess
    pylammps
-   setup

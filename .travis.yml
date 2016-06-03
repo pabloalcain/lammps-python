@@ -5,4 +5,4 @@ python:
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # command to run nosetests
-script: cd analysis && make && cd .. && python setup.py install && cd test && nosetests . --with-coverage --rednose --cover-package=analysis,postprocess -v
+script: cd analysis && make && cd .. && python setup.py install && cd test && nosetests . --with-coverage --rednose --cover-package=analysis,postprocess,pylammps -v
