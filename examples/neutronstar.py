@@ -1,5 +1,5 @@
 """
-Test refactor system. The way we want it to work, at least
+An example that runs a LAMMPS simulation for Neutron Star Matter.
 """
 import pylammps as plmp
 import numpy as np

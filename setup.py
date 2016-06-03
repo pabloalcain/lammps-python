@@ -44,6 +44,6 @@ setup(name="LAMMPS Neutron Star Wrapper",
       packages=packages,
       package_data={'' : shr_libraries},
       include_package_data=True,
-      scripts=["examples/test.py"],
+      scripts=["examples/neutronstar.py"],
       long_description=long_description
 )
