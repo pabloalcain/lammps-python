@@ -11,9 +11,9 @@ for root, _, files in os.walk('.'):
       shr_libraries.append(f)
 
 packages = find_packages()
-setup(name="LAMMPS Neutron Star Wrapper",
+setup(name="lammps-python",
       version="0.1",
-      description="LAMMPS from Python in Neutron Star simulations",
+      description="A Python wrapper to LAMMPS",
       author="Pablo Alcain",
       author_email="pabloalcain@gmail.com",
       url="none yet (soon!)",
