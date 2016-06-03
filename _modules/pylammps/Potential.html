@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pylammps.Potential &mdash; LAMMPS-python 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="LAMMPS-python 0.1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LAMMPS-python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">LAMMPS-python</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>pylammps.Potential</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pylammps.Potential</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for the calculation of the potential energy in Neutron Star</span>
+<span class="sd">systems.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span> <span class="kn">as</span> <span class="nn">rn</span>
+
+<span class="k">def</span> <span class="nf">_interaction</span><span class="p">(</span><span class="n">pot</span><span class="o">=</span><span class="s">&quot;medium&quot;</span><span class="p">,</span> <span class="n">lda</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Calculate interaction function for a nuclear potential.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+
+<span class="sd">  pot : {&quot;medium&quot;, &quot;stiff&quot;, &quot;newmed&quot;, &quot;horowitz&quot;}</span>
+<span class="sd">      Potential style to calculate</span>
+
+<span class="sd">  lda : float</span>
+<span class="sd">      Debye screening length</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  potfunc : dict</span>
+<span class="sd">      A dictionary with the function of the potential for each pair</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">Vc</span> <span class="o">=</span> <span class="mf">1.44</span>
+  <span class="n">uc</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">lda</span>
+  <span class="k">if</span> <span class="n">pot</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;medium&quot;</span><span class="p">,</span> <span class="s">&quot;stiff&quot;</span><span class="p">,</span> <span class="s">&quot;newmed&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">pot</span> <span class="o">==</span> <span class="s">&quot;medium&quot;</span><span class="p">:</span>
+      <span class="p">(</span><span class="n">Vr</span><span class="p">,</span> <span class="n">Va</span><span class="p">,</span> <span class="n">V0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3088.118</span><span class="p">,</span> <span class="mf">2666.647</span><span class="p">,</span> <span class="mf">373.118</span><span class="p">)</span>
+      <span class="p">(</span><span class="n">ur</span><span class="p">,</span> <span class="n">ua</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.7468</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pot</span> <span class="o">==</span> <span class="s">&quot;newmed&quot;</span><span class="p">:</span> <span class="c"># This doesn&#39;t look correct</span>
+      <span class="p">(</span><span class="n">Vr</span><span class="p">,</span> <span class="n">Va</span><span class="p">,</span> <span class="n">V0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3097.0</span><span class="p">,</span> <span class="mf">2696.0</span><span class="p">,</span> <span class="mf">379.5</span><span class="p">)</span>
+      <span class="p">(</span><span class="n">ur</span><span class="p">,</span> <span class="n">ua</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.648</span><span class="p">,</span> <span class="mf">1.528</span><span class="p">,</span> <span class="mf">1.628</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pot</span> <span class="o">==</span> <span class="s">&quot;stiff&quot;</span><span class="p">:</span>
+      <span class="p">(</span><span class="n">Vr</span><span class="p">,</span> <span class="n">Va</span><span class="p">,</span> <span class="n">V0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3601.482</span><span class="p">,</span> <span class="mf">2834.338</span><span class="p">,</span> <span class="mf">17630.256</span><span class="p">)</span>
+      <span class="p">(</span><span class="n">ur</span><span class="p">,</span> <span class="n">ua</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.2395</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.25</span><span class="p">)</span>
+
+    <span class="n">vnn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">V0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">u0</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">r</span>
+    <span class="n">vnp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">Vr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">ur</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">r</span> <span class="o">-</span> <span class="n">Va</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">ua</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">r</span>
+    <span class="n">vpp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">vnn</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">Vc</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">uc</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">r</span>
+
+  <span class="k">elif</span> <span class="n">pot</span> <span class="o">==</span> <span class="s">&quot;horowitz&quot;</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mf">110.0</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">26.0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mf">24.0</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="mf">1.25</span>
+    <span class="n">vnn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">L</span><span class="p">))</span>
+    <span class="n">vnp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">L</span><span class="p">))</span>
+    <span class="n">vpp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">vnn</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">Vc</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">uc</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">r</span>
+
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&quot;Option {0} for potential not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pot</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="p">{</span><span class="s">&#39;NN&#39;</span><span class="p">:</span> <span class="n">vnn</span><span class="p">,</span> <span class="s">&#39;NP&#39;</span><span class="p">:</span> <span class="n">vnp</span><span class="p">,</span> <span class="s">&#39;PP&#39;</span><span class="p">:</span> <span class="n">vpp</span><span class="p">}</span>
+
+<div class="viewcode-block" id="build_table"><a class="viewcode-back" href="../../pylammps.html#pylammps.Potential.build_table">[docs]</a><span class="k">def</span> <span class="nf">build_table</span><span class="p">(</span><span class="n">pot</span><span class="p">,</span> <span class="n">lda</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  This method builds the actual potential table that will be read</span>
+<span class="sd">  in lammps. So far, three different potentials are going to be</span>
+<span class="sd">  supported:</span>
+
+<span class="sd">  - Pandha medium</span>
+<span class="sd">  - Pandha stiff</span>
+<span class="sd">  - Horowitz</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;{0}-{1}-{2}.table&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pot</span><span class="p">,</span> <span class="n">lda</span><span class="p">,</span> <span class="n">rn</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+  <span class="n">rc_nuc</span> <span class="o">=</span> <span class="mf">5.4</span>
+  <span class="n">npoints</span> <span class="o">=</span> <span class="mi">5000</span>
+  <span class="n">potential</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">descr</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">positions</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">positions</span><span class="p">[</span><span class="s">&#39;NN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">rc_nuc</span><span class="p">,</span> <span class="n">npoints</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+  <span class="n">positions</span><span class="p">[</span><span class="s">&#39;NP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">rc_nuc</span><span class="p">,</span> <span class="n">npoints</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+  <span class="n">positions</span><span class="p">[</span><span class="s">&#39;PP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">rc_nuc</span><span class="p">,</span> <span class="n">lda</span><span class="p">),</span> <span class="n">npoints</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+
+  <span class="n">potfunction</span> <span class="o">=</span> <span class="n">_interaction</span><span class="p">(</span><span class="n">pot</span><span class="p">,</span> <span class="n">lda</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">positions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">potential</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">potfunction</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+  <span class="n">descr</span><span class="p">[</span><span class="s">&#39;NN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;# {0} potential for same species&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pot</span><span class="p">)</span>
+  <span class="n">descr</span><span class="p">[</span><span class="s">&#39;NP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;# {0} potential for different species&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pot</span><span class="p">)</span>
+  <span class="n">descr</span><span class="p">[</span><span class="s">&#39;PP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;# {0} potential for same species &quot;</span>
+                 <span class="s">&quot;with Coulomb interaction lambda = {1}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pot</span><span class="p">,</span> <span class="n">lda</span><span class="p">)</span>
+
+
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">potfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">positions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">print</span><span class="o">&gt;&gt;</span><span class="n">potfile</span><span class="p">,</span> <span class="n">descr</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+      <span class="k">print</span><span class="o">&gt;&gt;</span><span class="n">potfile</span><span class="p">,</span> <span class="n">pair</span>
+      <span class="k">print</span><span class="o">&gt;&gt;</span><span class="n">potfile</span><span class="p">,</span> <span class="s">&quot;N {0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">npoints</span><span class="p">)</span>
+      <span class="n">_pot</span> <span class="o">=</span> <span class="n">potential</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span>
+      <span class="n">_pos</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span>
+      <span class="n">_force</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">_pot</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">_pos</span><span class="p">)</span>
+      <span class="n">_force</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">npoints</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">_pos</span><span class="p">,</span> <span class="n">_pot</span><span class="p">,</span> <span class="n">_force</span><span class="p">)):</span>
+        <span class="k">print</span><span class="o">&gt;&gt;</span><span class="n">potfile</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+  <span class="k">return</span> <span class="n">name</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Pablo Alcain.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
