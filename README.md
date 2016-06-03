@@ -2,6 +2,8 @@
 
 Travis: [![Build Status](https://travis-ci.org/pabloalcain/lammps-python.svg?branch=master)](https://travis-ci.org/pabloalcain/lammps-python)
 
+Check the [full documentation](http://pabloalcain.github.io/lammps-python/index.html)
+
 This project started \[as can be seen from previous commits\] as a
 series of functions to execute LAMMPS in a python
 environment. Initially, the idea was to be able to produce a
