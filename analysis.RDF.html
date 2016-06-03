@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>analysis.RDF package &mdash; LAMMPS-python 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="LAMMPS-python 0.1.0 documentation" href="index.html"/>
+        <link rel="up" title="analysis package" href="analysis.html"/>
+        <link rel="next" title="analysis.StructureFactor package" href="analysis.StructureFactor.html"/>
+        <link rel="prev" title="analysis.MSTE package" href="analysis.MSTE.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> LAMMPS-python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example file</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="analysis.html">analysis package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="analysis.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="analysis.MSTE.html">analysis.MSTE package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">analysis.RDF package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="analysis.StructureFactor.html">analysis.StructureFactor package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="analysis.html#module-analysis">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="postprocess.html">postprocess package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pylammps.html">pylammps package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">LAMMPS-python</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">API Documentation</a> &raquo;</li>
+      
+          <li><a href="analysis.html">analysis package</a> &raquo;</li>
+      
+    <li>analysis.RDF package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/analysis.RDF.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="analysis-rdf-package">
+<h1>analysis.RDF package<a class="headerlink" href="#analysis-rdf-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-analysis.RDF.RDF">
+<span id="analysis-rdf-rdf-module"></span><h2>analysis.RDF.RDF module<a class="headerlink" href="#module-analysis.RDF.RDF" title="Permalink to this headline">¶</a></h2>
+<p>RDF calculation</p>
+<dl class="function">
+<dt id="analysis.RDF.RDF.rdf">
+<code class="descclassname">analysis.RDF.RDF.</code><code class="descname">rdf</code><span class="sig-paren">(</span><em>x</em>, <em>t</em>, <em>size</em>, <em>pairs</em>, <em>nbins</em>, <em>pbc=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/RDF/RDF.html#rdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.RDF.RDF.rdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate RDF.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : numpy array</p>
+<blockquote>
+<div><p>Positions of the particles in the system</p>
+</div></blockquote>
+<p><strong>t</strong> : numpy array</p>
+<blockquote>
+<div><p>Types of the particles</p>
+</div></blockquote>
+<p><strong>size</strong> : float</p>
+<blockquote>
+<div><p>Length of the box</p>
+</div></blockquote>
+<p><strong>pairs: iterable</strong></p>
+<blockquote>
+<div><p>List of pairs to consider. Each element of the list is a tuple
+of size 2, with the first element being the types considered
+and the second one the other types. For example, if we want to
+calculate the RDF on a system with 2 types of particles of all
+types vs all types and type 1 vs type 2, the pairs should be:</p>
+<p>pairs = [((1, 2), (1, 2)), ((1,), (2,))]</p>
+<p>A keyword for &#8220;all types&#8221; is type 0</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int</p>
+<blockquote>
+<div><p>Number of bins to consider</p>
+</div></blockquote>
+<p><strong>pbc</strong> : boolean, optional</p>
+<blockquote>
+<div><p>Whether or not to use periodic boundary conditions. Default is
+True.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rdf</strong> : numpy array</p>
+<blockquote class="last">
+<div><p>An array with the information of the compute. The first column
+is &#8216;r&#8217; and the rest are the RDF calculated for the pair list.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="analysis.RDF.RDF.ssf">
+<code class="descclassname">analysis.RDF.RDF.</code><code class="descname">ssf</code><span class="sig-paren">(</span><em>gr</em>, <em>density</em>, <em>pbc=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/RDF/RDF.html#ssf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.RDF.RDF.ssf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate structure factor given the radial distribution function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>gr</strong> : numpy array</p>
+<blockquote>
+<div><p>Radial Distribution Function. First column is the position,
+second is the RDF itself</p>
+</div></blockquote>
+<p><strong>density</strong> : float</p>
+<blockquote>
+<div><p>Density of the studied system</p>
+</div></blockquote>
+<p><strong>pbc</strong> : boolean, optional</p>
+<blockquote>
+<div><p>Whether or not the rdf was calculated with periodic boundary
+conditions.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>S</strong> : numpy array</p>
+<blockquote class="last">
+<div><p>The structure factor of the system. First column is the
+wavenumber, second is the ssf itself.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-analysis.RDF">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-analysis.RDF" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="analysis.StructureFactor.html" class="btn btn-neutral float-right" title="analysis.StructureFactor package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="analysis.MSTE.html" class="btn btn-neutral" title="analysis.MSTE package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Pablo Alcain.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

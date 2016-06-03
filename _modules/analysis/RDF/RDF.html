@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>analysis.RDF.RDF &mdash; LAMMPS-python 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="LAMMPS-python 0.1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> LAMMPS-python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">LAMMPS-python</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>analysis.RDF.RDF</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for analysis.RDF.RDF</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">RDF calculation</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">_DIRNAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+<span class="n">librdf</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_DIRNAME</span><span class="p">,</span> <span class="s">&#39;librdf.so&#39;</span><span class="p">))</span>
+<span class="n">rdf_c</span> <span class="o">=</span> <span class="n">librdf</span><span class="o">.</span><span class="n">rdf</span>
+
+<div class="viewcode-block" id="rdf"><a class="viewcode-back" href="../../../analysis.RDF.html#analysis.RDF.RDF.rdf">[docs]</a><span class="k">def</span> <span class="nf">rdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Calculate RDF.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+
+<span class="sd">  x : numpy array</span>
+<span class="sd">      Positions of the particles in the system</span>
+
+<span class="sd">  t : numpy array</span>
+<span class="sd">      Types of the particles</span>
+
+<span class="sd">  size : float</span>
+<span class="sd">      Length of the box</span>
+
+<span class="sd">  pairs: iterable</span>
+<span class="sd">      List of pairs to consider. Each element of the list is a tuple</span>
+<span class="sd">      of size 2, with the first element being the types considered</span>
+<span class="sd">      and the second one the other types. For example, if we want to</span>
+<span class="sd">      calculate the RDF on a system with 2 types of particles of all</span>
+<span class="sd">      types vs all types and type 1 vs type 2, the pairs should be:</span>
+
+<span class="sd">      pairs = [((1, 2), (1, 2)), ((1,), (2,))]</span>
+
+<span class="sd">      A keyword for &quot;all types&quot; is type 0</span>
+
+<span class="sd">  nbins : int</span>
+<span class="sd">      Number of bins to consider</span>
+
+<span class="sd">  pbc : boolean, optional</span>
+<span class="sd">      Whether or not to use periodic boundary conditions. Default is</span>
+<span class="sd">      True.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  rdf : numpy array</span>
+<span class="sd">      An array with the information of the compute. The first column</span>
+<span class="sd">      is &#39;r&#39; and the rest are the RDF calculated for the pair list.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">#TODO: Add some warning in case the indices repeat</span>
+  <span class="n">natoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">npairs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
+  <span class="n">ncol</span> <span class="o">=</span> <span class="n">npairs</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">pair_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">npairs</span><span class="p">)</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+    <span class="n">pair_ar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pair_ar</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_double</span> <span class="o">*</span> <span class="p">(</span><span class="n">nbins</span> <span class="o">*</span> <span class="n">ncol</span><span class="p">))()</span>
+  <span class="n">x_p</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data_as</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)</span>
+  <span class="n">t_p</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data_as</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)</span>
+  <span class="n">pair_p</span> <span class="o">=</span> <span class="n">pair_ar</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data_as</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)</span>
+  <span class="n">rdf_c</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+                    <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">,</span>
+                    <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+  <span class="n">rdf_c</span><span class="p">(</span><span class="n">x_p</span><span class="p">,</span> <span class="n">t_p</span><span class="p">,</span> <span class="n">natoms</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">pair_p</span><span class="p">,</span> <span class="n">npairs</span><span class="p">,</span> <span class="n">pbc</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+  <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">nbins</span> <span class="o">*</span> <span class="n">ncol</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nbins</span><span class="p">,</span> <span class="n">ncol</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="ssf"><a class="viewcode-back" href="../../../analysis.RDF.html#analysis.RDF.RDF.ssf">[docs]</a><span class="k">def</span> <span class="nf">ssf</span><span class="p">(</span><span class="n">gr</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Calculate structure factor given the radial distribution function.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+
+<span class="sd">  gr : numpy array</span>
+<span class="sd">      Radial Distribution Function. First column is the position,</span>
+<span class="sd">      second is the RDF itself</span>
+
+<span class="sd">  density : float</span>
+<span class="sd">      Density of the studied system</span>
+
+<span class="sd">  pbc : boolean, optional</span>
+<span class="sd">      Whether or not the rdf was calculated with periodic boundary</span>
+<span class="sd">      conditions.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  S : numpy array</span>
+<span class="sd">      The structure factor of the system. First column is the</span>
+<span class="sd">      wavenumber, second is the ssf itself.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">_d</span> <span class="o">=</span> <span class="n">density</span>
+  <span class="n">r</span> <span class="o">=</span> <span class="n">gr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+  <span class="c"># Assume evenly spaced</span>
+  <span class="n">dr</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="c"># How many points do I need to add to get a good resolution?</span>
+  <span class="n">dlda</span> <span class="o">=</span> <span class="mf">0.1</span>
+  <span class="n">lda0</span> <span class="o">=</span> <span class="mf">15.0</span>
+  <span class="n">rmax</span> <span class="o">=</span> <span class="n">lda0</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">dlda</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rmax</span><span class="o">/</span><span class="n">dr</span><span class="p">)</span>
+  <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">dr</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+  <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="n">S</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
+
+  <span class="c">#Integrand in the fourier transform</span>
+  <span class="k">if</span> <span class="n">pbc</span><span class="p">:</span> <span class="n">mean</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span> <span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">ker</span> <span class="o">=</span> <span class="p">(</span><span class="n">gr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span>
+  <span class="c">#Imaginary (sin) part of the Fourier transform</span>
+  <span class="n">ft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">ker</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="o">*</span> <span class="n">dr</span>
+  <span class="c">#We split the q = 0 case, since it is ill-defined</span>
+  <span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">_d</span><span class="p">)</span>
+  <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">dr</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ker</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">_d</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">S</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Pablo Alcain.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example file &mdash; LAMMPS-python 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="LAMMPS-python 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="API Documentation" href="modules.html"/>
+        <link rel="prev" title="Installation" href="installation.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> LAMMPS-python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">LAMMPS-python</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Example file</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/example.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-file">
+<h1>Example file<a class="headerlink" href="#example-file" title="Permalink to this headline">¶</a></h1>
+<p>The example file in <code class="docutils literal"><span class="pre">examples/neutronstar.py</span></code> is a typical setup for
+Neutron Star Matter calculation. In this file, we set a proton
+fraction of <span class="math">\(x=0.5\)</span> and a density of <span class="math">\(\rho=0.05\)</span>. Starting
+from a relatively high temperature of <span class="math">\(T=2.0\)</span>, we go down to
+<span class="math">\(T=0.5\)</span>, thermalizing each temperature we set. In it we can see
+the use of computes in the analyzer and the logger that is
+re-instantiated each time we change the system parameters.</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53</pre></div></td><td class="code"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">An example that runs a LAMMPS simulation for Neutron Star Matter.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pylammps</span> <span class="kn">as</span> <span class="nn">plmp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c">#Instantiate the Neutron Star System, that inherits from a LAMMPS</span>
+<span class="c">#System.</span>
+<span class="n">sys</span> <span class="o">=</span> <span class="n">plmp</span><span class="o">.</span><span class="n">NeutronStarSystem</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c">#Variables we we use in the computes</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">pairs</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">0</span><span class="p">,),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),),)</span>
+
+<span class="c">#Compute dictionary to instantiate the analyzer. See that we can add</span>
+<span class="c">#many times the same style of computes with differemt parameters as</span>
+<span class="c">#long we give them different keys in the dict.</span>
+<span class="n">computes</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;rdf&#39;</span><span class="p">:</span> <span class="n">plmp</span><span class="o">.</span><span class="n">Computes</span><span class="o">.</span><span class="n">RDF</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">pairs</span><span class="p">),</span>
+            <span class="s">&#39;ssf&#39;</span><span class="p">:</span> <span class="n">plmp</span><span class="o">.</span><span class="n">Computes</span><span class="o">.</span><span class="n">StructureFactor</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">pairs</span><span class="p">),</span>
+            <span class="s">&#39;thermo&#39;</span><span class="p">:</span> <span class="n">plmp</span><span class="o">.</span><span class="n">Computes</span><span class="o">.</span><span class="n">Thermo</span><span class="p">(),</span>
+            <span class="s">&#39;mste&#39;</span><span class="p">:</span> <span class="n">plmp</span><span class="o">.</span><span class="n">Computes</span><span class="o">.</span><span class="n">MSTE</span><span class="p">()}</span>
+
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">plmp</span><span class="o">.</span><span class="n">Analyzer</span><span class="p">(</span><span class="n">computes</span><span class="p">)</span>
+
+<span class="c">#Set values for the system</span>
+<span class="n">sys</span><span class="p">[</span><span class="s">&#39;potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;medium&#39;</span>
+<span class="n">sys</span><span class="p">[</span><span class="s">&#39;lambda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">sys</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">sys</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">sys</span><span class="p">[</span><span class="s">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">sys</span><span class="p">[</span><span class="s">&#39;d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+<span class="c">#Remove some of the initial energy</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">31</span><span class="p">):</span>
+  <span class="n">sys</span><span class="p">[</span><span class="s">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span>
+  <span class="c">#We instantiate the logger in every case, since want to change the</span>
+  <span class="c">#directory for different temperatures</span>
+  <span class="n">log</span> <span class="o">=</span> <span class="n">plmp</span><span class="o">.</span><span class="n">Logger</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s">&#39;image&#39;</span><span class="p">)</span>
+  <span class="c">#Thermalize the system</span>
+  <span class="n">sys</span><span class="o">.</span><span class="n">thermalize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+  <span class="c">#Zero out every compute in the analyzer</span>
+  <span class="n">analyzer</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s">&#39;text&#39;</span><span class="p">)</span>
+    <span class="c">#Update the computes in the analyzer</span>
+    <span class="n">analyzer</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s">&#39;image&#39;</span><span class="p">)</span>
+  <span class="c">#Log and plot the results of the analyzer</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">analyzer</span><span class="p">)</span>
+  <span class="n">log</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analyzer</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Pablo Alcain.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
