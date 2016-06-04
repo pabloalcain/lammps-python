@@ -46,7 +46,7 @@ class Logger(object):
   """
   Main logger class. Can either plot or write the data on a text file
   """
-  def __init__(self, system, root_path='./data'):
+  def __init__(self, system, root_path='./data', style='folder'):
     """
     Constructor.
 
@@ -59,9 +59,14 @@ class Logger(object):
 
     root_path : str, optional
         Root path in which we will store all the information
+
+    style : {'folder', 'hash'}
+      Style to use. Folder creates a path that mimics a folder
+      structure similar to that of the system parameters. Hash creates
+      a hash integer from the system dictionary.
     """
     identifier = [' '.join(map(str, (i, system[i]))) for i in system]
-    path = _create_path(system, 'folder')
+    path = _create_path(system, style)
     self.path = '{0}/{1}'.format(root_path, path)
     os.makedirs(self.path)
     identifier.append('id {0}'.format(path))
