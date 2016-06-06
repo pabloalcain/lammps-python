@@ -23,5 +23,5 @@ extern "C" {
 #endif
 double potential(double r);
 double distance(double *d, double size, int *idx);
-bool link(double rsq, double *dv, int idx, int t1, int t2, double expansion);
+static inline bool link(double rsq, double *dv, int idx, int t1, int t2, double expansion);
 #endif
