@@ -192,7 +192,6 @@ def _find_paths(graph, cncts):
       inf_clusters.append(cyc)
   return cycles, inf_clusters
 
-
 def mste(x, v, t, box, energy, expansion=0.0):
   """Calculate MSTE.
 
@@ -255,7 +254,6 @@ def mste(x, v, t, box, energy, expansion=0.0):
   inf = []
   value = np.zeros((natoms + 1, 3))
   value[:, 0] = range(natoms + 1)
-  print graph, conn
   for nodes in _partition(graph):
     this_graph = {}
     for n in nodes:
@@ -265,8 +263,8 @@ def mste(x, v, t, box, energy, expansion=0.0):
     if len(inf_clusters) != 0:
       inf.append(min(nodes))
   for clus in np.unique(mst):
-    mass = sum(mst == clus)
-    protons = sum((mst == clus) & (t.flatten() == 2))
+    mass = np.count_nonzero(mst == clus)
+    protons = np.count_nonzero((mst == clus) & (t.flatten() == 2))
     frac = float(protons)/mass
     if clus in inf:
       mass = 0
@@ -394,7 +392,6 @@ def connections(x, v, t, index, box, energy, expansion):
 
   count = connections_c(index_p, x_p, v_p, t_p, natoms, size,
                         expansion, energy, tmp)
-  print count
   conn = np.frombuffer(tmp, dtype=ct.c_int, count=count * 3)
   conn = conn.reshape((count, 3))
   return conn
