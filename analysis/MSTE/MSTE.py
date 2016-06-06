@@ -385,7 +385,7 @@ def connections(x, v, t, index, box, energy, expansion):
   tmp = (ct.c_int * (3 * guess))()
   connections_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
                             ct.c_void_p, ct.c_int, ct.c_double,
-                            ct.c_bool, ct.c_double, ct.c_void_p]
+                            ct.c_double, ct.c_bool, ct.c_void_p]
   connections_c.restype = ct.c_int
 
 
