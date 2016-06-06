@@ -35,6 +35,9 @@ def _create_path(system, style='folder'):
     for key in prefix.keys():
       if key in system.keys():
         path = path + ''.join((prefix[key], str(system[key]))) + '/'
+    for key, val in zip(system.keys(), system.values()):
+      if not key in prefix.keys():
+        path = path + ''.join(key, val) + '/'
   elif style == 'hash':
     path = str(hash(frozenset(system)))
   else:
