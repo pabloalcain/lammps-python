@@ -263,7 +263,7 @@ class System(dict):
 
     box : 2D numpy array
     """
-    box = np.array((3, 2))
+    box = np.zeros((3, 2))
     box[0][0] = self.lmp.extract_global("boxxlo", 1)
     box[0][1] = self.lmp.extract_global("boxxhi", 1)
     box[1][0] = self.lmp.extract_global("boxylo", 1)
