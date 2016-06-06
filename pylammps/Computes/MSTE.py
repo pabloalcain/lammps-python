@@ -41,7 +41,7 @@ class MSTE(Compute):
     value : numpy array
         value is the [mass, occupancy, fraction] histogram
     """
-    val = mste(system.x, system.v, system.t, system['size'], self.energy,
+    val = mste(system.x, system.v, system.t, system.box, self.energy,
                system['expansion'])
     return val[0]
 

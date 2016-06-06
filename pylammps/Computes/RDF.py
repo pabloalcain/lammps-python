@@ -75,6 +75,6 @@ class RDF(Compute):
         An array with the information of the compute. The first column
         is 'r' and the rest are the RDF calculated for the pair list.
     """
-    val = rdf(system.x, system.t, system['size'], self.pairs,
+    val = rdf(system.x, system.t, system.box, self.pairs,
               self.nbins, pbc=self.pbc)
     return val

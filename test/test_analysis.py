@@ -29,9 +29,9 @@ class TestSSF(object):
     pairs = (((0,), (0,),),)
     xn, tn, boxn =  T.replicate(x, t, box)
     sz = box[0][1] - box[0][0]
-    sk = A.structureFactor(x, t, sz, pairs, k, 3)
+    sk = A.structureFactor(x, t, box, pairs, k, 3)
     szn = boxn[0][1] - boxn[0][0]
-    sk_rep = A.structureFactor(xn, tn, szn, pairs, k, 1)
+    sk_rep = A.structureFactor(xn, tn, boxn, pairs, k, 1)
     nst.assert_almost_equal(sum(abs(sk_rep.flatten() - sk.flatten())), 0)
 
   def test_replicas_non_cubic(self):
@@ -46,10 +46,10 @@ class TestSSF(object):
     box = np.array([[0, 6], [-2, 5], [2, 8]])
     pairs = (((0,), (0,),),)
     xn, tn, boxn = T.replicate(x, t, box)
-    sz = box[0][1] - box[0][0]
-    sk = A.structureFactor(x, t, sz, pairs, k, 3)
-    szn = boxn[0][1] - boxn[0][0]
-    sk_rep = A.structureFactor(xn, tn, szn, pairs, k, 1)
+    nst.assert_raises(ValueError, A.structureFactor, x, t, box, pairs, k, 3)
+    nst.assert_raises(ValueError, A.structureFactor, xn, tn, boxn, pairs, k, 3)
+    #sk = A.structureFactor(x, t, box, pairs, k, 3)
+    #sk_rep = A.structureFactor(xn, tn, boxn, pairs, k, 1)
     #nst.assert_almost_equal(sum(abs(sk_rep.flatten() - sk.flatten())), 0)
 
 
@@ -75,11 +75,11 @@ class TestRDF(object):
     box = e.box({'T': 2.0})[0]
     size = box[0][1] - box[0][0]
     pairs = (((0,), (0,),),)
-    gr = A.rdf(x, t, size, pairs, 100, False)
+    gr = A.rdf(x, t, box, pairs, 100, False)
     d = np.shape(x)[0]/(float(size) ** 3)
     sk_transf = A.RDF.RDF.ssf(gr, d, False)
     k = sk_transf[:, 0].copy()
-    sk = A.structureFactor(x, t, size, pairs, k, 1, lebedev=194)
+    sk = A.structureFactor(x, t, box, pairs, k, 1, lebedev=194)
     #nst.assert_almost_equal(sum(abs(sk_transf.flatten() - sk.flatten())), 0)
 
 class TestMSTE(object):
@@ -176,8 +176,8 @@ class TestMSTE(object):
                   [1.8, 5, 1.0], [2, 5, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 100
-    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    box = np.array([[0, 100], [0, 100], [0, 100]])
+    index = A.MSTE.MSTE.cluster(x, v, t, box, False)
     hand_index = [0, 0, 0, 0, 0, 0]
     for i, j in zip(index, hand_index):
       nst.assert_equal(i, j)
@@ -191,8 +191,8 @@ class TestMSTE(object):
                   [1.8, 56, 1.0], [2, 5, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 100
-    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    box = np.array([[0, 100], [0, 100], [0, 100]])
+    index = A.MSTE.MSTE.cluster(x, v, t, box, False)
     hand_index = [0, 1, 1, 1, 0, 1]
     for i, j in zip(index, hand_index):
       nst.assert_equal(i, j)
@@ -206,8 +206,8 @@ class TestMSTE(object):
                   [1.8, 26, 51.0], [22, 25, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 100
-    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
+    box = np.array([[0, 100], [0, 100], [0, 100]])
+    index = A.MSTE.MSTE.cluster(x, v, t, box, False)
     hand_index = [0, 1, 2, 3, 4, 5]
     for i, j in zip(index, hand_index):
       nst.assert_equal(i, j)
@@ -220,9 +220,9 @@ class TestMSTE(object):
                   [1.8, 26, 51.0], [22, 25, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 100
-    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
-    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    box = np.array([[0, 100], [0, 100], [0, 100]])
+    index = A.MSTE.MSTE.cluster(x, v, t, box, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, box, False, 0.0)
     nst.assert_equal(conn.shape, (0, 3))
 
 
@@ -234,9 +234,9 @@ class TestMSTE(object):
                   [99.8, 55, 3], [22, 25, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 100.0
-    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
-    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    box = np.array([[0, 100], [0, 100], [0, 100]])
+    index = A.MSTE.MSTE.cluster(x, v, t, box, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, box, False, 0.0)
     nst.assert_equal(conn.shape, (2, 3))
 
   def test_connections_3(self):
@@ -247,9 +247,9 @@ class TestMSTE(object):
                   [99.8, 99.5, 3], [22, 25, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 100.0
-    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
-    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    box = np.array([[0, 100], [0, 100], [0, 100]])
+    index = A.MSTE.MSTE.cluster(x, v, t, box, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, box, False, 0.0)
     nst.assert_equal(conn.shape, (4, 3))
 
   def test_connections_4(self):
@@ -260,9 +260,9 @@ class TestMSTE(object):
                   [7, 2, 3], [9, 2, 3]], dtype=np.float64)
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 10
-    index = A.MSTE.MSTE.cluster(x, v, t, size, False)
-    conn = A.MSTE.MSTE.connections(x, v, t, index, size, False, 0.0)
+    box = np.array([[0, 10], [0, 10], [0, 10]])
+    index = A.MSTE.MSTE.cluster(x, v, t, box, False)
+    conn = A.MSTE.MSTE.connections(x, v, t, index, box, False, 0.0)
     nst.assert_equal(conn.shape, (2, 3))
 
   def test_mst_1(self):
@@ -273,9 +273,9 @@ class TestMSTE(object):
                   [7, 2, 3], [9, 2, 3]], dtype=np.int32)
     v = np.zeros((6, 3), dtype=np.int32)
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.float64)
-    size = 10
+    box = np.array([[0, 10], [0, 10], [0, 10]])
     with warnings.catch_warnings(record=True) as w:
-      value, _ = A.mste(x, v, t, size, False)
+      value, _ = A.mste(x, v, t, box, False)
     nst.assert_equal(len(w), 3)
 
   def test_mst_2(self):
@@ -286,8 +286,8 @@ class TestMSTE(object):
                   [1.8, 5, 1.0], [2, 5, 1]])
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 100
-    value, _ = A.mste(x, v, t, size, False)
+    box = np.array([[0, 100], [0, 100], [0, 100]])
+    value, _ = A.mste(x, v, t, box, False)
     value_hand = np.zeros((7, 3))
     value_hand[:, 0] = range(7)
     value_hand[6, 1:] = (1, 0.5)
@@ -304,8 +304,8 @@ class TestMSTE(object):
                   [7, 2, 3], [9, 2, 3]], dtype=np.float64)
     v = np.zeros((6, 3))
     t = np.array([[1], [2], [1], [2], [1], [2]], dtype=np.int32)
-    size = 10
-    value, _ = A.mste(x, v, t, size, False)
+    box = np.array([[0, 10], [0, 10], [0, 10]])
+    value, _ = A.mste(x, v, t, box, False)
     value_hand = np.zeros((7, 3))
     value_hand[:, 0] = range(7)
     value_hand[0, 1:] = (1, 0.5)
@@ -321,5 +321,5 @@ class TestMSTE(object):
                   [7, 2, 3], [9, 2, 3]], dtype=np.int32)
     v = np.zeros((6, 3), dtype=np.int32)
     t = np.array([[1.5], [2], [1], [2], [1], [2]], dtype=np.float64)
-    size = 10
-    nst.assert_raises(ValueError, A.mste, x, v, t, size, False)
+    box = np.array([[0, 10], [0, 10], [0, 10]])
+    nst.assert_raises(ValueError, A.mste, x, v, t, box, False)

@@ -10,20 +10,20 @@ _DIRNAME = os.path.dirname(__file__)
 librdf = ct.CDLL(os.path.join(_DIRNAME, 'librdf.so'))
 rdf_c = librdf.rdf
 
-def rdf(x, t, size, pairs, nbins, pbc=True):
+def rdf(x, t, box, pairs, nbins, pbc=True):
   """Calculate RDF.
 
   Parameters
   ----------
 
-  x : numpy array
+  x : numpy float64 array
       Positions of the particles in the system
 
-  t : numpy array
+  t : numpy int32 array
       Types of the particles
 
-  size : float
-      Length of the box
+  box : numpy float64 array
+      Box
 
   pairs: iterable
       List of pairs to consider. Each element of the list is a tuple
@@ -50,6 +50,14 @@ def rdf(x, t, size, pairs, nbins, pbc=True):
       An array with the information of the compute. The first column
       is 'r' and the rest are the RDF calculated for the pair list.
   """
+  size_x = box[0][1] - box[0][0]
+  size_y = box[1][1] - box[1][0]
+  size_z = box[2][1] - box[2][0]
+  if size_x != size_y or size_y != size_z:
+    raise ValueError("The box should be cubic for this to work")
+  else:
+    size = size_x
+
   #TODO: Add some warning in case the indices repeat
   natoms = np.shape(x)[0]
   npairs = len(pairs)

@@ -193,7 +193,7 @@ def _find_paths(graph, cncts):
   return cycles, inf_clusters
 
 
-def mste(x, v, t, size, energy, expansion=0.0):
+def mste(x, v, t, box, energy, expansion=0.0):
   """Calculate MSTE.
 
   Parameters
@@ -208,8 +208,8 @@ def mste(x, v, t, size, energy, expansion=0.0):
   t : numpy int32 array
       Types of the particles
 
-  size : float
-      Length of the box
+  box : numpy float64 array
+      Box
 
   energy : boolean
       Whether to do energy considerations in the cluster computation.
@@ -246,8 +246,8 @@ def mste(x, v, t, size, energy, expansion=0.0):
       if i != j:
         raise ValueError("Casting resulted in different values")
 
-  index = cluster(x, v, t, size, energy)
-  conn = connections(x, v, t, index, size, energy, expansion)
+  index = cluster(x, v, t, box, energy)
+  conn = connections(x, v, t, index, box, energy, expansion)
   graph, cnct = _create_graph(conn)
   #TODO: This should be an independent function
   mst = index.copy()
@@ -275,7 +275,7 @@ def mste(x, v, t, size, energy, expansion=0.0):
     value[mass, 2] += frac/value[mass, 1]
   return value, (mst, inf)
 
-def cluster(x, v, t, size, energy):
+def cluster(x, v, t, box, energy):
   """
   Get either MST or MSTE clusters from the configuration.
 
@@ -291,8 +291,8 @@ def cluster(x, v, t, size, energy):
   t : numpy int32 array
       Types of the particles
 
-  size : float
-      Length of the box
+  box : numpy float64 array
+      Box
 
   energy : boolean
       Whether to do energy considerations in the cluster computation.
@@ -303,6 +303,14 @@ def cluster(x, v, t, size, energy):
   index : numpy array
       An array with the cluster index of each particle.
   """
+  size_x = box[0][1] - box[0][0]
+  size_y = box[1][1] - box[1][0]
+  size_z = box[2][1] - box[2][0]
+  if size_x != size_y or size_y != size_z:
+    raise ValueError("The box should be cubic for this to work")
+  else:
+    size = size_x
+
   natoms = np.shape(x)[0]
   index_p = (ct.c_int * natoms)()
   x_p = x.ctypes.data_as(ct.c_void_p)
@@ -316,7 +324,7 @@ def cluster(x, v, t, size, energy):
   return index
 
 
-def connections(x, v, t, index, size, energy, expansion):
+def connections(x, v, t, index, box, energy, expansion):
   """Find the connections with a given cluster distribution.
 
   Parameters
@@ -334,8 +342,8 @@ def connections(x, v, t, index, size, energy, expansion):
   index : numpy array
       Cluster index of the particles
 
-  size : float
-      Length of the box
+  box : numpy float64 array
+      Box
 
   energy : boolean
       Whether to do energy considerations in the cluster computation.
@@ -358,7 +366,13 @@ def connections(x, v, t, index, size, energy, expansion):
 
   2. The box needs to be cubic for this to work
   """
-
+  size_x = box[0][1] - box[0][0]
+  size_y = box[1][1] - box[1][0]
+  size_z = box[2][1] - box[2][0]
+  if size_x != size_y or size_y != size_z:
+    raise ValueError("The box should be cubic for this to work")
+  else:
+    size = size_x
 
   natoms = np.shape(x)[0]
   index_p = index.ctypes.data_as(ct.c_void_p)

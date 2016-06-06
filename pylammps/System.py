@@ -253,6 +253,24 @@ class System(dict):
     _data = np.array(self.lmp.gather_atoms("type", 0, 1), dtype=np.int32)
     return _data
 
+  @property
+  def box(self):
+    """
+    Get box of the system as a (3, 2) numpy array
+
+    Returns
+    -------
+
+    box : 2D numpy array
+    """
+    box = np.array((3, 2))
+    box[0][0] = self.lmp.extract_global("boxxlo", 1)
+    box[0][1] = self.lmp.extract_global("boxxhi", 1)
+    box[1][0] = self.lmp.extract_global("boxylo", 1)
+    box[1][1] = self.lmp.extract_global("boxyhi", 1)
+    box[2][0] = self.lmp.extract_global("boxzlo", 1)
+    box[2][1] = self.lmp.extract_global("boxzhi", 1)
+    return box
   def run(self, steps):
     """
     Wrapper for the "run" command in lammps.
@@ -338,7 +356,6 @@ class NeutronStarSystem(System):
         _size = _vol ** (1.0 / 3.0) / 2
         _cb = ('change_box all x final -{s} {s} y final -{s} {s} '
                'z final  -{s} {s} remap')
-        self['size'] = _size * 2
         self.lmp.command(_cb.format(s=_size))
       except KeyError:
         pass
