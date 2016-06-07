@@ -105,7 +105,8 @@ class System(dict):
     _vel = rate * _size
     _vc = ('velocity all ramp {vi} -{v} {v} {ri} -{s} {s} '
            'sum yes units box')
-    self.lmp.command('fix expansion all deform 1')
+    self.lmp.command(('fix expansion all deform 1 x erate {0} '
+                      'y erate {0} z erate {0} remap v'.format(rate))
     self.lmp.command(_vc.format(vi='vx', ri='x', v=_vel, s=_size))
     self.lmp.command(_vc.format(vi='vy', ri='y', v=_vel, s=_size))
     self.lmp.command(_vc.format(vi='vz', ri='z', v=_vel, s=_size))
