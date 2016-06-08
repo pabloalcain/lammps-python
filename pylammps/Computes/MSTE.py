@@ -88,5 +88,5 @@ class MSTE(Compute):
     # Add legend save and close fig
     ax1.legend(hand1+hand2, lab1+lab2)
     fig.tight_layout()
-    fig.savefig(filename)
+    fig.savefig('{0}.pdf'.format(filename))
     pl.close()
