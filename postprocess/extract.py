@@ -52,9 +52,9 @@ class Extraction(object):
         ret.append(entry)
     return ret
 
-  def particle(self, cols, parameters, dtype=np.float64, idx=0):
-    """Extract a 'per particle' magnitude that is in a lammps dump file
-    that matches the parameters.
+  def particle(self, cols, fname, dtype=np.float64, idx=0):
+    """Extract a 'per particle' magnitude that is the given lammps dump
+    file.
 
     Parameters
     ----------
@@ -62,8 +62,8 @@ class Extraction(object):
     cols : tuple
         Columns to extract
 
-    parameters : dict
-        A dictionary of parameters from which to extract
+    fname : str
+        LAMMPS dump filename
 
     dtype : datatype, optional
         Datatype of the array
@@ -77,43 +77,40 @@ class Extraction(object):
     output : list
         A list of numpy arrays with the requested data that match all
         parameters.
+
     """
     _size = len(cols)
-    output = []
-    for item in self.entries(parameters):
-      path = '{0}/{1}'.format(self.path, item['id'])
-      _file = open('{0}/dump.lammpstrj'.format(path))
-      npart = _file.readlines
-      _nline = 0
-      for line in _file.readlines():
-        _nline += 1
-        if _nline < 4:
-          continue
-        if _nline == 4:
-          npart = int(line)
-          out = np.zeros((npart, _size), dtype=dtype)
-          offset = (npart + 9) * idx
-          continue
-        if _nline < offset + 10:
-          continue
-        if _nline == offset + npart + 10:
-          break
-        idxp = _nline - offset - 10
-        for i, j in enumerate(cols):
-          out[idxp, i] = line.split()[j]
-      _file.close()
-      output.append(out)
-    return output
+    _file = open(fname)
+    npart = _file.readlines
+    _nline = 0
+    for line in _file.readlines():
+      _nline += 1
+      if _nline < 4:
+        continue
+      if _nline == 4:
+        npart = int(line)
+        out = np.zeros((npart, _size), dtype=dtype)
+        offset = (npart + 9) * idx
+        continue
+      if _nline < offset + 10:
+        continue
+      if _nline == offset + npart + 10:
+        break
+      idxp = _nline - offset - 10
+      for i, j in enumerate(cols):
+        out[idxp, i] = line.split()[j]
+    _file.close()
+    return out
 
-  def x(self, parameters, idx=0):
+  def x(self, fname, idx=0):
     """Extract the positions that are in a lammps dump file
     that matches the parameters.
 
     Parameters
     ----------
 
-    parameters : dict
-        A dictionary of parameters from which to extract
+    fname : str
+        LAMMPS dump filename
 
     idx : datatype, optional
         Index of the timestep to look for [not the timestep itself]
@@ -125,17 +122,17 @@ class Extraction(object):
         A list of numpy arrays with the positions that match all
         parameters.
     """
-    return self.particle((2, 3, 4), parameters, np.float64, idx)
+    return self.particle((2, 3, 4), fname, np.float64, idx)
 
-  def v(self, parameters, idx=0):
+  def v(self, fname, idx=0):
     """Extract the velocities that are in a lammps dump file
     that matches the parameters.
 
     Parameters
     ----------
 
-    parameters : dict
-        A dictionary of parameters from which to extract
+    fname : str
+        LAMMPS dump filename
 
     idx : datatype, optional
         Index of the timestep to look for [not the timestep itself]
@@ -147,17 +144,17 @@ class Extraction(object):
         A list of numpy arrays with the velocities that match all
         parameters.
     """
-    return self.particle((5, 6, 7), parameters, np.float64, idx)
+    return self.particle((5, 6, 7), fname, np.float64, idx)
 
-  def t(self, parameters, idx=0):
+  def t(self, fname, idx=0):
     """Extract the types that are in a lammps dump file
     that matches the parameters.
 
     Parameters
     ----------
 
-    parameters : dict
-        A dictionary of parameters from which to extract
+    fname : str
+        LAMMPS dump filename
 
     idx : datatype, optional
         Index of the timestep to look for [not the timestep itself]
@@ -169,17 +166,17 @@ class Extraction(object):
         A list of numpy arrays with the types that match all
         parameters.
     """
-    return self.particle((1,), parameters, np.int32, idx)
+    return self.particle((1,), fname, np.int32, idx)
 
-  def box(self, parameters, idx=0):
+  def box(self, fname, idx=0):
     """Extract the boxes that are in a lammps dump file
     that matches the parameters.
 
     Parameters
     ----------
 
-    parameters : dict
-        A dictionary of parameters from which to extract
+    fname : str
+        LAMMPS dump filename
 
     idx : datatype, optional
         Index of the timestep to look for [not the timestep itself]
@@ -191,24 +188,20 @@ class Extraction(object):
         A list of numpy arrays with the boxes that match all
         parameters.
     """
-    output = []
-    for item in self.entries(parameters):
-      path = '{0}/{1}'.format(self.path, item['id'])
-      _file = open('{0}/dump.lammpstrj'.format(path))
-      size = np.zeros((3, 2))
-      _nline = 0
-      for line in _file.readlines():
-        _nline += 1
-        if _nline < 4:
-          continue
-        if _nline == 4:
-          npart = int(line)
-          offset = (npart + 9) * idx
-          continue
-        if _nline > offset + 5 and _nline < offset + 9:
-          size[_nline - offset - 6, :] = line.split()
-          continue
-        if _nline == offset + 9:
-          break
-      output.append(size)
-    return output
+    _file = open(fname)
+    box = np.zeros((3, 2))
+    _nline = 0
+    for line in _file.readlines():
+      _nline += 1
+      if _nline < 4:
+        continue
+      if _nline == 4:
+        npart = int(line)
+        offset = (npart + 9) * idx
+        continue
+      if _nline > offset + 5 and _nline < offset + 9:
+        box[_nline - offset - 6, :] = line.split()
+        continue
+      if _nline == offset + 9:
+        break
+    return box

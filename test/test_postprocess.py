@@ -40,40 +40,45 @@ class TestExtract(object):
 
   def test_particle_extraction(self):
     """Extract columns from an entry"""
-    inf = self.ext.particle((2, 3, 4), {'T': 0.5})
+    entries = self.ext.entries({'T': 0.5})
+    fname = self.ext.path + entries[0]['id'] + 'dump.lammpstrj'
+    inf = self.ext.particle((2, 3, 4), fname)
     known = [-0.396773, -1.25902, -1.54895]
-    for i, j in zip(inf[0][0, :], known):
+    for i, j in zip(inf[0, :], known):
       nst.assert_almost_equal(i, j)
-
-  def test_mult_particle_extraction(self):
-    """Extract columns from an entry with multiple hits"""
-    inf = self.ext.particle((2, 3, 4), {'x': 0.5})
-    nst.assert_equal(np.shape(inf), (31, 50, 3))
 
   def test_position_extraction(self):
     """Extract positions from an entry"""
-    inf = self.ext.x({'T': 0.5}, idx=1)
+    entries = self.ext.entries({'T': 0.5})
+    fname = self.ext.path + entries[0]['id'] + 'dump.lammpstrj'
+    inf = self.ext.x(fname, idx=1)
     known = [-0.43157, -0.990112, -1.36708]
-    for i, j in zip(inf[0][0, :], known):
+    for i, j in zip(inf[0, :], known):
       nst.assert_almost_equal(i, j)
 
   def test_velocity_extraction(self):
     """Extract velocities from an entry"""
-    inf = self.ext.v({'T': 0.5}, idx=3)
+    entries = self.ext.entries({'T': 0.5})
+    fname = self.ext.path + entries[0]['id'] + 'dump.lammpstrj'
+    inf = self.ext.v(fname, idx=3)
     known = [-0.0167678, -0.0189928, 0.0155681]
-    for i, j in zip(inf[0][0, :], known):
+    for i, j in zip(inf[0, :], known):
       nst.assert_almost_equal(i, j)
 
   def test_type_extraction(self):
     """Extract types from an entry"""
-    inf = self.ext.t({'T': 0.5}, idx=3)
+    entries = self.ext.entries({'T': 0.5})
+    fname = self.ext.path + entries[0]['id'] + 'dump.lammpstrj'
+    inf = self.ext.t(fname, idx=3)
     known = [1]*25 + [2]*25
-    for i, j in zip(inf[0][0, :], known):
+    for i, j in zip(inf[0, :], known):
       nst.assert_equal(i, j)
 
   def test_box_extraction(self):
     """Extract box from an entry"""
-    box = self.ext.box({'T': 0.5}, idx=3)[0]
+    entries = self.ext.entries({'T': 0.5})
+    fname = self.ext.path + entries[0]['id'] + 'dump.lammpstrj'
+    box = self.ext.box(fname, idx=3)
     known = [[-5, 5], [-5, 5], [-5, 5]]
     for i, j in zip(box, known):
       nst.assert_equal(i[0], j[0])

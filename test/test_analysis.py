@@ -70,9 +70,11 @@ class TestRDF(object):
     to measure, since it's quite fuzzy and will fail.
     """
     e = Extraction('./data/')
-    x = e.x({'T': 2.0})[0]
-    t = e.t({'T': 2.0})[0]
-    box = e.box({'T': 2.0})[0]
+    entries = e.entries({'T': 0.5})
+    fname = e.path + entries[0]['id'] + 'dump.lammpstrj'
+    x = e.x(fname)
+    t = e.t(fname)
+    box = e.box(fname)
     size = box[0][1] - box[0][0]
     pairs = (((0,), (0,),),)
     gr = A.rdf(x, t, box, pairs, 100, False)
