@@ -159,16 +159,16 @@
 per-particle magnitudes</p>
 <dl class="method">
 <dt id="postprocess.extract.Extraction.box">
-<code class="descname">box</code><span class="sig-paren">(</span><em>parameters</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.box"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.box" title="Permalink to this definition">¶</a></dt>
+<code class="descname">box</code><span class="sig-paren">(</span><em>fname</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.box"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.box" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the boxes that are in a lammps dump file
 that matches the parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>parameters</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
-<div><p>A dictionary of parameters from which to extract</p>
+<div><p>LAMMPS dump filename</p>
 </div></blockquote>
 <p><strong>idx</strong> : datatype, optional</p>
 <blockquote>
@@ -213,9 +213,9 @@ parameters.</p>
 
 <dl class="method">
 <dt id="postprocess.extract.Extraction.particle">
-<code class="descname">particle</code><span class="sig-paren">(</span><em>cols</em>, <em>parameters</em>, <em>dtype=&lt;type 'numpy.float64'&gt;</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.particle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.particle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract a &#8216;per particle&#8217; magnitude that is in a lammps dump file
-that matches the parameters.</p>
+<code class="descname">particle</code><span class="sig-paren">(</span><em>cols</em>, <em>fname</em>, <em>dtype=&lt;type 'numpy.float64'&gt;</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.particle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.particle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract a &#8216;per particle&#8217; magnitude that is the given lammps dump
+file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -224,9 +224,9 @@ that matches the parameters.</p>
 <blockquote>
 <div><p>Columns to extract</p>
 </div></blockquote>
-<p><strong>parameters</strong> : dict</p>
+<p><strong>fname</strong> : str</p>
 <blockquote>
-<div><p>A dictionary of parameters from which to extract</p>
+<div><p>LAMMPS dump filename</p>
 </div></blockquote>
 <p><strong>dtype</strong> : datatype, optional</p>
 <blockquote>
@@ -251,16 +251,16 @@ parameters.</p>
 
 <dl class="method">
 <dt id="postprocess.extract.Extraction.t">
-<code class="descname">t</code><span class="sig-paren">(</span><em>parameters</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.t"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.t" title="Permalink to this definition">¶</a></dt>
+<code class="descname">t</code><span class="sig-paren">(</span><em>fname</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.t"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.t" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the types that are in a lammps dump file
 that matches the parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>parameters</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
-<div><p>A dictionary of parameters from which to extract</p>
+<div><p>LAMMPS dump filename</p>
 </div></blockquote>
 <p><strong>idx</strong> : datatype, optional</p>
 <blockquote>
@@ -281,16 +281,16 @@ parameters.</p>
 
 <dl class="method">
 <dt id="postprocess.extract.Extraction.v">
-<code class="descname">v</code><span class="sig-paren">(</span><em>parameters</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.v"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.v" title="Permalink to this definition">¶</a></dt>
+<code class="descname">v</code><span class="sig-paren">(</span><em>fname</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.v"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.v" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the velocities that are in a lammps dump file
 that matches the parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>parameters</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
-<div><p>A dictionary of parameters from which to extract</p>
+<div><p>LAMMPS dump filename</p>
 </div></blockquote>
 <p><strong>idx</strong> : datatype, optional</p>
 <blockquote>
@@ -311,16 +311,16 @@ parameters.</p>
 
 <dl class="method">
 <dt id="postprocess.extract.Extraction.x">
-<code class="descname">x</code><span class="sig-paren">(</span><em>parameters</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.x" title="Permalink to this definition">¶</a></dt>
+<code class="descname">x</code><span class="sig-paren">(</span><em>fname</em>, <em>idx=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/postprocess/extract.html#Extraction.x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#postprocess.extract.Extraction.x" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the positions that are in a lammps dump file
 that matches the parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>parameters</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fname</strong> : str</p>
 <blockquote>
-<div><p>A dictionary of parameters from which to extract</p>
+<div><p>LAMMPS dump filename</p>
 </div></blockquote>
 <p><strong>idx</strong> : datatype, optional</p>
 <blockquote>

@@ -303,7 +303,7 @@ everything on a file</p>
 <p>Logger class</p>
 <dl class="class">
 <dt id="pylammps.Logger.Logger">
-<em class="property">class </em><code class="descclassname">pylammps.Logger.</code><code class="descname">Logger</code><span class="sig-paren">(</span><em>system</em>, <em>root_path='./data'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pylammps/Logger.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylammps.Logger.Logger" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pylammps.Logger.</code><code class="descname">Logger</code><span class="sig-paren">(</span><em>system</em>, <em>root_path='./data'</em>, <em>style='folder'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pylammps/Logger.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylammps.Logger.Logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Main logger class. Can either plot or write the data on a text file</p>
 <dl class="method">
@@ -405,6 +405,20 @@ Star Simulations</p>
 <p>Any system will be a dictionary with the parameters of the
 simulation. It inherits from a dictionary to keep the syntax as
 clean as possible</p>
+<dl class="attribute">
+<dt id="pylammps.System.System.box">
+<code class="descname">box</code><a class="headerlink" href="#pylammps.System.System.box" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get box of the system as a (3, 2) numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>box</strong> : 2D numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="pylammps.System.System.dump">
 <code class="descname">dump</code><span class="sig-paren">(</span><em>path</em>, <em>style</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pylammps/System.html#System.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylammps.System.System.dump" title="Permalink to this definition">¶</a></dt>

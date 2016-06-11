@@ -158,7 +158,7 @@
 <p>MSTE calculation</p>
 <dl class="function">
 <dt id="analysis.MSTE.MSTE.cluster">
-<code class="descclassname">analysis.MSTE.MSTE.</code><code class="descname">cluster</code><span class="sig-paren">(</span><em>x</em>, <em>v</em>, <em>t</em>, <em>size</em>, <em>energy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/MSTE/MSTE.html#cluster"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.MSTE.MSTE.cluster" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">analysis.MSTE.MSTE.</code><code class="descname">cluster</code><span class="sig-paren">(</span><em>x</em>, <em>v</em>, <em>t</em>, <em>box</em>, <em>energy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/MSTE/MSTE.html#cluster"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.MSTE.MSTE.cluster" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get either MST or MSTE clusters from the configuration.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -176,9 +176,9 @@
 <blockquote>
 <div><p>Types of the particles</p>
 </div></blockquote>
-<p><strong>size</strong> : float</p>
+<p><strong>box</strong> : numpy float64 array</p>
 <blockquote>
-<div><p>Length of the box</p>
+<div><p>Box</p>
 </div></blockquote>
 <p><strong>energy</strong> : boolean</p>
 <blockquote>
@@ -198,7 +198,7 @@
 
 <dl class="function">
 <dt id="analysis.MSTE.MSTE.connections">
-<code class="descclassname">analysis.MSTE.MSTE.</code><code class="descname">connections</code><span class="sig-paren">(</span><em>x</em>, <em>v</em>, <em>t</em>, <em>index</em>, <em>size</em>, <em>energy</em>, <em>expansion</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/MSTE/MSTE.html#connections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.MSTE.MSTE.connections" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">analysis.MSTE.MSTE.</code><code class="descname">connections</code><span class="sig-paren">(</span><em>x</em>, <em>v</em>, <em>t</em>, <em>index</em>, <em>box</em>, <em>energy</em>, <em>expansion</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/MSTE/MSTE.html#connections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.MSTE.MSTE.connections" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the connections with a given cluster distribution.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -220,9 +220,9 @@
 <blockquote>
 <div><p>Cluster index of the particles</p>
 </div></blockquote>
-<p><strong>size</strong> : float</p>
+<p><strong>box</strong> : numpy float64 array</p>
 <blockquote>
-<div><p>Length of the box</p>
+<div><p>Box</p>
 </div></blockquote>
 <p><strong>energy</strong> : boolean</p>
 <blockquote>
@@ -253,7 +253,7 @@
 
 <dl class="function">
 <dt id="analysis.MSTE.MSTE.mste">
-<code class="descclassname">analysis.MSTE.MSTE.</code><code class="descname">mste</code><span class="sig-paren">(</span><em>x</em>, <em>v</em>, <em>t</em>, <em>size</em>, <em>energy</em>, <em>expansion=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/MSTE/MSTE.html#mste"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.MSTE.MSTE.mste" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">analysis.MSTE.MSTE.</code><code class="descname">mste</code><span class="sig-paren">(</span><em>x</em>, <em>v</em>, <em>t</em>, <em>box</em>, <em>energy</em>, <em>expansion=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/MSTE/MSTE.html#mste"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.MSTE.MSTE.mste" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate MSTE.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -271,9 +271,9 @@
 <blockquote>
 <div><p>Types of the particles</p>
 </div></blockquote>
-<p><strong>size</strong> : float</p>
+<p><strong>box</strong> : numpy float64 array</p>
 <blockquote>
-<div><p>Length of the box</p>
+<div><p>Box</p>
 </div></blockquote>
 <p><strong>energy</strong> : boolean</p>
 <blockquote>

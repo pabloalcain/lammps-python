@@ -183,9 +183,9 @@
         <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ret</span></div>
 
-<div class="viewcode-block" id="Extraction.particle"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.particle">[docs]</a>  <span class="k">def</span> <span class="nf">particle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract a &#39;per particle&#39; magnitude that is in a lammps dump file</span>
-<span class="sd">    that matches the parameters.</span>
+<div class="viewcode-block" id="Extraction.particle"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.particle">[docs]</a>  <span class="k">def</span> <span class="nf">particle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract a &#39;per particle&#39; magnitude that is the given lammps dump</span>
+<span class="sd">    file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -193,8 +193,8 @@
 <span class="sd">    cols : tuple</span>
 <span class="sd">        Columns to extract</span>
 
-<span class="sd">    parameters : dict</span>
-<span class="sd">        A dictionary of parameters from which to extract</span>
+<span class="sd">    fname : str</span>
+<span class="sd">        LAMMPS dump filename</span>
 
 <span class="sd">    dtype : datatype, optional</span>
 <span class="sd">        Datatype of the array</span>
@@ -208,43 +208,40 @@
 <span class="sd">    output : list</span>
 <span class="sd">        A list of numpy arrays with the requested data that match all</span>
 <span class="sd">        parameters.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entries</span><span class="p">(</span><span class="n">parameters</span><span class="p">):</span>
-      <span class="n">path</span> <span class="o">=</span> <span class="s">&#39;{0}/{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
-      <span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;{0}/dump.lammpstrj&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-      <span class="n">npart</span> <span class="o">=</span> <span class="n">_file</span><span class="o">.</span><span class="n">readlines</span>
-      <span class="n">_nline</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
-        <span class="n">_nline</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
-          <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-          <span class="n">npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-          <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">npart</span><span class="p">,</span> <span class="n">_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-          <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">npart</span> <span class="o">+</span> <span class="mi">9</span><span class="p">)</span> <span class="o">*</span> <span class="n">idx</span>
-          <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">10</span><span class="p">:</span>
-          <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">npart</span> <span class="o">+</span> <span class="mi">10</span><span class="p">:</span>
-          <span class="k">break</span>
-        <span class="n">idxp</span> <span class="o">=</span> <span class="n">_nline</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">10</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
-          <span class="n">out</span><span class="p">[</span><span class="n">idxp</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="n">j</span><span class="p">]</span>
-      <span class="n">_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-      <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">output</span></div>
+    <span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">npart</span> <span class="o">=</span> <span class="n">_file</span><span class="o">.</span><span class="n">readlines</span>
+    <span class="n">_nline</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+      <span class="n">_nline</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">npart</span><span class="p">,</span> <span class="n">_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">npart</span> <span class="o">+</span> <span class="mi">9</span><span class="p">)</span> <span class="o">*</span> <span class="n">idx</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">npart</span> <span class="o">+</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">break</span>
+      <span class="n">idxp</span> <span class="o">=</span> <span class="n">_nline</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">10</span>
+      <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">idxp</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Extraction.x"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.x">[docs]</a>  <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Extraction.x"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.x">[docs]</a>  <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extract the positions that are in a lammps dump file</span>
 <span class="sd">    that matches the parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
-<span class="sd">    parameters : dict</span>
-<span class="sd">        A dictionary of parameters from which to extract</span>
+<span class="sd">    fname : str</span>
+<span class="sd">        LAMMPS dump filename</span>
 
 <span class="sd">    idx : datatype, optional</span>
 <span class="sd">        Index of the timestep to look for [not the timestep itself]</span>
@@ -256,17 +253,17 @@
 <span class="sd">        A list of numpy arrays with the positions that match all</span>
 <span class="sd">        parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">fname</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extraction.v"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.v">[docs]</a>  <span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Extraction.v"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.v">[docs]</a>  <span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extract the velocities that are in a lammps dump file</span>
 <span class="sd">    that matches the parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
-<span class="sd">    parameters : dict</span>
-<span class="sd">        A dictionary of parameters from which to extract</span>
+<span class="sd">    fname : str</span>
+<span class="sd">        LAMMPS dump filename</span>
 
 <span class="sd">    idx : datatype, optional</span>
 <span class="sd">        Index of the timestep to look for [not the timestep itself]</span>
@@ -278,17 +275,17 @@
 <span class="sd">        A list of numpy arrays with the velocities that match all</span>
 <span class="sd">        parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">fname</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extraction.t"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.t">[docs]</a>  <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Extraction.t"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.t">[docs]</a>  <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extract the types that are in a lammps dump file</span>
 <span class="sd">    that matches the parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
-<span class="sd">    parameters : dict</span>
-<span class="sd">        A dictionary of parameters from which to extract</span>
+<span class="sd">    fname : str</span>
+<span class="sd">        LAMMPS dump filename</span>
 
 <span class="sd">    idx : datatype, optional</span>
 <span class="sd">        Index of the timestep to look for [not the timestep itself]</span>
@@ -300,17 +297,17 @@
 <span class="sd">        A list of numpy arrays with the types that match all</span>
 <span class="sd">        parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle</span><span class="p">((</span><span class="mi">1</span><span class="p">,),</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">particle</span><span class="p">((</span><span class="mi">1</span><span class="p">,),</span> <span class="n">fname</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extraction.box"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.box">[docs]</a>  <span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Extraction.box"><a class="viewcode-back" href="../../postprocess.html#postprocess.extract.Extraction.box">[docs]</a>  <span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extract the boxes that are in a lammps dump file</span>
 <span class="sd">    that matches the parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
-<span class="sd">    parameters : dict</span>
-<span class="sd">        A dictionary of parameters from which to extract</span>
+<span class="sd">    fname : str</span>
+<span class="sd">        LAMMPS dump filename</span>
 
 <span class="sd">    idx : datatype, optional</span>
 <span class="sd">        Index of the timestep to look for [not the timestep itself]</span>
@@ -322,27 +319,23 @@
 <span class="sd">        A list of numpy arrays with the boxes that match all</span>
 <span class="sd">        parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entries</span><span class="p">(</span><span class="n">parameters</span><span class="p">):</span>
-      <span class="n">path</span> <span class="o">=</span> <span class="s">&#39;{0}/{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
-      <span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;{0}/dump.lammpstrj&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-      <span class="n">size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-      <span class="n">_nline</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
-        <span class="n">_nline</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
-          <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-          <span class="n">npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-          <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">npart</span> <span class="o">+</span> <span class="mi">9</span><span class="p">)</span> <span class="o">*</span> <span class="n">idx</span>
-          <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">&gt;</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">9</span><span class="p">:</span>
-          <span class="n">size</span><span class="p">[</span><span class="n">_nline</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-          <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">9</span><span class="p">:</span>
-          <span class="k">break</span>
-      <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">output</span></div></div>
+    <span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">box</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">_nline</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+      <span class="n">_nline</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">npart</span> <span class="o">+</span> <span class="mi">9</span><span class="p">)</span> <span class="o">*</span> <span class="n">idx</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">&gt;</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">_nline</span> <span class="o">&lt;</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">box</span><span class="p">[</span><span class="n">_nline</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">_nline</span> <span class="o">==</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="k">return</span> <span class="n">box</span></div></div>
 </pre></div>
 
            </div>

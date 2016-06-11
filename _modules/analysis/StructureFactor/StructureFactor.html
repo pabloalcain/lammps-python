@@ -141,21 +141,21 @@
 <span class="n">libssf</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_DIRNAME</span><span class="p">,</span> <span class="s">&#39;libssf.so&#39;</span><span class="p">))</span>
 <span class="n">ssf_c</span> <span class="o">=</span> <span class="n">libssf</span><span class="o">.</span><span class="n">ssf</span>
 
-<div class="viewcode-block" id="structureFactor"><a class="viewcode-back" href="../../../analysis.StructureFactor.html#analysis.StructureFactor.StructureFactor.structureFactor">[docs]</a><span class="k">def</span> <span class="nf">structureFactor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">rep</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">lebedev</span><span class="o">=</span><span class="mi">194</span><span class="p">):</span>
+<div class="viewcode-block" id="structureFactor"><a class="viewcode-back" href="../../../analysis.StructureFactor.html#analysis.StructureFactor.StructureFactor.structureFactor">[docs]</a><span class="k">def</span> <span class="nf">structureFactor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">box</span><span class="p">,</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">rep</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">lebedev</span><span class="o">=</span><span class="mi">194</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Calculate structure factor.</span>
 
 <span class="sd">  Parameters</span>
 <span class="sd">  ----------</span>
 
-<span class="sd">  x : numpy array</span>
+<span class="sd">  x : numpy float64 array</span>
 <span class="sd">      Positions of the particles in the system</span>
 
-<span class="sd">  t : numpy array</span>
+<span class="sd">  t : numpy int32 array</span>
 <span class="sd">      Types of the particles</span>
 
-<span class="sd">  size : float</span>
-<span class="sd">      Length of the box</span>
+<span class="sd">  box : numpy float64 array</span>
+<span class="sd">      Box</span>
 
 <span class="sd">  pairs: iterable</span>
 <span class="sd">      List of pairs to consider. Each element of the list is a tuple</span>
@@ -187,6 +187,14 @@
 <span class="sd">      is &#39;r&#39; and the rest is the structure factor calculated for the</span>
 <span class="sd">      pair list.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">size_x</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">size_y</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">size_z</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">size_x</span> <span class="o">!=</span> <span class="n">size_y</span> <span class="ow">or</span> <span class="n">size_y</span> <span class="o">!=</span> <span class="n">size_z</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;The box should be cubic for this to work&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">size_x</span>
   <span class="n">natoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
   <span class="n">npairs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
   <span class="n">ncol</span> <span class="o">=</span> <span class="n">npairs</span> <span class="o">+</span> <span class="mi">1</span>

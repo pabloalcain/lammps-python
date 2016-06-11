@@ -141,20 +141,20 @@
 <span class="n">librdf</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_DIRNAME</span><span class="p">,</span> <span class="s">&#39;librdf.so&#39;</span><span class="p">))</span>
 <span class="n">rdf_c</span> <span class="o">=</span> <span class="n">librdf</span><span class="o">.</span><span class="n">rdf</span>
 
-<div class="viewcode-block" id="rdf"><a class="viewcode-back" href="../../../analysis.RDF.html#analysis.RDF.RDF.rdf">[docs]</a><span class="k">def</span> <span class="nf">rdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="rdf"><a class="viewcode-back" href="../../../analysis.RDF.html#analysis.RDF.RDF.rdf">[docs]</a><span class="k">def</span> <span class="nf">rdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">box</span><span class="p">,</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Calculate RDF.</span>
 
 <span class="sd">  Parameters</span>
 <span class="sd">  ----------</span>
 
-<span class="sd">  x : numpy array</span>
+<span class="sd">  x : numpy float64 array</span>
 <span class="sd">      Positions of the particles in the system</span>
 
-<span class="sd">  t : numpy array</span>
+<span class="sd">  t : numpy int32 array</span>
 <span class="sd">      Types of the particles</span>
 
-<span class="sd">  size : float</span>
-<span class="sd">      Length of the box</span>
+<span class="sd">  box : numpy float64 array</span>
+<span class="sd">      Box</span>
 
 <span class="sd">  pairs: iterable</span>
 <span class="sd">      List of pairs to consider. Each element of the list is a tuple</span>
@@ -181,6 +181,14 @@
 <span class="sd">      An array with the information of the compute. The first column</span>
 <span class="sd">      is &#39;r&#39; and the rest are the RDF calculated for the pair list.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">size_x</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">size_y</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">size_z</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">size_x</span> <span class="o">!=</span> <span class="n">size_y</span> <span class="ow">or</span> <span class="n">size_y</span> <span class="o">!=</span> <span class="n">size_z</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;The box should be cubic for this to work&quot;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">size_x</span>
+
   <span class="c">#TODO: Add some warning in case the indices repeat</span>
   <span class="n">natoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
   <span class="n">npairs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>

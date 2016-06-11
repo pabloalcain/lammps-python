@@ -158,23 +158,23 @@
 <p>Calculation of the structure factor</p>
 <dl class="function">
 <dt id="analysis.StructureFactor.StructureFactor.structureFactor">
-<code class="descclassname">analysis.StructureFactor.StructureFactor.</code><code class="descname">structureFactor</code><span class="sig-paren">(</span><em>x</em>, <em>t</em>, <em>size</em>, <em>pairs</em>, <em>k</em>, <em>rep=2</em>, <em>lebedev=194</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/StructureFactor/StructureFactor.html#structureFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.StructureFactor.StructureFactor.structureFactor" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">analysis.StructureFactor.StructureFactor.</code><code class="descname">structureFactor</code><span class="sig-paren">(</span><em>x</em>, <em>t</em>, <em>box</em>, <em>pairs</em>, <em>k</em>, <em>rep=2</em>, <em>lebedev=194</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/StructureFactor/StructureFactor.html#structureFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.StructureFactor.StructureFactor.structureFactor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate structure factor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : numpy array</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : numpy float64 array</p>
 <blockquote>
 <div><p>Positions of the particles in the system</p>
 </div></blockquote>
-<p><strong>t</strong> : numpy array</p>
+<p><strong>t</strong> : numpy int32 array</p>
 <blockquote>
 <div><p>Types of the particles</p>
 </div></blockquote>
-<p><strong>size</strong> : float</p>
+<p><strong>box</strong> : numpy float64 array</p>
 <blockquote>
-<div><p>Length of the box</p>
+<div><p>Box</p>
 </div></blockquote>
 <p><strong>pairs: iterable</strong></p>
 <blockquote>

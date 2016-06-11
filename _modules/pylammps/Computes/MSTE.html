@@ -172,7 +172,7 @@
 <span class="sd">    value : numpy array</span>
 <span class="sd">        value is the [mass, occupancy, fraction] histogram</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">val</span> <span class="o">=</span> <span class="n">mste</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">system</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">mste</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">box</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span>
                <span class="n">system</span><span class="p">[</span><span class="s">&#39;expansion&#39;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
@@ -219,7 +219,7 @@
     <span class="c"># Add legend save and close fig</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">hand1</span><span class="o">+</span><span class="n">hand2</span><span class="p">,</span> <span class="n">lab1</span><span class="o">+</span><span class="n">lab2</span><span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;{0}.pdf&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 </pre></div>
 

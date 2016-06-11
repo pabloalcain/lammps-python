@@ -158,23 +158,23 @@
 <p>RDF calculation</p>
 <dl class="function">
 <dt id="analysis.RDF.RDF.rdf">
-<code class="descclassname">analysis.RDF.RDF.</code><code class="descname">rdf</code><span class="sig-paren">(</span><em>x</em>, <em>t</em>, <em>size</em>, <em>pairs</em>, <em>nbins</em>, <em>pbc=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/RDF/RDF.html#rdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.RDF.RDF.rdf" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">analysis.RDF.RDF.</code><code class="descname">rdf</code><span class="sig-paren">(</span><em>x</em>, <em>t</em>, <em>box</em>, <em>pairs</em>, <em>nbins</em>, <em>pbc=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analysis/RDF/RDF.html#rdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#analysis.RDF.RDF.rdf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate RDF.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : numpy array</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : numpy float64 array</p>
 <blockquote>
 <div><p>Positions of the particles in the system</p>
 </div></blockquote>
-<p><strong>t</strong> : numpy array</p>
+<p><strong>t</strong> : numpy int32 array</p>
 <blockquote>
 <div><p>Types of the particles</p>
 </div></blockquote>
-<p><strong>size</strong> : float</p>
+<p><strong>box</strong> : numpy float64 array</p>
 <blockquote>
-<div><p>Length of the box</p>
+<div><p>Box</p>
 </div></blockquote>
 <p><strong>pairs: iterable</strong></p>
 <blockquote>
