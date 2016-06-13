@@ -43,7 +43,7 @@ def partition(collection):
     # put `first` in its own subset
     yield [[first]] + smaller
 
-def ecra(x, v, t):
+def ecra(x, v, t, box, expansion):
   """
   Calculate cluster recognition algorithm with Simulated Annealing as
   in [Dorso]_
@@ -62,30 +62,35 @@ def ecra(x, v, t):
   t : numpy int32 array
       Types of the particles
 
+  box : numpy float64 array
+      Box
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
   Returns
   -------
 
-  idx : iterable
-      Cluster indices of the particles
-
+  index : numpy array
+      An array with the cluster index of each particle.
   """
   npart = np.shape(x)[0]
-  idx = range(npart)
-  en = energy_partition(x, v, t, idx)
+  index = range(npart)
+  en = energy_partition(x, v, t, box, expansion, index)
   for T in np.linspace(3.0, 0.0, 1001)[:-1]:
-    idx_new = perturbate_system(idx)
-    en_new = energy_partition(x, v, t, idx_new)
+    index_new = perturbate_system(index)
+    en_new = energy_partition(x, v, t, box, expansion, index_new)
     de = en_new - en
-    print idx, idx_new, de, en
+    print index, index_new, de, en
     if de < 0:
-      idx = idx_new
+      index = index_new
       en = en_new
     elif random.random() < np.exp(-de/T):
-      idx = idx_new
+      index = index_new
       en = en_new
-  return idx, en
+  return index, en
 
-def brute_force(x, v, t):
+def brute_force(x, v, t, box, expansion):
   """
   Iterate through all possible partitions of the set and find the
   minimum
@@ -102,27 +107,33 @@ def brute_force(x, v, t):
   t : numpy int32 array
       Types of the particles
 
+  box : numpy float64 array
+      Box
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
   Returns
   -------
 
-  idx : iterable
-      Cluster indices of the particles
+  index : numpy array
+      An array with the cluster index of each particle.
   """
   npart = np.shape(x)[0]
   min_idx = range(npart)
-  min_en = energy_partition(x, v, t, min_idx)
+  min_en = energy_partition(x, v, t, box, expansion, min_idx)
   for part in partition(range(npart)):
     idx = range(npart)
     for i, dx in enumerate(part):
       for j in dx:
         idx[j] = i
-    en = energy_partition(x, v, t, idx)
+    en = energy_partition(x, v, t, box, expansion, idx)
     if en < min_en:
       min_en = en
       min_idx = idx
   return min_idx, min_en
 
-def energy_partition(x, v, t, idx):
+def energy_partition(x, v, t, box, expansion, idx):
   """
   Get the total energy of a specific cluster partition
 
@@ -141,12 +152,25 @@ def energy_partition(x, v, t, idx):
   idx : iterable
       Cluster index of each particle
 
+  box : numpy float64 array
+      Box
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
   Returns
   -------
 
   energy : float
       Energy of the partition
   """
+  size_x = box[0][1] - box[0][0]
+  size_y = box[1][1] - box[1][0]
+  size_z = box[2][1] - box[2][0]
+  if size_x != size_y or size_y != size_z:
+    raise ValueError("The box should be cubic for this to work")
+  else:
+    size = size_x
   e = 0
   for clus in np.unique(idx):
     x_clus = x[idx == clus]
@@ -155,14 +179,24 @@ def energy_partition(x, v, t, idx):
     nclus = np.sum(idx == clus)
     vcm = np.zeros(3)
     for i in range(nclus):
-      vcm += v_clus[i]
       for j in range(i + 1, nclus):
-        dx = np.linalg.norm(x_clus[i] - x_clus[j])
+        dv = 0
+        dx = 0
+        dxor = x_clus[i] - x_clus[j]
+        dvor = v_clus[i] - v_clus[j]
+        for dxvec, dvvec in zip(dxor, dvor):
+          if dxvec > size/2:
+            dx += (dxvec - size)**2
+            dv += (dvvec + 2 * expansion * size)**2
+          elif dxvec < - size/2:
+            dx += (dxvec + size)**2
+            dv += (dvvec - 2 * expansion * size)**2
+          else:
+            dx += dxvec**2
+            dv += dvvec**2
+        dx = np.sqrt(dx)
         e += potential(dx, t_clus[i], t_clus[j])
-    vcm /= nclus
-    for i in range(nclus):
-      k = np.dot((v_clus[i] - vcm), (v_clus[i] - vcm)) * 938.0 / 2
-      e += k
+        e += dv*938.0/(2*nclus)
   return e
 
 def perturbate_system(idx, nperm=1):

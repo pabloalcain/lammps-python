@@ -24,6 +24,7 @@ class TestECRA(object):
     self.v01 = -11.575673959850974
     self.v02 = 1.9982570114653591
     self.v23 = -11.422591404313323
+    self.large_box = [[-100, 100], [-100, 100], [-100, 100]]
     self.t01 = 0.0002345
     self.t02 = 0.0009380
     self.t23 = 0.0002345
@@ -58,7 +59,7 @@ class TestECRA(object):
     Test that all particles in monoclusters are zero energy
     """
     idx = range(self.npart)
-    e = ECRA.energy_partition(self.x, self.v, self.t, idx)
+    e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     nst.assert_equal(e, 0)
 
   def test_energy_partition_2(self):
@@ -67,7 +68,7 @@ class TestECRA(object):
     """
     idx = range(self.npart)
     idx[1] = 0
-    e = ECRA.energy_partition(self.x, self.v, self.t, idx)
+    e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     nst.assert_almost_equal(e, self.v01 + self.t01)
 
   def test_energy_partition_3(self):
@@ -76,7 +77,7 @@ class TestECRA(object):
     """
     idx = range(self.npart)
     idx[2] = 0
-    e = ECRA.energy_partition(self.x, self.v, self.t, idx)
+    e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     nst.assert_almost_equal(e, self.v02 + self.t02)
 
   def test_energy_partition_4(self):
@@ -86,15 +87,15 @@ class TestECRA(object):
     idx = range(self.npart)
     idx[1] = 0
     idx[3] = 2
-    e = ECRA.energy_partition(self.x, self.v, self.t, idx)
+    e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     nst.assert_almost_equal(e, self.v01 + self.v23 + self.t01 + self.t23)
 
   def test_ecra(self):
     """
-    Test how ecra works
+    ECRA gives good results for silly toy model.
     """
-    #idx, en = ECRA.ecra(self.x, self.v, self.t)
-    idx, en = ECRA.brute_force(self.x, self.v, self.t)
+    #idx, en = ECRA.ecra(self.x, self.v, self.t, self.large_box, 0.0)
+    idx, en = ECRA.brute_force(self.x, self.v, self.t, self.large_box, 0.0)
     idx_hand = [0]*8
     for i, j in zip(idx, idx_hand):
       nst.assert_equal(i, j)
