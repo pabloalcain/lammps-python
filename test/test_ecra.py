@@ -41,7 +41,7 @@ class TestECRA(object):
     """
     Can't do anything due to randomness.
     """
-    idx = range(self.npart)
+    idx = np.arange(self.npart)
     idx_new = ECRA.perturbate_system(idx, 3)
     nst.assert_equal(len(idx), len(idx_new))
 
@@ -60,15 +60,16 @@ class TestECRA(object):
     """
     All particles in monoclusters are zero energy
     """
-    idx = range(self.npart)
+    idx = np.arange(self.npart, dtype=np.int32)
     e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
+    print idx
     nst.assert_equal(e, 0)
 
   def test_energy_partition_2(self):
     """
     Cluster of particle 0 and 1 has the correct energy.
     """
-    idx = range(self.npart)
+    idx = np.arange(self.npart, dtype=np.int32)
     idx[1] = 0
     e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     nst.assert_almost_equal(e, self.v01 + self.t01)
@@ -77,7 +78,7 @@ class TestECRA(object):
     """
     Cluster of particle 0 and 2 has the correct energy.
     """
-    idx = range(self.npart)
+    idx = np.arange(self.npart, dtype=np.int32)
     idx[2] = 0
     e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     nst.assert_almost_equal(e, self.v02 + self.t02)
@@ -86,7 +87,7 @@ class TestECRA(object):
     """
     Two clusters are additive.
     """
-    idx = range(self.npart)
+    idx = np.arange(self.npart, dtype=np.int32)
     idx[1] = 0
     idx[3] = 2
     e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
@@ -101,4 +102,4 @@ class TestECRA(object):
     en = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.02, idx)
     for i, j in zip(idx, idx_hand):
       nst.assert_equal(i, j)
-    nst.assert_almost_equal(en, -67.816578111265343)
+    nst.assert_almost_equal(en, -68.37621800592599)

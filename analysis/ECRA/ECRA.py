@@ -11,6 +11,9 @@ import warnings
 import copy
 
 _DIRNAME = os.path.dirname(__file__)
+libecra = ct.CDLL(os.path.join(_DIRNAME, 'libecra.so'))
+enpart_c = libecra.enpart
+
 import random
 
 def potential(dx, t1, t2):
@@ -202,33 +205,17 @@ def energy_partition(x, v, t, box, expansion, idx):
     raise ValueError("The box should be cubic for this to work")
   else:
     size = size_x
-  e = 0
-  for clus in np.unique(idx):
-    x_clus = x[idx == clus]
-    v_clus = v[idx == clus]
-    t_clus = t[idx == clus]
-    nclus = np.sum(idx == clus)
-    vcm = np.zeros(3)
-    for i in range(nclus):
-      for j in range(i + 1, nclus):
-        dv = 0
-        dx = 0
-        dxor = x_clus[i] - x_clus[j]
-        dvor = v_clus[i] - v_clus[j]
-        for dxvec, dvvec in zip(dxor, dvor):
-          if dxvec > size/2:
-            dx += (dxvec - size)**2
-            dv += (dvvec + 2 * expansion * size)**2
-          elif dxvec < - size/2:
-            dx += (dxvec + size)**2
-            dv += (dvvec - 2 * expansion * size)**2
-          else:
-            dx += dxvec**2
-            dv += dvvec**2
-        dx = np.sqrt(dx)
-        e += potential(dx, t_clus[i], t_clus[j])
-        e += dv*938.0/(2*nclus)
-  return e
+
+  natoms = np.shape(x)[0]
+  x_p = x.ctypes.data_as(ct.c_void_p)
+  v_p = v.ctypes.data_as(ct.c_void_p)
+  t_p = t.ctypes.data_as(ct.c_void_p)
+  idx_p = idx.ctypes.data_as(ct.c_void_p)
+  enpart_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
+                       ct.c_int, ct.c_double, ct.c_double,
+                       ct.c_void_p]
+  enpart_c.restype = ct.c_double;
+  return enpart_c(x_p, v_p, t_p, natoms, size, expansion, idx_p)
 
 def perturbate_system(idx, nperm=1):
   """
