@@ -1,5 +1,6 @@
 import analysis as A
 import analysis.ECRA.ECRA as ECRA
+import analysis.MSTE.MSTE as MSTE
 from postprocess.extract import Extraction
 import numpy as np
 import nose.tools as nst
@@ -25,6 +26,7 @@ class TestECRA(object):
     self.v02 = 1.9982570114653591
     self.v23 = -11.422591404313323
     self.large_box = [[-100, 100], [-100, 100], [-100, 100]]
+    self.small_box = [[0, 11.2], [0, 11.2], [0, 11.2]]
     self.t01 = 0.0002345
     self.t02 = 0.0009380
     self.t23 = 0.0002345
@@ -45,7 +47,7 @@ class TestECRA(object):
 
   def test_potential(self):
     """
-    Test potential between two particles
+    Potential between two particles
     """
     v01 = ECRA.potential(1.4, 1, 2)
     v02 = ECRA.potential(2.8, 1, 1)
@@ -56,7 +58,7 @@ class TestECRA(object):
 
   def test_energy_partition_1(self):
     """
-    Test that all particles in monoclusters are zero energy
+    All particles in monoclusters are zero energy
     """
     idx = range(self.npart)
     e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
@@ -64,7 +66,7 @@ class TestECRA(object):
 
   def test_energy_partition_2(self):
     """
-    Test that the cluster of particle 0 and 1 has the correct energy.
+    Cluster of particle 0 and 1 has the correct energy.
     """
     idx = range(self.npart)
     idx[1] = 0
@@ -73,7 +75,7 @@ class TestECRA(object):
 
   def test_energy_partition_3(self):
     """
-    Test that the cluster of particle 0 and 2 has the correct energy.
+    Cluster of particle 0 and 2 has the correct energy.
     """
     idx = range(self.npart)
     idx[2] = 0
@@ -82,7 +84,7 @@ class TestECRA(object):
 
   def test_energy_partition_4(self):
     """
-    Test that two clusters are additive.
+    Two clusters are additive.
     """
     idx = range(self.npart)
     idx[1] = 0
@@ -90,13 +92,13 @@ class TestECRA(object):
     e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     nst.assert_almost_equal(e, self.v01 + self.v23 + self.t01 + self.t23)
 
-  def test_ecra(self):
+  def test_toy_ecra(self):
     """
-    ECRA gives good results for silly toy model.
+    Brute force gives good results for silly toy model.
     """
-    #idx, en = ECRA.ecra(self.x, self.v, self.t, self.large_box, 0.0)
-    idx, en = ECRA.brute_force(self.x, self.v, self.t, self.large_box, 0.0)
+    _, (idx, __) = ECRA.brute_force(self.x, self.v, self.t, self.large_box, 0.02)
     idx_hand = [0]*8
+    en = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.02, idx)
     for i, j in zip(idx, idx_hand):
       nst.assert_equal(i, j)
-    #nst.assert_equal(0, (en, idx))
+    nst.assert_almost_equal(en, -67.816578111265343)

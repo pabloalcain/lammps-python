@@ -43,7 +43,7 @@ def partition(collection):
     # put `first` in its own subset
     yield [[first]] + smaller
 
-def ecra(x, v, t, box, expansion):
+def ecra(x, v, t, box, expansion, index=None):
   """
   Calculate cluster recognition algorithm with Simulated Annealing as
   in [Dorso]_
@@ -68,27 +68,42 @@ def ecra(x, v, t, box, expansion):
   expansion : float, optional
       The expansion velocity of the walls of the box, in box units.
 
+  index : numpy int32 array, optional
+      The original guess for the minimum energy
+
   Returns
   -------
 
-  index : numpy array
-      An array with the cluster index of each particle.
+  value, (ec, inf) : numpy array, numpy array, list
+      value is the [mass, occupancy, fraction] histogram
+      mst is the array of indices to which each particle belongs.
+      inf is the list of infinite clusters, which is always empty.
   """
   npart = np.shape(x)[0]
-  index = range(npart)
+  if index == None:
+    index = np.arange(npart)
   en = energy_partition(x, v, t, box, expansion, index)
   for T in np.linspace(3.0, 0.0, 1001)[:-1]:
     index_new = perturbate_system(index)
     en_new = energy_partition(x, v, t, box, expansion, index_new)
     de = en_new - en
-    print index, index_new, de, en
     if de < 0:
       index = index_new
       en = en_new
     elif random.random() < np.exp(-de/T):
       index = index_new
       en = en_new
-  return index, en
+  value = np.zeros((npart + 1, 3))
+  ec = index.copy()
+  for clus in np.unique(ec):
+    mass = np.count_nonzero(ec == clus)
+    protons = np.count_nonzero((ec == clus) & (t.flatten() == 2))
+    frac = float(protons)/mass
+    value[mass, 1] += 1
+    value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
+    value[mass, 2] += frac/value[mass, 1]
+
+  return value, (ec, [])
 
 def brute_force(x, v, t, box, expansion):
   """
@@ -116,14 +131,19 @@ def brute_force(x, v, t, box, expansion):
   Returns
   -------
 
-  index : numpy array
-      An array with the cluster index of each particle.
+  Returns
+  -------
+
+  value, (ec, inf) : numpy array, numpy array, list
+      value is the [mass, occupancy, fraction] histogram
+      mst is the array of indices to which each particle belongs.
+      inf is the list of infinite clusters, which is always empty.
   """
   npart = np.shape(x)[0]
-  min_idx = range(npart)
+  min_idx = np.arange(npart)
   min_en = energy_partition(x, v, t, box, expansion, min_idx)
   for part in partition(range(npart)):
-    idx = range(npart)
+    idx = np.arange(npart)
     for i, dx in enumerate(part):
       for j in dx:
         idx[j] = i
@@ -131,7 +151,18 @@ def brute_force(x, v, t, box, expansion):
     if en < min_en:
       min_en = en
       min_idx = idx
-  return min_idx, min_en
+
+  value = np.zeros((npart + 1, 3))
+  ec = min_idx.copy()
+  for clus in np.unique(ec):
+    mass = np.count_nonzero(ec == clus)
+    protons = np.count_nonzero((ec == clus) & (t.flatten() == 2))
+    frac = float(protons)/mass
+    value[mass, 1] += 1
+    value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
+    value[mass, 2] += frac/value[mass, 1]
+
+  return value, (ec, [])
 
 def energy_partition(x, v, t, box, expansion, idx):
   """
