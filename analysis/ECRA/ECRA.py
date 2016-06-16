@@ -9,6 +9,7 @@ import numpy as np
 import os
 import warnings
 import copy
+from analysis import mste
 
 _DIRNAME = os.path.dirname(__file__)
 libecra = ct.CDLL(os.path.join(_DIRNAME, 'libecra.so'))
@@ -46,10 +47,65 @@ def partition(collection):
     # put `first` in its own subset
     yield [[first]] + smaller
 
+def ecra_mst(x, v, t, box, expansion, index=None):
+  """
+  Calculate cluster recognition algorithm with Simulated Annealing as
+  in [Dorso]_. We first calculate MST clusters and for those that are
+  not infinite, we perform an ECRA calculation.
+
+  .. [Dorso] Dorso and Randrup, Phys. Lett. B, 301, 4, 328-333
+
+  Parameters
+  ----------
+
+  x : numpy float64 array
+      Positions of the particles in the system
+
+  v : numpy float64 array
+      Velocities of the particles
+
+  t : numpy int32 array
+      Types of the particles
+
+  box : numpy float64 array
+      Box
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
+  index : numpy int32 array, optional
+      The original guess for the minimum energy
+
+  Returns
+  -------
+
+  value, (ec, inf) : numpy array, numpy array, list
+      value is the [mass, occupancy, fraction] histogram
+      mst is the array of indices to which each particle belongs.
+      inf is the list of infinite clusters, which is always empty.
+  """
+  value, (idx_mst, inf) = mste(x, v, t, box, False)
+  _, (idx_mste, _) = mste(x, v, t, box, False)
+  for clus in np.unique(idx_mst):
+    if clus in inf: continue
+    #For each different and finite MST cluster, we calculate ECRA
+    mask = idx_mst == clus
+    x_clus = x[mask].copy()
+    v_clus = v[mask].copy()
+    t_clus = t[mask].copy()
+    i_clus = idx_mste[mask].copy()
+    _, (idx, _) = ecra(x_clus, v_clus, t_clus, box, expansion,
+                       index=i_clus)
+
+
+
+  return value, (ec, [])
+
+
 def ecra(x, v, t, box, expansion, index=None):
   """
   Calculate cluster recognition algorithm with Simulated Annealing as
-  in [Dorso]_
+  in [Dorso]_.
 
   .. [Dorso] Dorso and Randrup, Phys. Lett. B, 301, 4, 328-333
 
@@ -86,17 +142,20 @@ def ecra(x, v, t, box, expansion, index=None):
   if index == None:
     index = np.arange(npart)
   en = energy_partition(x, v, t, box, expansion, index)
-  for T in np.linspace(3.0, 0.0, 1001)[:-1]:
-    index_new = perturbate_system(index)
-    en_new = energy_partition(x, v, t, box, expansion, index_new)
-    de = en_new - en
-    if de < 0:
-      index = index_new
-      en = en_new
-    elif random.random() < np.exp(-de/T):
-      index = index_new
-      en = en_new
+  for T in np.linspace(3.0, 0.0, 10001)[:-1]:
+    for i in [3, 2, 1]:
+      index_new = perturbate_system(index, i)
+      en_new = energy_partition(x, v, t, box, expansion, index_new)
+      de = en_new - en
+      if de < 0:
+        index = index_new
+        en = en_new
+      elif random.random() < np.exp(-de/T):
+        index = index_new
+        en = en_new
+      print T, en
   value = np.zeros((npart + 1, 3))
+  value[:, 0] = range(npart + 1)
   ec = index.copy()
   for clus in np.unique(ec):
     mass = np.count_nonzero(ec == clus)
@@ -156,6 +215,7 @@ def brute_force(x, v, t, box, expansion):
       min_idx = idx
 
   value = np.zeros((npart + 1, 3))
+  value[:, 0] = range(npart + 1)
   ec = min_idx.copy()
   for clus in np.unique(ec):
     mass = np.count_nonzero(ec == clus)
