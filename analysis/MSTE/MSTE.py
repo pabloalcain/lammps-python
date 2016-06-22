@@ -262,6 +262,7 @@ def mste(x, v, t, box, energy, expansion=0.0):
     _, inf_clusters = _find_paths(this_graph, cnct)
     if len(inf_clusters) != 0:
       inf.append(min(nodes))
+  i = 0
   for clus in np.unique(mst):
     mass = np.count_nonzero(mst == clus)
     protons = np.count_nonzero((mst == clus) & (t.flatten() == 2))
@@ -271,6 +272,13 @@ def mste(x, v, t, box, energy, expansion=0.0):
     value[mass, 1] += 1
     value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
     value[mass, 2] += frac/value[mass, 1]
+
+  #Reduce to sequential cluster numbering
+  mst2 = mst.copy()
+  i = 0
+  for v in np.unique(mst2):
+    mst[mst2==v] = i
+    i += 1
   return value, (mst, inf)
 
 def cluster(x, v, t, box, energy):
