@@ -83,6 +83,9 @@ class TestECRA(object):
     e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
     print idx
     nst.assert_equal(e, 0)
+    e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 1.0, idx)
+    nst.assert_equal(e, 0)
+    print idx
 
   def test_energy_partition_2(self):
     """
@@ -105,6 +108,16 @@ class TestECRA(object):
   def test_energy_partition_4(self):
     """
     Two clusters are additive.
+    """
+    idx = np.arange(self.npart, dtype=np.int32)
+    idx[1] = 0
+    idx[3] = 2
+    e = ECRA.energy_partition(self.x, self.v, self.t, self.large_box, 0.0, idx)
+    nst.assert_almost_equal(e, self.v01 + self.v23 + self.t01 + self.t23)
+
+  def test_energy_partition_5(self):
+    """
+    All monoclusters and yet
     """
     idx = np.arange(self.npart, dtype=np.int32)
     idx[1] = 0

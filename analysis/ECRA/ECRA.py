@@ -87,7 +87,7 @@ def ecra_mst(x, v, t, box, expansion, index=None):
   value, (idx_mst, inf) = mste(x, v, t, box, False)
   _, (idx_mste, _) = mste(x, v, t, box, False)
   npart = np.shape(x)[0]
-  ec = np.zeros(npart)
+  ec = np.arange(npart, dtype=np.int32)
   cur_c = 0
   print len(np.unique(idx_mst))
   for clus in np.unique(idx_mst):
@@ -105,10 +105,20 @@ def ecra_mst(x, v, t, box, expansion, index=None):
     else:
       _, (idx, _) = ecra(x_clus, v_clus, t_clus, box, expansion,
                          index=i_clus)
-    if len(part) != 1:  print clus, idx
+    if len(part) != 1: print clus, idx, energy_partition(x_clus, v_clus, t_clus, box, expansion, idx)
+
     for j, c in zip(part, idx):
       ec[j] = c + cur_c
     cur_c = cur_c + max(idx) + 1
+  value = np.zeros((npart + 1, 3))
+  value[:, 0] = range(npart + 1)
+  for clus in np.unique(ec):
+    mass = np.count_nonzero(ec == clus)
+    protons = np.count_nonzero((ec == clus) & (t.flatten() == 2))
+    frac = float(protons)/mass
+    value[mass, 1] += 1
+    value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
+    value[mass, 2] += frac/value[mass, 1]
   return value, (ec, [])
 
 
@@ -152,9 +162,7 @@ def ecra(x, v, t, box, expansion, index=None):
   if index == None:
     index = np.arange(npart)
   en = energy_partition(x, v, t, box, expansion, index)
-  if npart == 1:
-    index = np.zeros(1)
-  else:
+  if npart != 1:
     for T in np.linspace(3.0, 0.0, 10001)[:-1]:
       for i in [3, 2, 1]:
         index_new = perturbate_system(index, i)
@@ -212,9 +220,6 @@ def brute_force(x, v, t, box, expansion):
   Returns
   -------
 
-  Returns
-  -------
-
   value, (ec, inf) : numpy array, numpy array, list
       value is the [mass, occupancy, fraction] histogram
       mst is the array of indices to which each particle belongs.
@@ -224,7 +229,7 @@ def brute_force(x, v, t, box, expansion):
   min_idx = np.arange(npart)
   min_en = energy_partition(x, v, t, box, expansion, min_idx)
   for part in partition(range(npart)):
-    idx = np.arange(npart)
+    idx = np.arange(npart, dtype=np.int32)
     for i, dx in enumerate(part):
       for j in dx:
         idx[j] = i
