@@ -89,6 +89,7 @@ def ecra_mst(x, v, t, box, expansion, index=None):
   npart = np.shape(x)[0]
   ec = np.zeros(npart)
   cur_c = 0
+  print len(np.unique(idx_mst))
   for clus in np.unique(idx_mst):
     if clus in inf: continue
     #For each different and finite MST cluster, we calculate ECRA
@@ -98,8 +99,13 @@ def ecra_mst(x, v, t, box, expansion, index=None):
     t_clus = t[mask].copy()
     part = np.arange(npart)[mask]
     i_clus = idx_mste[mask].copy()
-    _, (idx, _) = ecra(x_clus, v_clus, t_clus, box, expansion,
-                       index=i_clus)
+    if len(part) <= 9:
+      #Approximate for total configurations
+      _, (idx, _) = brute_force(x_clus, v_clus, t_clus, box, expansion)
+    else:
+      _, (idx, _) = ecra(x_clus, v_clus, t_clus, box, expansion,
+                         index=i_clus)
+    if len(part) != 1:  print clus, idx
     for j, c in zip(part, idx):
       ec[j] = c + cur_c
     cur_c = cur_c + max(idx) + 1
@@ -146,18 +152,21 @@ def ecra(x, v, t, box, expansion, index=None):
   if index == None:
     index = np.arange(npart)
   en = energy_partition(x, v, t, box, expansion, index)
-  for T in np.linspace(3.0, 0.0, 10001)[:-1]:
-    for i in [3, 2, 1]:
-      index_new = perturbate_system(index, i)
-      en_new = energy_partition(x, v, t, box, expansion, index_new)
-      de = en_new - en
-      if de < 0:
-        index = index_new
-        en = en_new
-      elif random.random() < np.exp(-de/T):
-        index = index_new
-        en = en_new
-    print T, en
+  if npart == 1:
+    index = np.zeros(1)
+  else:
+    for T in np.linspace(3.0, 0.0, 10001)[:-1]:
+      for i in [3, 2, 1]:
+        index_new = perturbate_system(index, i)
+        en_new = energy_partition(x, v, t, box, expansion, index_new)
+        de = en_new - en
+        if de < 0:
+          index = index_new
+          en = en_new
+        elif random.random() < np.exp(-de/T):
+          index = index_new
+          en = en_new
+      #print T, en
   value = np.zeros((npart + 1, 3))
   value[:, 0] = range(npart + 1)
   ec = index.copy()
