@@ -2,6 +2,7 @@
 Module for post-process in lammps
 """
 import numpy as np
+import linecache
 
 class Extraction(object):
   """
@@ -91,6 +92,14 @@ class Extraction(object):
         npart = int(line)
         out = np.zeros((npart, _size), dtype=dtype)
         offset = (npart + 9) * idx
+        break
+    for l in range(offset + 10, offset + npart + 10):
+      line = linecache.getline(fname, l)
+      idxp = l - offset - 10
+      for i, j in enumerate(cols):
+        out[idxp, i] = line.split()[j]
+    return out
+    """
         continue
       if _nline < offset + 10:
         continue
@@ -101,7 +110,7 @@ class Extraction(object):
         out[idxp, i] = line.split()[j]
     _file.close()
     return out
-
+    """
   def x(self, fname, idx=0):
     """Extract the positions that are in a lammps dump file
     that matches the parameters.
