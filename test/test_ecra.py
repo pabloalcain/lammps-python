@@ -135,4 +135,3 @@ class TestECRA(object):
     en = ECRA.energy_partition(self.x2, self.v2, self.t2, self.large_box, 0.02, idx)
     for i, j in zip(idx, idx_hand):
       nst.assert_equal(i, j)
-    #nst.assert_almost_equal(en, -68.37621800592599)
