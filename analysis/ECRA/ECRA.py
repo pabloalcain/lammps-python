@@ -157,7 +157,7 @@ def ecra(x, v, t, box, expansion, index=None):
       elif random.random() < np.exp(-de/T):
         index = index_new
         en = en_new
-      #print T, en
+    print T, en
   value = np.zeros((npart + 1, 3))
   value[:, 0] = range(npart + 1)
   ec = index.copy()

@@ -32,6 +32,15 @@ class TestECRA(object):
     self.t2 = np.array([[1], [2], [1], [1], [1], [2]],
                        dtype=np.int32)
 
+    self.x3 = np.array([[0, 0, 0.0], [0, 0, 1.4], [0, 0, 2.8],
+                        [0, 0, 11.2],
+                        [0, 0, 8.4], [0, 0, 9.8]],  dtype=np.float64)
+    self.v3 = np.array([[0, 0, 0.000], [0, 0, 0.001], [0, 0, 0.002],
+                        [0, 0, 0.005],
+                        [0, 0, 0.006], [0, 0, 0.007]], dtype=np.float64)
+    self.t3 = np.array([[1], [2], [1], [2], [1], [2]],
+                       dtype=np.int32)
+
     self.v01 = -11.575673959850974
     self.v02 = 1.9982570114653591
     self.v23 = -11.422591404313323
@@ -133,5 +142,16 @@ class TestECRA(object):
     idx_hand = [0, 0, 0, 1, 1, 1]
     print idx
     en = ECRA.energy_partition(self.x2, self.v2, self.t2, self.large_box, 0.02, idx)
+    for i, j in zip(idx, idx_hand):
+      nst.assert_equal(i, j)
+
+  def test_toy_ecra_mst_3(self):
+    """
+    ECRA over mst silly toy model, two mst clusters, three ecra
+    """
+    _, (idx, __) = ECRA.ecra_mst(self.x3, self.v3, self.t3, self.large_box, 0.02)
+    idx_hand = [0, 0, 0, 1, 2, 2]
+    print idx
+    en = ECRA.energy_partition(self.x3, self.v3, self.t3, self.large_box, 0.02, idx)
     for i, j in zip(idx, idx_hand):
       nst.assert_equal(i, j)
