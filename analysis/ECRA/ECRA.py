@@ -86,6 +86,9 @@ def ecra_mst(x, v, t, box, expansion, index=None):
   """
   value, (idx_mst, inf) = mste(x, v, t, box, False)
   _, (idx_mste, _) = mste(x, v, t, box, False)
+  npart = np.shape(x)[0]
+  ec = np.zeros(npart)
+  cur_c = 0
   for clus in np.unique(idx_mst):
     if clus in inf: continue
     #For each different and finite MST cluster, we calculate ECRA
@@ -93,12 +96,13 @@ def ecra_mst(x, v, t, box, expansion, index=None):
     x_clus = x[mask].copy()
     v_clus = v[mask].copy()
     t_clus = t[mask].copy()
+    part = np.arange(npart)[mask]
     i_clus = idx_mste[mask].copy()
     _, (idx, _) = ecra(x_clus, v_clus, t_clus, box, expansion,
                        index=i_clus)
-
-
-
+    for j, c in zip(part, idx):
+      ec[j] = c + cur_c
+    cur_c = cur_c + max(idx) + 1
   return value, (ec, [])
 
 
@@ -153,7 +157,7 @@ def ecra(x, v, t, box, expansion, index=None):
       elif random.random() < np.exp(-de/T):
         index = index_new
         en = en_new
-      print T, en
+      #print T, en
   value = np.zeros((npart + 1, 3))
   value[:, 0] = range(npart + 1)
   ec = index.copy()
@@ -164,6 +168,12 @@ def ecra(x, v, t, box, expansion, index=None):
     value[mass, 1] += 1
     value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
     value[mass, 2] += frac/value[mass, 1]
+  #Reduce to sequential cluster numbering
+  ec2 = ec.copy()
+  i = 0
+  for v in np.unique(ec2):
+    ec[ec2==v] = i
+    i += 1
 
   return value, (ec, [])
 
@@ -274,7 +284,7 @@ def energy_partition(x, v, t, box, expansion, idx):
   enpart_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
                        ct.c_int, ct.c_double, ct.c_double,
                        ct.c_void_p]
-  enpart_c.restype = ct.c_double;
+  enpart_c.restype = ct.c_double
   return enpart_c(x_p, v_p, t_p, natoms, size, expansion, idx_p)
 
 def perturbate_system(idx, nperm=1):
