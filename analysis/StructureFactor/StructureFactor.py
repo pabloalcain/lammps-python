@@ -67,12 +67,13 @@ def structureFactor(x, t, box, pairs, k, rep=2, lebedev=194):
   natoms = np.shape(x)[0]
   npairs = len(pairs)
   ncol = npairs + 1
-  pair_ar = np.zeros(2*npairs)
+  pair_ar = np.zeros(2*npairs, dtype=np.int32)
   i = 0
   for p in pairs:
     pair_ar[i] = p[0][0]
     pair_ar[i+1] = p[1][0]
     i += 2
+  print pair_ar
   npoints = len(k)
   tmp = (ct.c_double * (npoints * ncol))()
   x_p = x.ctypes.data_as(ct.c_void_p)
