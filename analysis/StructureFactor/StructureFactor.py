@@ -73,7 +73,6 @@ def structureFactor(x, t, box, pairs, k, rep=2, lebedev=194):
     pair_ar[i] = p[0][0]
     pair_ar[i+1] = p[1][0]
     i += 2
-  print pair_ar
   npoints = len(k)
   tmp = (ct.c_double * (npoints * ncol))()
   x_p = x.ctypes.data_as(ct.c_void_p)
