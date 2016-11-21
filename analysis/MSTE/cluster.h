@@ -4,6 +4,7 @@
 #include "math.h"
 #include "stdio.h"
 #include "stdbool.h"
+#include "stdlib.h"
 
 #define MIN(a, b) \
   ({__typeof__ (a) _a = (a); \
@@ -14,14 +15,18 @@
 extern "C" {
 #endif
   void cluster(double *x, double *v, int *type, int natoms,
-               double size, bool energy, int *index);
+               double size, bool energy, int model, int *index);
   int connections(int *index, double *x, double *v, int *type, int natoms,
-                  double size, double expansion, bool energy, int *connect);
+                  double size, double expansion, bool energy, int model,
+                  int *connect);
+  double enclus(double *x, double *v, int *type, int natoms,
+                double size, double expansion, int model);
 
 #ifdef __cplusplus
 }
 #endif
-double potential(double r);
+double potential(double r, int model);
+double potentialij(double r, int t1, int t2, int model);
 double distance(double *d, double size, int *idx);
-static inline bool link(double rsq, double *dv, int idx, int t1, int t2, double expansion);
+static inline bool link(double rsq, double *dv, int idx, int t1, int t2, int model, double expansion);
 #endif

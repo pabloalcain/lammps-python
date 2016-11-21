@@ -11,7 +11,7 @@ _DIRNAME = os.path.dirname(__file__)
 libmste = ct.CDLL(os.path.join(_DIRNAME, 'libmste.so'))
 connections_c = libmste.connections
 cluster_c = libmste.cluster
-
+enclus_c = libmste.enclus
 
 #TODO: Maybe avoid this int2str and str2int conversion?
 def _idx2wall(wall):
@@ -192,7 +192,7 @@ def _find_paths(graph, cncts):
       inf_clusters.append(cyc)
   return cycles, inf_clusters
 
-def mste(x, v, t, box, energy, expansion=0.0):
+def mste(x, v, t, box, energy, expansion=0.0, model='medium'):
   """Calculate MSTE.
 
   Parameters
@@ -216,11 +216,14 @@ def mste(x, v, t, box, energy, expansion=0.0):
   expansion : float, optional
       The expansion velocity of the walls of the box, in box units.
 
+  model : {'medium', 'newmed', 'horowitz'}
+      The microscopic model chosen.
+
   Returns
   -------
 
   value, (mst, inf) : numpy array, numpy array, list
-      value is the [mass, occupancy, fraction] histogram
+      value is the [mass, occupancy, fraction, energy] histogram
       mst is the array of indices to which each particle belongs.
       inf is the list of infinite clusters.
 
@@ -245,14 +248,19 @@ def mste(x, v, t, box, energy, expansion=0.0):
       if i != j:
         raise ValueError("Casting resulted in different values")
 
-  index = cluster(x, v, t, box, energy)
-  conn = connections(x, v, t, index, box, energy, expansion)
+  if model == 'medium': model = 0
+  elif model == 'newmed': model = 1
+  elif model == 'horowitz': model = 2
+  else: raise ValueError('Model {} not understood'.format(model))
+
+  index = cluster(x, v, t, box, energy, model)
+  conn = connections(x, v, t, index, box, energy, expansion, model)
   graph, cnct = _create_graph(conn)
   #TODO: This should be an independent function
   mst = index.copy()
   natoms = np.shape(x)[0]
   inf = []
-  value = np.zeros((natoms + 1, 3))
+  value = np.zeros((natoms + 1, 4))
   value[:, 0] = range(natoms + 1)
   for nodes in _partition(graph):
     this_graph = {}
@@ -265,6 +273,11 @@ def mste(x, v, t, box, energy, expansion=0.0):
   i = 0
   for clus in np.unique(mst):
     mass = np.count_nonzero(mst == clus)
+    x_clus = x[mst==clus].copy()
+    v_clus = v[mst==clus].copy()
+    t_clus = t[mst==clus].copy()
+    en = cluster_energy(x_clus, v_clus, t_clus, box, expansion, model)
+    #print en
     protons = np.count_nonzero((mst == clus) & (t.flatten() == 2))
     frac = float(protons)/mass
     if clus in inf:
@@ -272,6 +285,8 @@ def mste(x, v, t, box, energy, expansion=0.0):
     value[mass, 1] += 1
     value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
     value[mass, 2] += frac/value[mass, 1]
+    value[mass, 3] *= (value[mass, 1] - 1.0)/value[mass, 1]
+    value[mass, 3] += en/value[mass, 1]
 
   #Reduce to sequential cluster numbering
   mst2 = mst.copy()
@@ -281,7 +296,7 @@ def mste(x, v, t, box, energy, expansion=0.0):
     i += 1
   return value, (mst, inf)
 
-def cluster(x, v, t, box, energy):
+def cluster(x, v, t, box, energy, model):
   """
   Get either MST or MSTE clusters from the configuration.
 
@@ -303,6 +318,9 @@ def cluster(x, v, t, box, energy):
   energy : boolean
       Whether to do energy considerations in the cluster computation.
 
+  model : {0, 1, 2}
+      The microscopic model chosen.
+
   Returns
   -------
 
@@ -323,14 +341,62 @@ def cluster(x, v, t, box, energy):
   v_p = v.ctypes.data_as(ct.c_void_p)
   t_p = t.ctypes.data_as(ct.c_void_p)
   cluster_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
-                        ct.c_int, ct.c_double, ct.c_bool,
+                        ct.c_int, ct.c_double, ct.c_bool, ct.c_int,
                         ct.c_void_p]
-  cluster_c(x_p, v_p, t_p, natoms, size, energy, index_p)
+  cluster_c(x_p, v_p, t_p, natoms, size, energy, model, index_p)
   index = np.frombuffer(index_p, dtype=ct.c_int, count=natoms)
   return index
 
+def cluster_energy(x, v, t, box, expansion, model):
+  """Find the energy of the cluster
 
-def connections(x, v, t, index, box, energy, expansion):
+  Parameters
+  ----------
+
+  x : numpy float64 array
+      Positions of the particles in the system
+
+  v : numpy float64 array
+      Velocities of the particles
+
+  t : numpy int32 array
+      Types of the particles
+
+  box : numpy float64 array
+      Box
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
+  model : {0, 1, 2}
+      The microscopic model chosen.
+
+  Returns
+  -------
+
+  energy: float
+      The energy of the cluster.
+
+  """
+  size_x = box[0][1] - box[0][0]
+  size_y = box[1][1] - box[1][0]
+  size_z = box[2][1] - box[2][0]
+  if size_x != size_y or size_y != size_z:
+    raise ValueError("The box should be cubic for this to work")
+  else:
+    size = size_x
+
+  natoms = np.shape(x)[0]
+  x_p = x.ctypes.data_as(ct.c_void_p)
+  v_p = v.ctypes.data_as(ct.c_void_p)
+  t_p = t.ctypes.data_as(ct.c_void_p)
+  enclus_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
+                       ct.c_int, ct.c_double,
+                       ct.c_double, ct.c_int]
+  enclus_c.restype = ct.c_double;
+  return enclus_c(x_p, v_p, t_p, natoms, size, expansion, model)
+
+def connections(x, v, t, index, box, energy, expansion, model):
   """Find the connections with a given cluster distribution.
 
   Parameters
@@ -356,6 +422,9 @@ def connections(x, v, t, index, box, energy, expansion):
 
   expansion : float, optional
       The expansion velocity of the walls of the box, in box units.
+
+  model : {0, 1, 2}
+      The microscopic model chosen.
 
   Returns
   -------
@@ -393,13 +462,13 @@ def connections(x, v, t, index, box, energy, expansion):
   tmp = (ct.c_int * (3 * guess))()
   connections_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
                             ct.c_void_p, ct.c_int, ct.c_double,
-                            ct.c_double, ct.c_bool, ct.c_void_p]
+                            ct.c_double, ct.c_bool, ct.c_int, ct.c_void_p]
   connections_c.restype = ct.c_int
 
 
 
   count = connections_c(index_p, x_p, v_p, t_p, natoms, size,
-                        expansion, energy, tmp)
+                        expansion, energy, model, tmp)
   conn = np.frombuffer(tmp, dtype=ct.c_int, count=count * 3)
   conn = conn.reshape((count, 3))
   return conn

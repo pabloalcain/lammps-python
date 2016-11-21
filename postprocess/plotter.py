@@ -37,15 +37,18 @@ matplotlib.rcParams.update(params)
 
 import postprocess
 
-def mste(value):
+def mste(value, energy=False):
   fig, ax1 = plt.subplots()
   ax1.set_xlabel('Cluster size')
   ax1.set_xscale('log')
   ax2 = ax1.twinx()
-
+  if energy:
+    ax3 = ax1.twinx()
+    ax3.spines["right"].set_position(("axes", 1.2))
   mass = value[1:, 0]
   occ = value[1:, 1]
   frac = value[1:, 2]
+  if energy: clus_en = value[1:, 3]
 
   nbins = 30
   bins = np.logspace(0, np.log10(mass[-1]), nbins)
@@ -58,6 +61,11 @@ def mste(value):
   frac2 = frac2[mask]/a[mask]
   xm = (xx[:-1] + xx[1:])/2
   xm = xm[mask]
+  if energy:
+  # "Averaging" the proton fraction inside each histogram
+    clus_en2, _ = np.histogram(mass, weights=occ*clus_en, bins=bins)
+    mask = (a != 0)
+    clus_en2 = clus_en2[mask]/a[mask]
 
   ax1.plot(mass[occ > 0], occ[occ > 0], '.-', label='Frequency')
   ax1.set_yscale('log')
@@ -70,8 +78,16 @@ def mste(value):
   ax2.set_ylim(0, 1)
   ax2.set_ylabel('Proton fraction')
   hand2, lab2 = ax2.get_legend_handles_labels()
+  if energy:
+    ax3.plot(xm, clus_en2, 'o--',
+             label='Energy', color=next(color_cycle))
+    ax3.set_ylabel('Energy')
+    hand3, lab3 = ax3.get_legend_handles_labels()
   # Add legend save and close fig
-  ax1.legend(hand1+hand2, lab1+lab2)
+  if energy:
+    ax1.legend(hand1+hand2+hand3, lab1+lab2+lab3)
+  else:
+    ax1.legend(hand1+hand2, lab1+lab2)
   fig.tight_layout()
   _format(ax1)
   return fig, ax1, ax2
