@@ -48,7 +48,8 @@ def mste(value, energy=False):
   mass = value[1:, 0]
   occ = value[1:, 1]
   frac = value[1:, 2]
-  if energy: clus_en = value[1:, 3]
+  if energy:
+    clus_en = value[1:, 3]
 
   nbins = 30
   bins = np.logspace(0, np.log10(mass[-1]), nbins)
@@ -65,7 +66,7 @@ def mste(value, energy=False):
   # "Averaging" the proton fraction inside each histogram
     clus_en2, _ = np.histogram(mass, weights=occ*clus_en, bins=bins)
     mask = (a != 0)
-    clus_en2 = clus_en2[mask]/a[mask]
+    clus_en2 = clus_en2[mask]/(a[mask]*xm)
 
   ax1.plot(mass[occ > 0], occ[occ > 0], '.-', label='Frequency')
   ax1.set_yscale('log')
