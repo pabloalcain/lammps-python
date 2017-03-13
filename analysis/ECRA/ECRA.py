@@ -14,7 +14,7 @@ from analysis import mste
 _DIRNAME = os.path.dirname(__file__)
 libecra = ct.CDLL(os.path.join(_DIRNAME, 'libecra.so'))
 enpart_c = libecra.enpart
-
+binary_fusion_c = libecra.binary_fusion
 import random
 
 def potential(dx, t1, t2):
@@ -194,6 +194,64 @@ def ecra(x, v, t, box, expansion, index=None):
 
   return value, (ec, [])
 
+def ecra_puente(x, v, t, box, expansion, index=None):
+  """
+  Calculate cluster recognition algorithm with Puente.
+
+  Parameters
+  ----------
+
+  x : numpy float64 array
+      Positions of the particles in the system
+
+  v : numpy float64 array
+      Velocities of the particles
+
+  t : numpy int32 array
+      Types of the particles
+
+  box : numpy float64 array
+      Box
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
+  index : numpy int32 array, optional
+      The original guess for the minimum energy
+
+  Returns
+  -------
+
+  value, (ec, inf) : numpy array, numpy array, list
+      value is the [mass, occupancy, fraction] histogram
+      mst is the array of indices to which each particle belongs.
+      inf is the list of infinite clusters, which is always empty.
+  """
+  npart = np.shape(x)[0]
+  if index == None:
+    index = np.arange(npart, dtype=np.int32)
+  while True:
+    minde = binary_fusion(x, v, t, box, expansion, index)
+    if minde >= 0: break
+  value = np.zeros((npart + 1, 3))
+  value[:, 0] = range(npart + 1)
+  ec = index.copy()
+  for clus in np.unique(ec):
+    mass = np.count_nonzero(ec == clus)
+    protons = np.count_nonzero((ec == clus) & (t.flatten() == 2))
+    frac = float(protons)/mass
+    value[mass, 1] += 1
+    value[mass, 2] *= (value[mass, 1] - 1.0)/value[mass, 1]
+    value[mass, 2] += frac/value[mass, 1]
+  #Reduce to sequential cluster numbering
+  ec2 = ec.copy()
+  i = 0
+  for v in np.unique(ec2):
+    ec[ec2==v] = i
+    i += 1
+
+  return value, (ec, [])
+
 def brute_force(x, v, t, box, expansion):
   """
   Iterate through all possible partitions of the set and find the
@@ -300,6 +358,56 @@ def energy_partition(x, v, t, box, expansion, idx):
                        ct.c_void_p]
   enpart_c.restype = ct.c_double
   return enpart_c(x_p, v_p, t_p, natoms, size, expansion, idx_p)
+
+def binary_fusion(x, v, t, box, expansion, idx):
+  """
+  Get the best binary fusion of a specific cluster partition
+
+  Parameters
+  ----------
+
+  x : numpy float64 array
+      Positions of the particles in the system
+
+  v : numpy float64 array
+      Velocities of the particles
+
+  t : numpy int32 array
+      Types of the particles
+
+  idx : iterable
+      Cluster index of each particle
+
+  box : numpy float64 array
+      Box
+
+  expansion : float, optional
+      The expansion velocity of the walls of the box, in box units.
+
+  Returns
+  -------
+
+  energy : float
+      Energy of the partition
+  """
+  size_x = box[0][1] - box[0][0]
+  size_y = box[1][1] - box[1][0]
+  size_z = box[2][1] - box[2][0]
+  if size_x != size_y or size_y != size_z:
+    raise ValueError("The box should be cubic for this to work")
+  else:
+    size = size_x
+
+  natoms = np.shape(x)[0]
+  x_p = x.ctypes.data_as(ct.c_void_p)
+  v_p = v.ctypes.data_as(ct.c_void_p)
+  t_p = t.ctypes.data_as(ct.c_void_p)
+  idx_p = idx.ctypes.data_as(ct.c_void_p)
+  binary_fusion_c.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p,
+                              ct.c_int, ct.c_double, ct.c_double,
+                              ct.c_void_p]
+  binary_fusion_c.restype = ct.c_double
+  return binary_fusion_c(x_p, v_p, t_p, natoms, size, expansion, idx_p)
 
 def perturbate_system(idx, nperm=1):
   """

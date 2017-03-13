@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "stdbool.h"
 #include "stdlib.h"
+#include "omp.h"
 
 #define MIN(a, b) \
   ({__typeof__ (a) _a = (a); \
@@ -17,6 +18,8 @@ extern "C" {
   double enpart(double *x, double *v, int *type, int natoms,
                 double size, double expansion, int *index);
 #ifdef __cplusplus
+  double binary_fusion(double *x, double *v, int *type, int natoms,
+                       double size, double expansion, int *index);
 }
 #endif
 double potential(double r, int t1, int t2);

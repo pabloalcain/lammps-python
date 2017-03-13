@@ -10,6 +10,7 @@ class Extraction(object):
   per-particle magnitudes
   """
   def __init__(self, path='.'):
+    """
     self.path = path
     self.db = []
     try:
@@ -27,7 +28,7 @@ class Extraction(object):
           pass
         item[key] = val
       self.db.append(item)
-
+    """
   def entries(self, parameters):
     """
     Return all the entries from the database that match the parameters.
